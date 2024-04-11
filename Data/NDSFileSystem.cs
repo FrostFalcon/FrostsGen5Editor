@@ -196,13 +196,13 @@ namespace NewEditor.Data
                 bool compressed = result.y9[i * 32 + 31] == 3;
                 if (compressed)
                 {
-                    byte[] ov = BLZDecoder.BLZ_DecodePub(b);
-                    if (ov == null) result.overlays.Add(new List<byte>(b));
-                    else
-                    {
-                        result.overlays.Add(new List<byte>(ov));
-                        result.y9[i * 32 + 31] = 2;
-                    }
+                    //byte[] ov = BLZDecoder.BLZ_DecodePub(b);
+                    /*if (ov == null) */result.overlays.Add(new List<byte>(b));
+                    //else
+                    //{
+                    //    result.overlays.Add(new List<byte>(ov));
+                    //    result.y9[i * 32 + 31] = 2;
+                    //}
                 }
                 else
                 {

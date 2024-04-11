@@ -383,7 +383,7 @@ namespace NewEditor.Forms
             // 
             // openShopEditorButton
             // 
-            this.openShopEditorButton.Location = new System.Drawing.Point(11, 114);
+            this.openShopEditorButton.Location = new System.Drawing.Point(258, 114);
             this.openShopEditorButton.Name = "openShopEditorButton";
             this.openShopEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openShopEditorButton.TabIndex = 26;
@@ -514,6 +514,7 @@ namespace NewEditor.Forms
             this.typeChartEditorButton.TabIndex = 39;
             this.typeChartEditorButton.Text = "Type Chart Editor";
             this.typeChartEditorButton.UseVisualStyleBackColor = true;
+            this.typeChartEditorButton.Visible = false;
             this.typeChartEditorButton.Click += new System.EventHandler(this.typeChartEditorButton_Click);
             // 
             // groupBox2
@@ -542,6 +543,7 @@ namespace NewEditor.Forms
             this.groupBox3.Controls.Add(this.openScriptEditorButton);
             this.groupBox3.Controls.Add(this.openOverworldEditorButton);
             this.groupBox3.Controls.Add(this.openEncounterEditorButton);
+            this.groupBox3.Controls.Add(this.openShopEditorButton);
             this.groupBox3.Location = new System.Drawing.Point(12, 389);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(394, 200);
@@ -560,7 +562,6 @@ namespace NewEditor.Forms
             this.groupBox4.Controls.Add(this.replaceOverlayID);
             this.groupBox4.Controls.Add(this.replaceSoundID);
             this.groupBox4.Controls.Add(this.replaceOverlayButton);
-            this.groupBox4.Controls.Add(this.openShopEditorButton);
             this.groupBox4.Controls.Add(this.replaceIconID);
             this.groupBox4.Location = new System.Drawing.Point(505, 389);
             this.groupBox4.Name = "groupBox4";
