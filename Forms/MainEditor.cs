@@ -616,6 +616,10 @@ namespace NewEditor.Forms
                         {
                             data.Add("arm9_", fileSystem.arm9);
                         }
+                        if (!fileSystem.y9.SequenceEqual(other.y9))
+                        {
+                            data.Add("y9_", fileSystem.y9);
+                        }
 
                         for (int i = 0; i < fileSystem.narcs.Count; i++)
                             if (!fileSystem.narcs[i].byteData.SequenceEqual(other.narcs[i].byteData))
@@ -698,6 +702,10 @@ namespace NewEditor.Forms
                     else if (entry.Key.StartsWith("arm9_"))
                     {
                         fileSystem.arm9 = entry.Value.ToList();
+                    }
+                    else if (entry.Key.StartsWith("y9_"))
+                    {
+                        fileSystem.y9 = entry.Value.ToList();
                     }
                     else if (int.TryParse(entry.Key.Substring(3), out int id) && id >= 0 && id < fileSystem.narcs.Count)
                     {
