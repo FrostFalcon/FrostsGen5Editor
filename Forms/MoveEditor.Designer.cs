@@ -90,6 +90,10 @@ namespace NewEditor.Forms
             this.newMoveNameTextBox = new System.Windows.Forms.TextBox();
             this.setDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.setDescriptionButton = new System.Windows.Forms.Button();
+            this.addMovesButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.flagsListBox = new System.Windows.Forms.CheckedListBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.baseDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.movePPNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveAccuracyNumberBox)).BeginInit();
@@ -113,6 +117,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.statChangeStagesNumberBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statChangeStagesNumberBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveStatusChanceNumberBox)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // moveNameDropdown
@@ -759,7 +764,7 @@ namespace NewEditor.Forms
             // renameMoveButton
             // 
             this.renameMoveButton.Enabled = false;
-            this.renameMoveButton.Location = new System.Drawing.Point(816, 446);
+            this.renameMoveButton.Location = new System.Drawing.Point(1066, 444);
             this.renameMoveButton.Name = "renameMoveButton";
             this.renameMoveButton.Size = new System.Drawing.Size(100, 30);
             this.renameMoveButton.TabIndex = 94;
@@ -769,14 +774,14 @@ namespace NewEditor.Forms
             // 
             // newMoveNameTextBox
             // 
-            this.newMoveNameTextBox.Location = new System.Drawing.Point(680, 450);
+            this.newMoveNameTextBox.Location = new System.Drawing.Point(930, 448);
             this.newMoveNameTextBox.Name = "newMoveNameTextBox";
             this.newMoveNameTextBox.Size = new System.Drawing.Size(120, 22);
             this.newMoveNameTextBox.TabIndex = 97;
             // 
             // setDescriptionTextBox
             // 
-            this.setDescriptionTextBox.Location = new System.Drawing.Point(420, 486);
+            this.setDescriptionTextBox.Location = new System.Drawing.Point(670, 484);
             this.setDescriptionTextBox.Name = "setDescriptionTextBox";
             this.setDescriptionTextBox.Size = new System.Drawing.Size(360, 22);
             this.setDescriptionTextBox.TabIndex = 101;
@@ -784,7 +789,7 @@ namespace NewEditor.Forms
             // setDescriptionButton
             // 
             this.setDescriptionButton.Enabled = false;
-            this.setDescriptionButton.Location = new System.Drawing.Point(796, 482);
+            this.setDescriptionButton.Location = new System.Drawing.Point(1046, 480);
             this.setDescriptionButton.Name = "setDescriptionButton";
             this.setDescriptionButton.Size = new System.Drawing.Size(120, 30);
             this.setDescriptionButton.TabIndex = 100;
@@ -792,11 +797,75 @@ namespace NewEditor.Forms
             this.setDescriptionButton.UseVisualStyleBackColor = true;
             this.setDescriptionButton.Click += new System.EventHandler(this.setDescriptionButton_Click);
             // 
+            // addMovesButton
+            // 
+            this.addMovesButton.Enabled = false;
+            this.addMovesButton.Location = new System.Drawing.Point(1072, 16);
+            this.addMovesButton.Name = "addMovesButton";
+            this.addMovesButton.Size = new System.Drawing.Size(100, 30);
+            this.addMovesButton.TabIndex = 102;
+            this.addMovesButton.Text = "Add Moves";
+            this.addMovesButton.UseVisualStyleBackColor = true;
+            this.addMovesButton.Visible = false;
+            this.addMovesButton.Click += new System.EventHandler(this.addMovesButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(966, 16);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 30);
+            this.button1.TabIndex = 103;
+            this.button1.Text = "fix";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // flagsListBox
+            // 
+            this.flagsListBox.CheckOnClick = true;
+            this.flagsListBox.Enabled = false;
+            this.flagsListBox.FormattingEnabled = true;
+            this.flagsListBox.Items.AddRange(new object[] {
+            "Makes contact",
+            "Charge turn",
+            "Recharge turn",
+            "Affected by Protect",
+            "Affected by Magic Coat",
+            "Affected by Snatch",
+            "Copied by Mirror Move",
+            "Punch move",
+            "Sound move",
+            "Grounded by Gravity",
+            "Defrosts target",
+            "Hits non-adjacent Pokemon",
+            "Healing move",
+            "Bypass substitute",
+            "Extra 1",
+            "Extra 2"});
+            this.flagsListBox.Location = new System.Drawing.Point(6, 21);
+            this.flagsListBox.Name = "flagsListBox";
+            this.flagsListBox.Size = new System.Drawing.Size(239, 276);
+            this.flagsListBox.TabIndex = 104;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox1.Controls.Add(this.flagsListBox);
+            this.groupBox1.Location = new System.Drawing.Point(921, 60);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(251, 303);
+            this.groupBox1.TabIndex = 105;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Flags";
+            // 
             // MoveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 521);
+            this.ClientSize = new System.Drawing.Size(1184, 521);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.addMovesButton);
             this.Controls.Add(this.setDescriptionTextBox);
             this.Controls.Add(this.setDescriptionButton);
             this.Controls.Add(this.applyAnimDataButton);
@@ -839,6 +908,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.statChangeStagesNumberBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statChangeStagesNumberBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveStatusChanceNumberBox)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -907,5 +977,9 @@ namespace NewEditor.Forms
         private System.Windows.Forms.TextBox newMoveNameTextBox;
         private System.Windows.Forms.TextBox setDescriptionTextBox;
         private System.Windows.Forms.Button setDescriptionButton;
+        private System.Windows.Forms.Button addMovesButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckedListBox flagsListBox;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

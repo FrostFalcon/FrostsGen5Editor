@@ -31,9 +31,11 @@ namespace NewEditor.Forms
         public static int pokemonDataNarcID = -1;
         public static int levelUpMovesNarcID = -1;
         public static int evolutionNarcID = -1;
+        public static int childPokemonNarcID = -1;
         public static int moveDataNarcID = -1;
         public static int itemDataNarcID = -1;
         public static int moveAnimationNarcID = -1;
+        public static int moveAnimationExtraNarcID = -1;
         public static int zoneDataNarcID = -1;
         public static int mapMatrixNarcID = -1;
         public static int scriptNarcID = -1;
@@ -59,9 +61,11 @@ namespace NewEditor.Forms
         public static PokemonDataNARC pokemonDataNarc;
         public static LearnsetNARC learnsetNarc;
         public static EvolutionDataNARC evolutionsNarc;
+        public static ChildPokemonNARC childPokemonNarc;
         public static MoveDataNARC moveDataNarc;
         public static ItemDataNARC itemDataNarc;
         public static MoveAnimationNARC moveAnimationNarc;
+        public static MoveAnimationNARC moveAnimationExtraNarc;
         public static ZoneDataNARC zoneDataNarc;
         public static MapMatrixNARC mapMatrixNarc;
         public static MapModelsNARC mapModelsNarc;
@@ -121,9 +125,11 @@ namespace NewEditor.Forms
                 pokemonDataNarcID = VersionConstants.BW2_PokemonDataNARCID;
                 levelUpMovesNarcID = VersionConstants.BW2_LevelUpMovesNARCID;
                 evolutionNarcID = VersionConstants.BW2_EvolutionsNARCID;
+                childPokemonNarcID = VersionConstants.BW2_ChildPokemonNARCID;
                 moveDataNarcID = VersionConstants.BW2_MoveDataNARCID;
                 itemDataNarcID = VersionConstants.BW2_ItemDataNARCID;
                 moveAnimationNarcID = VersionConstants.BW2_MoveAnimationNARCID;
+                moveAnimationExtraNarcID = VersionConstants.BW2_MoveAnimationExtraNARCID;
                 zoneDataNarcID = VersionConstants.BW2_ZoneDataNARCID;
                 scriptNarcID = VersionConstants.BW2_ScriptNARCID;
                 trTextEntriesNarcID = VersionConstants.BW2_TrTextEntriesNARCID;
@@ -271,7 +277,9 @@ namespace NewEditor.Forms
             evolutionsNarc = null;
             moveDataNarc = null;
             itemDataNarc = null;
+            childPokemonNarc = null;
             moveAnimationNarc = null;
+            moveAnimationExtraNarc = null;
             zoneDataNarc = null;
             mapMatrixNarc = null;
             mapModelsNarc = null;
@@ -327,7 +335,9 @@ namespace NewEditor.Forms
             evolutionsNarc = fileSystem.narcs[evolutionNarcID] as EvolutionDataNARC;
             moveDataNarc = fileSystem.narcs[moveDataNarcID] as MoveDataNARC;
             itemDataNarc = fileSystem.narcs[itemDataNarcID] as ItemDataNARC;
+            childPokemonNarc = fileSystem.narcs[childPokemonNarcID] as ChildPokemonNARC;
             moveAnimationNarc = fileSystem.narcs[moveAnimationNarcID] as MoveAnimationNARC;
+            moveAnimationExtraNarc = fileSystem.narcs[moveAnimationExtraNarcID] as MoveAnimationNARC;
             zoneDataNarc = fileSystem.narcs[zoneDataNarcID] as ZoneDataNARC;
             mapMatrixNarc = fileSystem.narcs[mapMatrixNarcID] as MapMatrixNARC;
             mapModelsNarc = fileSystem.narcs[mapModelsNarcID] as MapModelsNARC;
@@ -555,10 +565,6 @@ namespace NewEditor.Forms
 
             if (prompt.ShowDialog() == DialogResult.OK)
             {
-                if (textViewer != null && !textViewer.IsDisposed) textViewer.Close();
-                if (pokemonEditor != null && !pokemonEditor.IsDisposed) pokemonEditor.Close();
-
-                List<NARC> narcs = new List<NARC>();
                 FileStream fileStream = File.OpenRead(prompt.FileName);
                 NDSFileSystem other = NDSFileSystem.FromRom(fileStream);
                 fileStream.Close();
@@ -872,6 +878,23 @@ namespace NewEditor.Forms
                 fs.Read(bytes, 0, bytes.Length);
                 fs.Close();
                 fileSystem.overlays[(int)replaceOverlayID.Value] = new List<byte>(bytes);
+
+                MessageBox.Show("File Replace Complete");
+            }
+        }
+
+        private void replaceMapButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog prompt = new OpenFileDialog();
+            prompt.Filter = "binary file|*.bin";
+
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fs = File.OpenRead(prompt.FileName);
+                byte[] bytes = new byte[fs.Length];
+                fs.Read(bytes, 0, bytes.Length);
+                fs.Close();
+                mapModelsNarc.models[(int)replaceMapID.Value].bytes = bytes;
 
                 MessageBox.Show("File Replace Complete");
             }

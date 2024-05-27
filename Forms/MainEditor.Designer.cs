@@ -75,6 +75,8 @@ namespace NewEditor.Forms
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.replaceMapID = new System.Windows.Forms.NumericUpDown();
+            this.replaceMapButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -83,6 +85,7 @@ namespace NewEditor.Forms
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.replaceMapID)).BeginInit();
             this.SuspendLayout();
             // 
             // openRomButton
@@ -309,7 +312,7 @@ namespace NewEditor.Forms
             // 
             // replaceNarcButton
             // 
-            this.replaceNarcButton.Location = new System.Drawing.Point(263, 159);
+            this.replaceNarcButton.Location = new System.Drawing.Point(263, 184);
             this.replaceNarcButton.Name = "replaceNarcButton";
             this.replaceNarcButton.Size = new System.Drawing.Size(120, 32);
             this.replaceNarcButton.TabIndex = 14;
@@ -319,7 +322,7 @@ namespace NewEditor.Forms
             // 
             // narcToReplaceNumberBox
             // 
-            this.narcToReplaceNumberBox.Location = new System.Drawing.Point(183, 165);
+            this.narcToReplaceNumberBox.Location = new System.Drawing.Point(183, 190);
             this.narcToReplaceNumberBox.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -394,7 +397,7 @@ namespace NewEditor.Forms
             // replaceSoundButton
             // 
             this.replaceSoundButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.replaceSoundButton.Location = new System.Drawing.Point(263, 123);
+            this.replaceSoundButton.Location = new System.Drawing.Point(263, 148);
             this.replaceSoundButton.Name = "replaceSoundButton";
             this.replaceSoundButton.Size = new System.Drawing.Size(120, 30);
             this.replaceSoundButton.TabIndex = 29;
@@ -405,7 +408,7 @@ namespace NewEditor.Forms
             // replaceIconButton
             // 
             this.replaceIconButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.replaceIconButton.Location = new System.Drawing.Point(263, 87);
+            this.replaceIconButton.Location = new System.Drawing.Point(263, 112);
             this.replaceIconButton.Name = "replaceIconButton";
             this.replaceIconButton.Size = new System.Drawing.Size(120, 30);
             this.replaceIconButton.TabIndex = 30;
@@ -415,7 +418,7 @@ namespace NewEditor.Forms
             // 
             // replaceSoundID
             // 
-            this.replaceSoundID.Location = new System.Drawing.Point(183, 127);
+            this.replaceSoundID.Location = new System.Drawing.Point(183, 152);
             this.replaceSoundID.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -427,7 +430,7 @@ namespace NewEditor.Forms
             // 
             // replaceIconID
             // 
-            this.replaceIconID.Location = new System.Drawing.Point(183, 92);
+            this.replaceIconID.Location = new System.Drawing.Point(183, 117);
             this.replaceIconID.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -463,7 +466,7 @@ namespace NewEditor.Forms
             // 
             // replaceOverlayID
             // 
-            this.replaceOverlayID.Location = new System.Drawing.Point(183, 56);
+            this.replaceOverlayID.Location = new System.Drawing.Point(183, 81);
             this.replaceOverlayID.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -476,7 +479,7 @@ namespace NewEditor.Forms
             // replaceOverlayButton
             // 
             this.replaceOverlayButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.replaceOverlayButton.Location = new System.Drawing.Point(263, 51);
+            this.replaceOverlayButton.Location = new System.Drawing.Point(263, 76);
             this.replaceOverlayButton.Name = "replaceOverlayButton";
             this.replaceOverlayButton.Size = new System.Drawing.Size(120, 30);
             this.replaceOverlayButton.TabIndex = 35;
@@ -504,11 +507,12 @@ namespace NewEditor.Forms
             this.pokepatcherButton.TabIndex = 38;
             this.pokepatcherButton.Text = "Pokepatcher";
             this.pokepatcherButton.UseVisualStyleBackColor = true;
+            this.pokepatcherButton.Visible = false;
             this.pokepatcherButton.Click += new System.EventHandler(this.pokepatherButton_Click);
             // 
             // typeChartEditorButton
             // 
-            this.typeChartEditorButton.Location = new System.Drawing.Point(11, 156);
+            this.typeChartEditorButton.Location = new System.Drawing.Point(11, 181);
             this.typeChartEditorButton.Name = "typeChartEditorButton";
             this.typeChartEditorButton.Size = new System.Drawing.Size(120, 32);
             this.typeChartEditorButton.TabIndex = 39;
@@ -554,6 +558,8 @@ namespace NewEditor.Forms
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox4.Controls.Add(this.replaceMapID);
+            this.groupBox4.Controls.Add(this.replaceMapButton);
             this.groupBox4.Controls.Add(this.replaceNarcButton);
             this.groupBox4.Controls.Add(this.narcToReplaceNumberBox);
             this.groupBox4.Controls.Add(this.typeChartEditorButton);
@@ -563,12 +569,35 @@ namespace NewEditor.Forms
             this.groupBox4.Controls.Add(this.replaceSoundID);
             this.groupBox4.Controls.Add(this.replaceOverlayButton);
             this.groupBox4.Controls.Add(this.replaceIconID);
-            this.groupBox4.Location = new System.Drawing.Point(505, 389);
+            this.groupBox4.Location = new System.Drawing.Point(505, 360);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(389, 200);
+            this.groupBox4.Size = new System.Drawing.Size(389, 229);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Experimental";
+            // 
+            // replaceMapID
+            // 
+            this.replaceMapID.Location = new System.Drawing.Point(183, 45);
+            this.replaceMapID.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.replaceMapID.Name = "replaceMapID";
+            this.replaceMapID.Size = new System.Drawing.Size(60, 22);
+            this.replaceMapID.TabIndex = 41;
+            // 
+            // replaceMapButton
+            // 
+            this.replaceMapButton.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.replaceMapButton.Location = new System.Drawing.Point(263, 40);
+            this.replaceMapButton.Name = "replaceMapButton";
+            this.replaceMapButton.Size = new System.Drawing.Size(120, 30);
+            this.replaceMapButton.TabIndex = 40;
+            this.replaceMapButton.Text = "Replace Map";
+            this.replaceMapButton.UseVisualStyleBackColor = true;
+            this.replaceMapButton.Click += new System.EventHandler(this.replaceMapButton_Click);
             // 
             // MainEditor
             // 
@@ -602,6 +631,7 @@ namespace NewEditor.Forms
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.replaceMapID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -654,6 +684,8 @@ namespace NewEditor.Forms
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown replaceMapID;
+        private System.Windows.Forms.Button replaceMapButton;
     }
 }
 

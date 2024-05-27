@@ -72,6 +72,7 @@
     <Compile Include="Data\FileFunctions.cs" />
     <Compile Include="Data\Gen4UnicodeTable.cs" />
     <Compile Include="Data\HelperFunctions.cs" />
+    <Compile Include="Data\NARCTypes\ChildPokemonNARC.cs" />
     <Compile Include="Data\NARCTypes\ItemDataNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextEntriesNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextIndexNARC.cs" />

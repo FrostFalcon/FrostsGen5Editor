@@ -28,10 +28,12 @@ namespace NewEditor.Data
         public const int BW2_PokemonDataNARCID = 16;
         public const int BW2_LevelUpMovesNARCID = 18;
         public const int BW2_EvolutionsNARCID = 19;
+        public const int BW2_ChildPokemonNARCID = 20;
         public const int BW2_MoveDataNARCID = 21;
         public const int BW2_ItemDataNARCID = 24;
         public const int BW2_ScriptNARCID = 56;
         public const int BW2_MoveAnimationNARCID = 65;
+        public const int BW2_MoveAnimationExtraNARCID = 66;
         public const int BW2_TrTextEntriesNARCID = 89;
         public const int BW2_TrTextIndicesNARCID = 90;
         public const int BW2_TrainerDataNARCID = 91;
@@ -43,6 +45,7 @@ namespace NewEditor.Data
 
 		//Text Data
         public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : 237;
+        public static int PokemonName2TextFileID => MainEditor.RomType == RomType.BW2 ? 483 : -1;
         public static int AbilityNameTextFileID => MainEditor.RomType == RomType.BW2 ? 374 : 720;
         public static int TypeNameTextFileID => MainEditor.RomType == RomType.BW2 ? 398 : 735;
         public static int ItemNameTextFileID => MainEditor.RomType == RomType.BW2 ? 64 : 222;
@@ -52,9 +55,35 @@ namespace NewEditor.Data
         public static int ZoneNameTextFileID => MainEditor.RomType == RomType.BW2 ? 109 : 279;
         public static int TrainerNameTextFileID => MainEditor.RomType == RomType.BW2 ? 382 : 729;
         public static int TrainerDialogueTextFileID => MainEditor.RomType == RomType.BW2 ? 381 : -1;
+        public static int PokedexEntryTextFileID => MainEditor.RomType == RomType.BW2 ? 442 : -1;
+        public static int PokedexClassificationTextFileID => MainEditor.RomType == RomType.BW2 ? 464 : -1;
+        public static int[] PokedexImpericalHeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
+		{
+			451, 452
+		} : new int[0];
+        public static int[] PokedexMetricCommaHeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
+        {
+            453, 454, 455, 457
+        } : new int[0];
+        public static int[] PokedexMetricHeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
+        {
+            456
+        } : new int[0];
+        public static int[] PokedexImpericalWeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
+        {
+            471, 472
+        } : new int[0];
+        public static int[] PokedexMetricCommaWeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
+        {
+            473, 474, 475, 477
+        } : new int[0];
+        public static int[] PokedexMetricWeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
+        {
+            476
+        } : new int[0];
 
-		//File Data
-		public const int HGSS_FirstNarcPointerLocation = 0x31FC08;
+        //File Data
+        public const int HGSS_FirstNarcPointerLocation = 0x31FC08;
 		public const int HGSS_LastNarc = 264;
 		public const int HGSS_NARCsToSkip = 0;
 		public const int HGSS_FileSizeLimit = 0x8000000;
@@ -236,7 +265,78 @@ namespace NewEditor.Data
 			"HM06 Dive"
 		};
 
-		public static List<string> BW2_EvolutionMethodNames = new List<string>()
+        public static List<string> BW2_TutorMoves = new List<string>()
+        {
+            "Grass Pledge",
+            "Fire Pledge",
+            "Water Pledge",
+            "Frenzy Plant",
+            "Blast Burn",
+            "Hydro Cannon",
+            "Draco Meteor",
+            "Bug Bite",
+            "Covet",
+            "Super Fang",
+            "Dual Chop",
+            "Signal Beam",
+            "Iron Head",
+            "Seed Bomb",
+            "Drill Run",
+            "Bounce",
+            "Low Kick",
+            "Gunk Shot",
+            "Uproar",
+            "Thunder Punch",
+            "Fire Punch",
+            "Ice Punch",
+            "Magic Coat",
+            "Block",
+            "Earth Power",
+            "Foul Play",
+            "Gravity",
+            "Magnet Rise",
+            "Iron Defense",
+            "Last Resort",
+            "Super Power",
+            "Electroweb",
+            "Icy Wind",
+            "Aqua Tail",
+            "Dark Pulse",
+            "Zen Headbutt",
+            "Dragon Pulse",
+            "Hyper Voice",
+            "Iron Tail",
+            "Bind",
+            "Snore",
+            "Knock Off",
+            "Synthesis",
+            "Heat Wave",
+            "Role Play",
+            "Heal Bell",
+            "Tailwind",
+            "Sky Attack",
+            "Pain Split",
+            "Giga Drain",
+            "Drain Punch",
+            "Roost",
+            "Gastro Acid",
+            "Worry Seed",
+            "Spite",
+            "After You",
+            "Helping Hand",
+            "Trick",
+            "Magic Room",
+            "Wonder Room",
+            "Endeavor",
+            "Outrage",
+            "Recycle",
+            "Snatch",
+            "Stealth Rock",
+            "Sleep Talk",
+            "Skill Swap"
+        };
+
+        public static List<string> BW2_EvolutionMethodNames = new List<string>()
 		{
 			"None",
 			"Level up with high friendship",

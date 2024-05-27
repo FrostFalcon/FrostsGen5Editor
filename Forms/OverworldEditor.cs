@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,10 @@ namespace NewEditor.Forms
                 encounterFileNumberBox.Value = z.encounterFile;
                 mapIDNumberBox.Value = z.mapId;
                 parentMapIDNumberBox.Value = z.parentMapId;
+                weatherNumberBox.Value = z.weather;
+                textureNumberBox.Value = z.texture;
+                unk4NumberBox.Value = z.unknown4;
+                unk2NumberBox.Value = z.unknown2;
                 mapNameDropdown.SelectedIndex = z.nameId;
 
                 mapTypeNumberBox.Enabled = true;
@@ -47,6 +52,10 @@ namespace NewEditor.Forms
                 encounterFileNumberBox.Enabled = true;
                 mapIDNumberBox.Enabled = true;
                 parentMapIDNumberBox.Enabled = true;
+                weatherNumberBox.Enabled = true;
+                textureNumberBox.Enabled = true;
+                unk4NumberBox.Enabled = true;
+                unk2NumberBox.Enabled = true;
                 mapNameDropdown.Enabled = true;
                 applyZoneButton.Enabled = true;
 
@@ -128,6 +137,10 @@ namespace NewEditor.Forms
                 encounterFileNumberBox.Enabled = false;
                 mapIDNumberBox.Enabled = false;
                 parentMapIDNumberBox.Enabled = false;
+                weatherNumberBox.Enabled = false;
+                textureNumberBox.Enabled = false;
+                unk4NumberBox.Enabled = false;
+                unk2NumberBox.Enabled = false;
                 mapNameDropdown.Enabled = false;
                 applyZoneButton.Enabled = false;
 
@@ -146,6 +159,10 @@ namespace NewEditor.Forms
                 z.encounterFile = (byte)encounterFileNumberBox.Value;
                 z.mapId = (short)mapIDNumberBox.Value;
                 z.parentMapId = (short)parentMapIDNumberBox.Value;
+                z.unknown4 = (short)unk4NumberBox.Value;
+                z.unknown2 = (byte)unk2NumberBox.Value;
+                z.weather = (byte)weatherNumberBox.Value;
+                z.texture = (short)textureNumberBox.Value;
                 z.nameId = (byte)mapNameDropdown.SelectedIndex;
 
                 z.ApplyData();

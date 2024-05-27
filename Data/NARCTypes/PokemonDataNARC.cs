@@ -164,8 +164,8 @@ namespace NewEditor.Data.NARCTypes
         public short heldItem3;
 
         public byte unknownAt27;
-        public byte[] unknownsFrom36To39;
-        public byte[] unknownsAfter52;
+        public short height;
+        public short weight;
 
         public byte genderRatio;
         public byte hatchCounter;
@@ -186,6 +186,11 @@ namespace NewEditor.Data.NARCTypes
         public byte pokedexColor;
 
         public bool[] TMs;
+        public bool[] miscTutors;
+        public bool[] driftveilTutors;
+        public bool[] lentimasTutors;
+        public bool[] humilauTutors;
+        public bool[] nacreneTutors;
 
         public PokemonEntry(byte[] bytes)
         {
@@ -241,8 +246,8 @@ namespace NewEditor.Data.NARCTypes
             pokedexColor = bytes[33];
             xpYield = (short)HelperFunctions.ReadShort(bytes, 34);
 
-            unknownsFrom36To39 = new byte[4];
-            for (int i = 0; i < 4; i++) unknownsFrom36To39[i] = bytes[36 + i];
+            height = (short)HelperFunctions.ReadShort(bytes, 36);
+            weight = (short)HelperFunctions.ReadShort(bytes, 38);
 
             TMs = new bool[101];
             for (int i = 0; i < 101; i++)
@@ -252,8 +257,41 @@ namespace NewEditor.Data.NARCTypes
                 TMs[i] = (bytes[pos] & (1 << bit)) != 0;
             }
 
-            unknownsAfter52 = new byte[bytes.Length - 53];
-            for (int i = 0; i < unknownsAfter52.Length; i++) unknownsAfter52[i] = bytes[53 + i];
+            miscTutors = new bool[7];
+            for (int i = 0; i < 7; i++)
+            {
+                int pos = 56 + i / 8;
+                int bit = i % 8;
+                miscTutors[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
+            driftveilTutors = new bool[15];
+            for (int i = 0; i < 15; i++)
+            {
+                int pos = 60 + i / 8;
+                int bit = i % 8;
+                driftveilTutors[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
+            lentimasTutors = new bool[17];
+            for (int i = 0; i < 17; i++)
+            {
+                int pos = 64 + i / 8;
+                int bit = i % 8;
+                lentimasTutors[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
+            humilauTutors = new bool[13];
+            for (int i = 0; i < 13; i++)
+            {
+                int pos = 68 + i / 8;
+                int bit = i % 8;
+                humilauTutors[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
+            nacreneTutors = new bool[15];
+            for (int i = 0; i < 15; i++)
+            {
+                int pos = 72 + i / 8;
+                int bit = i % 8;
+                nacreneTutors[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
         }
 
         internal void ReadDataHGSS()
@@ -313,7 +351,8 @@ namespace NewEditor.Data.NARCTypes
                 bytes[33] = pokedexColor;
                 HelperFunctions.WriteShort(bytes, 34, xpYield);
 
-                for (int i = 0; i < 4; i++) bytes[36 + i] = unknownsFrom36To39[i];
+                HelperFunctions.WriteShort(bytes, 36, height);
+                HelperFunctions.WriteShort(bytes, 38, weight);
 
                 //Reset TM bytes
                 for (int i = 40; i < 53; i++) bytes[i] = 0;
@@ -326,7 +365,40 @@ namespace NewEditor.Data.NARCTypes
                     if (TMs[i]) bytes[pos] += (byte)(1 << bit);
                 }
 
-                for (int i = 0; i < unknownsAfter52.Length; i++) bytes[53 + i] = unknownsAfter52[i];
+                //Tutors
+                for (int i = 56; i < 76; i++) bytes[i] = 0;
+                for (int i = 0; i < miscTutors.Length; i++)
+                {
+                    int pos = 56 + i / 8;
+                    int bit = i % 8;
+                    if (miscTutors[i]) bytes[pos] += (byte)(1 << bit);
+                }
+                for (int i = 0; i < driftveilTutors.Length; i++)
+                {
+                    int pos = 60 + i / 8;
+                    int bit = i % 8;
+                    if (driftveilTutors[i]) bytes[pos] += (byte)(1 << bit);
+                }
+                for (int i = 0; i < lentimasTutors.Length; i++)
+                {
+                    int pos = 64 + i / 8;
+                    int bit = i % 8;
+                    if (lentimasTutors[i]) bytes[pos] += (byte)(1 << bit);
+                }
+
+                for (int i = 0; i < humilauTutors.Length; i++)
+                {
+                    int pos = 68 + i / 8;
+                    int bit = i % 8;
+                    if (humilauTutors[i]) bytes[pos] += (byte)(1 << bit);
+                }
+
+                for (int i = 0; i < nacreneTutors.Length; i++)
+                {
+                    int pos = 72 + i / 8;
+                    int bit = i % 8;
+                    if (nacreneTutors[i]) bytes[pos] += (byte)(1 << bit);
+                }
 
                 if (levelUpMoves != null) levelUpMoves.ApplyData();
                 if (evolutions != null) evolutions.ApplyData();

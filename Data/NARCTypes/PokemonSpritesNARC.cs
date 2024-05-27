@@ -176,8 +176,8 @@ namespace NewEditor.Data.NARCTypes
 
         public int nameID;
 
-        byte[] decompressedFrontSprite;
-        byte[] decompressedBackSprite;
+        public byte[] decompressedFrontSprite;
+        public byte[] decompressedBackSprite;
 
         public Color[] palette;
         public Color[] shinyPalette;

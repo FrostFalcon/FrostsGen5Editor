@@ -49,6 +49,7 @@ namespace NewEditor.Forms
                 textBoxDisplay.Text = text.ToString();
                 selectedLineNumberBox.Value = 0;
                 selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length;
+                lineCountLabel.Text = "/ " + (activeNarc.textFiles[fileID].text.Count - 1);
             }
         }
 

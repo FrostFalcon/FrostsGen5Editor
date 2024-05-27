@@ -77,9 +77,11 @@ namespace NewEditor.Data
         public PokemonDataNARC pokemonDataNarc;
         public LearnsetNARC learnsetNarc;
         public EvolutionDataNARC evolutionsNarc;
+        public ChildPokemonNARC childPokemonNarc;
         public MoveDataNARC moveDataNarc;
         public ItemDataNARC itemDataNarc;
         public MoveAnimationNARC moveAnimationNarc;
+        public MoveAnimationNARC moveAnimationExtraNarc;
         public ZoneDataNARC zoneDataNarc;
         public MapMatrixNARC mapMatrixNarc;
         public MapModelsNARC mapModelsNarc;
@@ -113,6 +115,7 @@ namespace NewEditor.Data
             }
             result.narcIDs = new Dictionary<int, Type>()
             {
+                { MainEditor.childPokemonNarcID, typeof(ChildPokemonNARC) },
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
@@ -120,6 +123,7 @@ namespace NewEditor.Data
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
                 { MainEditor.mapModelsNarcID, typeof(MapModelsNARC) },
                 { MainEditor.moveAnimationNarcID, typeof(MoveAnimationNARC) },
+                { MainEditor.moveAnimationExtraNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveDataNarcID, typeof(MoveDataNARC) },
                 { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
                 { MainEditor.overworldsNarcID, typeof(OverworldObjectsNARC) },
@@ -255,9 +259,11 @@ namespace NewEditor.Data
             result.pokemonDataNarc = result.narcs[MainEditor.pokemonDataNarcID] as PokemonDataNARC;
             result.learnsetNarc = result.narcs[MainEditor.levelUpMovesNarcID] as LearnsetNARC;
             result.evolutionsNarc = result.narcs[MainEditor.evolutionNarcID] as EvolutionDataNARC;
+            result.childPokemonNarc = result.narcs[MainEditor.childPokemonNarcID] as ChildPokemonNARC;
             result.moveDataNarc = result.narcs[MainEditor.moveDataNarcID] as MoveDataNARC;
             result.itemDataNarc = result.narcs[MainEditor.itemDataNarcID] as ItemDataNARC;
             result.moveAnimationNarc = result.narcs[MainEditor.moveAnimationNarcID] as MoveAnimationNARC;
+            result.moveAnimationExtraNarc = result.narcs[MainEditor.moveAnimationExtraNarcID] as MoveAnimationNARC;
             result.zoneDataNarc = result.narcs[MainEditor.zoneDataNarcID] as ZoneDataNARC;
             result.mapMatrixNarc = result.narcs[MainEditor.mapMatrixNarcID] as MapMatrixNARC;
             result.mapModelsNarc = result.narcs[MainEditor.mapModelsNarcID] as MapModelsNARC;
@@ -292,6 +298,7 @@ namespace NewEditor.Data
             fs.Position = HelperFunctions.ReadInt(result.romHeader, End_PointerLocation);
             fs.Read(b, 0, b.Length);
             result.romEnder = new List<byte>(b);
+
             return result;
         }
 
@@ -331,6 +338,7 @@ namespace NewEditor.Data
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
                 { MainEditor.mapModelsNarcID, typeof(MapModelsNARC) },
                 { MainEditor.moveAnimationNarcID, typeof(MoveAnimationNARC) },
+                { MainEditor.moveAnimationExtraNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveDataNarcID, typeof(MoveDataNARC) },
                 { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
                 { MainEditor.overworldsNarcID, typeof(OverworldObjectsNARC) },
@@ -391,9 +399,11 @@ namespace NewEditor.Data
             result.pokemonDataNarc = result.narcs[MainEditor.pokemonDataNarcID] as PokemonDataNARC;
             result.learnsetNarc = result.narcs[MainEditor.levelUpMovesNarcID] as LearnsetNARC;
             result.evolutionsNarc = result.narcs[MainEditor.evolutionNarcID] as EvolutionDataNARC;
+            result.childPokemonNarc = result.narcs[MainEditor.childPokemonNarcID] as ChildPokemonNARC;
             result.moveDataNarc = result.narcs[MainEditor.moveDataNarcID] as MoveDataNARC;
             result.itemDataNarc = result.narcs[MainEditor.itemDataNarcID] as ItemDataNARC;
             result.moveAnimationNarc = result.narcs[MainEditor.moveAnimationNarcID] as MoveAnimationNARC;
+            result.moveAnimationExtraNarc = result.narcs[MainEditor.moveAnimationExtraNarcID] as MoveAnimationNARC;
             result.zoneDataNarc = result.narcs[MainEditor.zoneDataNarcID] as ZoneDataNARC;
             result.mapMatrixNarc = result.narcs[MainEditor.mapMatrixNarcID] as MapMatrixNARC;
             result.mapModelsNarc = result.narcs[MainEditor.mapModelsNarcID] as MapModelsNARC;

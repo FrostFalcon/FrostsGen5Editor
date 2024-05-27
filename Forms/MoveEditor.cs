@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace NewEditor.Forms
         TextNARC textNARC => MainEditor.textNarc;
         MoveDataNARC moveDataNARC => MainEditor.moveDataNarc;
         MoveAnimationNARC moveAnimNARC => MainEditor.moveAnimationNarc;
+        MoveAnimationNARC moveAnim2NARC => MainEditor.moveAnimationExtraNarc;
 
         static List<TextValue> damageTypes = new List<TextValue>()
         {
@@ -119,6 +121,7 @@ namespace NewEditor.Forms
             statChangeStatDropdown3.Items.AddRange(statChanges.ToArray());
 
             statusEffectDropdown.Items.AddRange(statusEffects.ToArray());
+            addMovesButton.Enabled = moveDataNARC.moves.Count < 1000;
         }
 
         private void LoadMoveIntoEditor(object sender, EventArgs e)
@@ -164,11 +167,14 @@ namespace NewEditor.Forms
                 renameMoveButton.Enabled = true;
                 setDescriptionButton.Enabled = true;
                 copyAnimationButton.Enabled = true;
+                flagsListBox.Enabled = true;
 
-                if (moveNameDropdown.SelectedIndex >= 0 && moveNameDropdown.SelectedIndex < moveAnimNARC.animations.Count)
+                if (moveNameDropdown.SelectedIndex >= 0)
                 {
+                    MoveAnimationEntry mAnim = moveNameDropdown.SelectedIndex < 560 ? moveAnimNARC.animations[moveNameDropdown.SelectedIndex] :
+                        moveAnim2NARC.animations[moveNameDropdown.SelectedIndex - 561];
                     string text = "";
-                    foreach (byte b in moveAnimNARC.animations[moveNameDropdown.SelectedIndex].bytes) text += b.ToString("X2") + " ";
+                    foreach (byte b in mAnim.bytes) text += b.ToString("X2") + " ";
                     animDataTextBox.Text = text;
 
                     animDataTextBox.Enabled = true;
@@ -186,6 +192,11 @@ namespace NewEditor.Forms
                     newMoveNameTextBox.Text = textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[id];
                     setDescriptionTextBox.Text = textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[id];
                 }
+
+                for (int i = 0; i < 16; i++)
+                {
+                    flagsListBox.SetItemChecked(i, (m.flags & (int)Math.Pow(2, i)) != 0);
+                }
             }
             else
             {
@@ -196,6 +207,7 @@ namespace NewEditor.Forms
                 renameMoveButton.Enabled = false;
                 setDescriptionButton.Enabled = false;
                 copyAnimationButton.Enabled = false;
+                flagsListBox.Enabled = false;
 
                 animDataTextBox.Enabled = false;
                 applyAnimDataButton.Enabled = false;
@@ -238,6 +250,13 @@ namespace NewEditor.Forms
                 m.statusEffect = (short)((TextValue)statusEffectDropdown.SelectedItem).hexID;
                 m.statusChance = (byte)moveStatusChanceNumberBox.Value;
 
+                short f = 0;
+                for (int i = 0; i < 16; i++)
+                {
+                    if (flagsListBox.GetItemChecked(i)) f += (short)Math.Pow(2, i);
+                }
+                m.flags = f;
+
                 m.ApplyData();
             }
         }
@@ -277,20 +296,21 @@ namespace NewEditor.Forms
         {
             if (moveNameDropdown.SelectedItem is MoveDataEntry m1 && copyAnimationDropdown.SelectedItem is MoveDataEntry m2)
             {
-                int num1 = moveDataNARC.moves.IndexOf(m1);
-                int num2 = moveDataNARC.moves.IndexOf(m2);
 
                 string text = "";
-                foreach (byte b in moveAnimNARC.animations[num2].bytes) text += b.ToString("X2") + " ";
+                MoveAnimationEntry mAnim = copyAnimationDropdown.SelectedIndex < 560 ? moveAnimNARC.animations[copyAnimationDropdown.SelectedIndex] :
+                        moveAnim2NARC.animations[copyAnimationDropdown.SelectedIndex - 561];
+                foreach (byte b in mAnim.bytes) text += b.ToString("X2") + " ";
                 animDataTextBox.Text = text;
             }
         }
 
         private void applyAnimDataButton_Click(object sender, EventArgs e)
         {
-            if (moveNameDropdown.SelectedIndex >= 0 && moveNameDropdown.SelectedIndex < moveAnimNARC.animations.Count)
+            if (moveNameDropdown.SelectedIndex >= 0)
             {
-                MoveAnimationEntry anim = moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
+                MoveAnimationEntry anim = moveNameDropdown.SelectedIndex < 560 ? moveAnimNARC.animations[moveNameDropdown.SelectedIndex] :
+                        moveAnim2NARC.animations[moveNameDropdown.SelectedIndex - 561];
 
                 //Test for improper text length
                 if (animDataTextBox.Text.Length % 3 == 2 && animDataTextBox.Text[animDataTextBox.Text.Length - 1] != ' ') animDataTextBox.Text += ' ';
@@ -315,6 +335,103 @@ namespace NewEditor.Forms
                 {
                     anim.bytes[i / 3] = byte.Parse(animDataTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber);
                 }
+            }
+        }
+
+        private void addMovesButton_Click(object sender, EventArgs e)
+        {
+            while (moveDataNARC.moves.Count < 800)
+            {
+                moveDataNARC.moves.Add(new MoveDataEntry(moveDataNARC.moves[1].bytes.ToArray()) { nameID = moveDataNARC.moves.Count });
+                if (textNARC.textFiles[403].text.Count < moveDataNARC.moves.Count) textNARC.textFiles[403].text.Add(textNARC.textFiles[403].text[1]);
+                if (textNARC.textFiles[402].text.Count < moveDataNARC.moves.Count) textNARC.textFiles[402].text.Add(textNARC.textFiles[402].text[1]);
+                if (textNARC.textFiles[16].text.Count < moveDataNARC.moves.Count * 3)
+                {
+                    textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[3]);
+                    textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[4]);
+                    textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[5]);
+                }
+                if (moveDataNARC.moves.Count < 680) textNARC.textFiles[403].text[moveDataNARC.moves.Count - 1] = "DontUse";
+            }
+            while (moveAnim2NARC.animations.Count < 400)
+            {
+                moveAnim2NARC.animations.Add(new MoveAnimationEntry(moveAnimNARC.animations[1].bytes.ToArray()));
+            }
+
+            TextFile template = textNARC.textFiles[0];
+            for (int i = 0; i < textNARC.textFiles.Count; i++) if (textNARC.textFiles[i].text.Count > template.text.Count && textNARC.textFiles[i].text.Count < 2900) template = textNARC.textFiles[i];
+            while (textNARC.textFiles[16].text.Count < template.text.Count) textNARC.textFiles[16].text.Add("");
+            textNARC.textFiles[16].bytes = PPTxtHandler.SaveEntry(template.bytes, textNARC.textFiles[16].text);
+
+            while (textNARC.textFiles[403].text.Count < template.text.Count) textNARC.textFiles[403].text.Add("");
+            textNARC.textFiles[403].bytes = PPTxtHandler.SaveEntry(template.bytes, textNARC.textFiles[403].text);
+
+            while (textNARC.textFiles[402].text.Count < template.text.Count) textNARC.textFiles[402].text.Add("");
+            textNARC.textFiles[402].bytes = PPTxtHandler.SaveEntry(template.bytes, textNARC.textFiles[402].text);
+
+            moveNameDropdown.Items.Clear();
+            moveNameDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
+            copyAnimationDropdown.Items.Clear();
+            copyAnimationDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
+            addMovesButton.Enabled = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog prompt = new OpenFileDialog();
+            prompt.Filter = "Nds Roms|*.nds";
+
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fileStream = File.OpenRead(prompt.FileName);
+                NDSFileSystem other = NDSFileSystem.FromRom(fileStream);
+                fileStream.Close();
+
+                TextNARC otherText = other.textNarc;
+                MoveDataNARC otherMoves = other.moveDataNarc;
+                MoveAnimationNARC otherAnims = other.moveAnimationNarc;
+
+                int slot = 690;
+                for (int i = 0; i < otherMoves.moves.Count; i++)
+                {
+                    if (otherText.textFiles[403].text[i] != textNARC.textFiles[403].text[i])
+                    {
+                        moveDataNARC.moves[slot] = new MoveDataEntry(moveDataNARC.moves[i].bytes.ToArray()) { nameID = slot };
+                        moveAnim2NARC.animations[slot - 561] = new MoveAnimationEntry(moveAnimNARC.animations[i].bytes.ToArray());
+
+                        textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[slot] = textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[i];
+                        textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[slot * 3] = textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[3].Replace("Pound", textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[i]);
+                        textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[slot * 3 + 1] = textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[4].Replace("Pound", textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[i]);
+                        textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[slot * 3 + 2] = textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[5].Replace("Pound", textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[i]);
+                        textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[slot] = textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[i];
+
+                        moveDataNARC.moves[i] = new MoveDataEntry(otherMoves.moves[i].bytes.ToArray()) { nameID = i };
+                        moveAnimNARC.animations[i] = new MoveAnimationEntry(otherAnims.animations[i].bytes.ToArray());
+
+                        textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[i] = otherText.textFiles[VersionConstants.MoveNameTextFileID].text[i];
+                        textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[i * 3] = otherText.textFiles[VersionConstants.MoveUsageTextFileID].text[3].Replace("Pound", otherText.textFiles[VersionConstants.MoveNameTextFileID].text[i]);
+                        textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[i * 3 + 1] = otherText.textFiles[VersionConstants.MoveUsageTextFileID].text[4].Replace("Pound", otherText.textFiles[VersionConstants.MoveNameTextFileID].text[i]);
+                        textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[i * 3 + 2] = otherText.textFiles[VersionConstants.MoveUsageTextFileID].text[5].Replace("Pound", otherText.textFiles[VersionConstants.MoveNameTextFileID].text[i]);
+                        textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[i] = otherText.textFiles[VersionConstants.MoveDescriptionTextFileID].text[i];
+
+                        foreach (PokemonEntry poke in moveDataNARC.fileSystem.pokemonDataNarc.pokemon)
+                        {
+                            if (poke.levelUpMoves != null)
+                            {
+                                for (int j = 0; j < poke.levelUpMoves.moves.Count; j++)
+                                {
+                                    if (poke.levelUpMoves.moves[j].moveID == i) poke.levelUpMoves.moves[j] = new LevelUpMoveSlot((short)slot, poke.levelUpMoves.moves[j].level);
+                                }
+                            }
+                        }
+                        slot++;
+                    }
+                }
+                textNARC.textFiles[VersionConstants.MoveNameTextFileID].CompressData();
+                textNARC.textFiles[VersionConstants.MoveUsageTextFileID].CompressData();
+                textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].CompressData();
+
+                MessageBox.Show("NARC replace complete");
             }
         }
     }

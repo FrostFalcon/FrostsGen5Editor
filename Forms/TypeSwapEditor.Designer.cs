@@ -156,6 +156,7 @@ namespace NewEditor.Forms
             this.randomEffectivenessButton.TabIndex = 8;
             this.randomEffectivenessButton.Text = "Randomize Type Effectiveness";
             this.randomEffectivenessButton.UseVisualStyleBackColor = true;
+            this.randomEffectivenessButton.Visible = false;
             this.randomEffectivenessButton.Click += new System.EventHandler(this.randomEffectivenessButton_Click);
             // 
             // normalEffectivenessNumberBox
@@ -174,6 +175,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.normalEffectivenessNumberBox.Visible = false;
             // 
             // superEffectiveNumberBox
             // 
@@ -191,6 +193,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.superEffectiveNumberBox.Visible = false;
             // 
             // notVeryEffectiveNumberBox
             // 
@@ -208,6 +211,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.notVeryEffectiveNumberBox.Visible = false;
             // 
             // noEffectNumberBox
             // 
@@ -225,6 +229,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.noEffectNumberBox.Visible = false;
             // 
             // label2
             // 
@@ -235,6 +240,7 @@ namespace NewEditor.Forms
             this.label2.TabIndex = 12;
             this.label2.Text = "No Effect:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label2.Visible = false;
             // 
             // label3
             // 
@@ -245,6 +251,7 @@ namespace NewEditor.Forms
             this.label3.TabIndex = 13;
             this.label3.Text = "Not Very Effective:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label3.Visible = false;
             // 
             // label4
             // 
@@ -255,6 +262,7 @@ namespace NewEditor.Forms
             this.label4.TabIndex = 14;
             this.label4.Text = "Normal Effectiveness:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label4.Visible = false;
             // 
             // label5
             // 
@@ -265,6 +273,7 @@ namespace NewEditor.Forms
             this.label5.TabIndex = 15;
             this.label5.Text = "Super Effective:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label5.Visible = false;
             // 
             // label6
             // 
@@ -276,6 +285,7 @@ namespace NewEditor.Forms
             this.label6.TabIndex = 16;
             this.label6.Text = "Weight";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label6.Visible = false;
             // 
             // label7
             // 
@@ -286,6 +296,7 @@ namespace NewEditor.Forms
             this.label7.TabIndex = 20;
             this.label7.Text = "Forced super effectives:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label7.Visible = false;
             // 
             // label8
             // 
@@ -296,6 +307,7 @@ namespace NewEditor.Forms
             this.label8.TabIndex = 19;
             this.label8.Text = "Forced not very effectives:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label8.Visible = false;
             // 
             // forcedSENumberBox
             // 
@@ -313,6 +325,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.forcedSENumberBox.Visible = false;
             // 
             // forcedNVENumberBox
             // 
@@ -330,6 +343,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.forcedNVENumberBox.Visible = false;
             // 
             // TypeSwapEditor
             // 

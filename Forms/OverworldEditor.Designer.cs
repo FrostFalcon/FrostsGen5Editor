@@ -80,6 +80,12 @@ namespace NewEditor.Forms
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.npcFlagNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.furnitureTab = new System.Windows.Forms.TabPage();
+            this.furnitureScriptNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label40 = new System.Windows.Forms.Label();
+            this.furnitureCountLabel = new System.Windows.Forms.Label();
+            this.furnitureIDNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label39 = new System.Windows.Forms.Label();
             this.warpTab = new System.Windows.Forms.TabPage();
             this.label22 = new System.Windows.Forms.Label();
             this.warpExitXNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -123,12 +129,14 @@ namespace NewEditor.Forms
             this.applyObjectButton = new System.Windows.Forms.Button();
             this.scriptPresetsComboBox = new System.Windows.Forms.ComboBox();
             this.label37 = new System.Windows.Forms.Label();
-            this.furnitureTab = new System.Windows.Forms.TabPage();
-            this.furnitureCountLabel = new System.Windows.Forms.Label();
-            this.furnitureIDNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label39 = new System.Windows.Forms.Label();
-            this.furnitureScriptNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label40 = new System.Windows.Forms.Label();
+            this.weatherNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label38 = new System.Windows.Forms.Label();
+            this.textureNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label41 = new System.Windows.Forms.Label();
+            this.unk4NumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label42 = new System.Windows.Forms.Label();
+            this.unk2NumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label43 = new System.Windows.Forms.Label();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -151,6 +159,9 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.npcMovementPermissionsNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcScriptNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcFlagNumberBox)).BeginInit();
+            this.furnitureTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).BeginInit();
             this.warpTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitXNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitYNumberBox)).BeginInit();
@@ -170,9 +181,10 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstRefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstValNumberBox)).BeginInit();
             this.overworldExtrasTab.SuspendLayout();
-            this.furnitureTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weatherNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textureNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk4NumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk2NumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mapTypeNumberBox
@@ -382,7 +394,7 @@ namespace NewEditor.Forms
             // applyZoneButton
             // 
             this.applyZoneButton.Enabled = false;
-            this.applyZoneButton.Location = new System.Drawing.Point(30, 300);
+            this.applyZoneButton.Location = new System.Drawing.Point(23, 429);
             this.applyZoneButton.Name = "applyZoneButton";
             this.applyZoneButton.Size = new System.Drawing.Size(120, 40);
             this.applyZoneButton.TabIndex = 73;
@@ -446,7 +458,7 @@ namespace NewEditor.Forms
             this.overworlObjectTabs.Controls.Add(this.triggerTab);
             this.overworlObjectTabs.Controls.Add(this.overworldExtrasTab);
             this.overworlObjectTabs.ItemSize = new System.Drawing.Size(60, 20);
-            this.overworlObjectTabs.Location = new System.Drawing.Point(320, 80);
+            this.overworlObjectTabs.Location = new System.Drawing.Point(316, 209);
             this.overworlObjectTabs.Name = "overworlObjectTabs";
             this.overworlObjectTabs.SelectedIndex = 0;
             this.overworlObjectTabs.Size = new System.Drawing.Size(570, 260);
@@ -870,6 +882,82 @@ namespace NewEditor.Forms
             0,
             0});
             // 
+            // furnitureTab
+            // 
+            this.furnitureTab.Controls.Add(this.furnitureScriptNumberBox);
+            this.furnitureTab.Controls.Add(this.label40);
+            this.furnitureTab.Controls.Add(this.furnitureCountLabel);
+            this.furnitureTab.Controls.Add(this.furnitureIDNumberBox);
+            this.furnitureTab.Controls.Add(this.label39);
+            this.furnitureTab.Location = new System.Drawing.Point(4, 24);
+            this.furnitureTab.Name = "furnitureTab";
+            this.furnitureTab.Size = new System.Drawing.Size(562, 232);
+            this.furnitureTab.TabIndex = 4;
+            this.furnitureTab.Text = "Furniture";
+            this.furnitureTab.UseVisualStyleBackColor = true;
+            // 
+            // furnitureScriptNumberBox
+            // 
+            this.furnitureScriptNumberBox.Location = new System.Drawing.Point(79, 70);
+            this.furnitureScriptNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.furnitureScriptNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.furnitureScriptNumberBox.Name = "furnitureScriptNumberBox";
+            this.furnitureScriptNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.furnitureScriptNumberBox.TabIndex = 97;
+            this.furnitureScriptNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(14, 72);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(61, 16);
+            this.label40.TabIndex = 96;
+            this.label40.Text = "Script ID:";
+            // 
+            // furnitureCountLabel
+            // 
+            this.furnitureCountLabel.AutoSize = true;
+            this.furnitureCountLabel.Location = new System.Drawing.Point(110, 28);
+            this.furnitureCountLabel.Name = "furnitureCountLabel";
+            this.furnitureCountLabel.Size = new System.Drawing.Size(22, 16);
+            this.furnitureCountLabel.TabIndex = 95;
+            this.furnitureCountLabel.Text = "/ 0";
+            // 
+            // furnitureIDNumberBox
+            // 
+            this.furnitureIDNumberBox.Location = new System.Drawing.Point(45, 26);
+            this.furnitureIDNumberBox.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.furnitureIDNumberBox.Name = "furnitureIDNumberBox";
+            this.furnitureIDNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.furnitureIDNumberBox.TabIndex = 94;
+            this.furnitureIDNumberBox.ValueChanged += new System.EventHandler(this.furnitureIDNumberBox_ValueChanged);
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(15, 28);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(23, 16);
+            this.label39.TabIndex = 93;
+            this.label39.Text = "ID:";
+            // 
             // warpTab
             // 
             this.warpTab.Controls.Add(this.label22);
@@ -890,7 +978,7 @@ namespace NewEditor.Forms
             this.warpTab.Location = new System.Drawing.Point(4, 24);
             this.warpTab.Name = "warpTab";
             this.warpTab.Padding = new System.Windows.Forms.Padding(3);
-            this.warpTab.Size = new System.Drawing.Size(542, 232);
+            this.warpTab.Size = new System.Drawing.Size(562, 232);
             this.warpTab.TabIndex = 1;
             this.warpTab.Text = "Warps";
             this.warpTab.UseVisualStyleBackColor = true;
@@ -1135,7 +1223,7 @@ namespace NewEditor.Forms
             this.triggerTab.Controls.Add(this.triggerConstValNumberBox);
             this.triggerTab.Location = new System.Drawing.Point(4, 24);
             this.triggerTab.Name = "triggerTab";
-            this.triggerTab.Size = new System.Drawing.Size(542, 232);
+            this.triggerTab.Size = new System.Drawing.Size(562, 232);
             this.triggerTab.TabIndex = 2;
             this.triggerTab.Text = "Triggers";
             this.triggerTab.UseVisualStyleBackColor = true;
@@ -1424,7 +1512,7 @@ namespace NewEditor.Forms
             this.overworldExtrasTab.Controls.Add(this.extraDataTextBox);
             this.overworldExtrasTab.Location = new System.Drawing.Point(4, 24);
             this.overworldExtrasTab.Name = "overworldExtrasTab";
-            this.overworldExtrasTab.Size = new System.Drawing.Size(542, 232);
+            this.overworldExtrasTab.Size = new System.Drawing.Size(562, 232);
             this.overworldExtrasTab.TabIndex = 3;
             this.overworldExtrasTab.Text = "Extras";
             this.overworldExtrasTab.UseVisualStyleBackColor = true;
@@ -1439,7 +1527,7 @@ namespace NewEditor.Forms
             // 
             // removeObjectButton
             // 
-            this.removeObjectButton.Location = new System.Drawing.Point(710, 70);
+            this.removeObjectButton.Location = new System.Drawing.Point(706, 199);
             this.removeObjectButton.Name = "removeObjectButton";
             this.removeObjectButton.Size = new System.Drawing.Size(70, 30);
             this.removeObjectButton.TabIndex = 78;
@@ -1449,7 +1537,7 @@ namespace NewEditor.Forms
             // 
             // addObjectButton
             // 
-            this.addObjectButton.Location = new System.Drawing.Point(640, 70);
+            this.addObjectButton.Location = new System.Drawing.Point(636, 199);
             this.addObjectButton.Name = "addObjectButton";
             this.addObjectButton.Size = new System.Drawing.Size(60, 30);
             this.addObjectButton.TabIndex = 79;
@@ -1459,7 +1547,7 @@ namespace NewEditor.Forms
             // 
             // applyObjectButton
             // 
-            this.applyObjectButton.Location = new System.Drawing.Point(810, 70);
+            this.applyObjectButton.Location = new System.Drawing.Point(806, 199);
             this.applyObjectButton.Name = "applyObjectButton";
             this.applyObjectButton.Size = new System.Drawing.Size(75, 30);
             this.applyObjectButton.TabIndex = 80;
@@ -1487,6 +1575,7 @@ namespace NewEditor.Forms
             this.scriptPresetsComboBox.Name = "scriptPresetsComboBox";
             this.scriptPresetsComboBox.Size = new System.Drawing.Size(200, 24);
             this.scriptPresetsComboBox.TabIndex = 81;
+            this.scriptPresetsComboBox.Visible = false;
             // 
             // label37
             // 
@@ -1496,88 +1585,134 @@ namespace NewEditor.Forms
             this.label37.Size = new System.Drawing.Size(94, 16);
             this.label37.TabIndex = 82;
             this.label37.Text = "Script Presets:";
+            this.label37.Visible = false;
             // 
-            // furnitureTab
+            // weatherNumberBox
             // 
-            this.furnitureTab.Controls.Add(this.furnitureScriptNumberBox);
-            this.furnitureTab.Controls.Add(this.label40);
-            this.furnitureTab.Controls.Add(this.furnitureCountLabel);
-            this.furnitureTab.Controls.Add(this.furnitureIDNumberBox);
-            this.furnitureTab.Controls.Add(this.label39);
-            this.furnitureTab.Location = new System.Drawing.Point(4, 24);
-            this.furnitureTab.Name = "furnitureTab";
-            this.furnitureTab.Size = new System.Drawing.Size(562, 232);
-            this.furnitureTab.TabIndex = 4;
-            this.furnitureTab.Text = "Furniture";
-            this.furnitureTab.UseVisualStyleBackColor = true;
-            // 
-            // furnitureCountLabel
-            // 
-            this.furnitureCountLabel.AutoSize = true;
-            this.furnitureCountLabel.Location = new System.Drawing.Point(110, 28);
-            this.furnitureCountLabel.Name = "furnitureCountLabel";
-            this.furnitureCountLabel.Size = new System.Drawing.Size(22, 16);
-            this.furnitureCountLabel.TabIndex = 95;
-            this.furnitureCountLabel.Text = "/ 0";
-            // 
-            // furnitureIDNumberBox
-            // 
-            this.furnitureIDNumberBox.Location = new System.Drawing.Point(45, 26);
-            this.furnitureIDNumberBox.Maximum = new decimal(new int[] {
-            0,
+            this.weatherNumberBox.Enabled = false;
+            this.weatherNumberBox.Location = new System.Drawing.Point(100, 326);
+            this.weatherNumberBox.Maximum = new decimal(new int[] {
+            255,
             0,
             0,
             0});
-            this.furnitureIDNumberBox.Name = "furnitureIDNumberBox";
-            this.furnitureIDNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.furnitureIDNumberBox.TabIndex = 94;
-            this.furnitureIDNumberBox.ValueChanged += new System.EventHandler(this.furnitureIDNumberBox_ValueChanged);
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(15, 28);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(23, 16);
-            this.label39.TabIndex = 93;
-            this.label39.Text = "ID:";
-            // 
-            // furnitureScriptNumberBox
-            // 
-            this.furnitureScriptNumberBox.Location = new System.Drawing.Point(79, 70);
-            this.furnitureScriptNumberBox.Maximum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            0});
-            this.furnitureScriptNumberBox.Minimum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            -2147483648});
-            this.furnitureScriptNumberBox.Name = "furnitureScriptNumberBox";
-            this.furnitureScriptNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.furnitureScriptNumberBox.TabIndex = 97;
-            this.furnitureScriptNumberBox.Value = new decimal(new int[] {
+            this.weatherNumberBox.Name = "weatherNumberBox";
+            this.weatherNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.weatherNumberBox.TabIndex = 84;
+            this.weatherNumberBox.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // label40
+            // label38
             // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(14, 72);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(61, 16);
-            this.label40.TabIndex = 96;
-            this.label40.Text = "Script ID:";
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(20, 330);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(60, 16);
+            this.label38.TabIndex = 83;
+            this.label38.Text = "Weather:";
+            // 
+            // textureNumberBox
+            // 
+            this.textureNumberBox.Enabled = false;
+            this.textureNumberBox.Location = new System.Drawing.Point(100, 296);
+            this.textureNumberBox.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.textureNumberBox.Name = "textureNumberBox";
+            this.textureNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.textureNumberBox.TabIndex = 86;
+            this.textureNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(20, 300);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(53, 16);
+            this.label41.TabIndex = 85;
+            this.label41.Text = "Texture:";
+            // 
+            // unk4NumberBox
+            // 
+            this.unk4NumberBox.Enabled = false;
+            this.unk4NumberBox.Location = new System.Drawing.Point(100, 356);
+            this.unk4NumberBox.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.unk4NumberBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.unk4NumberBox.Name = "unk4NumberBox";
+            this.unk4NumberBox.Size = new System.Drawing.Size(58, 22);
+            this.unk4NumberBox.TabIndex = 88;
+            this.unk4NumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(21, 360);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(45, 16);
+            this.label42.TabIndex = 87;
+            this.label42.Text = "Unk 4:";
+            // 
+            // unk2NumberBox
+            // 
+            this.unk2NumberBox.Enabled = false;
+            this.unk2NumberBox.Location = new System.Drawing.Point(100, 386);
+            this.unk2NumberBox.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.unk2NumberBox.Name = "unk2NumberBox";
+            this.unk2NumberBox.Size = new System.Drawing.Size(58, 22);
+            this.unk2NumberBox.TabIndex = 90;
+            this.unk2NumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(21, 390);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(45, 16);
+            this.label43.TabIndex = 89;
+            this.label43.Text = "Unk 2:";
             // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(904, 361);
+            this.ClientSize = new System.Drawing.Size(904, 481);
+            this.Controls.Add(this.unk2NumberBox);
+            this.Controls.Add(this.label43);
+            this.Controls.Add(this.unk4NumberBox);
+            this.Controls.Add(this.label42);
+            this.Controls.Add(this.textureNumberBox);
+            this.Controls.Add(this.label41);
+            this.Controls.Add(this.weatherNumberBox);
+            this.Controls.Add(this.label38);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.scriptPresetsComboBox);
             this.Controls.Add(this.applyObjectButton);
@@ -1630,6 +1765,10 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.npcMovementPermissionsNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcScriptNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcFlagNumberBox)).EndInit();
+            this.furnitureTab.ResumeLayout(false);
+            this.furnitureTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).EndInit();
             this.warpTab.ResumeLayout(false);
             this.warpTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitXNumberBox)).EndInit();
@@ -1651,10 +1790,10 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstRefNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstValNumberBox)).EndInit();
             this.overworldExtrasTab.ResumeLayout(false);
-            this.furnitureTab.ResumeLayout(false);
-            this.furnitureTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weatherNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textureNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk4NumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk2NumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1760,5 +1899,13 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label furnitureCountLabel;
         private System.Windows.Forms.NumericUpDown furnitureIDNumberBox;
         private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.NumericUpDown weatherNumberBox;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.NumericUpDown textureNumberBox;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.NumericUpDown unk4NumberBox;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.NumericUpDown unk2NumberBox;
+        private System.Windows.Forms.Label label43;
     }
 }

@@ -127,6 +127,8 @@ namespace NewEditor.Data.NARCTypes
         public sbyte statChange3Stages;
         public byte statChange3Chance;
 
+        public short flags;
+
         public MoveDataEntry(byte[] bytes)
         {
             this.bytes = bytes;
@@ -171,6 +173,8 @@ namespace NewEditor.Data.NARCTypes
             statChange1Chance = bytes[27];
             statChange2Chance = bytes[28];
             statChange3Chance = bytes[29];
+
+            flags = (short)HelperFunctions.ReadShort(bytes, 32);
         }
 
         internal void ApplyData()
@@ -209,6 +213,8 @@ namespace NewEditor.Data.NARCTypes
             bytes[27] = statChange1Chance;
             bytes[28] = statChange2Chance;
             bytes[29] = statChange3Chance;
+
+            HelperFunctions.WriteShort(bytes, 32, flags);
         }
 
         public override string ToString()
