@@ -71,12 +71,15 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (TrainerPokemonEntry p in pokemonGroups)
             {
-                newByteData.AddRange(p.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += p.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (TrainerPokemonEntry p in pokemonGroups)
+            {
+                newByteData.AddRange(p.bytes);
             }
 
             byteData = newByteData.ToArray();

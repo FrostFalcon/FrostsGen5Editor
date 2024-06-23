@@ -156,7 +156,6 @@ namespace NewEditor.Data
             result.romHeader = new List<byte>(b);
 
 
-
             //Get arms and tables
             b = new byte[HelperFunctions.ReadInt(result.romHeader, ARM9_SizeLocation)];
             fs.Position = HelperFunctions.ReadInt(result.romHeader, ARM9_PointerLocation);
@@ -234,8 +233,8 @@ namespace NewEditor.Data
             start = HelperFunctions.ReadInt(result.fat, pos);
             end = HelperFunctions.ReadInt(result.fat, pos + 4);
             result.soundData = new SoundData(fs, start, end);
-            pos += 8;
 
+            pos += 8;
             for (int i = 0; i < result.NARCCount; i++)
             {
                 int oStart = HelperFunctions.ReadInt(result.fat, pos);
@@ -484,6 +483,7 @@ namespace NewEditor.Data
                 HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28 + i * 8, romBytes.Count + narcs[i].byteData.Length);
                 AddSection(romBytes, narcs[i].byteData);
             }
+            
 
             for (int i = 0; i < misc.Count; i++)
             {

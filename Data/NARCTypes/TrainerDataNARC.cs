@@ -80,12 +80,15 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (TrainerEntry t in trainers)
             {
-                newByteData.AddRange(t.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += t.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (TrainerEntry t in trainers)
+            {
+                newByteData.AddRange(t.bytes);
             }
 
             byteData = newByteData.ToArray();

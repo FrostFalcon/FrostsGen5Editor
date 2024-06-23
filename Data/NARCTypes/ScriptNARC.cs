@@ -72,12 +72,15 @@ namespace NewEditor.Data.NARCTypes
             foreach (ScriptFile s in scriptFiles)
             {
                 //s.ApplyData();
-                for (int i = 0; i < s.bytes.Length; i++) newByteData.Add((byte)s.bytes[i]);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += s.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (ScriptFile s in scriptFiles)
+            {
+                for (int i = 0; i < s.bytes.Length; i++) newByteData.Add((byte)s.bytes[i]);
             }
 
             byteData = newByteData.ToArray();

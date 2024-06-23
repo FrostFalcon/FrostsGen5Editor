@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -70,18 +71,19 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (MapModelEntry m in models)
             {
-                newByteData.AddRange(m.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += m.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
             }
-
+            foreach (MapModelEntry m in models)
+            {
+                newByteData.AddRange(m.bytes);
+            }
             byteData = newByteData.ToArray();
 
             FixHeaders(models.Count);
-
             base.WriteData();
         }
     }

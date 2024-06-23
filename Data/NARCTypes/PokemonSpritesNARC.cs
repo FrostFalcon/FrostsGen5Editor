@@ -100,7 +100,6 @@ namespace NewEditor.Data.NARCTypes
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    newByteData.AddRange(p.files[j]);
                     newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                     pPos += 4;
                     totalSize += p.files[j].Length;
@@ -111,12 +110,23 @@ namespace NewEditor.Data.NARCTypes
 
             foreach (byte[] b in remainingfiles)
             {
-                newByteData.AddRange(b);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += b.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+
+            foreach (PokemonSpriteEntry p in sprites)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    newByteData.AddRange(p.files[j]);
+                }
+            }
+            foreach (byte[] b in remainingfiles)
+            {
+                newByteData.AddRange(b);
             }
 
             byteData = newByteData.ToArray();

@@ -85,14 +85,17 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (KeyboardLayoutEntry m in layouts)
             {
-                newByteData.AddRange(m.bytes);
-                newByteData.AddRange(new byte[] { 255, 255 });
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += m.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += 2;
+            }
+            foreach (KeyboardLayoutEntry m in layouts)
+            {
+                newByteData.AddRange(m.bytes);
+                newByteData.AddRange(new byte[] { 255, 255 });
             }
 
             byteData = newByteData.ToArray();

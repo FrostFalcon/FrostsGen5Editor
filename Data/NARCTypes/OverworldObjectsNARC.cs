@@ -67,12 +67,15 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (OverworldObjectsEntry o in objects)
             {
-                newByteData.AddRange(o.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += o.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (OverworldObjectsEntry o in objects)
+            {
+                newByteData.AddRange(o.bytes);
             }
 
             byteData = newByteData.ToArray();

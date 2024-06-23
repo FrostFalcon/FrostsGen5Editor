@@ -68,12 +68,15 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (TextFile t in textFiles)
             {
-                newByteData.AddRange(t.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += t.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (TextFile t in textFiles)
+            {
+                newByteData.AddRange(t.bytes);
             }
 
             byteData = newByteData.ToArray();

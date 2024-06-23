@@ -205,7 +205,6 @@ namespace NewEditor.Forms
             if (prompt.ShowDialog() == DialogResult.OK)
             {
                 taskProgressBar.Value = 0;
-                //Compile data into target file
                 loadedRomPath = prompt.FileName;
                 FileStream fileStream = null;
                 try
@@ -222,7 +221,6 @@ namespace NewEditor.Forms
                 fileStream.Write(data, 0, data.Length);
                 fileStream.Close();
                 taskProgressBar.Value = taskProgressBar.Maximum;
-
                 MessageBox.Show("Rom saved to " + prompt.FileName);
             }
         }

@@ -69,12 +69,15 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (MapMatrixEntry m in matricies)
             {
-                newByteData.AddRange(m.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += m.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (MapMatrixEntry m in matricies)
+            {
+                newByteData.AddRange(m.bytes);
             }
 
             byteData = newByteData.ToArray();

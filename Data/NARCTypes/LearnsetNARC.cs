@@ -78,12 +78,15 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (LevelUpMoveset t in learnsets)
             {
-                newByteData.AddRange(t.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += t.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (LevelUpMoveset t in learnsets)
+            {
+                newByteData.AddRange(t.bytes);
             }
 
             byteData = newByteData.ToArray();

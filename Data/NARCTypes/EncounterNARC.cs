@@ -95,15 +95,17 @@ namespace NewEditor.Data.NARCTypes
             int pPos = pointerStartAddress;
             foreach (EncounterEntry e in mainEncounterPools)
             {
-                newByteData.AddRange(e.bytes);
-                foreach (EncounterEntry e2 in subEncounterPools.Where(s => s.parentPool == e)) newByteData.AddRange(e2.bytes);
-
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += e.bytes.Length;
                 foreach (EncounterEntry e2 in subEncounterPools.Where(s => s.parentPool == e)) totalSize += e2.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
+            }
+            foreach (EncounterEntry e in mainEncounterPools)
+            {
+                newByteData.AddRange(e.bytes);
+                foreach (EncounterEntry e2 in subEncounterPools.Where(s => s.parentPool == e)) newByteData.AddRange(e2.bytes);
             }
 
             byteData = newByteData.ToArray();
