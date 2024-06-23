@@ -94,6 +94,7 @@ namespace NewEditor.Data
         public EncounterNARC encounterNarc;
         public PokemartNARC pokemartNarc;
         public KeyboardNARC keyboardNarc;
+        public XPCurveNARC xpCurveNarc;
 
         //Read from rom file
         public static NDSFileSystem FromRom(FileStream fs, bool setEditorNarcs = false)
@@ -138,6 +139,7 @@ namespace NewEditor.Data
                 { MainEditor.trTextIndicesNarcID, typeof(TrTextIndexNARC) },
                 { MainEditor.trainerDataNarcID, typeof(TrainerDataNARC) },
                 { MainEditor.trainerPokeNarcID, typeof(TrainerPokeNARC) },
+                { MainEditor.xpCurveNarcID, typeof(XPCurveNARC) },
                 { MainEditor.zoneDataNarcID, typeof(ZoneDataNARC) },
             };
             result.overlays = new List<List<byte>>();
@@ -185,8 +187,6 @@ namespace NewEditor.Data
             fs.Position = HelperFunctions.ReadInt(result.romHeader, Banner_PointerLocation);
             fs.Read(b, 0, b.Length);
             result.banner = new List<byte>(b);
-
-
 
             //Read FAT data for overlays, narcs, etc
             int pos = 0;
@@ -276,6 +276,7 @@ namespace NewEditor.Data
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
             result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
             result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
+            result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
 
             for (int i = 0; i < result.NARCCount; i++)
             {
@@ -331,6 +332,7 @@ namespace NewEditor.Data
             }
             result.narcIDs = new Dictionary<int, Type>()
             {
+                { MainEditor.childPokemonNarcID, typeof(ChildPokemonNARC) },
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
@@ -354,6 +356,7 @@ namespace NewEditor.Data
                 { MainEditor.trainerDataNarcID, typeof(TrainerDataNARC) },
                 { MainEditor.trainerPokeNarcID, typeof(TrainerPokeNARC) },
                 { MainEditor.zoneDataNarcID, typeof(ZoneDataNARC) },
+                { MainEditor.xpCurveNarcID, typeof(XPCurveNARC) },
             };
             result.overlays = new List<List<byte>>();
             result.narcs = new List<NARC>();
@@ -416,6 +419,7 @@ namespace NewEditor.Data
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
             result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
             result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
+            result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
             for (int i = 0; i < result.NARCCount; i++)
             {
                 result.narcs[i].ReadData();

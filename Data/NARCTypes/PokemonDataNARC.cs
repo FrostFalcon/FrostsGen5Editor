@@ -83,7 +83,17 @@ namespace NewEditor.Data.NARCTypes
                 foreach (PokemonEntry poke in pokemon.ToArray())
                 {
                     while (fileSystem.pokemonSpritesNarc == null || fileSystem.pokemonSpritesNarc.sprites == null) Thread.Sleep(10);
-                    if (poke.spriteID < fileSystem.pokemonSpritesNarc.sprites.Count) poke.sprite = fileSystem.pokemonSpritesNarc.sprites[poke.spriteID].GetFrontSprite();
+                    if (poke.spriteID < fileSystem.pokemonSpritesNarc.sprites.Count)
+                    {
+                        try
+                        {
+                            poke.sprite = fileSystem.pokemonSpritesNarc.sprites[poke.spriteID].GetSprite();
+                        }
+                        catch
+                        {
+
+                        }
+                    }
                 }
             });
         }
@@ -434,7 +444,7 @@ namespace NewEditor.Data.NARCTypes
 
         public void RetrieveSprite()
         {
-            if (MainEditor.pokemonSpritesNarc != null) sprite = MainEditor.pokemonSpritesNarc.sprites[spriteID].GetFrontSprite();
+            if (MainEditor.pokemonSpritesNarc != null) sprite = MainEditor.pokemonSpritesNarc.sprites[spriteID].GetSprite();
         }
     }
 }

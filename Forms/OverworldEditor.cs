@@ -221,6 +221,9 @@ namespace NewEditor.Forms
         {
             OverworldFurniture fur = overworldObjectNarc.objects[(int)mapIDNumberBox.Value].furniture[(int)furnitureIDNumberBox.Value];
             furnitureScriptNumberBox.Value = fur.scriptUsed;
+            //furnitureXPosNumberBox.Value = fur.xPosition;
+            //furnitureYPosNumberBox.Value = fur.yPosition;
+            //furnitureZPosNumberBox.Value = fur.zPosition;
         }
 
         private void warpIDNumberBox_ValueChanged(object sender, EventArgs e)
@@ -311,6 +314,9 @@ namespace NewEditor.Forms
                 OverworldFurniture fur = overworldObjectNarc.objects[(int)mapIDNumberBox.Value].furniture[(int)furnitureIDNumberBox.Value];
 
                 fur.scriptUsed = (short)furnitureScriptNumberBox.Value;
+                //fur.xPosition = (short)furnitureXPosNumberBox.Value;
+                //fur.yPosition = (short)furnitureYPosNumberBox.Value;
+                //fur.zPosition = (short)furnitureZPosNumberBox.Value;
             }
             else if (overworlObjectTabs.SelectedIndex == 2)
             {

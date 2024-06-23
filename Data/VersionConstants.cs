@@ -26,6 +26,7 @@ namespace NewEditor.Data
         public const int BW2_MapMatriciesNARCID = 9;
         public const int BW2_ZoneDataNARCID = 12;
         public const int BW2_PokemonDataNARCID = 16;
+        public const int BW2_XPCurveNARCID = 17;
         public const int BW2_LevelUpMovesNARCID = 18;
         public const int BW2_EvolutionsNARCID = 19;
         public const int BW2_ChildPokemonNARCID = 20;

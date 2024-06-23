@@ -35,6 +35,7 @@ namespace NewEditor.Data
     {
         public static byte[] Decompress(byte[] data)
         {
+            if (data.Length == 0) return data;
             return Decompress(data, 0);
         }
 
@@ -113,6 +114,14 @@ namespace NewEditor.Data
 
         private static byte[] decompress11LZ(byte[] data, int offset)
         {
+            Stream stream = new MemoryStream(data, offset, data.Length - offset);
+            MemoryStream outStream = new MemoryStream();
+            new DSDecmp.Formats.Nitro.LZ11().Decompress(stream, stream.Length, outStream);
+            byte[] buffer = outStream.ToArray();
+            stream.Dispose();
+            outStream.Dispose();
+            return buffer;
+
             offset++;
             int length = (data[offset] & 0xFF) | ((data[offset + 1] & 0xFF) << 8) | ((data[offset + 2] & 0xFF) << 16);
             offset += 3;
@@ -217,94 +226,14 @@ namespace NewEditor.Data
 
         public static byte[] Compress(byte[] bytes)
         {
-            List<byte> output = new List<byte>();
-
-            // write the compression header first
-            output.AddRange(new byte[] { 0x11, 0, 0, 0, 0 });
-            HelperFunctions.WriteInt(output, 1, bytes.Length);
-            output.RemoveAt(output.Count - 1);
-
-            // we do need to buffer the output, as the first byte indicates which blocks are compressed.
-            // this version does not use a look-ahead, so we do not need to buffer more than 8 blocks at a time.
-            // (a block is at most 4 bytes long)
-            byte[] outbuffer = new byte[8 * 4 + 1];
-            outbuffer[0] = 0;
-            int bufferlength = 1, bufferedBlocks = 0;
-            int readBytes = 0;
-            while (readBytes < bytes.Length)
-            {
-                #region If 8 blocks are bufferd, write them and reset the buffer
-                // we can only buffer 8 blocks at a time.
-                if (bufferedBlocks == 8)
-                {
-                    output.AddRange(outbuffer);
-                    // reset the buffer
-                    outbuffer[0] = 0;
-                    bufferlength = 1;
-                    bufferedBlocks = 0;
-                }
-                #endregion
-
-                // determine if we're dealing with a compressed or raw block.
-                // it is a compressed block when the next 3 or more bytes can be copied from
-                // somewhere in the set of already compressed bytes.
-                int disp;
-                int oldLength = Math.Min(readBytes, 0x1000);
-                int length = GetOccurrenceLength(bytes, readBytes, Math.Min(bytes.Length - readBytes, 0x10110),
-                                                readBytes - oldLength, oldLength, out disp);
-
-                // length not 3 or more? next byte is raw data
-                if (length < 3)
-                {
-                    outbuffer[bufferlength++] = bytes[readBytes++];
-                }
-                else
-                {
-                    // 3 or more bytes can be copied? next (length) bytes will be compressed into 2 bytes
-                    readBytes += length;
-
-                    // mark the next block as compressed
-                    outbuffer[0] |= (byte)(1 << (7 - bufferedBlocks));
-
-                    if (length > 0x110)
-                    {
-                        // case 1: 1(B CD E)(F GH) + (0x111)(0x1) = (LEN)(DISP)
-                        outbuffer[bufferlength] = 0x10;
-                        outbuffer[bufferlength] |= (byte)(((length - 0x111) >> 12) & 0x0F);
-                        bufferlength++;
-                        outbuffer[bufferlength] = (byte)(((length - 0x111) >> 4) & 0xFF);
-                        bufferlength++;
-                        outbuffer[bufferlength] = (byte)(((length - 0x111) << 4) & 0xF0);
-                    }
-                    else if (length > 0x10)
-                    {
-                        // case 0; 0(B C)(D EF) + (0x11)(0x1) = (LEN)(DISP)
-                        outbuffer[bufferlength] = 0x00;
-                        outbuffer[bufferlength] |= (byte)(((length - 0x111) >> 4) & 0x0F);
-                        bufferlength++;
-                        outbuffer[bufferlength] = (byte)(((length - 0x111) << 4) & 0xF0);
-                    }
-                    else
-                    {
-                        // case > 1: (A)(B CD) + (0x1)(0x1) = (LEN)(DISP)
-                        outbuffer[bufferlength] = (byte)(((length - 1) << 4) & 0xF0);
-                    }
-                    // the last 1.5 bytes are always the disp
-                    outbuffer[bufferlength] |= (byte)(((disp - 1) >> 8) & 0x0F);
-                    bufferlength++;
-                    outbuffer[bufferlength] = (byte)((disp - 1) & 0xFF);
-                    bufferlength++;
-                }
-                bufferedBlocks++;
-            }
-
-            // copy the remaining blocks to the output
-            if (bufferedBlocks > 0)
-            {
-                output.AddRange(outbuffer);
-            }
-
-            return output.ToArray();
+            if (bytes.Length == 0) return bytes;
+            Stream stream = new MemoryStream(bytes);
+            MemoryStream outStream = new MemoryStream();
+            new DSDecmp.Formats.Nitro.LZ11().Compress(stream, stream.Length, outStream);
+            byte[] buffer = outStream.ToArray();
+            stream.Dispose();
+            outStream.Dispose();
+            return buffer;
         }
 
         public static Color Read16BitColor(int palValue)

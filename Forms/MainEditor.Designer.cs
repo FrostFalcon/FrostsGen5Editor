@@ -77,6 +77,7 @@ namespace NewEditor.Forms
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.replaceMapID = new System.Windows.Forms.NumericUpDown();
             this.replaceMapButton = new System.Windows.Forms.Button();
+            this.littleCupButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -165,6 +166,7 @@ namespace NewEditor.Forms
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox1.Controls.Add(this.littleCupButton);
             this.groupBox1.Controls.Add(this.typeShuffleButton);
             this.groupBox1.Controls.Add(this.rotationBattleButton);
             this.groupBox1.Controls.Add(this.label3);
@@ -599,6 +601,16 @@ namespace NewEditor.Forms
             this.replaceMapButton.UseVisualStyleBackColor = true;
             this.replaceMapButton.Click += new System.EventHandler(this.replaceMapButton_Click);
             // 
+            // littleCupButton
+            // 
+            this.littleCupButton.Location = new System.Drawing.Point(140, 120);
+            this.littleCupButton.Name = "littleCupButton";
+            this.littleCupButton.Size = new System.Drawing.Size(100, 32);
+            this.littleCupButton.TabIndex = 20;
+            this.littleCupButton.Text = "Little Cup";
+            this.littleCupButton.UseVisualStyleBackColor = true;
+            this.littleCupButton.Click += new System.EventHandler(this.littleCupButton_Click);
+            // 
             // MainEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -686,6 +698,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.NumericUpDown replaceMapID;
         private System.Windows.Forms.Button replaceMapButton;
+        private System.Windows.Forms.Button littleCupButton;
     }
 }
 

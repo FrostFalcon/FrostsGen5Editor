@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using NewEditor.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -168,16 +169,32 @@ namespace NewEditor.Data.NARCTypes
         public List<byte[]> files;
 
         public byte[] FrontSpriteBytes => files[0];
+        public byte[] FrontFemaleSpriteBytes => files[1];
         public byte[] FrontRigBytes => files[2];
+        public byte[] FrontFemaleRigBytes => files[3];
+        public byte[] FrontCellsBytes => files[4];
+        public byte[] FrontAnimationBytes => files[5];
+        public byte[] FrontTileBytes => files[8];
         public byte[] BackSpriteBytes => files[9];
+        public byte[] BackFemaleSpriteBytes => files[10];
         public byte[] BackRigBytes => files[11];
+        public byte[] BackFemaleRigBytes => files[12];
+        public byte[] BackCellsBytes => files[13];
+        public byte[] BackAnimationBytes => files[14];
+        public byte[] BackTileBytes => files[17];
         public byte[] PaletteBytes => files[18];
         public byte[] ShinyPaletteBytes => files[19];
 
         public int nameID;
 
         public byte[] decompressedFrontSprite;
+        public byte[] decompressedFrontRig;
+        public byte[] decompressedFrontFemaleSprite;
+        public byte[] decompressedFrontFemaleRig;
         public byte[] decompressedBackSprite;
+        public byte[] decompressedBackRig;
+        public byte[] decompressedBackFemaleSprite;
+        public byte[] decompressedBackFemaleRig;
 
         public Color[] palette;
         public Color[] shinyPalette;
@@ -191,7 +208,13 @@ namespace NewEditor.Data.NARCTypes
             shinyPalette = new Color[16];
             for (int i = 0; i < 16; i++) shinyPalette[i] = DsDecmp.Read16BitColor(HelperFunctions.ReadShort(ShinyPaletteBytes, 40 + i * 2));
             decompressedFrontSprite = DsDecmp.Decompress(FrontSpriteBytes);
+            decompressedFrontFemaleSprite = DsDecmp.Decompress(FrontFemaleSpriteBytes);
+            decompressedFrontRig = DsDecmp.Decompress(FrontRigBytes);
+            decompressedFrontFemaleRig = DsDecmp.Decompress(FrontFemaleRigBytes);
             decompressedBackSprite = DsDecmp.Decompress(BackSpriteBytes);
+            decompressedBackFemaleSprite = DsDecmp.Decompress(BackFemaleSpriteBytes);
+            decompressedBackRig = DsDecmp.Decompress(BackRigBytes);
+            decompressedBackFemaleRig = DsDecmp.Decompress(BackFemaleRigBytes);
         }
 
         public void ApplyData()
@@ -200,10 +223,29 @@ namespace NewEditor.Data.NARCTypes
             for (int i = 0; i < 16; i++) HelperFunctions.WriteShort(ShinyPaletteBytes, 40 + i * 2, DsDecmp.Write16BitColor(shinyPalette[i]));
         }
 
-        public Bitmap GetFrontSprite(bool shiny = false)
+        public Bitmap GetSprite(bool shiny = false, bool back = false, bool female = false)
         {
-            if (decompressedFrontSprite == null) return null;
-            Bitmap img = DsDecmp.DrawTiledImage(decompressedFrontSprite, shiny ? shinyPalette : palette, 48, 64, 144, 8, 8, 4);
+            byte[] b = decompressedFrontSprite;
+            if (back && female) b = decompressedBackFemaleSprite;
+            else if (back) b = decompressedBackSprite;
+            else if (female) b = decompressedFrontFemaleSprite;
+            if (b == null || b.Length == 0) return null;
+            Bitmap img = new Bitmap(64, 144);
+            Color[] pal = shiny ? shinyPalette : palette;
+            for (int tile = 0; tile < 144; tile++)
+            {
+                int tileX = tile % 8;
+                int tileY = tile / 8;
+                for (int yT = 0; yT < 8; yT++)
+                {
+                    for (int xT = 0; xT < 8; xT++)
+                    {
+                        int value = b[tile * 32 + yT * 4 + xT / 2 + 48];
+                        value = (value >> (xT % 2) * 4) & ((1 << 4) - 1);
+                        img.SetPixel(tileX * 8 + xT, tileY * 8 + yT, pal[value]);
+                    }
+                }
+            }
             if (img == null) return img;
 
             //Unscrambling
@@ -226,30 +268,105 @@ namespace NewEditor.Data.NARCTypes
             return finalImage;
         }
 
-        public Bitmap GetBackSprite(bool shiny = false)
+        public Bitmap GetRig(bool shiny = false, bool back = false, bool female = false)
         {
-            if (decompressedBackSprite == null) return null;
-            Bitmap img = DsDecmp.DrawTiledImage(decompressedBackSprite, shiny ? shinyPalette : palette, 48, 64, 144, 8, 8, 4);
-            //return img;
+            byte[] b = decompressedFrontRig;
+            if (back && female) b = decompressedBackFemaleRig;
+            else if (back) b = decompressedBackRig;
+            else if (female) b = decompressedFrontFemaleRig;
+            if (b == null || b.Length == 0) return null;
+            Color[] pal = shiny ? shinyPalette : palette;
+            Bitmap bmp = new Bitmap(256, 128);
+            for (int i = 0; i < 256 * 128; i++)
+            {
+                int c = b[(i / 2) + 48];
+                c = i % 2 == 0 ? c & 0b_1111 : (c & 0b_1111_0000) >> 4;
+                bmp.SetPixel(i % 256, i / 256, pal[c]);
+            }
+            return bmp;
+        }
 
-            //Unscrambling
-            Bitmap finalImage = new Bitmap(96, 96, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            Graphics g = Graphics.FromImage(finalImage);
-            g.DrawImage(img, new Rectangle(0, 0, 64, 64), new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 0, 32, 8), new Rectangle(0, 64, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 8, 32, 8), new Rectangle(32, 64, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 16, 32, 8), new Rectangle(0, 72, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 24, 32, 8), new Rectangle(32, 72, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 32, 32, 8), new Rectangle(0, 80, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 40, 32, 8), new Rectangle(32, 80, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 48, 32, 8), new Rectangle(0, 88, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 56, 32, 8), new Rectangle(32, 88, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(0, 64, 64, 32), new Rectangle(0, 96, 64, 32), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 64, 32, 8), new Rectangle(0, 128, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 72, 32, 8), new Rectangle(32, 128, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 80, 32, 8), new Rectangle(0, 136, 32, 8), GraphicsUnit.Pixel);
-            g.DrawImage(img, new Rectangle(64, 88, 32, 8), new Rectangle(32, 136, 32, 8), GraphicsUnit.Pixel);
-            return finalImage;
+        public void SetSprite(Bitmap image, bool shiny = false, bool back = false, bool female = false)
+        {
+            if (image.Width != 96 || image.Height != 96)
+            {
+                MessageBox.Show("Sprite size should be 96 x 96");
+                return;
+            }
+            Bitmap scrambled = new Bitmap(64, 144, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics g = Graphics.FromImage(scrambled);
+            g.DrawImage(image, new Rectangle(0, 0, 64, 64), new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 64, 32, 8), new Rectangle(64, 0, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(32, 64, 32, 8), new Rectangle(64, 8, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 72, 32, 8), new Rectangle(64, 16, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(32, 72, 32, 8), new Rectangle(64, 24, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 80, 32, 8), new Rectangle(64, 32, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(32, 80, 32, 8), new Rectangle(64, 40, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 88, 32, 8), new Rectangle(64, 48, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(32, 88, 32, 8), new Rectangle(64, 56, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 96, 64, 32), new Rectangle(0, 64, 64, 32), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 128, 32, 8), new Rectangle(64, 64, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(32, 128, 32, 8), new Rectangle(64, 72, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(0, 136, 32, 8), new Rectangle(64, 80, 32, 8), GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(32, 136, 32, 8), new Rectangle(64, 88, 32, 8), GraphicsUnit.Pixel);
+
+            byte[] b = decompressedFrontSprite;
+            if (back && female) b = decompressedBackFemaleSprite;
+            else if (back) b = decompressedBackSprite;
+            else if (female) b = decompressedFrontFemaleSprite;
+            Color[] pal = shiny ? shinyPalette : palette;
+
+            for (int tile = 0; tile < 144; tile++)
+            {
+                int tileX = tile % 8;
+                int tileY = tile / 8;
+                for (int yT = 0; yT < 8; yT++)
+                {
+                    for (int xT = 0; xT < 8; xT++)
+                    {
+                        int value = b[tile * 32 + yT * 4 + xT / 2 + 48];
+                        value = (value >> (xT % 2) * 4) & ((1 << 4) - 1);
+                        Color c = scrambled.GetPixel(tileX * 8 + xT, tileY * 8 + yT);
+                        int cid = 0;
+                        for (int j = 1; j < 16; j++) if (c.R == pal[j].R && c.G == pal[j].G && c.B == pal[j].B) cid = j;
+
+                        if (xT % 2 == 0) b[tile * 32 + yT * 4 + xT / 2 + 48] = (byte)cid;
+                        else b[tile * 32 + yT * 4 + xT / 2 + 48] = (byte)((cid << 4) | b[tile * 32 + yT * 4 + xT / 2 + 48]);
+                    }
+                }
+            }
+
+            int n = 0;
+            if (female) n++;
+            if (back) n += 9;
+            files[n] = DsDecmp.Compress(b);
+        }
+
+        public void SetRig(Bitmap image, bool shiny = false, bool back = false, bool female = false)
+        {
+            if (image.Width != 256 || image.Height != 128)
+            {
+                MessageBox.Show("Sprite size should be 256 x 128");
+                return;
+            }
+            byte[] b = decompressedFrontRig;
+            if (back && female) b = decompressedBackFemaleRig;
+            else if (back) b = decompressedBackRig;
+            else if (female) b = decompressedFrontFemaleRig;
+            Color[] pal = shiny ? shinyPalette : palette;
+            for (int i = 0; i < 256 * 128; i++)
+            {
+                Color c = image.GetPixel(i % 256, i / 256);
+                int cid = 0;
+                for (int j = 1; j < 16; j++) if (c.R == pal[j].R && c.G == pal[j].G && c.B == pal[j].B) cid = j;
+                if (i % 2 == 0) b[(i / 2) + 48] = (byte)cid;
+                else b[(i / 2) + 48] = (byte)((cid << 4) | b[(i / 2) + 48]);
+            }
+
+            int n = 2;
+            if (female) n++;
+            if (back) n += 9;
+            files[n] = DsDecmp.Compress(b);
         }
 
         public override string ToString()

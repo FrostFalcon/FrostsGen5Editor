@@ -59,6 +59,8 @@ namespace NewEditor.Forms
             this.pokeAbilityDropdown1 = new System.Windows.Forms.ComboBox();
             this.baseStatsGroup = new System.Windows.Forms.GroupBox();
             this.miscStatsGroup = new System.Windows.Forms.GroupBox();
+            this.catchRateNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label42 = new System.Windows.Forms.Label();
             this.weightNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label40 = new System.Windows.Forms.Label();
             this.heightNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -141,8 +143,6 @@ namespace NewEditor.Forms
             this.lentimasTutorsListBox = new System.Windows.Forms.CheckedListBox();
             this.driftveilTutorsListBox = new System.Windows.Forms.CheckedListBox();
             this.miscTutorsListBox = new System.Windows.Forms.CheckedListBox();
-            this.catchRateNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label42 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -151,6 +151,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseHpNumberBox)).BeginInit();
             this.baseStatsGroup.SuspendLayout();
             this.miscStatsGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weightNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.friendshipNumberBox)).BeginInit();
@@ -164,7 +165,6 @@ namespace NewEditor.Forms
             this.tmTutorsGroupBox.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pokemonNameDropdown
@@ -580,6 +580,32 @@ namespace NewEditor.Forms
             this.miscStatsGroup.TabIndex = 73;
             this.miscStatsGroup.TabStop = false;
             this.miscStatsGroup.Text = "Misc Stats";
+            // 
+            // catchRateNumberBox
+            // 
+            this.catchRateNumberBox.Location = new System.Drawing.Point(125, 165);
+            this.catchRateNumberBox.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.catchRateNumberBox.Name = "catchRateNumberBox";
+            this.catchRateNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.catchRateNumberBox.TabIndex = 88;
+            this.catchRateNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(15, 168);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(76, 16);
+            this.label42.TabIndex = 89;
+            this.label42.Text = "Catch Rate:";
             // 
             // weightNumberBox
             // 
@@ -1041,7 +1067,7 @@ namespace NewEditor.Forms
             this.openPaletteEditorButton.Name = "openPaletteEditorButton";
             this.openPaletteEditorButton.Size = new System.Drawing.Size(100, 30);
             this.openPaletteEditorButton.TabIndex = 52;
-            this.openPaletteEditorButton.Text = "Palette Editor";
+            this.openPaletteEditorButton.Text = "Sprite Editor";
             this.openPaletteEditorButton.UseVisualStyleBackColor = true;
             this.openPaletteEditorButton.Click += new System.EventHandler(this.openPaletteEditorButton_Click);
             // 
@@ -1428,32 +1454,6 @@ namespace NewEditor.Forms
             this.miscTutorsListBox.Size = new System.Drawing.Size(200, 89);
             this.miscTutorsListBox.TabIndex = 1;
             // 
-            // catchRateNumberBox
-            // 
-            this.catchRateNumberBox.Location = new System.Drawing.Point(125, 165);
-            this.catchRateNumberBox.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.catchRateNumberBox.Name = "catchRateNumberBox";
-            this.catchRateNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.catchRateNumberBox.TabIndex = 88;
-            this.catchRateNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label42
-            // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(15, 168);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(76, 16);
-            this.label42.TabIndex = 89;
-            this.label42.Text = "Catch Rate:";
-            // 
             // PokemonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1486,6 +1486,7 @@ namespace NewEditor.Forms
             this.baseStatsGroup.PerformLayout();
             this.miscStatsGroup.ResumeLayout(false);
             this.miscStatsGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weightNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.friendshipNumberBox)).EndInit();
@@ -1502,7 +1503,6 @@ namespace NewEditor.Forms
             this.tmTutorsGroupBox.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).EndInit();
             this.ResumeLayout(false);
 
         }

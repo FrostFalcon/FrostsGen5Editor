@@ -874,7 +874,7 @@ namespace NewEditor.Data.NARCTypes
             {0x45, new CommandType("PaperMessage", 2, 2, 2)},
             {0x46, new CommandType("ClosePaperMessage", 0)},
             {0x47, new CommandType("YesNoBox", 1, 2)},
-            {0x48, new CommandType("Message3", 7, 1, 1, 2, 2, 2, 2, 2)},
+            {0x48, new CommandType("Message3", 8, 1, 1, 2, 2, 2, 2, 2, 2)},
             {0x49, new CommandType("DoubleMessage", 7, 1, 1, 2, 2, 2, 2, 2)},
             {0x4A, new CommandType("AngryMessage", 3, 2, 1, 2)},
             {0x4B, new CommandType("CloseAngryMessage", 0)},

@@ -24,7 +24,7 @@ namespace NewEditor.Data.NARCTypes
 
             for (int i = initialPosition; i < byteData.Length - 1; i += 48)
             {
-                ZoneDataEntry z = new ZoneDataEntry(byteData.ToList().GetRange(i, 48).ToArray(), zones.Count);
+                ZoneDataEntry z = new ZoneDataEntry(byteData.ToList().GetRange(i, Math.Min(48, byteData.Length - i)).ToArray(), zones.Count);
                 zones.Add(z);
             }
         }
@@ -89,7 +89,8 @@ namespace NewEditor.Data.NARCTypes
             this.bytes = bytes;
             this.index = (short)index;
 
-            ReadData();
+            if (bytes.Length == 48)
+                ReadData();
         }
 
         public void ReadData()
@@ -125,6 +126,7 @@ namespace NewEditor.Data.NARCTypes
 
         public void ApplyData()
         {
+            if (bytes.Length != 48) return;
             bytes[0] = mapType;
             bytes[1] = unknown1;
             HelperFunctions.WriteShort(bytes, 2, texture);

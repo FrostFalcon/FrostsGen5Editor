@@ -54,6 +54,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DSDecmp">
+      <HintPath>.\DSDecmp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,6 +76,7 @@
     <Compile Include="Data\Gen4UnicodeTable.cs" />
     <Compile Include="Data\HelperFunctions.cs" />
     <Compile Include="Data\NARCTypes\ChildPokemonNARC.cs" />
+    <Compile Include="Data\NARCTypes\XPCurveNARC.cs" />
     <Compile Include="Data\NARCTypes\ItemDataNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextEntriesNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextIndexNARC.cs" />

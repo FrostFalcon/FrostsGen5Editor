@@ -47,6 +47,7 @@ namespace NewEditor.Forms
         public static int encounterNarcID = -1;
         public static int pokemartNarcID = -1;
         public static int keyboardNarcID = -1;
+        public static int xpCurveNarcID = -1;
 
         //Rom Data
         public static NDSFileSystem fileSystem;
@@ -78,6 +79,7 @@ namespace NewEditor.Forms
         public static EncounterNARC encounterNarc;
         public static PokemartNARC pokemartNarc;
         public static KeyboardNARC keyboardNarc;
+        public static XPCurveNARC xpCurveNarc;
 
         //Forms
         public static TextViewer textViewer;
@@ -140,6 +142,7 @@ namespace NewEditor.Forms
                 encounterNarcID = VersionConstants.BW2_EncountersNARCID;
                 pokemartNarcID = VersionConstants.BW2_PokemartNARCID;
                 keyboardNarcID = VersionConstants.BW2_KeyboardLayoutNARCID;
+                xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
                 return;
             }
 
@@ -320,6 +323,11 @@ namespace NewEditor.Forms
 
             MessageBox.Show("Rom Loaded");
 
+            //foreach (MoveAnimationEntry anim in moveAnimationExtraNarc.animations)
+            //{
+            //    moveAnimationNarc.animations.Add(anim);
+            //}
+
             loadingNARCS = false;
             autoLoaded = false;
         }
@@ -350,6 +358,7 @@ namespace NewEditor.Forms
             encounterNarc = fileSystem.narcs[encounterNarcID] as EncounterNARC;
             pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
             keyboardNarc = fileSystem.narcs[keyboardNarcID] as KeyboardNARC;
+            xpCurveNarc = fileSystem.narcs[xpCurveNarcID] as XPCurveNARC;
         }
 
         public void TryAutoLoad()
@@ -924,6 +933,79 @@ namespace NewEditor.Forms
             if (typeChartEditor == null || typeChartEditor.IsDisposed) typeChartEditor = new TypeChartEditor();
             typeChartEditor.Show();
             typeChartEditor.BringToFront();
+        }
+
+        private void littleCupButton_Click(object sender, EventArgs e)
+        {
+            //Normalize level rates
+            foreach (PokemonEntry pk in pokemonDataNarc.pokemon)
+            {
+                pk.xpYield = 0;
+                pk.levelRate = 0;
+                pk.ApplyData();
+            }
+            //Edit movesets (first 4 moves are known at level 5, the rest can be relearned)
+            foreach (LevelUpMoveset ls in learnsetNarc.learnsets)
+            {
+                LevelUpMoveSlot[] first4 = new LevelUpMoveSlot[4];
+                if (ls.moves.Count > 4)
+                {
+                    for (int i = 0; i < 4; i++) first4[i] = new LevelUpMoveSlot(ls.moves[i].moveID, 2);
+                    for (int i = 4; i < ls.moves.Count; i++) ls.moves[i - 4] = new LevelUpMoveSlot(ls.moves[i].moveID, 1);
+                    for (int i = 0; i < 4; i++) ls.moves[ls.moves.Count - 4 + i] = first4[i];
+                }
+                else for (int i = 0; i < ls.moves.Count; i++) ls.moves[i] = new LevelUpMoveSlot(ls.moves[i].moveID, 1);
+                ls.ApplyData();
+            }
+            //Add move relearner to every pokemon center
+            foreach (OverworldObjectsEntry ow in overworldsNarc.objects)
+            {
+                if (ow != null && ow.NPCs != null && ow.NPCs.Exists(npc => npc.xPosition == 7 && npc.yPosition == 10 && npc.scriptUsed == 2100))
+                {
+                    ow.NPCs.Add(new OverworldNPC() { xPosition = 1, yPosition = 12, defaultDirection = 3, sprite = 14, scriptUsed = 2261 });
+                    ow.ApplyData();
+                }
+            }
+            //Edit trainer pokemon
+            foreach (TrainerEntry tr in trainerNarc.trainers)
+            {
+                foreach (TrainerPokemon trpoke in tr.pokemon.pokemon)
+                {
+                    trpoke.level = 5;
+                    trpoke.pokemonID = childPokemonNarc.ids[trpoke.pokemonID];
+                }
+                tr.pokemon.ApplyData();
+            }
+            //Edit encounters
+            foreach (EncounterEntry enc in encounterNarc.encounterPools)
+            {
+                foreach (List<EncounterSlot> slots in enc.groupedLandSlots)
+                {
+                    foreach (EncounterSlot slot in slots)
+                    {
+                        slot.minLevel = 5;
+                        slot.maxLevel = 5;
+                        slot.pokemonID = childPokemonNarc.ids[slot.pokemonID];
+                    }
+                }
+                foreach (List<EncounterSlot> slots in enc.groupedWaterSlots)
+                {
+                    foreach (EncounterSlot slot in slots)
+                    {
+                        slot.minLevel = 5;
+                        slot.maxLevel = 5;
+                        slot.pokemonID = childPokemonNarc.ids[slot.pokemonID];
+                    }
+                }
+                enc.ApplyData();
+            }
+
+            for (int i = 0; i < 100; i++)
+            {
+                xpCurveNarc.curves[0].SetXPAtLevel(i, (i - 1) * 999999);
+            }
+
+            MessageBox.Show("Little Cup Game Mode Applied");
         }
     }
 

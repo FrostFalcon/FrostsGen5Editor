@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,11 +8,9 @@ using NewEditor.Forms;
 
 namespace NewEditor.Data.NARCTypes
 {
-    public class LearnsetNARC : NARC
+    public class XPCurveNARC : NARC
     {
-        public List<LevelUpMoveset> learnsets;
-
-        PokemonDataNARC pokemonNarc => fileSystem.pokemonDataNarc;
+        public List<XPCurveEntry> curves;
 
         public override void ReadData()
         {
@@ -30,10 +27,11 @@ namespace NewEditor.Data.NARCTypes
             int initialPosition = pos + 24;
 
             //Register data files
-            learnsets = new List<LevelUpMoveset>();
+            curves = new List<XPCurveEntry>();
 
             pos = pointerStartAddress;
 
+            //Populate data types
             for (int i = 0; i < numFileEntries; i++)
             {
                 int start = HelperFunctions.ReadInt(byteData, pos);
@@ -42,16 +40,10 @@ namespace NewEditor.Data.NARCTypes
 
                 for (int j = 0; j < end - start; j++) bytes[j] = byteData[initialPosition + start + j];
 
-                LevelUpMoveset moveset = new LevelUpMoveset(bytes);
-                learnsets.Add(moveset);
+                XPCurveEntry m = new XPCurveEntry(bytes);
+                curves.Add(m);
 
                 pos += 8;
-            }
-
-            //Assign movesets to pokemon
-            for (int i = 0; i < pokemonNarc.pokemon.Count; i++)
-            {
-                if (i < learnsets.Count) pokemonNarc.pokemon[i].levelUpMoves = learnsets[i];
             }
         }
 
@@ -76,84 +68,77 @@ namespace NewEditor.Data.NARCTypes
             //Write Files
             int totalSize = 0;
             int pPos = pointerStartAddress;
-            foreach (LevelUpMoveset t in learnsets)
+            foreach (XPCurveEntry i in curves)
             {
-                newByteData.AddRange(t.bytes);
+                newByteData.AddRange(i.bytes);
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
-                totalSize += t.bytes.Length;
+                totalSize += i.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
             }
 
             byteData = newByteData.ToArray();
 
-            FixHeaders(learnsets.Count);
+            FixHeaders(curves.Count);
 
             base.WriteData();
         }
+
+        public override byte[] GetPatchBytes(NARC narc)
+        {
+            ItemDataNARC other = narc as ItemDataNARC;
+            List<byte> bytes = new List<byte>();
+
+            for (int i = 0; i < numFileEntries; i++)
+            {
+                if (i > other.items.Count || !curves[i].bytes.SequenceEqual(other.items[i].bytes))
+                {
+                    bytes.AddRange(BitConverter.GetBytes(i));
+                    bytes.AddRange(BitConverter.GetBytes(curves[i].bytes.Length));
+                    bytes.AddRange(curves[i].bytes);
+                }
+            }
+
+            return bytes.ToArray();
+        }
+
+        public override void ReadPatchBytes(byte[] bytes)
+        {
+            int pos = 0;
+            while (pos < bytes.Length)
+            {
+                int id = HelperFunctions.ReadInt(bytes, pos);
+                int size = HelperFunctions.ReadInt(bytes, pos + 4);
+                pos += 8;
+
+                if (id > curves.Count)
+                {
+                    //Don't accept extra files here
+                }
+                else curves[id].bytes = new List<byte>(bytes).GetRange(pos, size).ToArray();
+                pos += size;
+            }
+        }
     }
 
-    public class LevelUpMoveset
+    public class XPCurveEntry
     {
         public byte[] bytes;
 
-        public List<LevelUpMoveSlot> moves;
-
-        public LevelUpMoveset(byte[] bytes)
+        public XPCurveEntry(byte[] bytes)
         {
             this.bytes = bytes;
-            ReadData();
         }
 
-        public void ReadData()
+        public int GetXPAtLevel(int level)
         {
-            moves = new List<LevelUpMoveSlot>();
-
-            if (MainEditor.RomType == RomType.BW2)
-            {
-                for (int i = 0; i < bytes.Length; i += 4)
-                {
-                    moves.Add(new LevelUpMoveSlot((short)HelperFunctions.ReadShort(bytes, i), (short)HelperFunctions.ReadShort(bytes, i + 2)));
-                }
-                if (moves.Count > 0 && moves[moves.Count - 1].moveID == -1) moves.RemoveAt(moves.Count - 1);
-            }
-            else
-            {
-                for (int i = 0; i < bytes.Length - 4; i += 2)
-                {
-                    moves.Add(new LevelUpMoveSlot((short)(bytes[i] + ((bytes[i + 1] & 1) << 8)), (short)(bytes[i + 1] >> 1)));
-                }
-            }
+            return HelperFunctions.ReadInt(bytes, level * 4);
         }
 
-        public void ApplyData()
+        public void SetXPAtLevel(int level, int totalXP)
         {
-            bytes = new byte[moves.Count * 4 + 4];
-
-            for (int i = 0; i < moves.Count; i++)
-            {
-                HelperFunctions.WriteShort(bytes, i * 4, moves[i].moveID);
-                HelperFunctions.WriteShort(bytes, i * 4 + 2, moves[i].level);
-            }
-            for (int i = bytes.Length - 4; i < bytes.Length; i++) bytes[i] = 0xFF;
-        }
-    }
-
-    public struct LevelUpMoveSlot
-    {
-        public short moveID;
-        public short level;
-
-        public LevelUpMoveSlot(short moveID, short level)
-        {
-            this.moveID = moveID;
-            this.level = level;
-        }
-
-        public override string ToString()
-        {
-            return MainEditor.textNarc.textFiles[VersionConstants.MoveNameTextFileID].text[moveID] + " at lv " + level;
+            HelperFunctions.WriteInt(bytes, level * 4, totalXP);
         }
     }
 }
