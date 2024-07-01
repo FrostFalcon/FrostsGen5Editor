@@ -501,33 +501,52 @@ namespace NewEditor.Data
                 HelperFunctions.WriteInt(fat, OverlayCount * 8, romBytes.Count);
                 HelperFunctions.WriteInt(fat, OverlayCount * 8 + 4, romBytes.Count + fontData.Count);
                 AddSection(romBytes, fontData);
-            }
 
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 8, romBytes.Count);
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + skb.Count);
-            AddSection(romBytes, skb);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 8, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + skb.Count);
+                AddSection(romBytes, skb);
 
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 16, romBytes.Count);
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundStatus.Count);
-            AddSection(romBytes, soundStatus);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 16, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundStatus.Count);
+                AddSection(romBytes, soundStatus);
 
-            if (RomType == RomType.BW1)
-            {
                 HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24, romBytes.Count);
                 HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28, romBytes.Count + titleDemo.Count);
                 AddSection(romBytes, titleDemo);
+
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 32, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 36, romBytes.Count + soundData.bytes.Count);
+                AddSection(romBytes, soundData.bytes);
+
+                for (int i = 0; i < NARCCount; i++)
+                {
+                    narcs[i].WriteData();
+                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 40 + i * 8, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 44 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                    AddSection(romBytes, narcs[i].byteData);
+                }
             }
-
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 32, romBytes.Count);
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 36, romBytes.Count + soundData.bytes.Count);
-            AddSection(romBytes, soundData.bytes);
-
-            for (int i = 0; i < NARCCount; i++)
+            else
             {
-                narcs[i].WriteData();
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 40 + i * 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 44 + i * 8, romBytes.Count + narcs[i].byteData.Length);
-                AddSection(romBytes, narcs[i].byteData);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 4, romBytes.Count + skb.Count);
+                AddSection(romBytes, skb);
+
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 8, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + soundStatus.Count);
+                AddSection(romBytes, soundStatus);
+
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 16, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundData.bytes.Count);
+                AddSection(romBytes, soundData.bytes);
+
+                for (int i = 0; i < NARCCount; i++)
+                {
+                    narcs[i].WriteData();
+                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24 + i * 8, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                    AddSection(romBytes, narcs[i].byteData);
+                }
             }
             
 
