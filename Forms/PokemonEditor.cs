@@ -104,7 +104,7 @@ namespace NewEditor.Forms
 
         private void LoadPokemonIntoEditor(object sender, EventArgs e)
         {
-            if (pokemonNameDropdown.SelectedItem is PokemonEntry p && p.nameID > 0 && p.bytes.Length == (MainEditor.RomType == RomType.BW2 ? 76 : 44))
+            if (pokemonNameDropdown.SelectedItem is PokemonEntry p && p.nameID > 0 && p.bytes.Length == (MainEditor.RomType == RomType.BW2 ? 76 : MainEditor.RomType == RomType.BW1 ? 60 : 44))
             {
                 pokemonBaseHpNumberBox.Value = p.baseHP;
                 pokemonBaseAttackNumberBox.Value = p.baseAttack;
@@ -142,6 +142,8 @@ namespace NewEditor.Forms
                 {
                     pokemonSpriteBox.Image = null;
                 }
+                formSpriteIDNumberBox.Value = 0;
+                formSpriteIDNumberBox.Maximum = p.formID == 0 ? p.numberOfForms - 1 : 0;
 
                 SetupPokemonLearnsetList();
 
@@ -166,6 +168,19 @@ namespace NewEditor.Forms
                     for (int i = 0; i < p.lentimasTutors.Length; i++) lentimasTutorsListBox.SetItemChecked(i, p.lentimasTutors[i]);
                     for (int i = 0; i < p.humilauTutors.Length; i++) humilauTutorsListBox.SetItemChecked(i, p.humilauTutors[i]);
                     for (int i = 0; i < p.nacreneTutors.Length; i++) nacreneTutorsListBox.SetItemChecked(i, p.nacreneTutors[i]);
+
+                    evolutionsListBox.Items.Clear();
+                    for (int i = 0; i < 7; i++) evolutionsListBox.Items.Add(p.evolutions.methods[i]);
+                    evolutionsListBox.SelectedIndex = 0;
+                }
+                if (MainEditor.RomType == RomType.BW1)
+                {
+                    for (int i = 0; i < p.TMs.Length; i++) tmMovesListBox.SetItemChecked(i, p.TMs[i]);
+                    for (int i = 0; i < p.miscTutors.Length; i++) miscTutorsListBox.SetItemChecked(i, p.miscTutors[i]);
+                    driftveilTutorsListBox.Enabled = false;
+                    lentimasTutorsListBox.Enabled = false;
+                    humilauTutorsListBox.Enabled = false;
+                    nacreneTutorsListBox.Enabled = false;
 
                     evolutionsListBox.Items.Clear();
                     for (int i = 0; i < 7; i++) evolutionsListBox.Items.Add(p.evolutions.methods[i]);
@@ -262,6 +277,13 @@ namespace NewEditor.Forms
                     for (int i = 0; i < p.lentimasTutors.Length; i++) p.lentimasTutors[i] = lentimasTutorsListBox.GetItemChecked(i);
                     for (int i = 0; i < p.humilauTutors.Length; i++) p.humilauTutors[i] = humilauTutorsListBox.GetItemChecked(i);
                     for (int i = 0; i < p.nacreneTutors.Length; i++) p.nacreneTutors[i] = nacreneTutorsListBox.GetItemChecked(i);
+
+                    for (int i = 0; i < 7; i++) p.evolutions.methods[i] = (EvolutionMethod)evolutionsListBox.Items[i];
+                }
+                if (MainEditor.RomType == RomType.BW1)
+                {
+                    for (int i = 0; i < p.TMs.Length; i++) p.TMs[i] = tmMovesListBox.GetItemChecked(i);
+                    for (int i = 0; i < p.miscTutors.Length; i++) p.miscTutors[i] = miscTutorsListBox.GetItemChecked(i);
 
                     for (int i = 0; i < 7; i++) p.evolutions.methods[i] = (EvolutionMethod)evolutionsListBox.Items[i];
                 }
@@ -442,9 +464,14 @@ namespace NewEditor.Forms
 
         private void openPaletteEditorButton_Click(object sender, EventArgs e)
         {
-            if (pokemonNameDropdown.SelectedItem is PokemonEntry p && p.nameID > 0 && p.bytes.Length == 76)
+            if (pokemonNameDropdown.SelectedItem is PokemonEntry p && p.nameID > 0 && p.bytes.Length == (MainEditor.RomType == RomType.BW2 ? 76 : MainEditor.RomType == RomType.BW1 ? 60 : 44))
             {
-                PaletteEditor editor = new PaletteEditor(p.spriteID);
+                int sid = p.spriteID;
+                if (formSpriteIDNumberBox.Value != 0 && formSpriteIDNumberBox.Value < p.numberOfForms)
+                {
+                    sid = 685 + p.formSpritesStart + (int)formSpriteIDNumberBox.Value - 1;
+                }
+                PaletteEditor editor = new PaletteEditor(sid);
                 editor.Owner = this;
                 editor.Show();
             }
@@ -465,10 +492,15 @@ namespace NewEditor.Forms
                         MessageBox.Show("Invalid sprite data file");
                         return;
                     }
+                    int sid = p.spriteID;
+                    if (formSpriteIDNumberBox.Value != 0 && formSpriteIDNumberBox.Value < p.numberOfForms)
+                    {
+                        sid = 685 + p.formSpritesStart + (int)formSpriteIDNumberBox.Value - 1;
+                    }
                     for (int i = 0; i < 20; i++)
                     {
-                        MainEditor.pokemonSpritesNarc.sprites[p.spriteID].files[i] = data["file" + i].ToArray();
-                        MainEditor.pokemonSpritesNarc.sprites[p.spriteID].ReadData();
+                        MainEditor.pokemonSpritesNarc.sprites[sid].files[i] = data["file" + i].ToArray();
+                        MainEditor.pokemonSpritesNarc.sprites[sid].ReadData();
                         try
                         {
                             p.RetrieveSprite();
@@ -492,9 +524,14 @@ namespace NewEditor.Forms
                 if (prompt.ShowDialog() == DialogResult.OK)
                 {
                     Dictionary<string, IEnumerable<byte>> data = new Dictionary<string, IEnumerable<byte>>();
+                    int sid = p.spriteID;
+                    if (formSpriteIDNumberBox.Value != 0 && formSpriteIDNumberBox.Value < p.numberOfForms)
+                    {
+                        sid = 685 + p.formSpritesStart + (int)formSpriteIDNumberBox.Value - 1;
+                    }
                     for (int i = 0; i < 20; i++)
                     {
-                        data.Add("file" + i, MainEditor.pokemonSpritesNarc.sprites[p.spriteID].files[i]);
+                        data.Add("file" + i, MainEditor.pokemonSpritesNarc.sprites[sid].files[i]);
                     }
 
                     FileFunctions.WriteAllSections(prompt.FileName, data, true);
@@ -536,7 +573,7 @@ namespace NewEditor.Forms
 
         private void ApplyPokedexData(object sender, EventArgs e)
         {
-            if (pokemonNameDropdown.SelectedItem is PokemonEntry p && p.nameID > 0 && p.bytes.Length == (MainEditor.RomType == RomType.BW2 ? 76 : 44))
+            if (pokemonNameDropdown.SelectedItem is PokemonEntry p && p.nameID > 0 && p.bytes.Length == (MainEditor.RomType == RomType.BW2 ? 76 : MainEditor.RomType == RomType.BW1 ? 60 : 44))
             {
                 textNARC.textFiles[VersionConstants.PokemonNameTextFileID].text[p.nameID] = pokedexNameTextBox.Text;
                 textNARC.textFiles[VersionConstants.PokemonName2TextFileID].text[p.nameID] = (dexAnCheckBox.Checked ? "\\xf000봁\\x0000an \\xf000＀\\x0001ÿ" : "\\xf000봁\\x0000a \\xf000＀\\x0001ÿ") + pokedexNameTextBox.Text;
@@ -582,9 +619,24 @@ namespace NewEditor.Forms
             }
         }
 
-        public static void FullCopyPokemon(int from, int to)
+        public static void FullCopyPokemon(int from, int spriteID)
         {
-
+            PokemonEntry pk1 = pokemonNARC.pokemon[from];
+            pk1.numberOfForms = 2;
+            pk1.ApplyData();
+            PokemonEntry pk = new PokemonEntry(new List<byte>(pk1.bytes).ToArray());
+            pk1.formSpritesStart = (short)spriteID;
+            pk1.formsStart = (short)pokemonNARC.pokemon.Count;
+            pk1.ApplyData();
+            pk.nameID = pk1.nameID;
+            pk.spriteID = 685 + spriteID;
+            pk.levelUpMoves = new LevelUpMoveset(new List<byte>(pk1.levelUpMoves.bytes).ToArray());
+            pk.evolutions = new EvolutionDataEntry(new List<byte>(pk1.evolutions.bytes).ToArray());
+            pk.formID = 1;
+            pk.ApplyData();
+            pokemonNARC.pokemon.Add(pk);
+            learnsetNarc.learnsets.Add(pk.levelUpMoves);
+            MainEditor.evolutionsNarc.evolutions.Add(pk.evolutions);
         }
     }
 }

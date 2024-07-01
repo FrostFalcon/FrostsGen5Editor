@@ -310,7 +310,9 @@ namespace NewEditor.Data.NARCTypes
 
         public override string ToString()
         {
-            string str = (MainEditor.RomType == RomType.BW2 && nameID >= 0 && nameID < VersionConstants.BW2_RouteEnounterPoolNames.Count ? VersionConstants.BW2_RouteEnounterPoolNames[nameID] : "Name not found");
+            string str = "Name not found";
+            if (MainEditor.RomType == RomType.BW2 && nameID >= 0 && nameID < VersionConstants.BW2_RouteEncounterPoolNames.Count) str = VersionConstants.BW2_RouteEncounterPoolNames[nameID];
+            if (MainEditor.RomType == RomType.BW1 && nameID >= 0 && nameID < VersionConstants.BW1_RouteEncounterPoolNames.Count) str = VersionConstants.BW1_RouteEncounterPoolNames[nameID];
             if (season == 0) str += " (Spring)";
             if (season == 1) str += " (Summer)";
             if (season == 2) str += " (Autumn)";

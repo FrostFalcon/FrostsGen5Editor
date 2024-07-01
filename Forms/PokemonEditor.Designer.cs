@@ -143,6 +143,8 @@ namespace NewEditor.Forms
             this.lentimasTutorsListBox = new System.Windows.Forms.CheckedListBox();
             this.driftveilTutorsListBox = new System.Windows.Forms.CheckedListBox();
             this.miscTutorsListBox = new System.Windows.Forms.CheckedListBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.formSpriteIDNumberBox = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -165,6 +167,7 @@ namespace NewEditor.Forms
             this.tmTutorsGroupBox.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pokemonNameDropdown
@@ -1454,12 +1457,30 @@ namespace NewEditor.Forms
             this.miscTutorsListBox.Size = new System.Drawing.Size(200, 89);
             this.miscTutorsListBox.TabIndex = 1;
             // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(151, 128);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(41, 16);
+            this.label43.TabIndex = 84;
+            this.label43.Text = "Form:";
+            // 
+            // formSpriteIDNumberBox
+            // 
+            this.formSpriteIDNumberBox.Location = new System.Drawing.Point(198, 126);
+            this.formSpriteIDNumberBox.Name = "formSpriteIDNumberBox";
+            this.formSpriteIDNumberBox.Size = new System.Drawing.Size(40, 22);
+            this.formSpriteIDNumberBox.TabIndex = 85;
+            // 
             // PokemonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1584, 761);
+            this.Controls.Add(this.label43);
             this.Controls.Add(this.tmTutorsGroupBox);
+            this.Controls.Add(this.formSpriteIDNumberBox);
             this.Controls.Add(this.pokedexDataGroupBox);
             this.Controls.Add(this.hexDataGroupBox);
             this.Controls.Add(this.exportSpriteButton);
@@ -1503,7 +1524,9 @@ namespace NewEditor.Forms
             this.tmTutorsGroupBox.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1622,5 +1645,7 @@ namespace NewEditor.Forms
         public System.Windows.Forms.ComboBox babyPokemonDropdown;
         private System.Windows.Forms.NumericUpDown catchRateNumberBox;
         private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.NumericUpDown formSpriteIDNumberBox;
     }
 }

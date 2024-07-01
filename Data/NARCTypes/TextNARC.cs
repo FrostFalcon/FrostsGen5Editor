@@ -157,7 +157,7 @@ namespace NewEditor.Data.NARCTypes
         {
             this.bytes = bytes;
 
-            if (MainEditor.RomType == RomType.BW2)
+            if (MainEditor.RomType == RomType.BW2 || MainEditor.RomType == RomType.BW1)
             {
                 this.text = PPTxtHandler.GetStrings(bytes);
             }

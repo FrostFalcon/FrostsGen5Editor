@@ -52,7 +52,7 @@ namespace NewEditor.Forms
         //Rom Data
         public static NDSFileSystem fileSystem;
         private static string romType = "";
-        public static RomType RomType => (romType == "pokemon b2" || romType == "pokemon w2") ? RomType.BW2 : (romType == "pokemon hg" || romType == "pokemon ss") ? RomType.HGSS : RomType.Other; 
+        public static RomType RomType => (romType == "pokemon b2" || romType == "pokemon w2") ? RomType.BW2 : (romType == "pokemon b" || romType == "pokemon w") ? RomType.BW1 : (romType == "pokemon hg" || romType == "pokemon ss") ? RomType.HGSS : RomType.Other;
 
         //Narcs
         public static TextNARC textNarc;
@@ -143,6 +143,43 @@ namespace NewEditor.Forms
                 pokemartNarcID = VersionConstants.BW2_PokemartNARCID;
                 keyboardNarcID = VersionConstants.BW2_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
+                return;
+            }
+
+            if (RomType == RomType.BW1)
+            {
+                //FirstNARCPointerLocation = VersionConstants.BW2_FirstNarcPointerLocation;
+                //FirstNARCPointerLocation = VersionConstants.FindFirstNARCPointerLocation(romFile);
+                //sDatLocation = VersionConstants.FindSDat(romFile);
+                //LastNarc = VersionConstants.BW2_LastNarc;
+                //NARCsToSkip = VersionConstants.BW2_NARCsToSkip;
+                fileSizeLimit = VersionConstants.BW2_FileSizeLimit;
+
+                textNarcID = VersionConstants.BW1_TextNARCID;
+                storyTextNarcID = VersionConstants.BW1_StoryTextNARCID;
+                mapModelsNarcID = VersionConstants.BW1_MapModelsNARCID;
+                mapMatrixNarcID = VersionConstants.BW1_MapMatriciesNARCID;
+                pokemonSpritesNarcID = VersionConstants.BW1_PokemonSpritesNARCID;
+                pokemonIconsNarcID = VersionConstants.BW1_PokemonIconsNARCID;
+                pokemonDataNarcID = VersionConstants.BW1_PokemonDataNARCID;
+                levelUpMovesNarcID = VersionConstants.BW1_LevelUpMovesNARCID;
+                evolutionNarcID = VersionConstants.BW1_EvolutionsNARCID;
+                childPokemonNarcID = VersionConstants.BW1_ChildPokemonNARCID;
+                moveDataNarcID = VersionConstants.BW1_MoveDataNARCID;
+                itemDataNarcID = VersionConstants.BW1_ItemDataNARCID;
+                moveAnimationNarcID = VersionConstants.BW1_MoveAnimationNARCID;
+                moveAnimationExtraNarcID = VersionConstants.BW1_MoveAnimationExtraNARCID;
+                zoneDataNarcID = VersionConstants.BW1_ZoneDataNARCID;
+                scriptNarcID = VersionConstants.BW1_ScriptNARCID;
+                trTextEntriesNarcID = VersionConstants.BW1_TrTextEntriesNARCID;
+                trTextIndicesNarcID = VersionConstants.BW1_TrTextIndicesNARCID;
+                trainerDataNarcID = VersionConstants.BW1_TrainerDataNARCID;
+                trainerPokeNarcID = VersionConstants.BW1_TrainerPokemonNARCID;
+                overworldsNarcID = VersionConstants.BW1_OverworldsNARCID;
+                encounterNarcID = VersionConstants.BW1_EncountersNARCID;
+                pokemartNarcID = VersionConstants.BW1_PokemartNARCID;
+                keyboardNarcID = VersionConstants.BW1_KeyboardLayoutNARCID;
+                xpCurveNarcID = VersionConstants.BW1_XPCurveNARCID;
                 return;
             }
 
@@ -321,13 +358,15 @@ namespace NewEditor.Forms
 
             MessageBox.Show("Rom Loaded");
 
-            //foreach (MoveAnimationEntry anim in moveAnimationExtraNarc.animations)
-            //{
-            //    moveAnimationNarc.animations.Add(anim);
-            //}
-
             loadingNARCS = false;
             autoLoaded = false;
+
+            //learnsetNarc.learnsets.Add(learnsetNarc.learnsets[1]);
+            //evolutionsNarc.evolutions.Add(evolutionsNarc.evolutions[1]);
+            //PokemonEditor.FullCopyPokemon(421, 37);
+            //PokemonEditor.FullCopyPokemon(38, 2);
+            //PokemonEditor.FullCopyPokemon(27, 3);
+            //PokemonEditor.FullCopyPokemon(28, 4);
         }
 
         public static void SetNARCVars(NDSFileSystem fileSystem)
@@ -354,9 +393,12 @@ namespace NewEditor.Forms
             trainerPokeNarc = fileSystem.narcs[trainerPokeNarcID] as TrainerPokeNARC;
             overworldsNarc = fileSystem.narcs[overworldsNarcID] as OverworldObjectsNARC;
             encounterNarc = fileSystem.narcs[encounterNarcID] as EncounterNARC;
-            pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
-            keyboardNarc = fileSystem.narcs[keyboardNarcID] as KeyboardNARC;
             xpCurveNarc = fileSystem.narcs[xpCurveNarcID] as XPCurveNARC;
+            if (RomType == RomType.BW2)
+            {
+                pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
+                keyboardNarc = fileSystem.narcs[keyboardNarcID] as KeyboardNARC;
+            }
         }
 
         public void TryAutoLoad()
@@ -499,6 +541,11 @@ namespace NewEditor.Forms
 
         private void OpenShopEditor(object sender, EventArgs e)
         {
+            if (RomType != RomType.BW2)
+            {
+                MessageBox.Show("Only available for Black 2 and White 2 roms");
+                return;
+            }
             if (pokemartNarc == null || itemDataNarc == null || loadingNARCS)
             {
                 MessageBox.Show("Pokemart data files have not been loaded");
@@ -732,6 +779,11 @@ namespace NewEditor.Forms
 
         public void rogueModeButton_Click(object sender, EventArgs e)
         {
+            if (RomType != RomType.BW2)
+            {
+                MessageBox.Show("Only available for Black 2 and White 2 roms");
+                return;
+            }
             if (loadedRomPath == "" || loadingNARCS)
             {
                 MessageBox.Show("The rom has not been fully loaded");
@@ -867,7 +919,7 @@ namespace NewEditor.Forms
                 byte[] bytes = new byte[fs.Length];
                 fs.Read(bytes, 0, bytes.Length);
                 fs.Close();
-                pokemonIconNarc.files[(int)replaceIconID.Value].bytes = bytes;
+                pokemonIconNarc.files[(int)replaceIconID.Value] = bytes;
 
                 MessageBox.Show("File Replace Complete");
             }
@@ -1010,6 +1062,7 @@ namespace NewEditor.Forms
     public enum RomType
     {
         Other,
+        BW1,
         BW2,
         HGSS
     }

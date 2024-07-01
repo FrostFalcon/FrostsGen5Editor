@@ -44,43 +44,87 @@ namespace NewEditor.Data
         public const int BW2_EncountersNARCID = 127;
         public const int BW2_PokemartNARCID = 282;
 
-		//Text Data
-        public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : 237;
-        public static int PokemonName2TextFileID => MainEditor.RomType == RomType.BW2 ? 483 : -1;
-        public static int AbilityNameTextFileID => MainEditor.RomType == RomType.BW2 ? 374 : 720;
-        public static int TypeNameTextFileID => MainEditor.RomType == RomType.BW2 ? 398 : 735;
-        public static int ItemNameTextFileID => MainEditor.RomType == RomType.BW2 ? 64 : 222;
-        public static int MoveNameTextFileID => MainEditor.RomType == RomType.BW2 ? 403 : 750;
-        public static int MoveDescriptionTextFileID => MainEditor.RomType == RomType.BW2 ? 402 : 749;
-        public static int MoveUsageTextFileID => MainEditor.RomType == RomType.BW2 ? 16 : 3;
-        public static int ZoneNameTextFileID => MainEditor.RomType == RomType.BW2 ? 109 : 279;
-        public static int TrainerNameTextFileID => MainEditor.RomType == RomType.BW2 ? 382 : 729;
-        public static int TrainerDialogueTextFileID => MainEditor.RomType == RomType.BW2 ? 381 : -1;
-        public static int PokedexEntryTextFileID => MainEditor.RomType == RomType.BW2 ? 442 : -1;
-        public static int PokedexClassificationTextFileID => MainEditor.RomType == RomType.BW2 ? 464 : -1;
+        public const int BW1_TextNARCID = 2;
+        public const int BW1_StoryTextNARCID = 3;
+        public const int BW1_PokemonSpritesNARCID = 4;
+        public const int BW1_PokemonIconsNARCID = 7;
+        public const int BW1_MapModelsNARCID = 8;
+        public const int BW1_MapMatriciesNARCID = 9;
+        public const int BW1_ZoneDataNARCID = 12;
+        public const int BW1_PokemonDataNARCID = 16;
+        public const int BW1_XPCurveNARCID = 17;
+        public const int BW1_LevelUpMovesNARCID = 18;
+        public const int BW1_EvolutionsNARCID = 19;
+        public const int BW1_ChildPokemonNARCID = 20;
+        public const int BW1_MoveDataNARCID = 21;
+        public const int BW1_ItemDataNARCID = 24;
+        public const int BW1_ScriptNARCID = 57;
+        public const int BW1_MoveAnimationNARCID = 66;
+        public const int BW1_MoveAnimationExtraNARCID = 67;
+        public const int BW1_TrTextEntriesNARCID = 90;
+        public const int BW1_TrTextIndicesNARCID = 91;
+        public const int BW1_TrainerDataNARCID = 92;
+        public const int BW1_TrainerPokemonNARCID = 93;
+        public const int BW1_OverworldsNARCID = 125;
+        public const int BW1_EncountersNARCID = 126;
+        public const int BW1_KeyboardLayoutNARCID = -1;
+        public const int BW1_PokemartNARCID = -2;
+
+        //Text Data
+        public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : MainEditor.RomType == RomType.BW1 ? 70 : 237;
+        public static int PokemonName2TextFileID => MainEditor.RomType == RomType.BW2 ? 483 : MainEditor.RomType == RomType.BW1 ? 281 : -1;
+        public static int AbilityNameTextFileID => MainEditor.RomType == RomType.BW2 ? 374 : MainEditor.RomType == RomType.BW1 ? 182 : 720;
+        public static int TypeNameTextFileID => MainEditor.RomType == RomType.BW2 ? 398 : MainEditor.RomType == RomType.BW1 ? 199 : 735;
+        public static int ItemNameTextFileID => MainEditor.RomType == RomType.BW2 ? 64 : MainEditor.RomType == RomType.BW1 ? 54 : 222;
+        public static int MoveNameTextFileID => MainEditor.RomType == RomType.BW2 ? 403 : MainEditor.RomType == RomType.BW1 ? 203 : 750;
+        public static int MoveDescriptionTextFileID => MainEditor.RomType == RomType.BW2 ? 402 : MainEditor.RomType == RomType.BW1 ? 202 : 749;
+        public static int MoveUsageTextFileID => MainEditor.RomType == RomType.BW2 ? 16 : MainEditor.RomType == RomType.BW1 ? 13 : 3;
+        public static int ZoneNameTextFileID => MainEditor.RomType == RomType.BW2 ? 109 : MainEditor.RomType == RomType.BW1 ? 89 : 279;
+        public static int TrainerNameTextFileID => MainEditor.RomType == RomType.BW2 ? 382 : MainEditor.RomType == RomType.BW1 ? 190 : 729;
+        public static int TrainerDialogueTextFileID => MainEditor.RomType == RomType.BW2 ? 381 : MainEditor.RomType == RomType.BW1 ? 189 : -1;
+        public static int PokedexEntryTextFileID => MainEditor.RomType == RomType.BW2 ? 442 : MainEditor.RomType == RomType.BW1 ? 235 : -1;
+        public static int PokedexClassificationTextFileID => MainEditor.RomType == RomType.BW2 ? 464 : MainEditor.RomType == RomType.BW1 ? 260 : -1;
         public static int[] PokedexImpericalHeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
 		{
 			451, 452
-		} : new int[0];
+		} : MainEditor.RomType == RomType.BW1 ? new int[]
+        {
+            245, 246
+        } : new int[0];
         public static int[] PokedexMetricCommaHeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
         {
             453, 454, 455, 457
+        } : MainEditor.RomType == RomType.BW1 ? new int[]
+        {
+            247, 248, 249, 252
         } : new int[0];
         public static int[] PokedexMetricHeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
         {
             456
+        } : MainEditor.RomType == RomType.BW1 ? new int[]
+        {
+            251
         } : new int[0];
         public static int[] PokedexImpericalWeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
         {
             471, 472
+        } : MainEditor.RomType == RomType.BW1 ? new int[]
+        {
+            268, 269
         } : new int[0];
         public static int[] PokedexMetricCommaWeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
         {
             473, 474, 475, 477
+        } : MainEditor.RomType == RomType.BW1 ? new int[]
+        {
+            270, 270, 272, 275
         } : new int[0];
         public static int[] PokedexMetricWeightTextFileID => MainEditor.RomType == RomType.BW2 ? new int[]
         {
             476
+        } : MainEditor.RomType == RomType.BW1 ? new int[]
+        {
+            274
         } : new int[0];
 
         //File Data
@@ -369,7 +413,7 @@ namespace NewEditor.Data
 			"Level up near ice rock"
 		};
 
-		public static List<string> BW2_RouteEnounterPoolNames = new List<string>()
+		public static List<string> BW2_RouteEncounterPoolNames = new List<string>()
 		{
 			"Striaton City",
 			"Castelia City",
@@ -506,6 +550,122 @@ namespace NewEditor.Data
 			"Undella Town",
 			"Route 17",
 			"Route 21"
+		};
+
+		public static List<string> BW1_RouteEncounterPoolNames = new List<string>()
+		{
+			"Striaton City",
+			"Driftveil City",
+			"Icirrus City",
+			"Dreamyard 1",
+			"Dreamyard 2",
+			"Pinwheel Forest 1",
+			"Pinwheel Forest 2",
+			"Desert Resort 1",
+			"Desert Resort 2",
+			"Relic Castle 1",
+			"Relic Castle 2",
+			"Relic Castle 3",
+			"Relic Castle 4",
+			"Relic Castle 5",
+			"Relic Castle 6",
+			"Relic Castle 7",
+			"Relic Castle 8",
+			"Relic Castle 9",
+			"Relic Castle 10",
+			"Relic Castle 11",
+			"Relic Castle 12",
+			"Relic Castle 13",
+			"Relic Castle 14",
+			"Relic Castle 15",
+			"Relic Castle 16",
+			"Relic Castle 17",
+			"Relic Castle 18",
+			"Relic Castle 19",
+			"Relic Castle 20",
+			"Relic Castle 21",
+			"Relic Castle 22",
+			"Relic Castle 23",
+			"Relic Castle 24",
+			"Relic Castle 25",
+			"Relic Castle 26",
+			"Relic Castle 27",
+			"Relic Castle 28",
+			"Relic Castle 29",
+			"Relic Castle 30",
+			"Relic Castle 31",
+			"Cold Storage",
+			"Chargestone Cave 1",
+			"Chargestone Cave 2",
+			"Chargestone Cave 3",
+			"Twist Mountain 1",
+			"Twist Mountain 2",
+			"Twist Mountain 3",
+			"Twist Mountain 4",
+			"Dragonspiral Tower 1",
+			"Dragonspiral Tower 2",
+			"Dragonspiral Tower 3",
+			"Dragonspiral Tower 4",
+			"Victory Road 1",
+			"Victory Road 2",
+			"Victory Road 3",
+			"Victory Road 4",
+			"Victory Road 5",
+			"Victory Road 6",
+			"Victory Road 7",
+			"Victory Road 8",
+			"Victory Road 9",
+			"Victory Road 10",
+			"Victory Road 11",
+			"Victory Road 12",
+			"Victory Road 13",
+			"Victory Road 14",
+			"Victory Road 15",
+			"Trial Chamber",
+			"Giant Chasm 1",
+			"Giant Chasm 2",
+			"Giant Chasm 3",
+			"Giant Chasm 4",
+			"P2 Laboratory",
+			"Undella Bay",
+			"Driftveil Drawbridge",
+			"Village Bridge",
+			"Marvelous Bridge",
+			"Route 1",
+			"Route 2",
+			"Route 3",
+			"Wellspring Cave 1",
+			"Wellspring Cave 2",
+			"Route 4",
+			"Route 5",
+			"Route 6",
+			"Mistralton Cave 1",
+			"Mistralton Cave 2",
+			"Guidance Chamber",
+			"Route 7",
+			"Celestial Tower 1",
+			"Celestial Tower 2",
+			"Celestial Tower 3",
+			"Celestial Tower 4",
+			"Route 8",
+			"Moor of Icirrus",
+			"Route 9",
+			"Challenger's Cave 1",
+			"Challenger's Cave 2",
+			"Challenger's Cave 3",
+			"Route 10 1",
+			"Route 10 2",
+			"Route 11",
+			"Route 12",
+			"Route 13",
+			"Route 14",
+			"Abundant Shrine",
+			"Route 15",
+			"Route 16",
+			"Lostlorn Forest",
+			"Route 18",
+			"Undella Town",
+			"Route 17"
 		};
 
         private static List<int[]> habitatListEntries = new List<int[]>()

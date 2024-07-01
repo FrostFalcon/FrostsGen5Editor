@@ -37,9 +37,9 @@ namespace NewEditor.Data.NARCTypes
 
             foreach (ZoneDataEntry o in zones)
             {
-                newByteData.RemoveRange(initialPos, 48);
+                newByteData.RemoveRange(initialPos, o.bytes.Length);
                 newByteData.InsertRange(initialPos, o.bytes);
-                initialPos += 48;
+                initialPos += o.bytes.Length;
             }
 
             byteData = newByteData.ToArray();

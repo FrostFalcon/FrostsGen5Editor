@@ -38,6 +38,7 @@ namespace NewEditor.Forms
             this.openPokemonEditorButton = new System.Windows.Forms.Button();
             this.openOverworldEditorButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.littleCupButton = new System.Windows.Forms.Button();
             this.typeShuffleButton = new System.Windows.Forms.Button();
             this.rotationBattleButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -77,7 +78,6 @@ namespace NewEditor.Forms
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.replaceMapID = new System.Windows.Forms.NumericUpDown();
             this.replaceMapButton = new System.Windows.Forms.Button();
-            this.littleCupButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -92,7 +92,7 @@ namespace NewEditor.Forms
             // openRomButton
             // 
             this.openRomButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.openRomButton.Location = new System.Drawing.Point(940, 15);
+            this.openRomButton.Location = new System.Drawing.Point(470, 15);
             this.openRomButton.Name = "openRomButton";
             this.openRomButton.Size = new System.Drawing.Size(100, 40);
             this.openRomButton.TabIndex = 1;
@@ -125,7 +125,7 @@ namespace NewEditor.Forms
             // 
             this.saveRomButton.Enabled = false;
             this.saveRomButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.saveRomButton.Location = new System.Drawing.Point(940, 65);
+            this.saveRomButton.Location = new System.Drawing.Point(470, 65);
             this.saveRomButton.Name = "saveRomButton";
             this.saveRomButton.Size = new System.Drawing.Size(100, 40);
             this.saveRomButton.TabIndex = 6;
@@ -135,7 +135,7 @@ namespace NewEditor.Forms
             // 
             // openTextViewerButton
             // 
-            this.openTextViewerButton.Location = new System.Drawing.Point(258, 155);
+            this.openTextViewerButton.Location = new System.Drawing.Point(258, 100);
             this.openTextViewerButton.Name = "openTextViewerButton";
             this.openTextViewerButton.Size = new System.Drawing.Size(120, 32);
             this.openTextViewerButton.TabIndex = 7;
@@ -145,7 +145,7 @@ namespace NewEditor.Forms
             // 
             // openPokemonEditorButton
             // 
-            this.openPokemonEditorButton.Location = new System.Drawing.Point(6, 114);
+            this.openPokemonEditorButton.Location = new System.Drawing.Point(6, 60);
             this.openPokemonEditorButton.Name = "openPokemonEditorButton";
             this.openPokemonEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openPokemonEditorButton.TabIndex = 8;
@@ -155,7 +155,7 @@ namespace NewEditor.Forms
             // 
             // openOverworldEditorButton
             // 
-            this.openOverworldEditorButton.Location = new System.Drawing.Point(132, 155);
+            this.openOverworldEditorButton.Location = new System.Drawing.Point(132, 100);
             this.openOverworldEditorButton.Name = "openOverworldEditorButton";
             this.openOverworldEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openOverworldEditorButton.TabIndex = 9;
@@ -167,7 +167,6 @@ namespace NewEditor.Forms
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox1.Controls.Add(this.littleCupButton);
-            this.groupBox1.Controls.Add(this.typeShuffleButton);
             this.groupBox1.Controls.Add(this.rotationBattleButton);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.stsFormatDropdown);
@@ -175,16 +174,26 @@ namespace NewEditor.Forms
             this.groupBox1.Controls.Add(this.rogueModeButton);
             this.groupBox1.Controls.Add(this.openPresetMoveEditorButton);
             this.groupBox1.Controls.Add(this.openTypeSwapEditorButton);
-            this.groupBox1.Location = new System.Drawing.Point(900, 280);
+            this.groupBox1.Location = new System.Drawing.Point(426, 194);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(264, 300);
+            this.groupBox1.Size = new System.Drawing.Size(264, 240);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Custom Game Modes";
             // 
+            // littleCupButton
+            // 
+            this.littleCupButton.Location = new System.Drawing.Point(150, 110);
+            this.littleCupButton.Name = "littleCupButton";
+            this.littleCupButton.Size = new System.Drawing.Size(100, 32);
+            this.littleCupButton.TabIndex = 20;
+            this.littleCupButton.Text = "Little Cup";
+            this.littleCupButton.UseVisualStyleBackColor = true;
+            this.littleCupButton.Click += new System.EventHandler(this.littleCupButton_Click);
+            // 
             // typeShuffleButton
             // 
-            this.typeShuffleButton.Location = new System.Drawing.Point(20, 30);
+            this.typeShuffleButton.Location = new System.Drawing.Point(11, 54);
             this.typeShuffleButton.Name = "typeShuffleButton";
             this.typeShuffleButton.Size = new System.Drawing.Size(100, 32);
             this.typeShuffleButton.TabIndex = 19;
@@ -195,7 +204,7 @@ namespace NewEditor.Forms
             // 
             // rotationBattleButton
             // 
-            this.rotationBattleButton.Location = new System.Drawing.Point(10, 160);
+            this.rotationBattleButton.Location = new System.Drawing.Point(15, 70);
             this.rotationBattleButton.Name = "rotationBattleButton";
             this.rotationBattleButton.Size = new System.Drawing.Size(120, 32);
             this.rotationBattleButton.TabIndex = 18;
@@ -206,7 +215,7 @@ namespace NewEditor.Forms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(40, 225);
+            this.label3.Location = new System.Drawing.Point(50, 161);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(78, 16);
             this.label3.TabIndex = 17;
@@ -220,14 +229,14 @@ namespace NewEditor.Forms
             "Double",
             "Triple",
             "Rotation"});
-            this.stsFormatDropdown.Location = new System.Drawing.Point(120, 220);
+            this.stsFormatDropdown.Location = new System.Drawing.Point(130, 156);
             this.stsFormatDropdown.Name = "stsFormatDropdown";
             this.stsFormatDropdown.Size = new System.Drawing.Size(120, 24);
             this.stsFormatDropdown.TabIndex = 16;
             // 
             // tripleBattleButton
             // 
-            this.tripleBattleButton.Location = new System.Drawing.Point(140, 160);
+            this.tripleBattleButton.Location = new System.Drawing.Point(150, 70);
             this.tripleBattleButton.Name = "tripleBattleButton";
             this.tripleBattleButton.Size = new System.Drawing.Size(100, 32);
             this.tripleBattleButton.TabIndex = 15;
@@ -237,7 +246,7 @@ namespace NewEditor.Forms
             // 
             // rogueModeButton
             // 
-            this.rogueModeButton.Location = new System.Drawing.Point(120, 251);
+            this.rogueModeButton.Location = new System.Drawing.Point(130, 190);
             this.rogueModeButton.Name = "rogueModeButton";
             this.rogueModeButton.Size = new System.Drawing.Size(120, 32);
             this.rogueModeButton.TabIndex = 14;
@@ -247,7 +256,7 @@ namespace NewEditor.Forms
             // 
             // openPresetMoveEditorButton
             // 
-            this.openPresetMoveEditorButton.Location = new System.Drawing.Point(140, 80);
+            this.openPresetMoveEditorButton.Location = new System.Drawing.Point(150, 30);
             this.openPresetMoveEditorButton.Name = "openPresetMoveEditorButton";
             this.openPresetMoveEditorButton.Size = new System.Drawing.Size(100, 32);
             this.openPresetMoveEditorButton.TabIndex = 12;
@@ -257,7 +266,7 @@ namespace NewEditor.Forms
             // 
             // openTypeSwapEditorButton
             // 
-            this.openTypeSwapEditorButton.Location = new System.Drawing.Point(140, 30);
+            this.openTypeSwapEditorButton.Location = new System.Drawing.Point(15, 30);
             this.openTypeSwapEditorButton.Name = "openTypeSwapEditorButton";
             this.openTypeSwapEditorButton.Size = new System.Drawing.Size(100, 32);
             this.openTypeSwapEditorButton.TabIndex = 11;
@@ -267,7 +276,7 @@ namespace NewEditor.Forms
             // 
             // openMoveEditorButton
             // 
-            this.openMoveEditorButton.Location = new System.Drawing.Point(6, 76);
+            this.openMoveEditorButton.Location = new System.Drawing.Point(6, 20);
             this.openMoveEditorButton.Name = "openMoveEditorButton";
             this.openMoveEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openMoveEditorButton.TabIndex = 11;
@@ -277,7 +286,7 @@ namespace NewEditor.Forms
             // 
             // openScriptEditorButton
             // 
-            this.openScriptEditorButton.Location = new System.Drawing.Point(132, 114);
+            this.openScriptEditorButton.Location = new System.Drawing.Point(132, 60);
             this.openScriptEditorButton.Name = "openScriptEditorButton";
             this.openScriptEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openScriptEditorButton.TabIndex = 12;
@@ -287,7 +296,7 @@ namespace NewEditor.Forms
             // 
             // openTrainerEditorButton
             // 
-            this.openTrainerEditorButton.Location = new System.Drawing.Point(6, 155);
+            this.openTrainerEditorButton.Location = new System.Drawing.Point(6, 100);
             this.openTrainerEditorButton.Name = "openTrainerEditorButton";
             this.openTrainerEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openTrainerEditorButton.TabIndex = 14;
@@ -297,7 +306,7 @@ namespace NewEditor.Forms
             // 
             // openEncounterEditorButton
             // 
-            this.openEncounterEditorButton.Location = new System.Drawing.Point(132, 76);
+            this.openEncounterEditorButton.Location = new System.Drawing.Point(132, 20);
             this.openEncounterEditorButton.Name = "openEncounterEditorButton";
             this.openEncounterEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openEncounterEditorButton.TabIndex = 15;
@@ -337,9 +346,9 @@ namespace NewEditor.Forms
             // autoLoadButton
             // 
             this.autoLoadButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.autoLoadButton.Location = new System.Drawing.Point(980, 120);
+            this.autoLoadButton.Location = new System.Drawing.Point(520, 120);
             this.autoLoadButton.Name = "autoLoadButton";
-            this.autoLoadButton.Size = new System.Drawing.Size(140, 40);
+            this.autoLoadButton.Size = new System.Drawing.Size(130, 35);
             this.autoLoadButton.TabIndex = 19;
             this.autoLoadButton.Text = "Enable Auto Load";
             this.autoLoadButton.UseVisualStyleBackColor = true;
@@ -369,7 +378,7 @@ namespace NewEditor.Forms
             // 
             // selectivePatchTextBox
             // 
-            this.selectivePatchTextBox.Location = new System.Drawing.Point(116, 118);
+            this.selectivePatchTextBox.Location = new System.Drawing.Point(116, 126);
             this.selectivePatchTextBox.Name = "selectivePatchTextBox";
             this.selectivePatchTextBox.Size = new System.Drawing.Size(100, 22);
             this.selectivePatchTextBox.TabIndex = 23;
@@ -380,7 +389,7 @@ namespace NewEditor.Forms
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.label2.Location = new System.Drawing.Point(12, 122);
+            this.label2.Location = new System.Drawing.Point(12, 130);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 16);
             this.label2.TabIndex = 24;
@@ -388,7 +397,7 @@ namespace NewEditor.Forms
             // 
             // openShopEditorButton
             // 
-            this.openShopEditorButton.Location = new System.Drawing.Point(258, 114);
+            this.openShopEditorButton.Location = new System.Drawing.Point(258, 60);
             this.openShopEditorButton.Name = "openShopEditorButton";
             this.openShopEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openShopEditorButton.TabIndex = 26;
@@ -445,7 +454,7 @@ namespace NewEditor.Forms
             // openOverlayEditorButton
             // 
             this.openOverlayEditorButton.Enabled = false;
-            this.openOverlayEditorButton.Location = new System.Drawing.Point(6, 38);
+            this.openOverlayEditorButton.Location = new System.Drawing.Point(11, 138);
             this.openOverlayEditorButton.Name = "openOverlayEditorButton";
             this.openOverlayEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openOverlayEditorButton.TabIndex = 33;
@@ -458,7 +467,7 @@ namespace NewEditor.Forms
             // 
             this.dumpRomButton.Enabled = false;
             this.dumpRomButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.dumpRomButton.Location = new System.Drawing.Point(1060, 65);
+            this.dumpRomButton.Location = new System.Drawing.Point(590, 65);
             this.dumpRomButton.Name = "dumpRomButton";
             this.dumpRomButton.Size = new System.Drawing.Size(100, 40);
             this.dumpRomButton.TabIndex = 34;
@@ -492,7 +501,7 @@ namespace NewEditor.Forms
             // loadFromFolderButton
             // 
             this.loadFromFolderButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.loadFromFolderButton.Location = new System.Drawing.Point(1060, 15);
+            this.loadFromFolderButton.Location = new System.Drawing.Point(590, 15);
             this.loadFromFolderButton.Name = "loadFromFolderButton";
             this.loadFromFolderButton.Size = new System.Drawing.Size(100, 40);
             this.loadFromFolderButton.TabIndex = 37;
@@ -503,7 +512,7 @@ namespace NewEditor.Forms
             // pokepatcherButton
             // 
             this.pokepatcherButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.pokepatcherButton.Location = new System.Drawing.Point(10, 170);
+            this.pokepatcherButton.Location = new System.Drawing.Point(11, 92);
             this.pokepatcherButton.Name = "pokepatcherButton";
             this.pokepatcherButton.Size = new System.Drawing.Size(100, 40);
             this.pokepatcherButton.TabIndex = 38;
@@ -528,12 +537,11 @@ namespace NewEditor.Forms
             this.groupBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox2.Controls.Add(this.createPatchButton);
             this.groupBox2.Controls.Add(this.applyPatchButton);
-            this.groupBox2.Controls.Add(this.pokepatcherButton);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.selectivePatchTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(12, 132);
+            this.groupBox2.Location = new System.Drawing.Point(12, 120);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 221);
+            this.groupBox2.Size = new System.Drawing.Size(268, 160);
             this.groupBox2.TabIndex = 40;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Patching";
@@ -544,15 +552,14 @@ namespace NewEditor.Forms
             this.groupBox3.Controls.Add(this.openTextViewerButton);
             this.groupBox3.Controls.Add(this.openPokemonEditorButton);
             this.groupBox3.Controls.Add(this.openMoveEditorButton);
-            this.groupBox3.Controls.Add(this.openOverlayEditorButton);
             this.groupBox3.Controls.Add(this.openTrainerEditorButton);
             this.groupBox3.Controls.Add(this.openScriptEditorButton);
             this.groupBox3.Controls.Add(this.openOverworldEditorButton);
             this.groupBox3.Controls.Add(this.openEncounterEditorButton);
             this.groupBox3.Controls.Add(this.openShopEditorButton);
-            this.groupBox3.Location = new System.Drawing.Point(12, 389);
+            this.groupBox3.Location = new System.Drawing.Point(12, 289);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(394, 200);
+            this.groupBox3.Size = new System.Drawing.Size(394, 145);
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Editors";
@@ -561,8 +568,11 @@ namespace NewEditor.Forms
             // 
             this.groupBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox4.Controls.Add(this.replaceMapID);
+            this.groupBox4.Controls.Add(this.typeShuffleButton);
             this.groupBox4.Controls.Add(this.replaceMapButton);
+            this.groupBox4.Controls.Add(this.pokepatcherButton);
             this.groupBox4.Controls.Add(this.replaceNarcButton);
+            this.groupBox4.Controls.Add(this.openOverlayEditorButton);
             this.groupBox4.Controls.Add(this.narcToReplaceNumberBox);
             this.groupBox4.Controls.Add(this.typeChartEditorButton);
             this.groupBox4.Controls.Add(this.replaceSoundButton);
@@ -571,12 +581,13 @@ namespace NewEditor.Forms
             this.groupBox4.Controls.Add(this.replaceSoundID);
             this.groupBox4.Controls.Add(this.replaceOverlayButton);
             this.groupBox4.Controls.Add(this.replaceIconID);
-            this.groupBox4.Location = new System.Drawing.Point(505, 360);
+            this.groupBox4.Location = new System.Drawing.Point(31, 10);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(389, 229);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Experimental";
+            this.groupBox4.Text = "Experimental (BW2 Only)";
+            this.groupBox4.Visible = false;
             // 
             // replaceMapID
             // 
@@ -601,22 +612,12 @@ namespace NewEditor.Forms
             this.replaceMapButton.UseVisualStyleBackColor = true;
             this.replaceMapButton.Click += new System.EventHandler(this.replaceMapButton_Click);
             // 
-            // littleCupButton
-            // 
-            this.littleCupButton.Location = new System.Drawing.Point(140, 120);
-            this.littleCupButton.Name = "littleCupButton";
-            this.littleCupButton.Size = new System.Drawing.Size(100, 32);
-            this.littleCupButton.TabIndex = 20;
-            this.littleCupButton.Text = "Little Cup";
-            this.littleCupButton.UseVisualStyleBackColor = true;
-            this.littleCupButton.Click += new System.EventHandler(this.littleCupButton_Click);
-            // 
             // MainEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1184, 601);
+            this.ClientSize = new System.Drawing.Size(704, 441);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

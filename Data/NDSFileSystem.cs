@@ -15,7 +15,7 @@ namespace NewEditor.Data
     public class NDSFileSystem
     {
         private string romType = "";
-        public RomType RomType => (romType == "pokemon b2" || romType == "pokemon w2") ? RomType.BW2 : (romType == "pokemon hg" || romType == "pokemon ss") ? RomType.HGSS : RomType.Other;
+        public RomType RomType => (romType == "pokemon b2" || romType == "pokemon w2") ? RomType.BW2 : (romType == "pokemon b" || romType == "pokemon w") ? RomType.BW1 : (romType == "pokemon hg" || romType == "pokemon ss") ? RomType.HGSS : RomType.Other;
 
         int OverlayCount = 0;
         int NARCCount = 0;
@@ -60,9 +60,11 @@ namespace NewEditor.Data
         public List<byte> banner;
         public List<byte> romEnder;
 
+        List<byte> fontData;
         List<byte> skb;
         List<byte> soundStatus;
         public SoundData soundData;
+        List<byte> titleDemo;
 
         public List<List<byte>> overlays;
         public List<NARC> narcs;
@@ -112,6 +114,12 @@ namespace NewEditor.Data
             {
                 result.OverlayCount = 344;
                 result.NARCCount = 308;
+                result.MiscCount = 7;
+            }
+            if (result.RomType == RomType.BW1)
+            {
+                result.OverlayCount = 237;
+                result.NARCCount = 235;
                 result.MiscCount = 7;
             }
             result.narcIDs = new Dictionary<int, Type>()
@@ -197,20 +205,18 @@ namespace NewEditor.Data
                 fs.Position = oStart;
                 fs.Read(b, 0, b.Length);
                 bool compressed = result.y9[i * 32 + 31] == 3;
-                if (compressed)
-                {
-                    //byte[] ov = BLZDecoder.BLZ_DecodePub(b);
-                    /*if (ov == null) */result.overlays.Add(new List<byte>(b));
-                    //else
-                    //{
-                    //    result.overlays.Add(new List<byte>(ov));
-                    //    result.y9[i * 32 + 31] = 2;
-                    //}
-                }
-                else
-                {
-                    result.overlays.Add(new List<byte>(b));
-                }
+                result.overlays.Add(new List<byte>(b));
+                pos += 8;
+            }
+
+            if (result.RomType == RomType.BW1)
+            {
+                int start2 = HelperFunctions.ReadInt(result.fat, pos);
+                int end2 = HelperFunctions.ReadInt(result.fat, pos + 4);
+                b = new byte[end2 - start2];
+                fs.Position = start2;
+                fs.Read(b, 0, b.Length);
+                result.fontData = new List<byte>(b);
                 pos += 8;
             }
 
@@ -229,6 +235,17 @@ namespace NewEditor.Data
             fs.Read(b, 0, b.Length);
             result.soundStatus = new List<byte>(b);
             pos += 8;
+
+            if (result.RomType == RomType.BW1)
+            {
+                int start2 = HelperFunctions.ReadInt(result.fat, pos);
+                int end2 = HelperFunctions.ReadInt(result.fat, pos + 4);
+                b = new byte[end2 - start2];
+                fs.Position = start2;
+                fs.Read(b, 0, b.Length);
+                result.titleDemo = new List<byte>(b);
+                pos += 8;
+            }
 
             start = HelperFunctions.ReadInt(result.fat, pos);
             end = HelperFunctions.ReadInt(result.fat, pos + 4);
@@ -273,9 +290,12 @@ namespace NewEditor.Data
             result.trainerPokeNarc = result.narcs[MainEditor.trainerPokeNarcID] as TrainerPokeNARC;
             result.overworldsNarc = result.narcs[MainEditor.overworldsNarcID] as OverworldObjectsNARC;
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
-            result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
-            result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
             result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
+            if (result.RomType == RomType.BW2)
+            {
+                result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
+                result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
+            }
 
             for (int i = 0; i < result.NARCCount; i++)
             {
@@ -294,7 +314,8 @@ namespace NewEditor.Data
             }
 
             //Get Rom Ender
-            b = new byte[fs.Length - HelperFunctions.ReadInt(result.romHeader, End_PointerLocation)];
+            int ptr = HelperFunctions.ReadInt(result.romHeader, End_PointerLocation);
+            b = new byte[ptr == 0 ? 0 : Math.Min(fs.Length, 0x12000000) - ptr];
             fs.Position = HelperFunctions.ReadInt(result.romHeader, End_PointerLocation);
             fs.Read(b, 0, b.Length);
             result.romEnder = new List<byte>(b);
@@ -327,6 +348,12 @@ namespace NewEditor.Data
             {
                 result.OverlayCount = 344;
                 result.NARCCount = 308;
+                result.MiscCount = 7;
+            }
+            if (result.RomType == RomType.BW1)
+            {
+                result.OverlayCount = 237;
+                result.NARCCount = 235;
                 result.MiscCount = 7;
             }
             result.narcIDs = new Dictionary<int, Type>()
@@ -369,9 +396,11 @@ namespace NewEditor.Data
                 result.fat = new List<byte>(File.ReadAllBytes(rootFolder + "/fat.bin"));
                 result.fnt = new List<byte>(File.ReadAllBytes(rootFolder + "/fnt.bin"));
                 result.banner = new List<byte>(File.ReadAllBytes(rootFolder + "/banner.bin"));
+                if (result.RomType == RomType.BW1) result.fontData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/glf_font.bin"));
                 result.skb = new List<byte>(File.ReadAllBytes(rootFolder + "/data/skb.bin"));
                 result.soundStatus = new List<byte>(File.ReadAllBytes(rootFolder + "/data/SoundStatus.bin"));
                 result.soundData = new SoundData(File.ReadAllBytes(rootFolder + "/data/SoundData.sdat"));
+                if (result.RomType == RomType.BW1) result.titleDemo = new List<byte>(File.ReadAllBytes(rootFolder + "/data/titledemo.bin"));
                 result.romEnder = new List<byte>(File.ReadAllBytes(rootFolder + "/data/RomEnder.bin"));
                 for (int i = 0; i < result.OverlayCount; i++) result.overlays.Add(new List<byte>(File.ReadAllBytes(rootFolder + $"/overlay/ov_{i:D3}.bin")));
                 for (int i = 0; i < result.MiscCount; i++) result.misc.Add(new List<byte>(File.ReadAllBytes(rootFolder + $"/data/misc/{i}.bin")));
@@ -416,9 +445,12 @@ namespace NewEditor.Data
             result.trainerPokeNarc = result.narcs[MainEditor.trainerPokeNarcID] as TrainerPokeNARC;
             result.overworldsNarc = result.narcs[MainEditor.overworldsNarcID] as OverworldObjectsNARC;
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
-            result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
-            result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
             result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
+            if (result.RomType == RomType.BW2)
+            {
+                result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
+                result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
+            }
             for (int i = 0; i < result.NARCCount; i++)
             {
                 result.narcs[i].ReadData();
@@ -464,23 +496,37 @@ namespace NewEditor.Data
             HelperFunctions.WriteInt(romHeader, Banner_PointerLocation, romBytes.Count);
             AddSection(romBytes, banner);
 
-            HelperFunctions.WriteInt(fat, OverlayCount * 8, romBytes.Count);
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 4, romBytes.Count + skb.Count);
-            AddSection(romBytes, skb);
+            if (RomType == RomType.BW1)
+            {
+                HelperFunctions.WriteInt(fat, OverlayCount * 8, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 4, romBytes.Count + fontData.Count);
+                AddSection(romBytes, fontData);
+            }
 
             HelperFunctions.WriteInt(fat, OverlayCount * 8 + 8, romBytes.Count);
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + soundStatus.Count);
-            AddSection(romBytes, soundStatus);
+            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + skb.Count);
+            AddSection(romBytes, skb);
 
             HelperFunctions.WriteInt(fat, OverlayCount * 8 + 16, romBytes.Count);
-            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundData.bytes.Count);
+            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundStatus.Count);
+            AddSection(romBytes, soundStatus);
+
+            if (RomType == RomType.BW1)
+            {
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28, romBytes.Count + titleDemo.Count);
+                AddSection(romBytes, titleDemo);
+            }
+
+            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 32, romBytes.Count);
+            HelperFunctions.WriteInt(fat, OverlayCount * 8 + 36, romBytes.Count + soundData.bytes.Count);
             AddSection(romBytes, soundData.bytes);
 
             for (int i = 0; i < NARCCount; i++)
             {
                 narcs[i].WriteData();
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24 + i * 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 40 + i * 8, romBytes.Count);
+                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 44 + i * 8, romBytes.Count + narcs[i].byteData.Length);
                 AddSection(romBytes, narcs[i].byteData);
             }
             
@@ -493,7 +539,7 @@ namespace NewEditor.Data
                 AddSection(romBytes, misc[i]);
             }
 
-            HelperFunctions.WriteInt(romHeader, End_PointerLocation, romBytes.Count);
+            HelperFunctions.WriteInt(romHeader, End_PointerLocation, romEnder.Count == 0 ? 0 : romBytes.Count);
             AddSection(romBytes, romEnder);
 
             //Rewrite header and FAT after updating values
@@ -520,8 +566,10 @@ namespace NewEditor.Data
             File.WriteAllBytes(path + "/fat.bin", fat.ToArray());
             File.WriteAllBytes(path + "/fnt.bin", fnt.ToArray());
             File.WriteAllBytes(path + "/banner.bin", banner.ToArray());
+            if (RomType == RomType.BW1) File.WriteAllBytes(path + "/data/gfl_font.bin", fontData.ToArray());
             File.WriteAllBytes(path + "/data/skb.bin", skb.ToArray());
             File.WriteAllBytes(path + "/data/SoundStatus.bin", soundStatus.ToArray());
+            if (RomType == RomType.BW1) File.WriteAllBytes(path + "/data/titledemo.bin", titleDemo.ToArray());
             File.WriteAllBytes(path + "/data/SoundData.sdat", soundData.bytes.ToArray());
             File.WriteAllBytes(path + "/data/RomEnder.bin", romEnder.ToArray());
             for (int i = 0; i < overlays.Count; i++) File.WriteAllBytes(path + $"/overlay/ov_{i:D3}.bin", overlays[i].ToArray());

@@ -64,7 +64,7 @@ namespace NewEditor.Data.NARCTypes
                 {
                     int formNum = i - pokemon[p.nameID].formsStart;
                     p.formID = formNum + 1;
-                    p.spriteID = 685 + pokemon[p.nameID].formSpritesStart + formNum;
+                    p.spriteID = (MainEditor.RomType == RomType.BW2 ? 685 : 652) + pokemon[p.nameID].formSpritesStart + formNum;
                 }
                 nameID++;
 
@@ -210,6 +210,7 @@ namespace NewEditor.Data.NARCTypes
             this.bytes = bytes;
 
             if (MainEditor.RomType == RomType.BW2) ReadDataBW2();
+            else if (MainEditor.RomType == RomType.BW1) ReadDataBW1();
             else ReadDataHGSS();
         }
 
@@ -304,6 +305,74 @@ namespace NewEditor.Data.NARCTypes
                 int pos = 72 + i / 8;
                 int bit = i % 8;
                 nacreneTutors[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
+        }
+
+        internal void ReadDataBW1()
+        {
+            baseHP = bytes[0];
+            baseAttack = bytes[1];
+            baseDefense = bytes[2];
+            baseSpAtt = bytes[4];
+            baseSpDef = bytes[5];
+            baseSpeed = bytes[3];
+
+            type1 = bytes[6];
+            type2 = bytes[7];
+
+            catchRate = bytes[8];
+            evolutionStage = bytes[9];
+
+            evYeildHP = (byte)(bytes[10] & 0b_11);
+            evYeildAttack = (byte)((bytes[10] & 0b_1100) >> 2);
+            evYeildDefense = (byte)((bytes[10] & 0b_11_0000) >> 4);
+            evYeildSpeed = (byte)((bytes[10] & 0b_1100_0000) >> 6);
+            evYeildSpAtt = (byte)(bytes[11] & 0b_11);
+            evYeildSpDef = (byte)((bytes[11] & 0b_1100) >> 2);
+
+            heldItem1 = (short)HelperFunctions.ReadShort(bytes, 12);
+            heldItem2 = (short)HelperFunctions.ReadShort(bytes, 14);
+            heldItem3 = (short)HelperFunctions.ReadShort(bytes, 16);
+
+            genderRatio = bytes[18];
+
+            hatchCounter = bytes[19];
+            baseHappiness = bytes[20];
+            levelRate = bytes[21];
+            eggGroup1 = bytes[22];
+            eggGroup2 = bytes[23];
+
+            ability1 = bytes[24];
+            ability2 = bytes[25];
+            ability3 = bytes[26];
+
+            unknownAt27 = bytes[27];
+
+            formsStart = (short)HelperFunctions.ReadShort(bytes, 28);
+            formSpritesStart = (short)HelperFunctions.ReadShort(bytes, 30);
+            numberOfForms = bytes[32];
+            pokedexColor = bytes[33];
+            xpYield = (short)HelperFunctions.ReadShort(bytes, 34);
+
+            height = (short)HelperFunctions.ReadShort(bytes, 36);
+            weight = (short)HelperFunctions.ReadShort(bytes, 38);
+
+            TMs = new bool[101];
+            for (int i = 0; i < 101; i++)
+            {
+                int pos = 40 + i / 8;
+                int bit = i % 8;
+                TMs[i] = (bytes[pos] & (1 << bit)) != 0;
+            }
+
+            if (bytes.Length == 60)
+            {
+                miscTutors = new bool[7];
+                for (int i = 0; i < 7; i++)
+                {
+                    int bit = i % 8;
+                    miscTutors[i] = (bytes[56] & (1 << bit)) != 0;
+                }
             }
         }
 

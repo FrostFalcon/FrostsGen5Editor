@@ -113,7 +113,7 @@ namespace NewEditor.Data.NARCTypes
         {
             moves = new List<LevelUpMoveSlot>();
 
-            if (MainEditor.RomType == RomType.BW2)
+            if (MainEditor.RomType == RomType.BW2 || MainEditor.RomType == RomType.BW1)
             {
                 for (int i = 0; i < bytes.Length; i += 4)
                 {
