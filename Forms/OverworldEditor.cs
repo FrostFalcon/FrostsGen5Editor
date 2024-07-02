@@ -385,7 +385,7 @@ namespace NewEditor.Forms
                 {
                     //try
                     {
-                        int item = MainEditor.scriptNarc.scriptFiles[1240].sequences[i - 7000].commands[1].parameters[1];
+                        int item = MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].sequences[i - 7000].commands[1].parameters[1];
                         string name = MainEditor.textNarc.textFiles[VersionConstants.ItemNameTextFileID].text[item];
                         giveItemLabel.Text = "Give Item: " + name;
                     }
