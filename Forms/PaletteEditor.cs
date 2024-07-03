@@ -30,7 +30,7 @@ namespace NewEditor.Forms
             InitializeComponent();
 
             List<byte> arm = MainEditor.fileSystem.arm9;
-            if (MainEditor.RomType != RomType.BW2 || arm[paletteArrayOffset] != 0 || !(arm[paletteArrayOffset + 1] == 0 || arm[paletteArrayOffset + 1] == 17 || arm[paletteArrayOffset + 1] == 34) ||
+            if (arm.Count < paletteArrayOffset || arm[paletteArrayOffset] != 0 || !(arm[paletteArrayOffset + 1] == 0 || arm[paletteArrayOffset + 1] == 17 || arm[paletteArrayOffset + 1] == 34) ||
                 !(arm[paletteArrayOffset + 2] == 0 || arm[paletteArrayOffset + 2] == 17 || arm[paletteArrayOffset + 2] == 34) ||
                 !(arm[paletteArrayOffset + 3] == 0 || arm[paletteArrayOffset + 3] == 17 || arm[paletteArrayOffset + 3] == 34)) paletteArrayOffset = 0;
             else
