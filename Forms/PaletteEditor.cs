@@ -1,4 +1,5 @@
-﻿using NewEditor.Data.NARCTypes;
+﻿using NewEditor.Data;
+using NewEditor.Data.NARCTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

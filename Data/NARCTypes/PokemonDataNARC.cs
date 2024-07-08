@@ -485,6 +485,74 @@ namespace NewEditor.Data.NARCTypes
                 if (levelUpMoves != null) levelUpMoves.ApplyData();
                 if (evolutions != null) evolutions.ApplyData();
             }
+            else if (MainEditor.RomType == RomType.BW1)
+            {
+                bytes[0] = baseHP;
+                bytes[1] = baseAttack;
+                bytes[2] = baseDefense;
+                bytes[4] = baseSpAtt;
+                bytes[5] = baseSpDef;
+                bytes[3] = baseSpeed;
+
+                bytes[6] = type1;
+                bytes[7] = type2;
+
+                bytes[8] = catchRate;
+                bytes[9] = evolutionStage;
+
+                bytes[10] = (byte)(evYeildHP + (evYeildAttack << 2) + (evYeildDefense << 4) + (evYeildSpeed << 6));
+                bytes[11] = (byte)(evYeildSpAtt + (evYeildSpDef << 2));
+
+                HelperFunctions.WriteShort(bytes, 12, heldItem1);
+                HelperFunctions.WriteShort(bytes, 14, heldItem2);
+                HelperFunctions.WriteShort(bytes, 16, heldItem3);
+
+                bytes[18] = genderRatio;
+
+                bytes[19] = hatchCounter;
+                bytes[20] = baseHappiness;
+                bytes[21] = levelRate;
+                bytes[22] = eggGroup1;
+                bytes[23] = eggGroup2;
+
+                bytes[24] = ability1;
+                bytes[25] = ability2;
+                bytes[26] = ability3;
+
+                bytes[27] = unknownAt27;
+
+                HelperFunctions.WriteShort(bytes, 28, formsStart);
+                HelperFunctions.WriteShort(bytes, 30, formSpritesStart);
+                bytes[32] = numberOfForms;
+                bytes[33] = pokedexColor;
+                HelperFunctions.WriteShort(bytes, 34, xpYield);
+
+                HelperFunctions.WriteShort(bytes, 36, height);
+                HelperFunctions.WriteShort(bytes, 38, weight);
+
+                //Reset TM bits
+                for (int i = 40; i < 53; i++) bytes[i] = 0;
+                //Add bits
+                for (int i = 0; i < 101; i++)
+                {
+                    int pos = 40 + i / 8;
+                    int bit = i % 8;
+
+                    if (TMs[i]) bytes[pos] += (byte)(1 << bit);
+                }
+
+                //Tutors
+                for (int i = 56; i < 76; i++) bytes[i] = 0;
+                for (int i = 0; i < miscTutors.Length; i++)
+                {
+                    int pos = 56 + i / 8;
+                    int bit = i % 8;
+                    if (miscTutors[i]) bytes[pos] += (byte)(1 << bit);
+                }
+
+                if (levelUpMoves != null) levelUpMoves.ApplyData();
+                if (evolutions != null) evolutions.ApplyData();
+            }
             else
             {
                 bytes[0] = baseHP;

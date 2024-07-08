@@ -216,7 +216,7 @@ namespace NewEditor.Forms
             //    return;
             //}
 
-            MessageBox.Show("Invalid file type.\nExpected a pokemon black 2 or white 2 rom");
+            MessageBox.Show("Invalid file type.\nExpected a pokemon black, white, black 2, or white 2 rom");
             ActiveForm.Close();
         }
 
@@ -360,13 +360,6 @@ namespace NewEditor.Forms
 
             loadingNARCS = false;
             autoLoaded = false;
-
-            //learnsetNarc.learnsets.Add(learnsetNarc.learnsets[1]);
-            //evolutionsNarc.evolutions.Add(evolutionsNarc.evolutions[1]);
-            //PokemonEditor.FullCopyPokemon(421, 37);
-            //PokemonEditor.FullCopyPokemon(38, 2);
-            //PokemonEditor.FullCopyPokemon(27, 3);
-            //PokemonEditor.FullCopyPokemon(28, 4);
         }
 
         public static void SetNARCVars(NDSFileSystem fileSystem)
