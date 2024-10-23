@@ -469,11 +469,14 @@ namespace NewEditor.Data.NARCTypes
             {
                 file.WriteLine("\nvoid Routine" + routineID + "()\n{");
                 int pos = routines[routineID];
+                int jumpMax = 0;
                 while (pos < bytes.Length)
                 {
                     ScriptCommand com = new ScriptCommand(bytes, pos);
+                    if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
+                    if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
                     WriteCommandToFile(file, pos + com.ByteLength, com, routines);
-                    if (com.commandID == 0x2 || com.commandID == 0x5) break;
+                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
                 file.WriteLine("}");
@@ -877,7 +880,7 @@ namespace NewEditor.Data.NARCTypes
             {0x45, new CommandType("PaperMessage", 2, 2, 2)},
             {0x46, new CommandType("ClosePaperMessage", 0)},
             {0x47, new CommandType("YesNoBox", 1, 2)},
-            {0x48, new CommandType("Message3", 8, 1, 1, 2, 2, 2, 2, 2, 2)},
+            {0x48, new CommandType("Message3", 7, 1, 1, 2, 2, 2, 2, 2)},
             {0x49, new CommandType("DoubleMessage", 7, 1, 1, 2, 2, 2, 2, 2)},
             {0x4A, new CommandType("AngryMessage", 3, 2, 1, 2)},
             {0x4B, new CommandType("CloseAngryMessage", 0)},
@@ -1052,7 +1055,7 @@ namespace NewEditor.Data.NARCTypes
             {0xF4, new CommandType("c0xF4", 2, 2, 2)},
             {0xF5, new CommandType("c0xF5", 2, 2, 2)},
             {0xF6, new CommandType("c0xF6", 2, 2, 2)},
-            {0xF7, new CommandType("c0xF7", 2, 2, 2)},
+            {0xF7, new CommandType("RequestPokemonForDayCare", 1, 2)},
             {0xF8, new CommandType("c0xF8", 2, 2, 2)},
             {0xF9, new CommandType("c0xF9", 1, 2)},
             {0xFA, new CommandType("TakeMoney", 1, 2)},
@@ -1095,8 +1098,8 @@ namespace NewEditor.Data.NARCTypes
             {0x11F, new CommandType("c0x11F", 3, 2, 1, 2)},
             {0x120, new CommandType("c0x120", 2, 2, 2)},
             {0x121, new CommandType("c0x121", 1, 2)},
-            {0x122, new CommandType("c0x122", 2, 2, 2)},
-            {0x123, new CommandType("c0x123", 0)},
+            {0x122, new CommandType("AddBoxPokemon", 4, 2, 2, 2, 2)},
+            {0x123, new CommandType("AddBoxPokemon2", 9, 2, 2, 2, 2, 2, 2, 2, 2, 2)},
             {0x124, new CommandType("c0x124", 0)},
             {0x125, new CommandType("c0x125", 0)},
             {0x126, new CommandType("c0x126", 4, 2, 2, 2, 2)},
@@ -1259,7 +1262,7 @@ namespace NewEditor.Data.NARCTypes
             {0x1C3, new CommandType("EndEventBC", 0)},
             {0x1C4, new CommandType("StoreTrainerID", 2, 2, 2)},
             {0x1C5, new CommandType("c0x1C5", 1, 2)},
-            {0x1C6, new CommandType("StorePokemonCaughtWF", 3, 2, 2, 2)},
+            {0x1C6, new CommandType("EnableNationalDex", 0)},
             {0x1C7, new CommandType("c0x1C7", 1, 2)},
             {0x1C8, new CommandType("c0x1C8", 0)},
             {0x1C9, new CommandType("StoreVarMessage", 2, 2, 2)},

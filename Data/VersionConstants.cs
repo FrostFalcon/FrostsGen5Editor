@@ -40,8 +40,10 @@ namespace NewEditor.Data
         public const int BW2_TrainerDataNARCID = 91;
         public const int BW2_TrainerPokemonNARCID = 92;
         public const int BW2_KeyboardLayoutNARCID = 120;
+        public const int BW2_EggMoveNARCID = 124;
         public const int BW2_OverworldsNARCID = 126;
         public const int BW2_EncountersNARCID = 127;
+        public const int BW2_HabitatListNARCID = 296;
         public const int BW2_PokemartNARCID = 282;
 
         public const int BW1_TextNARCID = 2;
@@ -65,10 +67,12 @@ namespace NewEditor.Data
         public const int BW1_TrTextIndicesNARCID = 91;
         public const int BW1_TrainerDataNARCID = 92;
         public const int BW1_TrainerPokemonNARCID = 93;
+        public const int BW1_EggMovesNARCID = 123;
         public const int BW1_OverworldsNARCID = 125;
         public const int BW1_EncountersNARCID = 126;
         public const int BW1_KeyboardLayoutNARCID = -1;
         public const int BW1_PokemartNARCID = -2;
+        public const int BW1_HabitatListNARCID = -3;
 
         //Text Data
         public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : MainEditor.RomType == RomType.BW1 ? 70 : 237;
@@ -668,7 +672,7 @@ namespace NewEditor.Data
 			"Route 17"
 		};
 
-        private static List<int[]> habitatListEntries = new List<int[]>()
+        public static List<int[]> habitatListEntries = new List<int[]>()
 		{
 			new int[] { 104, 105, 10 }, // Route 4
 			new int[] { 124 }, // Route 15

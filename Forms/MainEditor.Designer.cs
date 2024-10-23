@@ -39,7 +39,6 @@ namespace NewEditor.Forms
             this.openOverworldEditorButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.littleCupButton = new System.Windows.Forms.Button();
-            this.typeShuffleButton = new System.Windows.Forms.Button();
             this.rotationBattleButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.stsFormatDropdown = new System.Windows.Forms.ComboBox();
@@ -47,6 +46,7 @@ namespace NewEditor.Forms
             this.rogueModeButton = new System.Windows.Forms.Button();
             this.openPresetMoveEditorButton = new System.Windows.Forms.Button();
             this.openTypeSwapEditorButton = new System.Windows.Forms.Button();
+            this.typeShuffleButton = new System.Windows.Forms.Button();
             this.openMoveEditorButton = new System.Windows.Forms.Button();
             this.openScriptEditorButton = new System.Windows.Forms.Button();
             this.openTrainerEditorButton = new System.Windows.Forms.Button();
@@ -75,6 +75,7 @@ namespace NewEditor.Forms
             this.typeChartEditorButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.openXPCurveEditorButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.replaceMapID = new System.Windows.Forms.NumericUpDown();
             this.replaceMapButton = new System.Windows.Forms.Button();
@@ -191,17 +192,6 @@ namespace NewEditor.Forms
             this.littleCupButton.UseVisualStyleBackColor = true;
             this.littleCupButton.Click += new System.EventHandler(this.littleCupButton_Click);
             // 
-            // typeShuffleButton
-            // 
-            this.typeShuffleButton.Location = new System.Drawing.Point(11, 54);
-            this.typeShuffleButton.Name = "typeShuffleButton";
-            this.typeShuffleButton.Size = new System.Drawing.Size(100, 32);
-            this.typeShuffleButton.TabIndex = 19;
-            this.typeShuffleButton.Text = "Type Shuffle";
-            this.typeShuffleButton.UseVisualStyleBackColor = true;
-            this.typeShuffleButton.Visible = false;
-            this.typeShuffleButton.Click += new System.EventHandler(this.ApplyTypeShuffle);
-            // 
             // rotationBattleButton
             // 
             this.rotationBattleButton.Location = new System.Drawing.Point(15, 70);
@@ -273,6 +263,17 @@ namespace NewEditor.Forms
             this.openTypeSwapEditorButton.Text = "Type Swap";
             this.openTypeSwapEditorButton.UseVisualStyleBackColor = true;
             this.openTypeSwapEditorButton.Click += new System.EventHandler(this.OpenTypeSwapEditor);
+            // 
+            // typeShuffleButton
+            // 
+            this.typeShuffleButton.Location = new System.Drawing.Point(11, 54);
+            this.typeShuffleButton.Name = "typeShuffleButton";
+            this.typeShuffleButton.Size = new System.Drawing.Size(100, 32);
+            this.typeShuffleButton.TabIndex = 19;
+            this.typeShuffleButton.Text = "Type Shuffle";
+            this.typeShuffleButton.UseVisualStyleBackColor = true;
+            this.typeShuffleButton.Visible = false;
+            this.typeShuffleButton.Click += new System.EventHandler(this.ApplyTypeShuffle);
             // 
             // openMoveEditorButton
             // 
@@ -549,6 +550,7 @@ namespace NewEditor.Forms
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox3.Controls.Add(this.openXPCurveEditorButton);
             this.groupBox3.Controls.Add(this.openTextViewerButton);
             this.groupBox3.Controls.Add(this.openPokemonEditorButton);
             this.groupBox3.Controls.Add(this.openMoveEditorButton);
@@ -563,6 +565,16 @@ namespace NewEditor.Forms
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Editors";
+            // 
+            // openXPCurveEditorButton
+            // 
+            this.openXPCurveEditorButton.Location = new System.Drawing.Point(258, 20);
+            this.openXPCurveEditorButton.Name = "openXPCurveEditorButton";
+            this.openXPCurveEditorButton.Size = new System.Drawing.Size(120, 32);
+            this.openXPCurveEditorButton.TabIndex = 27;
+            this.openXPCurveEditorButton.Text = "Exp Curve Editor";
+            this.openXPCurveEditorButton.UseVisualStyleBackColor = true;
+            this.openXPCurveEditorButton.Click += new System.EventHandler(this.openXPCurveEditorButton_Click);
             // 
             // groupBox4
             // 
@@ -700,6 +712,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.NumericUpDown replaceMapID;
         private System.Windows.Forms.Button replaceMapButton;
         private System.Windows.Forms.Button littleCupButton;
+        private System.Windows.Forms.Button openXPCurveEditorButton;
     }
 }
 

@@ -267,7 +267,7 @@ namespace NewEditor.Forms
 
                 if (route.season == 0)
                 {
-                    if (MessageBox.Show("Are you sure you want to delete the seasonal enounters for this route?", "test", MessageBoxButtons.YesNo) == DialogResult.No)
+                    if (MessageBox.Show("Are you sure you want to delete the seasonal enounters for this route?", "Delete Seasons", MessageBoxButtons.YesNo) == DialogResult.No)
                     {
                         return;
                     }

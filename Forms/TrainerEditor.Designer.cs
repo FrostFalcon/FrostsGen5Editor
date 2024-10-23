@@ -80,8 +80,8 @@ namespace NewEditor.Forms
             this.applyButton = new System.Windows.Forms.Button();
             this.addTrainerButton = new System.Windows.Forms.Button();
             this.dialogueGroup = new System.Windows.Forms.GroupBox();
-            this.dialogueTypeDropdown = new System.Windows.Forms.ComboBox();
             this.trDialogueTextBox = new System.Windows.Forms.TextBox();
+            this.dialogueTypeDropdown = new System.Windows.Forms.ComboBox();
             this.trainerDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trainerClassNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiNumberBox)).BeginInit();
@@ -845,6 +845,13 @@ namespace NewEditor.Forms
             this.dialogueGroup.TabStop = false;
             this.dialogueGroup.Text = "Dialogue";
             // 
+            // trDialogueTextBox
+            // 
+            this.trDialogueTextBox.Location = new System.Drawing.Point(280, 34);
+            this.trDialogueTextBox.Name = "trDialogueTextBox";
+            this.trDialogueTextBox.Size = new System.Drawing.Size(658, 22);
+            this.trDialogueTextBox.TabIndex = 4;
+            // 
             // dialogueTypeDropdown
             // 
             this.dialogueTypeDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
@@ -882,17 +889,11 @@ namespace NewEditor.Forms
             this.dialogueTypeDropdown.TabIndex = 3;
             this.dialogueTypeDropdown.SelectedIndexChanged += new System.EventHandler(this.dialogueTypeDropdown_SelectedIndexChanged);
             // 
-            // trDialogueTextBox
-            // 
-            this.trDialogueTextBox.Location = new System.Drawing.Point(280, 34);
-            this.trDialogueTextBox.Name = "trDialogueTextBox";
-            this.trDialogueTextBox.Size = new System.Drawing.Size(658, 22);
-            this.trDialogueTextBox.TabIndex = 4;
-            // 
             // TrainerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(984, 421);
             this.Controls.Add(this.dialogueGroup);
             this.Controls.Add(this.addTrainerButton);

@@ -30,6 +30,7 @@ namespace NewEditor.Forms
         public static int pokemonIconsNarcID = -1;
         public static int pokemonDataNarcID = -1;
         public static int levelUpMovesNarcID = -1;
+        public static int eggMovesNarcID = -1;
         public static int evolutionNarcID = -1;
         public static int childPokemonNarcID = -1;
         public static int moveDataNarcID = -1;
@@ -48,6 +49,7 @@ namespace NewEditor.Forms
         public static int pokemartNarcID = -1;
         public static int keyboardNarcID = -1;
         public static int xpCurveNarcID = -1;
+        public static int habitatListNarcID = -1;
 
         //Rom Data
         public static NDSFileSystem fileSystem;
@@ -61,6 +63,7 @@ namespace NewEditor.Forms
         public static PokemonIconNARC pokemonIconNarc;
         public static PokemonDataNARC pokemonDataNarc;
         public static LearnsetNARC learnsetNarc;
+        public static EggMoveNARC eggMoveNarc;
         public static EvolutionDataNARC evolutionsNarc;
         public static ChildPokemonNARC childPokemonNarc;
         public static MoveDataNARC moveDataNarc;
@@ -80,6 +83,7 @@ namespace NewEditor.Forms
         public static PokemartNARC pokemartNarc;
         public static KeyboardNARC keyboardNarc;
         public static XPCurveNARC xpCurveNarc;
+        public static HabitatListNARC habitatListNarc;
 
         //Forms
         public static TextViewer textViewer;
@@ -92,6 +96,7 @@ namespace NewEditor.Forms
         public static TypeSwapEditor typeSwapEditor;
         public static RandomMovesEditor presetMovesEditor;
         public static PokemartEditor pokemartEditor;
+        public static ExpCurveEditor xpCurveEditor;
         public static OverlayEditor overlayEditor;
         public static TypeChartEditor typeChartEditor;
         public static Pokepatcher pokePatchEditor;
@@ -126,6 +131,7 @@ namespace NewEditor.Forms
                 pokemonIconsNarcID = VersionConstants.BW2_PokemonIconsNARCID;
                 pokemonDataNarcID = VersionConstants.BW2_PokemonDataNARCID;
                 levelUpMovesNarcID = VersionConstants.BW2_LevelUpMovesNARCID;
+                eggMovesNarcID = VersionConstants.BW2_EggMoveNARCID;
                 evolutionNarcID = VersionConstants.BW2_EvolutionsNARCID;
                 childPokemonNarcID = VersionConstants.BW2_ChildPokemonNARCID;
                 moveDataNarcID = VersionConstants.BW2_MoveDataNARCID;
@@ -143,6 +149,7 @@ namespace NewEditor.Forms
                 pokemartNarcID = VersionConstants.BW2_PokemartNARCID;
                 keyboardNarcID = VersionConstants.BW2_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
+                habitatListNarcID = VersionConstants.BW2_HabitatListNARCID;
                 return;
             }
 
@@ -163,6 +170,7 @@ namespace NewEditor.Forms
                 pokemonIconsNarcID = VersionConstants.BW1_PokemonIconsNARCID;
                 pokemonDataNarcID = VersionConstants.BW1_PokemonDataNARCID;
                 levelUpMovesNarcID = VersionConstants.BW1_LevelUpMovesNARCID;
+                eggMovesNarcID = VersionConstants.BW1_EggMovesNARCID;
                 evolutionNarcID = VersionConstants.BW1_EvolutionsNARCID;
                 childPokemonNarcID = VersionConstants.BW1_ChildPokemonNARCID;
                 moveDataNarcID = VersionConstants.BW1_MoveDataNARCID;
@@ -180,6 +188,7 @@ namespace NewEditor.Forms
                 pokemartNarcID = VersionConstants.BW1_PokemartNARCID;
                 keyboardNarcID = VersionConstants.BW1_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW1_XPCurveNARCID;
+                habitatListNarcID = VersionConstants.BW1_HabitatListNARCID;
                 return;
             }
 
@@ -299,6 +308,7 @@ namespace NewEditor.Forms
             if (moveEditor != null && !moveEditor.IsDisposed) moveEditor.Close();
             if (overworldEditor != null && !overworldEditor.IsDisposed) overworldEditor.Close();
             if (encounterEditor != null && !encounterEditor.IsDisposed) encounterEditor.Close();
+            if (xpCurveEditor != null && !xpCurveEditor.IsDisposed) xpCurveEditor.Close();
             if (scriptEditor != null && !scriptEditor.IsDisposed) scriptEditor.Close();
             if (trainerEditor != null && !trainerEditor.IsDisposed) trainerEditor.Close();
             if (pokemartEditor != null && !pokemartEditor.IsDisposed) pokemartEditor.Close();
@@ -370,6 +380,7 @@ namespace NewEditor.Forms
             pokemonIconNarc = fileSystem.narcs[pokemonIconsNarcID] as PokemonIconNARC;
             pokemonDataNarc = fileSystem.narcs[pokemonDataNarcID] as PokemonDataNARC;
             learnsetNarc = fileSystem.narcs[levelUpMovesNarcID] as LearnsetNARC;
+            eggMoveNarc = fileSystem.narcs[eggMovesNarcID] as EggMoveNARC;
             evolutionsNarc = fileSystem.narcs[evolutionNarcID] as EvolutionDataNARC;
             moveDataNarc = fileSystem.narcs[moveDataNarcID] as MoveDataNARC;
             itemDataNarc = fileSystem.narcs[itemDataNarcID] as ItemDataNARC;
@@ -391,6 +402,7 @@ namespace NewEditor.Forms
             {
                 pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
                 keyboardNarc = fileSystem.narcs[keyboardNarcID] as KeyboardNARC;
+                habitatListNarc = fileSystem.narcs[habitatListNarcID] as HabitatListNARC;
             }
         }
 
@@ -1049,6 +1061,19 @@ namespace NewEditor.Forms
             }
 
             MessageBox.Show("Little Cup Game Mode Applied");
+        }
+
+        private void openXPCurveEditorButton_Click(object sender, EventArgs e)
+        {
+            if (xpCurveNarc == null || loadingNARCS)
+            {
+                MessageBox.Show("Necessary data files have not been loaded");
+                return;
+            }
+
+            if (xpCurveEditor == null || xpCurveEditor.IsDisposed) xpCurveEditor = new ExpCurveEditor();
+            xpCurveEditor.Show();
+            xpCurveEditor.BringToFront();
         }
     }
 

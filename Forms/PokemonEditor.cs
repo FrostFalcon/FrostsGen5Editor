@@ -20,6 +20,7 @@ namespace NewEditor.Forms
         static PokemonDataNARC pokemonNARC => MainEditor.pokemonDataNarc;
         static ChildPokemonNARC babyPokemonNARC => MainEditor.childPokemonNarc;
         static LearnsetNARC learnsetNarc => MainEditor.learnsetNarc;
+        static EggMoveNARC eggMoveNarc => MainEditor.eggMoveNarc;
 
         static List<TextValue> levelRates = new List<TextValue>()
         {
@@ -39,6 +40,26 @@ namespace NewEditor.Forms
             new TextValue(0xBF, "25% M / 75% F"),
             new TextValue(0xFE, "100% female"),
             new TextValue(0xFF, "Genderless"),
+        };
+
+        static List<string> eggGroups = new List<string>()
+        {
+            "-----",
+            "Monster",
+            "Water 1",
+            "Bug",
+            "Flying",
+            "Field",
+            "Fairy",
+            "Grass",
+            "Human-Like",
+            "Water 3",
+            "Mineral",
+            "Amorphous",
+            "Water 2",
+            "Ditto",
+            "Dragon",
+            "Unknown",
         };
 
         public List<LevelUpMoveSlot> learnsetClipboard;
@@ -71,6 +92,10 @@ namespace NewEditor.Forms
             heldItem3Dropdown.Items[0] = "---";
 
             learnsetMoveDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.GetRange(0, MainEditor.moveDataNarc != null ? MainEditor.moveDataNarc.moves.Count : textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.Count).ToArray());
+            eggMoveDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.GetRange(0, MainEditor.moveDataNarc != null ? MainEditor.moveDataNarc.moves.Count : textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.Count).ToArray());
+            eggMoveDropdown.SelectedIndex = 0;
+            eggGroup1Dropdown.Items.AddRange(eggGroups.ToArray());
+            eggGroup2Dropdown.Items.AddRange(eggGroups.ToArray());
 
             tmMovesListBox.Items.AddRange(VersionConstants.BW2_TMNames.ToArray());
             miscTutorsListBox.Items.AddRange(VersionConstants.BW2_TutorMoves.GetRange(0, 7).ToArray());
@@ -147,6 +172,18 @@ namespace NewEditor.Forms
 
                 SetupPokemonLearnsetList();
 
+                eggGroup1Dropdown.SelectedIndex = p.eggGroup1;
+                eggGroup2Dropdown.SelectedIndex = p.eggGroup2;
+                if (p.nameID < eggMoveNarc.entries.Count)
+                {
+                    eggMoveListBox.Items.Clear();
+                    foreach (short move in eggMoveNarc.entries[p.nameID].moves)
+                    {
+                        eggMoveListBox.Items.Add(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[move]);
+                    }
+                    if (eggMoveListBox.Items.Count > 0) eggMoveListBox.SelectedIndex = 0;
+                }
+
                 baseStatsGroup.Enabled = true;
                 miscStatsGroup.Enabled = true;
                 applyPokemonButton.Enabled = true;
@@ -155,6 +192,7 @@ namespace NewEditor.Forms
                 evolutionsGroupBox.Enabled = true;
                 hexDataGroupBox.Enabled = true;
                 pokedexDataGroupBox.Enabled = true;
+                eggMovesGroupBox.Enabled = p.nameID < eggMoveNarc.entries.Count;
 
                 string text = "";
                 foreach (byte b in p.bytes) text += b.ToString("X2") + " ";
@@ -230,6 +268,7 @@ namespace NewEditor.Forms
                 evolutionsGroupBox.Enabled = false;
                 hexDataGroupBox.Enabled = false;
                 pokedexDataGroupBox.Enabled = false;
+                eggMovesGroupBox.Enabled = false;
             }
         }
 
@@ -262,6 +301,8 @@ namespace NewEditor.Forms
                 p.heldItem1 = (short)heldItem1Dropdown.SelectedIndex;
                 p.heldItem2 = (short)heldItem2Dropdown.SelectedIndex;
                 p.heldItem3 = (short)heldItem3Dropdown.SelectedIndex;
+                p.eggGroup1 = (byte)eggGroup1Dropdown.SelectedIndex;
+                p.eggGroup2 = (byte)eggGroup2Dropdown.SelectedIndex;
 
                 p.levelUpMoves.moves = new List<LevelUpMoveSlot>();
                 foreach (object o in learnsetListBox.Items) if (o is LevelUpMoveSlot move)
@@ -289,6 +330,16 @@ namespace NewEditor.Forms
                 }
                 babyPokemonNARC.ids[p.nameID] = (short)babyPokemonDropdown.SelectedIndex;
                 p.ApplyData();
+
+                if (p.nameID < eggMoveNarc.entries.Count)
+                {
+                    eggMoveNarc.entries[p.nameID].moves.Clear();
+                    foreach (string move in eggMoveListBox.Items)
+                    {
+                        eggMoveNarc.entries[p.nameID].moves.Add((short)eggMoveDropdown.Items.IndexOf(move));
+                    }
+                    eggMoveNarc.entries[p.nameID].ApplyData();
+                }
 
                 SetupPokemonLearnsetList();
             }
@@ -637,6 +688,32 @@ namespace NewEditor.Forms
             pokemonNARC.pokemon.Add(pk);
             learnsetNarc.learnsets.Add(pk.levelUpMoves);
             MainEditor.evolutionsNarc.evolutions.Add(pk.evolutions);
+        }
+
+        private void applyEggMoveButton_Click(object sender, EventArgs e)
+        {
+            if (eggMoveDropdown.SelectedIndex != 0 && eggMoveListBox.SelectedIndex != -1)
+            {
+                eggMoveListBox.Items[eggMoveListBox.SelectedIndex] = eggMoveDropdown.SelectedItem;
+            }
+        }
+
+        private void addEggMoveButton_Click(object sender, EventArgs e)
+        {
+            if (eggMoveDropdown.SelectedIndex != 0 && !eggMoveListBox.Items.Contains(eggMoveDropdown.SelectedItem))
+            {
+                eggMoveListBox.Items.Add(eggMoveDropdown.SelectedItem);
+            }
+        }
+
+        private void removeEggMoveButton_Click(object sender, EventArgs e)
+        {
+            if (eggMoveListBox.SelectedIndex != -1)
+            {
+                int i = eggMoveListBox.SelectedIndex;
+                eggMoveListBox.Items.RemoveAt(eggMoveListBox.SelectedIndex);
+                if (i < eggMoveListBox.Items.Count) eggMoveListBox.SelectedIndex = i;
+            }
         }
     }
 }

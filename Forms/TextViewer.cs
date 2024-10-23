@@ -46,7 +46,14 @@ namespace NewEditor.Forms
                 StringBuilder text = new StringBuilder();
                 foreach (string str in activeNarc.textFiles[fileID].text) text.Append(str + '\n');
                 if (text.Length > 0) text.Remove(text.Length - 1, 1);
-                textBoxDisplay.Text = text.ToString();
+                textBoxDisplay.Text = text.ToString().Replace("\\xf000븁\\x0000\\xfffe", "[C]")
+                    .Replace("\\xf000븀\\x0000\\xfffe", "[L]")
+                    .Replace("\\xfffe", "[N]")
+                    .Replace("\\xf000븁\\x0000", "[E]")
+                    .Replace("\\xf000Ā\\x0001\\x0000", "[V0]")
+                    .Replace("\\xf000Ā\\x0001\\x0001", "[V1]")
+                    .Replace("\\xf000Ā\\x0001\\x0002", "[V2]")
+                    .Replace("\\xf000Ā\\x0001\\x0003", "[V3]");
                 selectedLineNumberBox.Value = 0;
                 selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length;
                 lineCountLabel.Text = "/ " + (activeNarc.textFiles[fileID].text.Count - 1);

@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +77,8 @@
     <Compile Include="Data\Gen4UnicodeTable.cs" />
     <Compile Include="Data\HelperFunctions.cs" />
     <Compile Include="Data\NARCTypes\ChildPokemonNARC.cs" />
+    <Compile Include="Data\NARCTypes\EggMoveNARC.cs" />
+    <Compile Include="Data\NARCTypes\HabitatListNARC.cs" />
     <Compile Include="Data\NARCTypes\XPCurveNARC.cs" />
     <Compile Include="Data\NARCTypes\ItemDataNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextEntriesNARC.cs" />
@@ -135,6 +138,12 @@
     </Compile>
     <Compile Include="Forms\PaletteEditor.Designer.cs">
       <DependentUpon>PaletteEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExpCurveEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExpCurveEditor.Designer.cs">
+      <DependentUpon>ExpCurveEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PokemartEditor.cs">
       <SubType>Form</SubType>
@@ -213,6 +222,9 @@
     <EmbeddedResource Include="Forms\PaletteEditor.resx">
       <DependentUpon>PaletteEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExpCurveEditor.resx">
+      <DependentUpon>ExpCurveEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PokemartEditor.resx">
       <DependentUpon>PokemartEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -267,6 +279,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="ScriptHeaders\MovementCommands.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\ScriptCommands.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

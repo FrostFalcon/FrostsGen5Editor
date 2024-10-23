@@ -44,6 +44,8 @@ namespace NewEditor.Forms
                 unk4NumberBox.Value = z.unknown4;
                 unk2NumberBox.Value = z.unknown2;
                 mapNameDropdown.SelectedIndex = z.nameId;
+                flyXNumberBox.Value = z.flyX;
+                flyYNumberBox.Value = z.flyZ;
 
                 mapTypeNumberBox.Enabled = true;
                 mapMatrixNumberBox.Enabled = true;
@@ -58,6 +60,8 @@ namespace NewEditor.Forms
                 unk2NumberBox.Enabled = true;
                 mapNameDropdown.Enabled = true;
                 applyZoneButton.Enabled = true;
+                flyXNumberBox.Enabled = true;
+                flyYNumberBox.Enabled = true;
 
                 if (overworldObjectNarc.objects[(int)mapIDNumberBox.Value].NPCs.Count > 0)
                 {
@@ -143,6 +147,8 @@ namespace NewEditor.Forms
                 unk2NumberBox.Enabled = false;
                 mapNameDropdown.Enabled = false;
                 applyZoneButton.Enabled = false;
+                flyXNumberBox.Enabled = false;
+                flyYNumberBox.Enabled = false;
 
                 overworlObjectTabs.Enabled = false;
             }
@@ -164,6 +170,8 @@ namespace NewEditor.Forms
                 z.weather = (byte)weatherNumberBox.Value;
                 z.texture = (short)textureNumberBox.Value;
                 z.nameId = (byte)mapNameDropdown.SelectedIndex;
+                z.flyX = (int)flyXNumberBox.Value;
+                z.flyZ = (int)flyYNumberBox.Value;
 
                 z.ApplyData();
             }

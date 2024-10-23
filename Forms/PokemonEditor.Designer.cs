@@ -145,6 +145,16 @@ namespace NewEditor.Forms
             this.miscTutorsListBox = new System.Windows.Forms.CheckedListBox();
             this.label43 = new System.Windows.Forms.Label();
             this.formSpriteIDNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.eggMovesGroupBox = new System.Windows.Forms.GroupBox();
+            this.removeEggMoveButton = new System.Windows.Forms.Button();
+            this.addEggMoveButton = new System.Windows.Forms.Button();
+            this.applyEggMoveButton = new System.Windows.Forms.Button();
+            this.eggMoveListBox = new System.Windows.Forms.ListBox();
+            this.eggMoveDropdown = new System.Windows.Forms.ComboBox();
+            this.label44 = new System.Windows.Forms.Label();
+            this.eggGroup1Dropdown = new System.Windows.Forms.ComboBox();
+            this.eggGroup2Dropdown = new System.Windows.Forms.ComboBox();
+            this.label45 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -168,6 +178,7 @@ namespace NewEditor.Forms
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).BeginInit();
+            this.eggMovesGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // pokemonNameDropdown
@@ -1100,16 +1111,16 @@ namespace NewEditor.Forms
             this.hexDataGroupBox.Controls.Add(this.applyHexDataButton);
             this.hexDataGroupBox.Controls.Add(this.hexDataTextBox);
             this.hexDataGroupBox.Enabled = false;
-            this.hexDataGroupBox.Location = new System.Drawing.Point(1166, 20);
+            this.hexDataGroupBox.Location = new System.Drawing.Point(1166, 570);
             this.hexDataGroupBox.Name = "hexDataGroupBox";
-            this.hexDataGroupBox.Size = new System.Drawing.Size(400, 200);
+            this.hexDataGroupBox.Size = new System.Drawing.Size(400, 180);
             this.hexDataGroupBox.TabIndex = 84;
             this.hexDataGroupBox.TabStop = false;
             this.hexDataGroupBox.Text = "Hex Data";
             // 
             // applyHexDataButton
             // 
-            this.applyHexDataButton.Location = new System.Drawing.Point(20, 160);
+            this.applyHexDataButton.Location = new System.Drawing.Point(20, 140);
             this.applyHexDataButton.Name = "applyHexDataButton";
             this.applyHexDataButton.Size = new System.Drawing.Size(80, 30);
             this.applyHexDataButton.TabIndex = 84;
@@ -1121,7 +1132,7 @@ namespace NewEditor.Forms
             // 
             this.hexDataTextBox.Location = new System.Drawing.Point(20, 25);
             this.hexDataTextBox.Name = "hexDataTextBox";
-            this.hexDataTextBox.Size = new System.Drawing.Size(360, 120);
+            this.hexDataTextBox.Size = new System.Drawing.Size(360, 100);
             this.hexDataTextBox.TabIndex = 0;
             this.hexDataTextBox.Text = "";
             // 
@@ -1157,7 +1168,7 @@ namespace NewEditor.Forms
             this.pokedexDataGroupBox.Enabled = false;
             this.pokedexDataGroupBox.Location = new System.Drawing.Point(1166, 230);
             this.pokedexDataGroupBox.Name = "pokedexDataGroupBox";
-            this.pokedexDataGroupBox.Size = new System.Drawing.Size(400, 340);
+            this.pokedexDataGroupBox.Size = new System.Drawing.Size(400, 330);
             this.pokedexDataGroupBox.TabIndex = 85;
             this.pokedexDataGroupBox.TabStop = false;
             this.pokedexDataGroupBox.Text = "Pokedex Data";
@@ -1165,7 +1176,7 @@ namespace NewEditor.Forms
             // dexAnCheckBox
             // 
             this.dexAnCheckBox.AutoSize = true;
-            this.dexAnCheckBox.Location = new System.Drawing.Point(70, 40);
+            this.dexAnCheckBox.Location = new System.Drawing.Point(70, 30);
             this.dexAnCheckBox.Name = "dexAnCheckBox";
             this.dexAnCheckBox.Size = new System.Drawing.Size(40, 20);
             this.dexAnCheckBox.TabIndex = 86;
@@ -1174,7 +1185,7 @@ namespace NewEditor.Forms
             // 
             // applyPokedexDataButton
             // 
-            this.applyPokedexDataButton.Location = new System.Drawing.Point(23, 287);
+            this.applyPokedexDataButton.Location = new System.Drawing.Point(23, 277);
             this.applyPokedexDataButton.Name = "applyPokedexDataButton";
             this.applyPokedexDataButton.Size = new System.Drawing.Size(80, 30);
             this.applyPokedexDataButton.TabIndex = 85;
@@ -1185,7 +1196,7 @@ namespace NewEditor.Forms
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(220, 260);
+            this.label34.Location = new System.Drawing.Point(220, 250);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(21, 16);
             this.label34.TabIndex = 75;
@@ -1194,7 +1205,7 @@ namespace NewEditor.Forms
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(220, 230);
+            this.label35.Location = new System.Drawing.Point(220, 220);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(24, 16);
             this.label35.TabIndex = 74;
@@ -1202,14 +1213,14 @@ namespace NewEditor.Forms
             // 
             // pokedexWeightSubKg
             // 
-            this.pokedexWeightSubKg.Location = new System.Drawing.Point(180, 256);
+            this.pokedexWeightSubKg.Location = new System.Drawing.Point(180, 246);
             this.pokedexWeightSubKg.Name = "pokedexWeightSubKg";
             this.pokedexWeightSubKg.Size = new System.Drawing.Size(40, 22);
             this.pokedexWeightSubKg.TabIndex = 73;
             // 
             // pokedexWeightSubLbs
             // 
-            this.pokedexWeightSubLbs.Location = new System.Drawing.Point(180, 226);
+            this.pokedexWeightSubLbs.Location = new System.Drawing.Point(180, 216);
             this.pokedexWeightSubLbs.Name = "pokedexWeightSubLbs";
             this.pokedexWeightSubLbs.Size = new System.Drawing.Size(40, 22);
             this.pokedexWeightSubLbs.TabIndex = 72;
@@ -1217,7 +1228,7 @@ namespace NewEditor.Forms
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(160, 260);
+            this.label36.Location = new System.Drawing.Point(160, 250);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(11, 16);
             this.label36.TabIndex = 71;
@@ -1226,7 +1237,7 @@ namespace NewEditor.Forms
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(160, 230);
+            this.label37.Location = new System.Drawing.Point(160, 220);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(11, 16);
             this.label37.TabIndex = 70;
@@ -1234,14 +1245,14 @@ namespace NewEditor.Forms
             // 
             // pokedexWeightKg
             // 
-            this.pokedexWeightKg.Location = new System.Drawing.Point(120, 256);
+            this.pokedexWeightKg.Location = new System.Drawing.Point(120, 246);
             this.pokedexWeightKg.Name = "pokedexWeightKg";
             this.pokedexWeightKg.Size = new System.Drawing.Size(40, 22);
             this.pokedexWeightKg.TabIndex = 69;
             // 
             // pokedexWeightLbs
             // 
-            this.pokedexWeightLbs.Location = new System.Drawing.Point(120, 226);
+            this.pokedexWeightLbs.Location = new System.Drawing.Point(120, 216);
             this.pokedexWeightLbs.Name = "pokedexWeightLbs";
             this.pokedexWeightLbs.Size = new System.Drawing.Size(40, 22);
             this.pokedexWeightLbs.TabIndex = 68;
@@ -1249,7 +1260,7 @@ namespace NewEditor.Forms
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(60, 243);
+            this.label38.Location = new System.Drawing.Point(60, 233);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(52, 16);
             this.label38.TabIndex = 67;
@@ -1258,7 +1269,7 @@ namespace NewEditor.Forms
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(220, 190);
+            this.label32.Location = new System.Drawing.Point(220, 180);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(18, 16);
             this.label32.TabIndex = 66;
@@ -1267,7 +1278,7 @@ namespace NewEditor.Forms
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(220, 160);
+            this.label33.Location = new System.Drawing.Point(220, 150);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(17, 16);
             this.label33.TabIndex = 65;
@@ -1275,14 +1286,14 @@ namespace NewEditor.Forms
             // 
             // pokedexHeightSubM
             // 
-            this.pokedexHeightSubM.Location = new System.Drawing.Point(180, 186);
+            this.pokedexHeightSubM.Location = new System.Drawing.Point(180, 176);
             this.pokedexHeightSubM.Name = "pokedexHeightSubM";
             this.pokedexHeightSubM.Size = new System.Drawing.Size(40, 22);
             this.pokedexHeightSubM.TabIndex = 64;
             // 
             // pokedexHeightIn
             // 
-            this.pokedexHeightIn.Location = new System.Drawing.Point(180, 156);
+            this.pokedexHeightIn.Location = new System.Drawing.Point(180, 146);
             this.pokedexHeightIn.Name = "pokedexHeightIn";
             this.pokedexHeightIn.Size = new System.Drawing.Size(40, 22);
             this.pokedexHeightIn.TabIndex = 63;
@@ -1290,7 +1301,7 @@ namespace NewEditor.Forms
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(160, 190);
+            this.label31.Location = new System.Drawing.Point(160, 180);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(11, 16);
             this.label31.TabIndex = 62;
@@ -1299,7 +1310,7 @@ namespace NewEditor.Forms
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(160, 160);
+            this.label26.Location = new System.Drawing.Point(160, 150);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(14, 16);
             this.label26.TabIndex = 61;
@@ -1307,14 +1318,14 @@ namespace NewEditor.Forms
             // 
             // pokedexHeightM
             // 
-            this.pokedexHeightM.Location = new System.Drawing.Point(120, 186);
+            this.pokedexHeightM.Location = new System.Drawing.Point(120, 176);
             this.pokedexHeightM.Name = "pokedexHeightM";
             this.pokedexHeightM.Size = new System.Drawing.Size(40, 22);
             this.pokedexHeightM.TabIndex = 60;
             // 
             // pokedexHeightFt
             // 
-            this.pokedexHeightFt.Location = new System.Drawing.Point(120, 156);
+            this.pokedexHeightFt.Location = new System.Drawing.Point(120, 146);
             this.pokedexHeightFt.Name = "pokedexHeightFt";
             this.pokedexHeightFt.Size = new System.Drawing.Size(40, 22);
             this.pokedexHeightFt.TabIndex = 59;
@@ -1322,7 +1333,7 @@ namespace NewEditor.Forms
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(60, 173);
+            this.label25.Location = new System.Drawing.Point(60, 163);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(48, 16);
             this.label25.TabIndex = 58;
@@ -1330,7 +1341,7 @@ namespace NewEditor.Forms
             // 
             // pokedexDescriptionTextBox
             // 
-            this.pokedexDescriptionTextBox.Location = new System.Drawing.Point(120, 116);
+            this.pokedexDescriptionTextBox.Location = new System.Drawing.Point(120, 106);
             this.pokedexDescriptionTextBox.Name = "pokedexDescriptionTextBox";
             this.pokedexDescriptionTextBox.Size = new System.Drawing.Size(270, 22);
             this.pokedexDescriptionTextBox.TabIndex = 57;
@@ -1338,7 +1349,7 @@ namespace NewEditor.Forms
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(20, 120);
+            this.label24.Location = new System.Drawing.Point(20, 110);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(76, 16);
             this.label24.TabIndex = 56;
@@ -1346,7 +1357,7 @@ namespace NewEditor.Forms
             // 
             // pokedexClassTextBox
             // 
-            this.pokedexClassTextBox.Location = new System.Drawing.Point(120, 76);
+            this.pokedexClassTextBox.Location = new System.Drawing.Point(120, 66);
             this.pokedexClassTextBox.Name = "pokedexClassTextBox";
             this.pokedexClassTextBox.Size = new System.Drawing.Size(160, 22);
             this.pokedexClassTextBox.TabIndex = 55;
@@ -1354,7 +1365,7 @@ namespace NewEditor.Forms
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(20, 80);
+            this.label23.Location = new System.Drawing.Point(20, 70);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(88, 16);
             this.label23.TabIndex = 54;
@@ -1362,7 +1373,7 @@ namespace NewEditor.Forms
             // 
             // pokedexNameTextBox
             // 
-            this.pokedexNameTextBox.Location = new System.Drawing.Point(120, 36);
+            this.pokedexNameTextBox.Location = new System.Drawing.Point(120, 26);
             this.pokedexNameTextBox.Name = "pokedexNameTextBox";
             this.pokedexNameTextBox.Size = new System.Drawing.Size(120, 22);
             this.pokedexNameTextBox.TabIndex = 53;
@@ -1370,7 +1381,7 @@ namespace NewEditor.Forms
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(20, 40);
+            this.label22.Location = new System.Drawing.Point(20, 30);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(45, 16);
             this.label22.TabIndex = 52;
@@ -1473,11 +1484,120 @@ namespace NewEditor.Forms
             this.formSpriteIDNumberBox.Size = new System.Drawing.Size(40, 22);
             this.formSpriteIDNumberBox.TabIndex = 85;
             // 
+            // eggMovesGroupBox
+            // 
+            this.eggMovesGroupBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.eggMovesGroupBox.Controls.Add(this.label45);
+            this.eggMovesGroupBox.Controls.Add(this.eggGroup2Dropdown);
+            this.eggMovesGroupBox.Controls.Add(this.eggGroup1Dropdown);
+            this.eggMovesGroupBox.Controls.Add(this.removeEggMoveButton);
+            this.eggMovesGroupBox.Controls.Add(this.addEggMoveButton);
+            this.eggMovesGroupBox.Controls.Add(this.applyEggMoveButton);
+            this.eggMovesGroupBox.Controls.Add(this.eggMoveListBox);
+            this.eggMovesGroupBox.Controls.Add(this.eggMoveDropdown);
+            this.eggMovesGroupBox.Controls.Add(this.label44);
+            this.eggMovesGroupBox.Enabled = false;
+            this.eggMovesGroupBox.Location = new System.Drawing.Point(1166, 20);
+            this.eggMovesGroupBox.Name = "eggMovesGroupBox";
+            this.eggMovesGroupBox.Size = new System.Drawing.Size(400, 200);
+            this.eggMovesGroupBox.TabIndex = 90;
+            this.eggMovesGroupBox.TabStop = false;
+            this.eggMovesGroupBox.Text = "Egg Moves";
+            // 
+            // removeEggMoveButton
+            // 
+            this.removeEggMoveButton.Location = new System.Drawing.Point(140, 160);
+            this.removeEggMoveButton.Name = "removeEggMoveButton";
+            this.removeEggMoveButton.Size = new System.Drawing.Size(80, 24);
+            this.removeEggMoveButton.TabIndex = 85;
+            this.removeEggMoveButton.Text = "Remove";
+            this.removeEggMoveButton.UseVisualStyleBackColor = true;
+            this.removeEggMoveButton.Click += new System.EventHandler(this.removeEggMoveButton_Click);
+            // 
+            // addEggMoveButton
+            // 
+            this.addEggMoveButton.Location = new System.Drawing.Point(74, 160);
+            this.addEggMoveButton.Name = "addEggMoveButton";
+            this.addEggMoveButton.Size = new System.Drawing.Size(60, 24);
+            this.addEggMoveButton.TabIndex = 84;
+            this.addEggMoveButton.Text = "Add";
+            this.addEggMoveButton.UseVisualStyleBackColor = true;
+            this.addEggMoveButton.Click += new System.EventHandler(this.addEggMoveButton_Click);
+            // 
+            // applyEggMoveButton
+            // 
+            this.applyEggMoveButton.Location = new System.Drawing.Point(120, 98);
+            this.applyEggMoveButton.Name = "applyEggMoveButton";
+            this.applyEggMoveButton.Size = new System.Drawing.Size(100, 26);
+            this.applyEggMoveButton.TabIndex = 88;
+            this.applyEggMoveButton.Text = "Apply Move";
+            this.applyEggMoveButton.UseVisualStyleBackColor = true;
+            this.applyEggMoveButton.Click += new System.EventHandler(this.applyEggMoveButton_Click);
+            // 
+            // eggMoveListBox
+            // 
+            this.eggMoveListBox.FormattingEnabled = true;
+            this.eggMoveListBox.ItemHeight = 16;
+            this.eggMoveListBox.Location = new System.Drawing.Point(230, 20);
+            this.eggMoveListBox.Name = "eggMoveListBox";
+            this.eggMoveListBox.Size = new System.Drawing.Size(160, 164);
+            this.eggMoveListBox.TabIndex = 84;
+            // 
+            // eggMoveDropdown
+            // 
+            this.eggMoveDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.eggMoveDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.eggMoveDropdown.FormattingEnabled = true;
+            this.eggMoveDropdown.Location = new System.Drawing.Point(100, 130);
+            this.eggMoveDropdown.Name = "eggMoveDropdown";
+            this.eggMoveDropdown.Size = new System.Drawing.Size(120, 24);
+            this.eggMoveDropdown.TabIndex = 87;
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(50, 134);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(41, 16);
+            this.label44.TabIndex = 86;
+            this.label44.Text = "Move:";
+            // 
+            // eggGroup1Dropdown
+            // 
+            this.eggGroup1Dropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.eggGroup1Dropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.eggGroup1Dropdown.FormattingEnabled = true;
+            this.eggGroup1Dropdown.Location = new System.Drawing.Point(100, 20);
+            this.eggGroup1Dropdown.Name = "eggGroup1Dropdown";
+            this.eggGroup1Dropdown.Size = new System.Drawing.Size(120, 24);
+            this.eggGroup1Dropdown.TabIndex = 89;
+            // 
+            // eggGroup2Dropdown
+            // 
+            this.eggGroup2Dropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.eggGroup2Dropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.eggGroup2Dropdown.FormattingEnabled = true;
+            this.eggGroup2Dropdown.Location = new System.Drawing.Point(100, 50);
+            this.eggGroup2Dropdown.Name = "eggGroup2Dropdown";
+            this.eggGroup2Dropdown.Size = new System.Drawing.Size(120, 24);
+            this.eggGroup2Dropdown.TabIndex = 90;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(11, 40);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(80, 16);
+            this.label45.TabIndex = 91;
+            this.label45.Text = "Egg Groups:";
+            // 
             // PokemonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1584, 761);
+            this.Controls.Add(this.eggMovesGroupBox);
             this.Controls.Add(this.label43);
             this.Controls.Add(this.tmTutorsGroupBox);
             this.Controls.Add(this.formSpriteIDNumberBox);
@@ -1525,6 +1645,8 @@ namespace NewEditor.Forms
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).EndInit();
+            this.eggMovesGroupBox.ResumeLayout(false);
+            this.eggMovesGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1647,5 +1769,15 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown formSpriteIDNumberBox;
+        private System.Windows.Forms.GroupBox eggMovesGroupBox;
+        private System.Windows.Forms.ListBox eggMoveListBox;
+        private System.Windows.Forms.Button removeEggMoveButton;
+        private System.Windows.Forms.Button addEggMoveButton;
+        private System.Windows.Forms.Button applyEggMoveButton;
+        private System.Windows.Forms.ComboBox eggMoveDropdown;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.ComboBox eggGroup2Dropdown;
+        private System.Windows.Forms.ComboBox eggGroup1Dropdown;
     }
 }

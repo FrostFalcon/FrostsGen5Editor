@@ -78,6 +78,7 @@ namespace NewEditor.Data
         public PokemonIconNARC pokemonIconNarc;
         public PokemonDataNARC pokemonDataNarc;
         public LearnsetNARC learnsetNarc;
+        public EggMoveNARC eggMoveNarc;
         public EvolutionDataNARC evolutionsNarc;
         public ChildPokemonNARC childPokemonNarc;
         public MoveDataNARC moveDataNarc;
@@ -94,6 +95,7 @@ namespace NewEditor.Data
         public TrainerPokeNARC trainerPokeNarc;
         public OverworldObjectsNARC overworldsNarc;
         public EncounterNARC encounterNarc;
+        public HabitatListNARC habitatListNarc;
         public PokemartNARC pokemartNarc;
         public KeyboardNARC keyboardNarc;
         public XPCurveNARC xpCurveNarc;
@@ -126,7 +128,9 @@ namespace NewEditor.Data
             {
                 { MainEditor.childPokemonNarcID, typeof(ChildPokemonNARC) },
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
+                { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
+                { MainEditor.habitatListNarcID, typeof(HabitatListNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
@@ -274,6 +278,7 @@ namespace NewEditor.Data
             result.pokemonIconNarc = result.narcs[MainEditor.pokemonIconsNarcID] as PokemonIconNARC;
             result.pokemonDataNarc = result.narcs[MainEditor.pokemonDataNarcID] as PokemonDataNARC;
             result.learnsetNarc = result.narcs[MainEditor.levelUpMovesNarcID] as LearnsetNARC;
+            result.eggMoveNarc = result.narcs[MainEditor.eggMovesNarcID] as EggMoveNARC;
             result.evolutionsNarc = result.narcs[MainEditor.evolutionNarcID] as EvolutionDataNARC;
             result.childPokemonNarc = result.narcs[MainEditor.childPokemonNarcID] as ChildPokemonNARC;
             result.moveDataNarc = result.narcs[MainEditor.moveDataNarcID] as MoveDataNARC;
@@ -295,6 +300,7 @@ namespace NewEditor.Data
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
                 result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
+                result.habitatListNarc = result.narcs[MainEditor.habitatListNarcID] as HabitatListNARC;
             }
 
             for (int i = 0; i < result.NARCCount; i++)
@@ -360,7 +366,9 @@ namespace NewEditor.Data
             {
                 { MainEditor.childPokemonNarcID, typeof(ChildPokemonNARC) },
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
+                { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
+                { MainEditor.habitatListNarcID, typeof(HabitatListNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
@@ -429,6 +437,7 @@ namespace NewEditor.Data
             result.pokemonIconNarc = result.narcs[MainEditor.pokemonIconsNarcID] as PokemonIconNARC;
             result.pokemonDataNarc = result.narcs[MainEditor.pokemonDataNarcID] as PokemonDataNARC;
             result.learnsetNarc = result.narcs[MainEditor.levelUpMovesNarcID] as LearnsetNARC;
+            result.eggMoveNarc = result.narcs[MainEditor.eggMovesNarcID] as EggMoveNARC;
             result.evolutionsNarc = result.narcs[MainEditor.evolutionNarcID] as EvolutionDataNARC;
             result.childPokemonNarc = result.narcs[MainEditor.childPokemonNarcID] as ChildPokemonNARC;
             result.moveDataNarc = result.narcs[MainEditor.moveDataNarcID] as MoveDataNARC;
@@ -450,6 +459,7 @@ namespace NewEditor.Data
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
                 result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
+                result.habitatListNarc = result.narcs[MainEditor.habitatListNarcID] as HabitatListNARC;
             }
             for (int i = 0; i < result.NARCCount; i++)
             {

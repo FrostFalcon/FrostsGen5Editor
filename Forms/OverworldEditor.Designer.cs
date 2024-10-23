@@ -81,6 +81,12 @@ namespace NewEditor.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.npcFlagNumberBox = new System.Windows.Forms.NumericUpDown();
             this.furnitureTab = new System.Windows.Forms.TabPage();
+            this.furnitureZPosNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label44 = new System.Windows.Forms.Label();
+            this.furnitureYPosNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label45 = new System.Windows.Forms.Label();
+            this.furnitureXPosNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
             this.furnitureScriptNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label40 = new System.Windows.Forms.Label();
             this.furnitureCountLabel = new System.Windows.Forms.Label();
@@ -137,12 +143,10 @@ namespace NewEditor.Forms
             this.label42 = new System.Windows.Forms.Label();
             this.unk2NumberBox = new System.Windows.Forms.NumericUpDown();
             this.label43 = new System.Windows.Forms.Label();
-            this.furnitureZPosNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label44 = new System.Windows.Forms.Label();
-            this.furnitureYPosNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label45 = new System.Windows.Forms.Label();
-            this.furnitureXPosNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label46 = new System.Windows.Forms.Label();
+            this.flyYNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label47 = new System.Windows.Forms.Label();
+            this.flyXNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label48 = new System.Windows.Forms.Label();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -166,6 +170,9 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.npcScriptNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcFlagNumberBox)).BeginInit();
             this.furnitureTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureZPosNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureYPosNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureXPosNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).BeginInit();
             this.warpTab.SuspendLayout();
@@ -191,9 +198,8 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.textureNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unk4NumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unk2NumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureZPosNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureYPosNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureXPosNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.flyYNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.flyXNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mapTypeNumberBox
@@ -910,6 +916,99 @@ namespace NewEditor.Forms
             this.furnitureTab.TabIndex = 4;
             this.furnitureTab.Text = "Furniture";
             this.furnitureTab.UseVisualStyleBackColor = true;
+            // 
+            // furnitureZPosNumberBox
+            // 
+            this.furnitureZPosNumberBox.Location = new System.Drawing.Point(79, 158);
+            this.furnitureZPosNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.furnitureZPosNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.furnitureZPosNumberBox.Name = "furnitureZPosNumberBox";
+            this.furnitureZPosNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.furnitureZPosNumberBox.TabIndex = 108;
+            this.furnitureZPosNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(49, 160);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(18, 16);
+            this.label44.TabIndex = 107;
+            this.label44.Text = "Z:";
+            // 
+            // furnitureYPosNumberBox
+            // 
+            this.furnitureYPosNumberBox.Location = new System.Drawing.Point(79, 128);
+            this.furnitureYPosNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.furnitureYPosNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.furnitureYPosNumberBox.Name = "furnitureYPosNumberBox";
+            this.furnitureYPosNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.furnitureYPosNumberBox.TabIndex = 106;
+            this.furnitureYPosNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(49, 130);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(19, 16);
+            this.label45.TabIndex = 105;
+            this.label45.Text = "Y:";
+            // 
+            // furnitureXPosNumberBox
+            // 
+            this.furnitureXPosNumberBox.Location = new System.Drawing.Point(79, 98);
+            this.furnitureXPosNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.furnitureXPosNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.furnitureXPosNumberBox.Name = "furnitureXPosNumberBox";
+            this.furnitureXPosNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.furnitureXPosNumberBox.TabIndex = 104;
+            this.furnitureXPosNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(49, 100);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(18, 16);
+            this.label46.TabIndex = 103;
+            this.label46.Text = "X:";
             // 
             // furnitureScriptNumberBox
             // 
@@ -1715,104 +1814,80 @@ namespace NewEditor.Forms
             this.label43.TabIndex = 89;
             this.label43.Text = "Unk 2:";
             // 
-            // furnitureZPosNumberBox
+            // flyYNumberBox
             // 
-            this.furnitureZPosNumberBox.Location = new System.Drawing.Point(79, 158);
-            this.furnitureZPosNumberBox.Maximum = new decimal(new int[] {
-            30000,
+            this.flyYNumberBox.Enabled = false;
+            this.flyYNumberBox.Location = new System.Drawing.Point(250, 386);
+            this.flyYNumberBox.Maximum = new decimal(new int[] {
+            99999,
             0,
             0,
             0});
-            this.furnitureZPosNumberBox.Minimum = new decimal(new int[] {
-            30000,
+            this.flyYNumberBox.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             -2147483648});
-            this.furnitureZPosNumberBox.Name = "furnitureZPosNumberBox";
-            this.furnitureZPosNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.furnitureZPosNumberBox.TabIndex = 108;
-            this.furnitureZPosNumberBox.Value = new decimal(new int[] {
+            this.flyYNumberBox.Name = "flyYNumberBox";
+            this.flyYNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.flyYNumberBox.TabIndex = 94;
+            this.flyYNumberBox.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // label44
+            // label47
             // 
-            this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(49, 160);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(18, 16);
-            this.label44.TabIndex = 107;
-            this.label44.Text = "Z:";
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(171, 390);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(41, 16);
+            this.label47.TabIndex = 93;
+            this.label47.Text = "Fly Y:";
             // 
-            // furnitureYPosNumberBox
+            // flyXNumberBox
             // 
-            this.furnitureYPosNumberBox.Location = new System.Drawing.Point(79, 128);
-            this.furnitureYPosNumberBox.Maximum = new decimal(new int[] {
-            30000,
+            this.flyXNumberBox.Enabled = false;
+            this.flyXNumberBox.Location = new System.Drawing.Point(250, 356);
+            this.flyXNumberBox.Maximum = new decimal(new int[] {
+            99999,
             0,
             0,
             0});
-            this.furnitureYPosNumberBox.Minimum = new decimal(new int[] {
-            30000,
+            this.flyXNumberBox.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             -2147483648});
-            this.furnitureYPosNumberBox.Name = "furnitureYPosNumberBox";
-            this.furnitureYPosNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.furnitureYPosNumberBox.TabIndex = 106;
-            this.furnitureYPosNumberBox.Value = new decimal(new int[] {
+            this.flyXNumberBox.Name = "flyXNumberBox";
+            this.flyXNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.flyXNumberBox.TabIndex = 92;
+            this.flyXNumberBox.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // label45
+            // label48
             // 
-            this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(49, 130);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(19, 16);
-            this.label45.TabIndex = 105;
-            this.label45.Text = "Y:";
-            // 
-            // furnitureXPosNumberBox
-            // 
-            this.furnitureXPosNumberBox.Location = new System.Drawing.Point(79, 98);
-            this.furnitureXPosNumberBox.Maximum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            0});
-            this.furnitureXPosNumberBox.Minimum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            -2147483648});
-            this.furnitureXPosNumberBox.Name = "furnitureXPosNumberBox";
-            this.furnitureXPosNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.furnitureXPosNumberBox.TabIndex = 104;
-            this.furnitureXPosNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(49, 100);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(18, 16);
-            this.label46.TabIndex = 103;
-            this.label46.Text = "X:";
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(171, 360);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(40, 16);
+            this.label48.TabIndex = 91;
+            this.label48.Text = "Fly X:";
             // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(904, 481);
+            this.Controls.Add(this.flyYNumberBox);
+            this.Controls.Add(this.label47);
+            this.Controls.Add(this.flyXNumberBox);
+            this.Controls.Add(this.label48);
             this.Controls.Add(this.unk2NumberBox);
             this.Controls.Add(this.label43);
             this.Controls.Add(this.unk4NumberBox);
@@ -1875,6 +1950,9 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.npcFlagNumberBox)).EndInit();
             this.furnitureTab.ResumeLayout(false);
             this.furnitureTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureZPosNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureYPosNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.furnitureXPosNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).EndInit();
             this.warpTab.ResumeLayout(false);
@@ -1902,9 +1980,8 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.textureNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unk4NumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unk2NumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureZPosNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureYPosNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.furnitureXPosNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.flyYNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.flyXNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2024,5 +2101,9 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.NumericUpDown furnitureXPosNumberBox;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.NumericUpDown flyYNumberBox;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.NumericUpDown flyXNumberBox;
+        private System.Windows.Forms.Label label48;
     }
 }

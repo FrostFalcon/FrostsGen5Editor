@@ -152,6 +152,7 @@ namespace NewEditor.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(944, 441);
             this.Controls.Add(this.lineCountLabel);
             this.Controls.Add(this.selectedLineNumberBox);

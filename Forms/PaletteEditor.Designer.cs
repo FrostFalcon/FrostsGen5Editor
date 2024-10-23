@@ -269,6 +269,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(984, 721);
             this.Controls.Add(this.saveIconPaletteButton);
             this.Controls.Add(this.setIconPaletteButton);

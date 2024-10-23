@@ -862,6 +862,7 @@ namespace NewEditor.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1184, 521);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Windows.Forms;
 using NewEditor.Forms;
-using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace NewEditor.Data.NARCTypes
 {
-    public class TextNARC : NARC
+    public class EggMoveNARC : NARC
     {
-        public List<TextFile> textFiles;
+        public List<EggMoveEntry> entries;
 
         public override void ReadData()
         {
@@ -29,10 +26,12 @@ namespace NewEditor.Data.NARCTypes
             }
             int initialPosition = pos + 24;
 
-            //Register text files
-            textFiles = new List<TextFile>();
+            //Register data files
+            entries = new List<EggMoveEntry>();
 
             pos = pointerStartAddress;
+
+            //Populate data types
             for (int i = 0; i < numFileEntries; i++)
             {
                 int start = HelperFunctions.ReadInt(byteData, pos);
@@ -41,7 +40,9 @@ namespace NewEditor.Data.NARCTypes
 
                 for (int j = 0; j < end - start; j++) bytes[j] = byteData[initialPosition + start + j];
 
-                textFiles.Add(new TextFile(bytes));
+                EggMoveEntry m = new EggMoveEntry(bytes);
+                entries.Add(m);
+
                 pos += 8;
             }
         }
@@ -67,49 +68,38 @@ namespace NewEditor.Data.NARCTypes
             //Write Files
             int totalSize = 0;
             int pPos = pointerStartAddress;
-            foreach (TextFile t in textFiles)
+            foreach (EggMoveEntry i in entries)
             {
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
-                totalSize += t.bytes.Length;
+                totalSize += i.bytes.Length;
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
             }
-            foreach (TextFile t in textFiles)
+            foreach (EggMoveEntry i in entries)
             {
-                newByteData.AddRange(t.bytes);
+                newByteData.AddRange(i.bytes);
             }
 
             byteData = newByteData.ToArray();
 
-            FixHeaders(textFiles.Count);
+            FixHeaders(entries.Count);
 
             base.WriteData();
         }
 
         public override byte[] GetPatchBytes(NARC narc)
         {
-            TextNARC other = narc as TextNARC;
+            EggMoveNARC other = narc as EggMoveNARC;
             List<byte> bytes = new List<byte>();
 
             for (int i = 0; i < numFileEntries; i++)
             {
-                bool lineChanges = false;
-                if (textFiles[i].text.Count != other.textFiles[i].text.Count) lineChanges = true;
-                else
-                {
-                    for (int j = 0; j < textFiles[i].text.Count; j++)
-                        if (textFiles[i].text[j] != other.textFiles[i].text[j])
-                        {
-                            lineChanges = true;
-                            break;
-                        }
-                }
-                if (i > other.textFiles.Count || lineChanges)
+                if (i > other.entries.Count || !entries[i].bytes.SequenceEqual(other.entries[i].bytes))
                 {
                     bytes.AddRange(BitConverter.GetBytes(i));
-                    bytes.AddRange(BitConverter.GetBytes(textFiles[i].bytes.Length));
-                    bytes.AddRange(textFiles[i].bytes);
+                    bytes.AddRange(BitConverter.GetBytes(entries[i].bytes.Length));
+                    bytes.AddRange(entries[i].bytes);
                 }
             }
 
@@ -125,71 +115,44 @@ namespace NewEditor.Data.NARCTypes
                 int size = HelperFunctions.ReadInt(bytes, pos + 4);
                 pos += 8;
 
-                if (id > textFiles.Count)
+                if (id > entries.Count)
                 {
                     //Don't accept extra files here
                 }
-                else textFiles[id] = new TextFile(new List<byte>(bytes).GetRange(pos, size).ToArray());
+                else entries[id].bytes = new List<byte>(bytes).GetRange(pos, size).ToArray();
                 pos += size;
             }
         }
-
-        public void ApplyTextList(RichTextBox textbox, int fileIndex)
-        {
-            TextFile t = textFiles[fileIndex];
-
-            t.text = new List<string>();
-            for (int i = 0; i < textbox.Lines.Length; i++)
-            {
-                t.text.Add(textbox.Lines[i].Replace("[C]", "\\xf000븁\\x0000\\xfffe")
-                    .Replace("[L]", "\\xf000븀\\x0000\\xfffe")
-                    .Replace("[N]", "\\xfffe")
-                    .Replace("[E]", "\\xf000븁\\x0000")
-                    .Replace("[V0]", "\\xf000Ā\\x0001\\x0000")
-                    .Replace("[V1]", "\\xf000Ā\\x0001\\x0001")
-                    .Replace("[V2]", "\\xf000Ā\\x0001\\x0002")
-                    .Replace("[V3]", "\\xf000Ā\\x0001\\x0003"));
-            }
-            t.CompressData();
-        }
-
-        public string GetLine(int file, int line) => textFiles[file].text[line];
     }
 
-    public class TextFile
+    public class EggMoveEntry
     {
         public byte[] bytes;
-        public List<string> text;
 
-        public TextFile(byte[] bytes)
+        public List<short> moves;
+
+        public EggMoveEntry(byte[] bytes)
         {
             this.bytes = bytes;
+            ReadData();
+        }
 
-            if (MainEditor.RomType == RomType.BW2 || MainEditor.RomType == RomType.BW1)
+        public void ReadData()
+        {
+            moves = new List<short>();
+            for (int i = 2; i < bytes.Length; i += 2)
             {
-                this.text = PPTxtHandler.GetStrings(bytes);
-            }
-            else
-            {
-                PokeTextData ptd = new PokeTextData(bytes);
-                ptd.decrypt();
-                this.text = ptd.strlist;
+                moves.Add((short)HelperFunctions.ReadShort(bytes, i));
             }
         }
 
-        public void CompressData()
+        public void ApplyData()
         {
-            if (MainEditor.RomType == RomType.BW2)
+            bytes = new byte[moves.Count * 2 + 2];
+            HelperFunctions.WriteShort(bytes, 0, moves.Count);
+            for (int i = 0; i < moves.Count; i++)
             {
-                bytes = PPTxtHandler.SaveEntry(bytes, text);
-            }
-            else
-            {
-                byte[] b = TextToPoke.MakeFile(text, false);
-                PokeTextData encrypt = new PokeTextData(b);
-                encrypt.SetKey(0xD00E);
-                encrypt.encrypt();
-                bytes = encrypt.get();
+                HelperFunctions.WriteShort(bytes, i * 2 + 2, moves[i]);
             }
         }
     }

@@ -177,7 +177,7 @@ namespace NewEditor.Forms
                 pokemonListBox.Items.Clear();
                 foreach (TrainerPokemon poke in tr.pokemon.pokemon) pokemonListBox.Items.Add(poke);
                 while (num > tr.pokemon.pokemon.Count) num--;
-                pokemonListBox.SelectedIndex = num;
+                if (num < pokemonListBox.Items.Count) pokemonListBox.SelectedIndex = num;
 
                 tr.dialogue[dialogueTypeDropdown.SelectedIndex] = trDialogueTextBox.Text;
 
@@ -238,12 +238,21 @@ namespace NewEditor.Forms
 
         private void addTrainerButton_Click(object sender, EventArgs e)
         {
-            TrainerEntry t = new TrainerEntry(new List<byte>(trainerNARC.trainers[1].bytes).ToArray()) { nameID = trainerNARC.trainers.Count };
-            TrainerPokemonEntry p = new TrainerPokemonEntry(new List<byte>(trainerNARC.trainers[1].pokemon.bytes).ToArray(), t);
+            int id = trainerNameDropdown.SelectedIndex > 0 ? trainerNameDropdown.SelectedIndex : 1;
+            TrainerEntry t = new TrainerEntry(new List<byte>(trainerNARC.trainers[id].bytes).ToArray()) { nameID = trainerNARC.trainers.Count };
+            TrainerPokemonEntry p = new TrainerPokemonEntry(new List<byte>(trainerNARC.trainers[id].pokemon.bytes).ToArray(), t);
             t.pokemon = p;
             trainerNARC.trainers.Add(t);
             trainerNameDropdown.Items.Add(t);
             trainerPokeNARC.pokemonGroups.Add(p);
+
+            if (trainerNameDropdown.SelectedIndex > 0)
+            {
+                foreach (var v in trainerNARC.trainers[id].dialogue)
+                {
+                    t.dialogue[v.Key] = v.Value;
+                }
+            }
 
             t.ApplyData();
         }
