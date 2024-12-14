@@ -343,7 +343,7 @@ namespace NewEditor.Forms
 
             await Task.Run(() =>
             {
-                //try
+                try
                 {
                     if (fromFolder)
                     {
@@ -357,15 +357,15 @@ namespace NewEditor.Forms
                         fileStream.Close();
                     }
                 }
-                //catch (Exception ex)
-                //{
-                //    if (autoLoaded)
-                //    {
-                //        DisableAutoLoad(null, null);
-                //        MessageBox.Show("Auto load has been disabled due to an error with the rom file.\nPlease restart the application.");
-                //    }
-                //    throw ex;
-                //}
+                catch (Exception ex)
+                {
+                    if (autoLoaded)
+                    {
+                        DisableAutoLoad(null, null);
+                        MessageBox.Show("Auto load has been disabled due to an error with the rom file.\nPlease restart the application.");
+                    }
+                    throw ex;
+                }
             });
 
             //Setup Editor

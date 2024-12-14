@@ -523,7 +523,7 @@ namespace NewEditor.Data.NARCTypes
                 }
 
                 //Tutors
-                for (int i = 56; i < 76; i++) bytes[i] = 0;
+                for (int i = 56; i < 60; i++) bytes[i] = 0;
                 for (int i = 0; i < miscTutors.Length; i++)
                 {
                     int pos = 56 + i / 8;
