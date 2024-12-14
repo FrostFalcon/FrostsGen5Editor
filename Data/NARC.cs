@@ -16,6 +16,8 @@ namespace NewEditor.Data
         public short ID;
         public bool overrideWrite = false;
 
+        protected int BTNFPosition => (byteData == null || byteData.Length < 32) ? 0 : HelperFunctions.ReadInt(byteData, 20) + 16;
+        protected int FileEntryStart => BTNFPosition == 0 ? 0 : HelperFunctions.ReadInt(byteData, BTNFPosition + 4) + BTNFPosition + 8;
         public int numFileEntries => (byteData != null && byteData.Length > 32) ? HelperFunctions.ReadInt(byteData, 24) : 0;
 
         public virtual void ReadData()
@@ -41,7 +43,7 @@ namespace NewEditor.Data
             HelperFunctions.WriteInt(byteData, 8, byteData.Length);
             HelperFunctions.WriteInt(byteData, 24, fileCount);
             HelperFunctions.WriteInt(byteData, 20, pos - 16);
-            HelperFunctions.WriteInt(byteData, pos + 20, byteData.Length - (pos + 16));
+            HelperFunctions.WriteInt(byteData, FileEntryStart - 4, byteData.Length - (pos + 16));
         }
 
         public virtual byte[] GetPatchBytes(NARC other) => byteData;

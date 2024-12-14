@@ -17,7 +17,7 @@ namespace NewEditor.Data.NARCTypes
         {
             base.ReadData();
 
-            int initialPosition = 60;
+            int initialPosition = FileEntryStart;
 
             //Register data files
             zones = new List<ZoneDataEntry>();
@@ -33,7 +33,7 @@ namespace NewEditor.Data.NARCTypes
         {
             List<byte> newByteData = new List<byte>(byteData);
 
-            int initialPos = 60;
+            int initialPos = FileEntryStart;
 
             foreach (ZoneDataEntry o in zones)
             {

@@ -30,7 +30,13 @@ namespace NewEditor.Forms
             this.spriteID = spriteID;
             InitializeComponent();
 
+            if (MainEditor.fileSystem.romHeader[8] == 0x57)
+            {
+                paletteArrayOffset = 0x8C578;
+            }
+
             List<byte> arm = MainEditor.fileSystem.arm9;
+
             if (arm.Count < paletteArrayOffset || arm[paletteArrayOffset] != 0 || !(arm[paletteArrayOffset + 1] == 0 || arm[paletteArrayOffset + 1] == 17 || arm[paletteArrayOffset + 1] == 34) ||
                 !(arm[paletteArrayOffset + 2] == 0 || arm[paletteArrayOffset + 2] == 17 || arm[paletteArrayOffset + 2] == 34) ||
                 !(arm[paletteArrayOffset + 3] == 0 || arm[paletteArrayOffset + 3] == 17 || arm[paletteArrayOffset + 3] == 34)) paletteArrayOffset = 0;

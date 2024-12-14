@@ -343,17 +343,29 @@ namespace NewEditor.Forms
 
             await Task.Run(() =>
             {
-                if (fromFolder)
+                //try
                 {
-                    fileSystem = NDSFileSystem.FromFileSystem(loadedRomPath, true);
-                }
-                else
-                {
-                    FileStream fileStream = File.OpenRead(loadedRomPath);
-                    fileSystem = NDSFileSystem.FromRom(fileStream, true);
+                    if (fromFolder)
+                    {
+                        fileSystem = NDSFileSystem.FromFileSystem(loadedRomPath, true);
+                    }
+                    else
+                    {
+                        FileStream fileStream = File.OpenRead(loadedRomPath);
+                        fileSystem = NDSFileSystem.FromRom(fileStream, true);
 
-                    fileStream.Close();
+                        fileStream.Close();
+                    }
                 }
+                //catch (Exception ex)
+                //{
+                //    if (autoLoaded)
+                //    {
+                //        DisableAutoLoad(null, null);
+                //        MessageBox.Show("Auto load has been disabled due to an error with the rom file.\nPlease restart the application.");
+                //    }
+                //    throw ex;
+                //}
             });
 
             //Setup Editor
@@ -712,23 +724,39 @@ namespace NewEditor.Forms
             }
             else
             {
-                SaveFileDialog prompt = new SaveFileDialog();
-                prompt.Filter = "Black White 2 Patch File|*.bw2Patch";
+                OpenFileDialog prompt = new OpenFileDialog();
+                prompt.Filter = "Nds Roms|*.nds";
+                prompt.Title = "Select the base version of the rom";
 
                 if (prompt.ShowDialog() == DialogResult.OK)
                 {
-                    Dictionary<string, IEnumerable<byte>> data = new Dictionary<string, IEnumerable<byte>>();
-                    for (int i = 0; i < fileSystem.narcs.Count; i++)
+                    FileStream fileStream = File.OpenRead(prompt.FileName);
+                    NDSFileSystem other = NDSFileSystem.FromRom(fileStream);
+                    fileStream.Close();
+
+                    if (other.RomType != RomType)
                     {
-                        if (fileSystem.narcs[i].GetType().Name != "NARC" && selectedNARCs.Contains(i))
-                        {
-                            fileSystem.narcs[i].WriteData();
-                            data.Add("id_" + i, fileSystem.narcs[i].byteData);
-                        }
+                        MessageBox.Show("The provided game does not match the loaded rom.");
+                        return;
                     }
 
-                    FileFunctions.WriteAllSections(prompt.FileName, data, true);
-                    MessageBox.Show("Patch Created");
+                    SaveFileDialog prompt2 = new SaveFileDialog();
+                    prompt2.Filter = "Black White 2 Patch File|*.bw2Patch";
+                    if (prompt2.ShowDialog() == DialogResult.OK)
+                    {
+                        Dictionary<string, IEnumerable<byte>> data = new Dictionary<string, IEnumerable<byte>>();
+                        for (int i = 0; i < fileSystem.narcs.Count; i++)
+                        {
+                            if (fileSystem.narcs[i].GetType().Name != "NARC" && selectedNARCs.Contains(i))
+                            {
+                                fileSystem.narcs[i].WriteData();
+                                data.Add("id_" + i, fileSystem.narcs[i].GetPatchBytes(other.narcs[i]));
+                            }
+                        }
+
+                        FileFunctions.WriteAllSections(prompt2.FileName, data, true);
+                        MessageBox.Show("Patch Created");
+                    }
                 }
             }
         }

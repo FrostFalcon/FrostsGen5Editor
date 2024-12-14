@@ -321,7 +321,7 @@ namespace NewEditor.Data
 
             //Get Rom Ender
             int ptr = HelperFunctions.ReadInt(result.romHeader, End_PointerLocation);
-            b = new byte[ptr == 0 ? 0 : Math.Min(fs.Length, 0x12000000) - ptr];
+            b = new byte[(ptr == 0 || ptr > fs.Length) ? 0 : Math.Min(fs.Length, 0x12000000) - ptr];
             fs.Position = HelperFunctions.ReadInt(result.romHeader, End_PointerLocation);
             fs.Read(b, 0, b.Length);
             result.romEnder = new List<byte>(b);

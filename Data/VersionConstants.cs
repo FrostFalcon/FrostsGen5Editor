@@ -424,7 +424,7 @@ namespace NewEditor.Data
 			"Icirrus City",
 			"Aspertia City",
 			"Virbank City",
-			"Floccesy City",
+			"Humilau City",
 			"Dreamyard 1",
 			"Dreamyard 2",
 			"Pinwheel Forest 1",

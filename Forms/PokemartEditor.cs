@@ -38,6 +38,7 @@ namespace NewEditor.Forms
         private void itemListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             itemIDDropdown.SelectedItem = itemListBox.SelectedItem;
+            if (itemIDDropdown.SelectedIndex < 0) return;
             priceNumberBox.Value = MainEditor.itemDataNarc.items[itemIDDropdown.SelectedIndex].BuyPrice;
         }
 
@@ -118,6 +119,7 @@ namespace NewEditor.Forms
 
         private void itemIDDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (itemIDDropdown.SelectedIndex < 0) return;
             priceNumberBox.Value = MainEditor.itemDataNarc.items[itemIDDropdown.SelectedIndex].BuyPrice;
         }
     }

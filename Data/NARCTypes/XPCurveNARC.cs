@@ -16,20 +16,11 @@ namespace NewEditor.Data.NARCTypes
         {
             base.ReadData();
 
-            //Find first file instance
-            int pos = numFileEntries * 8;
-            while (pos < byteData.Length)
-            {
-                pos++;
-                if (pos >= byteData.Length) return;
-                if (byteData[pos] == 'B' && byteData[pos + 1] == 'T' && byteData[pos + 2] == 'N' && byteData[pos + 3] == 'F') break;
-            }
-            int initialPosition = pos + 24;
+            int pos = pointerStartAddress;
+            int initialPosition = FileEntryStart;
 
             //Register data files
             curves = new List<XPCurveEntry>();
-
-            pos = pointerStartAddress;
 
             //Populate data types
             for (int i = 0; i < numFileEntries; i++)
@@ -53,17 +44,7 @@ namespace NewEditor.Data.NARCTypes
             List<byte> oldByteData = new List<byte>(byteData);
 
             newByteData.AddRange(oldByteData.GetRange(0, pointerStartAddress));
-
-            //Find start of file instances
-            int pos = 0;
-            while (pos < byteData.Length)
-            {
-                pos++;
-                if (pos >= byteData.Length) return;
-                if (byteData[pos] == 'B' && byteData[pos + 1] == 'T' && byteData[pos + 2] == 'N' && byteData[pos + 3] == 'F') break;
-            }
-
-            newByteData.AddRange(oldByteData.GetRange(pos, 24));
+            newByteData.AddRange(oldByteData.GetRange(BTNFPosition, FileEntryStart - BTNFPosition));
 
             //Write Files
             int totalSize = 0;
@@ -90,12 +71,12 @@ namespace NewEditor.Data.NARCTypes
 
         public override byte[] GetPatchBytes(NARC narc)
         {
-            ItemDataNARC other = narc as ItemDataNARC;
+            XPCurveNARC other = narc as XPCurveNARC;
             List<byte> bytes = new List<byte>();
 
             for (int i = 0; i < numFileEntries; i++)
             {
-                if (i > other.items.Count || !curves[i].bytes.SequenceEqual(other.items[i].bytes))
+                if (i > other.curves.Count || !curves[i].bytes.SequenceEqual(other.curves[i].bytes))
                 {
                     bytes.AddRange(BitConverter.GetBytes(i));
                     bytes.AddRange(BitConverter.GetBytes(curves[i].bytes.Length));

@@ -836,7 +836,7 @@ namespace NewEditor.Forms
             "Punch move",
             "Sound move",
             "Grounded by Gravity",
-            "Defrosts target",
+            "Defrosts user",
             "Hits non-adjacent Pokemon",
             "Healing move",
             "Bypass substitute",

@@ -32,19 +32,12 @@ namespace NewEditor.Data.NARCTypes
             base.ReadData();
 
             //Find first file instance
-            int pos = numFileEntries * 8;
-            while (pos < byteData.Length)
-            {
-                pos++;
-                if (pos >= byteData.Length) return;
-                if (byteData[pos] == 'B' && byteData[pos + 1] == 'T' && byteData[pos + 2] == 'N' && byteData[pos + 3] == 'F') break;
-            }
-            int initialPosition = pos + 24;
+
+            int pos = pointerStartAddress;
+            int initialPosition = FileEntryStart;
 
             //Register data files
             layouts = new List<KeyboardLayoutEntry>();
-
-            pos = pointerStartAddress;
 
             //Populate data types
             for (int i = 0; i < numFileEntries; i++)
@@ -68,17 +61,7 @@ namespace NewEditor.Data.NARCTypes
             List<byte> oldByteData = new List<byte>(byteData);
 
             newByteData.AddRange(oldByteData.GetRange(0, pointerStartAddress));
-
-            //Find start of file instances
-            int pos = 0;
-            while (pos < byteData.Length)
-            {
-                pos++;
-                if (pos >= byteData.Length) return;
-                if (byteData[pos] == 'B' && byteData[pos + 1] == 'T' && byteData[pos + 2] == 'N' && byteData[pos + 3] == 'F') break;
-            }
-
-            newByteData.AddRange(oldByteData.GetRange(pos, 24));
+            newByteData.AddRange(oldByteData.GetRange(BTNFPosition, FileEntryStart - BTNFPosition));
 
             //Write Files
             int totalSize = 0;
