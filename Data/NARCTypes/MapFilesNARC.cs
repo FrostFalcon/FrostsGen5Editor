@@ -9,9 +9,9 @@ using NewEditor.Forms;
 
 namespace NewEditor.Data.NARCTypes
 {
-    public class MapModelsNARC : NARC
+    public class MapFilesNARC : NARC
     {
-        public List<MapModelEntry> models;
+        public List<MapFileEntry> files;
 
         public override void ReadData()
         {
@@ -21,7 +21,7 @@ namespace NewEditor.Data.NARCTypes
             int initialPosition = FileEntryStart;
 
             //Register data files
-            models = new List<MapModelEntry>();
+            files = new List<MapFileEntry>();
 
             //Populate data types
             for (int i = 0; i < numFileEntries; i++)
@@ -32,8 +32,8 @@ namespace NewEditor.Data.NARCTypes
 
                 for (int j = 0; j < end - start; j++) bytes[j] = byteData[initialPosition + start + j];
 
-                MapModelEntry m = new MapModelEntry(bytes) { nameID = i };
-                models.Add(m);
+                MapFileEntry m = new MapFileEntry(bytes) { nameID = i };
+                files.Add(m);
 
                 pos += 8;
             }
@@ -50,7 +50,7 @@ namespace NewEditor.Data.NARCTypes
             //Write Files
             int totalSize = 0;
             int pPos = pointerStartAddress;
-            foreach (MapModelEntry m in models)
+            foreach (MapFileEntry m in files)
             {
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
@@ -58,25 +58,23 @@ namespace NewEditor.Data.NARCTypes
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
             }
-            foreach (MapModelEntry m in models)
+            foreach (MapFileEntry m in files)
             {
                 newByteData.AddRange(m.bytes);
             }
             byteData = newByteData.ToArray();
 
-            FixHeaders(models.Count);
+            FixHeaders(files.Count);
             base.WriteData();
         }
     }
 
-    public class MapModelEntry
+    public class MapFileEntry
     {
         public byte[] bytes;
         public int nameID;
 
-
-
-        public MapModelEntry(byte[] bytes)
+        public MapFileEntry(byte[] bytes)
         {
             this.bytes = bytes;
         }

@@ -72,7 +72,7 @@ namespace NewEditor.Forms
         public static MoveAnimationNARC moveAnimationExtraNarc;
         public static ZoneDataNARC zoneDataNarc;
         public static MapMatrixNARC mapMatrixNarc;
-        public static MapModelsNARC mapModelsNarc;
+        public static MapFilesNARC mapFilesNarc;
         public static ScriptNARC scriptNarc;
         public static TrTextEntriesNARC trTextEntriesNarc;
         public static TrTextIndexNARC trTextIndicesNarc;
@@ -125,7 +125,7 @@ namespace NewEditor.Forms
 
                 textNarcID = VersionConstants.BW2_TextNARCID;
                 storyTextNarcID = VersionConstants.BW2_StoryTextNARCID;
-                mapModelsNarcID = VersionConstants.BW2_MapModelsNARCID;
+                mapModelsNarcID = VersionConstants.BW2_MapFilesNARCID;
                 mapMatrixNarcID = VersionConstants.BW2_MapMatriciesNARCID;
                 pokemonSpritesNarcID = VersionConstants.BW2_PokemonSpritesNARCID;
                 pokemonIconsNarcID = VersionConstants.BW2_PokemonIconsNARCID;
@@ -164,7 +164,7 @@ namespace NewEditor.Forms
 
                 textNarcID = VersionConstants.BW1_TextNARCID;
                 storyTextNarcID = VersionConstants.BW1_StoryTextNARCID;
-                mapModelsNarcID = VersionConstants.BW1_MapModelsNARCID;
+                mapModelsNarcID = VersionConstants.BW1_MapFilesNARCID;
                 mapMatrixNarcID = VersionConstants.BW1_MapMatriciesNARCID;
                 pokemonSpritesNarcID = VersionConstants.BW1_PokemonSpritesNARCID;
                 pokemonIconsNarcID = VersionConstants.BW1_PokemonIconsNARCID;
@@ -330,7 +330,7 @@ namespace NewEditor.Forms
             moveAnimationExtraNarc = null;
             zoneDataNarc = null;
             mapMatrixNarc = null;
-            mapModelsNarc = null;
+            mapFilesNarc = null;
             scriptNarc = null;
             trainerNarc = null;
             trainerPokeNarc = null;
@@ -343,7 +343,7 @@ namespace NewEditor.Forms
 
             await Task.Run(() =>
             {
-                try
+                //try
                 {
                     if (fromFolder)
                     {
@@ -357,14 +357,14 @@ namespace NewEditor.Forms
                         fileStream.Close();
                     }
                 }
-                catch (Exception ex)
+                //catch (Exception ex)
                 {
                     if (autoLoaded)
                     {
                         DisableAutoLoad(null, null);
                         MessageBox.Show("Auto load has been disabled due to an error with the rom file.\nPlease restart the application.");
                     }
-                    throw ex;
+                    //throw ex;
                 }
             });
 
@@ -401,7 +401,7 @@ namespace NewEditor.Forms
             moveAnimationExtraNarc = fileSystem.narcs[moveAnimationExtraNarcID] as MoveAnimationNARC;
             zoneDataNarc = fileSystem.narcs[zoneDataNarcID] as ZoneDataNARC;
             mapMatrixNarc = fileSystem.narcs[mapMatrixNarcID] as MapMatrixNARC;
-            mapModelsNarc = fileSystem.narcs[mapModelsNarcID] as MapModelsNARC;
+            mapFilesNarc = fileSystem.narcs[mapModelsNarcID] as MapFilesNARC;
             scriptNarc = fileSystem.narcs[scriptNarcID] as ScriptNARC;
             trTextEntriesNarc = fileSystem.narcs[trTextEntriesNarcID] as TrTextEntriesNARC;
             trTextIndicesNarc = fileSystem.narcs[trTextIndicesNarcID] as TrTextIndexNARC;
@@ -986,7 +986,7 @@ namespace NewEditor.Forms
                 byte[] bytes = new byte[fs.Length];
                 fs.Read(bytes, 0, bytes.Length);
                 fs.Close();
-                mapModelsNarc.models[(int)replaceMapID.Value].bytes = bytes;
+                mapFilesNarc.files[(int)replaceMapID.Value].bytes = bytes;
 
                 MessageBox.Show("File Replace Complete");
             }

@@ -90,7 +90,7 @@
     <Compile Include="Data\NARCTypes\EvolutionDataNARC.cs" />
     <Compile Include="Data\NARCTypes\KeyboardNARC.cs" />
     <Compile Include="Data\NARCTypes\PokemartNARC.cs" />
-    <Compile Include="Data\NARCTypes\MapModelsNARC.cs" />
+    <Compile Include="Data\NARCTypes\MapFilesNARC.cs" />
     <Compile Include="Data\NARCTypes\PokemonIconNARC.cs" />
     <Compile Include="Data\NARCTypes\MoveAnimationNARC.cs" />
     <Compile Include="Data\NARCTypes\OverworldObjectsNARC.cs" />

@@ -668,7 +668,7 @@ void c0x293(char p0);
 void c0x294(char p0, char p1);
 void c0x295();
 void c0x296();
-void c0x297(short p0);
+void c0x297(short p0, short p1, short p2, short p3);
 void c0x298();
 void c0x299();
 void c0x29A(char p0, short p1);

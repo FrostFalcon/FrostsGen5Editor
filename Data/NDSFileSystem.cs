@@ -87,7 +87,7 @@ namespace NewEditor.Data
         public MoveAnimationNARC moveAnimationExtraNarc;
         public ZoneDataNARC zoneDataNarc;
         public MapMatrixNARC mapMatrixNarc;
-        public MapModelsNARC mapModelsNarc;
+        public MapFilesNARC mapFilesNarc;
         public ScriptNARC scriptNarc;
         public TrTextEntriesNARC trTextEntriesNarc;
         public TrTextIndexNARC trTextIndicesNarc;
@@ -134,7 +134,7 @@ namespace NewEditor.Data
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
-                { MainEditor.mapModelsNarcID, typeof(MapModelsNARC) },
+                { MainEditor.mapModelsNarcID, typeof(MapFilesNARC) },
                 { MainEditor.moveAnimationNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveAnimationExtraNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveDataNarcID, typeof(MoveDataNARC) },
@@ -287,7 +287,7 @@ namespace NewEditor.Data
             result.moveAnimationExtraNarc = result.narcs[MainEditor.moveAnimationExtraNarcID] as MoveAnimationNARC;
             result.zoneDataNarc = result.narcs[MainEditor.zoneDataNarcID] as ZoneDataNARC;
             result.mapMatrixNarc = result.narcs[MainEditor.mapMatrixNarcID] as MapMatrixNARC;
-            result.mapModelsNarc = result.narcs[MainEditor.mapModelsNarcID] as MapModelsNARC;
+            result.mapFilesNarc = result.narcs[MainEditor.mapModelsNarcID] as MapFilesNARC;
             result.scriptNarc = result.narcs[MainEditor.scriptNarcID] as ScriptNARC;
             result.trTextEntriesNarc = result.narcs[MainEditor.trTextEntriesNarcID] as TrTextEntriesNARC;
             result.trTextIndicesNarc = result.narcs[MainEditor.trTextIndicesNarcID] as TrTextIndexNARC;
@@ -372,7 +372,7 @@ namespace NewEditor.Data
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
-                { MainEditor.mapModelsNarcID, typeof(MapModelsNARC) },
+                { MainEditor.mapModelsNarcID, typeof(MapFilesNARC) },
                 { MainEditor.moveAnimationNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveAnimationExtraNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveDataNarcID, typeof(MoveDataNARC) },
@@ -446,7 +446,7 @@ namespace NewEditor.Data
             result.moveAnimationExtraNarc = result.narcs[MainEditor.moveAnimationExtraNarcID] as MoveAnimationNARC;
             result.zoneDataNarc = result.narcs[MainEditor.zoneDataNarcID] as ZoneDataNARC;
             result.mapMatrixNarc = result.narcs[MainEditor.mapMatrixNarcID] as MapMatrixNARC;
-            result.mapModelsNarc = result.narcs[MainEditor.mapModelsNarcID] as MapModelsNARC;
+            result.mapFilesNarc = result.narcs[MainEditor.mapModelsNarcID] as MapFilesNARC;
             result.scriptNarc = result.narcs[MainEditor.scriptNarcID] as ScriptNARC;
             result.trTextEntriesNarc = result.narcs[MainEditor.trTextEntriesNarcID] as TrTextEntriesNARC;
             result.trTextIndicesNarc = result.narcs[MainEditor.trTextIndicesNarcID] as TrTextIndexNARC;

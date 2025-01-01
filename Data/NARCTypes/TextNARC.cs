@@ -161,7 +161,7 @@ namespace NewEditor.Data.NARCTypes
 
         public void CompressData()
         {
-            if (MainEditor.RomType == RomType.BW2)
+            if (MainEditor.RomType == RomType.BW2 || MainEditor.RomType == RomType.BW1)
             {
                 bytes = PPTxtHandler.SaveEntry(bytes, text);
             }

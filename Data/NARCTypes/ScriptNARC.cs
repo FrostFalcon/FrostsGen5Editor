@@ -1452,7 +1452,7 @@ namespace NewEditor.Data.NARCTypes
             {0x294, new CommandType("c0x294", 2, 1, 1)},
             {0x295, new CommandType("c0x295", 0)},
             {0x296, new CommandType("c0x296", 0)},
-            {0x297, new CommandType("c0x297", 1, 2)},
+            {0x297, new CommandType("c0x297", 4, 2, 2, 2, 2)},
             {0x298, new CommandType("c0x298", 0)},
             {0x299, new CommandType("c0x299", 0)},
             {0x29A, new CommandType("c0x29A", 2, 1, 2)},

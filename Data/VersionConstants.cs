@@ -22,7 +22,7 @@ namespace NewEditor.Data
         public const int BW2_StoryTextNARCID = 3;
         public const int BW2_PokemonSpritesNARCID = 4;
         public const int BW2_PokemonIconsNARCID = 7;
-        public const int BW2_MapModelsNARCID = 8;
+        public const int BW2_MapFilesNARCID = 8;
         public const int BW2_MapMatriciesNARCID = 9;
         public const int BW2_ZoneDataNARCID = 12;
         public const int BW2_PokemonDataNARCID = 16;
@@ -50,7 +50,7 @@ namespace NewEditor.Data
         public const int BW1_StoryTextNARCID = 3;
         public const int BW1_PokemonSpritesNARCID = 4;
         public const int BW1_PokemonIconsNARCID = 7;
-        public const int BW1_MapModelsNARCID = 8;
+        public const int BW1_MapFilesNARCID = 8;
         public const int BW1_MapMatriciesNARCID = 9;
         public const int BW1_ZoneDataNARCID = 12;
         public const int BW1_PokemonDataNARCID = 16;
@@ -147,67 +147,6 @@ namespace NewEditor.Data
 		public const int HGSS_EvolutionsNARCID = -1;
 		public const int HGSS_MoveDataNARCID = -1;
 		public const int HGSS_ScriptNARCID = -1;
-
-		public static int FindFirstNARCPointerLocation(FileStream romFile)
-		{
-			romFile.Position = 0;
-
-			int firstNARCAddress = -1;
-			Debug.WriteLine("Started");
-			while (romFile.Position < romFile.Length - 4)
-			{
-				byte[] word = new byte[4];
-				for (int i = 0; i < 4; i++) word[i] = (byte)romFile.ReadByte();
-
-				if (word[0] == 0x4E && word[1] == 0x41 && word[2] == 0x52 && word[3] == 0x43)
-				{
-					firstNARCAddress = (int)romFile.Position - 4;
-					break;
-				}
-			}
-			Debug.WriteLine("Found NARC 0x" + firstNARCAddress.ToString("X"));
-
-            romFile.Position = 0;
-            if (firstNARCAddress != -1)
-			{
-                while (romFile.Position < firstNARCAddress)
-                {
-                    byte[] word = new byte[4];
-                    for (int i = 0; i < 4; i++) word[i] = (byte)romFile.ReadByte();
-
-                    if (BitConverter.ToInt32(word, 0) == firstNARCAddress)
-                    {
-                        Debug.WriteLine("Found Pointer");
-                        return (int)romFile.Position - 4;
-                    }
-                }
-            }
-			Debug.WriteLine("Failed to find Pointer");
-
-			return BW2_FirstNarcPointerLocation;
-		}
-
-		public static int FindSDat(FileStream romFile)
-		{
-            romFile.Position = 0;
-
-            int sdatAddress = -1;
-            Debug.WriteLine("Started");
-            while (romFile.Position < romFile.Length - 4)
-            {
-                byte[] word = new byte[4];
-                for (int i = 0; i < 4; i++) word[i] = (byte)romFile.ReadByte();
-
-                if (word[0] == 0x53 && word[1] == 0x44 && word[2] == 0x41 && word[3] == 0x54)
-                {
-                    sdatAddress = (int)romFile.Position - 4;
-					return sdatAddress;
-                }
-            }
-            Debug.WriteLine("Found SDat 0x" + sdatAddress.ToString("X"));
-
-            return 0x35D018;
-        }
 
 		public static List<string> BW2_TMNames = new List<string>()
         {
