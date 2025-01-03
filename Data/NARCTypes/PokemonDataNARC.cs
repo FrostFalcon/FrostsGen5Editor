@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.DataVisualization.Charting;
 using NewEditor.Forms;
 
 namespace NewEditor.Data.NARCTypes
@@ -372,6 +373,9 @@ namespace NewEditor.Data.NARCTypes
 
         public void ApplyData()
         {
+            //Don't handle the last file
+            if (bytes.Length > 200) return;
+
             if (MainEditor.RomType == RomType.BW2)
             {
                 bytes[0] = baseHP;
@@ -522,13 +526,16 @@ namespace NewEditor.Data.NARCTypes
                     if (TMs[i]) bytes[pos] += (byte)(1 << bit);
                 }
 
-                //Tutors
-                for (int i = 56; i < 60; i++) bytes[i] = 0;
-                for (int i = 0; i < miscTutors.Length; i++)
+                if (bytes.Length == 60)
                 {
-                    int pos = 56 + i / 8;
-                    int bit = i % 8;
-                    if (miscTutors[i]) bytes[pos] += (byte)(1 << bit);
+                    //Tutors
+                    for (int i = 56; i < 60; i++) bytes[i] = 0;
+                    for (int i = 0; i < miscTutors.Length; i++)
+                    {
+                        int pos = 56 + i / 8;
+                        int bit = i % 8;
+                        if (miscTutors[i]) bytes[pos] += (byte)(1 << bit);
+                    }
                 }
 
                 if (levelUpMoves != null) levelUpMoves.ApplyData();

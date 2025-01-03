@@ -1025,6 +1025,11 @@ namespace NewEditor.Forms
 
         private void littleCupButton_Click(object sender, EventArgs e)
         {
+            if (loadingNARCS)
+            {
+                MessageBox.Show("Necessary data files have not been loaded");
+                return;
+            }
             //Normalize level rates
             foreach (PokemonEntry pk in pokemonDataNarc.pokemon)
             {
