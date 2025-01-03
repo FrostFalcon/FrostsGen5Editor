@@ -45,6 +45,7 @@ namespace NewEditor.Data
         public const int BW2_EncountersNARCID = 127;
         public const int BW2_HabitatListNARCID = 296;
         public const int BW2_PokemartNARCID = 282;
+        public const int BW2_PokemartItemCountNARCID = 283;
 
         public const int BW1_TextNARCID = 2;
         public const int BW1_StoryTextNARCID = 3;
@@ -72,7 +73,8 @@ namespace NewEditor.Data
         public const int BW1_EncountersNARCID = 126;
         public const int BW1_KeyboardLayoutNARCID = -1;
         public const int BW1_PokemartNARCID = -2;
-        public const int BW1_HabitatListNARCID = -3;
+        public const int BW1_PokemartItemCountNARCID = -3;
+        public const int BW1_HabitatListNARCID = -4;
 
         //Text Data
         public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : MainEditor.RomType == RomType.BW1 ? 70 : 237;

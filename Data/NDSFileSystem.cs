@@ -97,6 +97,7 @@ namespace NewEditor.Data
         public EncounterNARC encounterNarc;
         public HabitatListNARC habitatListNarc;
         public PokemartNARC pokemartNarc;
+        public PokemartItemCountNARC pokemartItemCountNarc;
         public KeyboardNARC keyboardNarc;
         public XPCurveNARC xpCurveNarc;
 
@@ -141,6 +142,7 @@ namespace NewEditor.Data
                 { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
                 { MainEditor.overworldsNarcID, typeof(OverworldObjectsNARC) },
                 { MainEditor.pokemartNarcID, typeof(PokemartNARC) },
+                { MainEditor.pokemartItemCountNarcID, typeof(PokemartItemCountNARC) },
                 { MainEditor.pokemonDataNarcID, typeof(PokemonDataNARC) },
                 { MainEditor.pokemonIconsNarcID, typeof(PokemonIconNARC) },
                 { MainEditor.pokemonSpritesNarcID, typeof(PokemonSpritesNARC) },
@@ -299,6 +301,7 @@ namespace NewEditor.Data
             if (result.RomType == RomType.BW2)
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
+                result.pokemartItemCountNarc = result.narcs[MainEditor.pokemartItemCountNarcID] as PokemartItemCountNARC;
                 result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
                 result.habitatListNarc = result.narcs[MainEditor.habitatListNarcID] as HabitatListNARC;
             }
@@ -379,6 +382,7 @@ namespace NewEditor.Data
                 { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
                 { MainEditor.overworldsNarcID, typeof(OverworldObjectsNARC) },
                 { MainEditor.pokemartNarcID, typeof(PokemartNARC) },
+                { MainEditor.pokemartItemCountNarcID, typeof(PokemartItemCountNARC) },
                 { MainEditor.pokemonDataNarcID, typeof(PokemonDataNARC) },
                 { MainEditor.pokemonIconsNarcID, typeof(PokemonIconNARC) },
                 { MainEditor.pokemonSpritesNarcID, typeof(PokemonSpritesNARC) },
@@ -458,6 +462,7 @@ namespace NewEditor.Data
             if (result.RomType == RomType.BW2)
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
+                result.pokemartItemCountNarc = result.narcs[MainEditor.pokemartItemCountNarcID] as PokemartItemCountNARC;
                 result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
                 result.habitatListNarc = result.narcs[MainEditor.habitatListNarcID] as HabitatListNARC;
             }

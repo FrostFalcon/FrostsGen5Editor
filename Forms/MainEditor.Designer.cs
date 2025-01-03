@@ -645,7 +645,7 @@ namespace NewEditor.Forms
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainEditor";
-            this.Text = "Frost\'s Ultimate Black and White 2 Editor";
+            this.Text = "Frost\'s Ultimate Gen 5 Editor";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).EndInit();

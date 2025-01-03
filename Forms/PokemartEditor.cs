@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,11 @@ namespace NewEditor.Forms
 
         private void addItemButton_Click(object sender, EventArgs e)
         {
+            if (itemListBox.Items.Count >= 250)
+            {
+                MessageBox.Show("Can't add any more items to this shop.");
+                return;
+            }
             if (itemIDDropdown.SelectedIndex != -1)
             {
                 int pos = itemListBox.SelectedIndex + 1;
@@ -66,7 +72,10 @@ namespace NewEditor.Forms
             {
                 int pos = itemListBox.SelectedIndex;
                 itemListBox.Items.RemoveAt(pos);
-                itemListBox.SelectedIndex = pos;
+                if (pos != itemListBox.Items.Count)
+                    itemListBox.SelectedIndex = pos;
+                else if (itemListBox.Items.Count > 0)
+                    itemListBox.SelectedIndex = pos - 1;
             }
         }
 
@@ -103,6 +112,12 @@ namespace NewEditor.Forms
                     shop.items.Add(MainEditor.textNarc.textFiles[VersionConstants.ItemNameTextFileID].text.IndexOf(str));
                 }
                 shop.Apply();
+
+                int id = MainEditor.pokemartNarc.shops.IndexOf(shop);
+                if (id >= 0 && id < MainEditor.pokemartItemCountNarc.itemCounts.Count)
+                {
+                    MainEditor.pokemartItemCountNarc.itemCounts[id] = (byte)shop.items.Count;
+                }
             }
         }
 

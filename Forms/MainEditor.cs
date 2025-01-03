@@ -47,6 +47,7 @@ namespace NewEditor.Forms
         public static int overworldsNarcID = -1;
         public static int encounterNarcID = -1;
         public static int pokemartNarcID = -1;
+        public static int pokemartItemCountNarcID = -1;
         public static int keyboardNarcID = -1;
         public static int xpCurveNarcID = -1;
         public static int habitatListNarcID = -1;
@@ -81,6 +82,7 @@ namespace NewEditor.Forms
         public static OverworldObjectsNARC overworldsNarc;
         public static EncounterNARC encounterNarc;
         public static PokemartNARC pokemartNarc;
+        public static PokemartItemCountNARC pokemartItemCountNarc;
         public static KeyboardNARC keyboardNarc;
         public static XPCurveNARC xpCurveNarc;
         public static HabitatListNARC habitatListNarc;
@@ -147,6 +149,7 @@ namespace NewEditor.Forms
                 overworldsNarcID = VersionConstants.BW2_OverworldsNARCID;
                 encounterNarcID = VersionConstants.BW2_EncountersNARCID;
                 pokemartNarcID = VersionConstants.BW2_PokemartNARCID;
+                pokemartItemCountNarcID = VersionConstants.BW2_PokemartItemCountNARCID;
                 keyboardNarcID = VersionConstants.BW2_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW2_HabitatListNARCID;
@@ -186,6 +189,7 @@ namespace NewEditor.Forms
                 overworldsNarcID = VersionConstants.BW1_OverworldsNARCID;
                 encounterNarcID = VersionConstants.BW1_EncountersNARCID;
                 pokemartNarcID = VersionConstants.BW1_PokemartNARCID;
+                pokemartItemCountNarcID = VersionConstants.BW1_PokemartItemCountNARCID;
                 keyboardNarcID = VersionConstants.BW1_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW1_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW1_HabitatListNARCID;
@@ -413,6 +417,7 @@ namespace NewEditor.Forms
             if (RomType == RomType.BW2)
             {
                 pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
+                pokemartItemCountNarc = fileSystem.narcs[pokemartItemCountNarcID] as PokemartItemCountNARC;
                 keyboardNarc = fileSystem.narcs[keyboardNarcID] as KeyboardNARC;
                 habitatListNarc = fileSystem.narcs[habitatListNarcID] as HabitatListNARC;
             }
@@ -563,7 +568,7 @@ namespace NewEditor.Forms
                 MessageBox.Show("Only available for Black 2 and White 2 roms");
                 return;
             }
-            if (pokemartNarc == null || itemDataNarc == null || loadingNARCS)
+            if (pokemartNarc == null || pokemartItemCountNarc == null || itemDataNarc == null || loadingNARCS)
             {
                 MessageBox.Show("Pokemart data files have not been loaded");
                 return;

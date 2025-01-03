@@ -83,6 +83,7 @@
     <Compile Include="Data\NARCTypes\ItemDataNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextEntriesNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextIndexNARC.cs" />
+    <Compile Include="Data\NARCTypes\PokemartItemCountNARC.cs" />
     <Compile Include="Data\NDSFileSystem.cs" />
     <Compile Include="Data\NARC.cs" />
     <Compile Include="Data\NARCTypes\LearnsetNARC.cs" />
