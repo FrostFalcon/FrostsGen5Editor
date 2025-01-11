@@ -283,26 +283,26 @@ namespace NewEditor.Forms
                 p.baseSpDef = (byte)pokemonBaseSpDefNumberBox.Value;
                 p.baseSpeed = (byte)pokemonBaseSpeedNumberBox.Value;
 
-                p.type1 = (byte)pokemonTypeDropdown1.SelectedIndex;
-                p.type2 = (byte)pokemonTypeDropdown2.SelectedIndex;
+                if (pokemonTypeDropdown1.SelectedIndex > 0) p.type1 = (byte)pokemonTypeDropdown1.SelectedIndex;
+                if (pokemonTypeDropdown2.SelectedIndex > 0) p.type2 = (byte)pokemonTypeDropdown2.SelectedIndex;
 
-                p.ability1 = (byte)pokeAbilityDropdown1.SelectedIndex;
-                p.ability2 = (byte)pokeAbilityDropdown2.SelectedIndex;
-                p.ability3 = (byte)pokeAbilityDropdown3.SelectedIndex;
+                if (pokeAbilityDropdown1.SelectedIndex > 0) p.ability1 = (byte)pokeAbilityDropdown1.SelectedIndex;
+                if (pokeAbilityDropdown2.SelectedIndex > 0) p.ability2 = (byte)pokeAbilityDropdown2.SelectedIndex;
+                if (pokeAbilityDropdown3.SelectedIndex > 0) p.ability3 = (byte)pokeAbilityDropdown3.SelectedIndex;
 
-                p.levelRate = (byte)((TextValue)pkLevelRateDropdown.SelectedItem).hexID;
-                p.genderRatio = (byte)((TextValue)pkGenderRatioDropdown.SelectedItem).hexID;
+                if (pkLevelRateDropdown.SelectedIndex > 0) p.levelRate = (byte)((TextValue)pkLevelRateDropdown.SelectedItem).hexID;
+                if (pkGenderRatioDropdown.SelectedIndex > 0) p.genderRatio = (byte)((TextValue)pkGenderRatioDropdown.SelectedItem).hexID;
                 p.xpYield = (short)xpYieldNumberBox.Value;
                 p.height = (short)heightNumberBox.Value;
                 p.weight = (short)weightNumberBox.Value;
                 p.baseHappiness = (byte)friendshipNumberBox.Value;
                 p.catchRate = (byte)catchRateNumberBox.Value;
 
-                p.heldItem1 = (short)heldItem1Dropdown.SelectedIndex;
-                p.heldItem2 = (short)heldItem2Dropdown.SelectedIndex;
-                p.heldItem3 = (short)heldItem3Dropdown.SelectedIndex;
-                p.eggGroup1 = (byte)eggGroup1Dropdown.SelectedIndex;
-                p.eggGroup2 = (byte)eggGroup2Dropdown.SelectedIndex;
+                if (heldItem1Dropdown.SelectedIndex > 0) p.heldItem1 = (short)heldItem1Dropdown.SelectedIndex;
+                if (heldItem2Dropdown.SelectedIndex > 0) p.heldItem2 = (short)heldItem2Dropdown.SelectedIndex;
+                if (heldItem3Dropdown.SelectedIndex > 0) p.heldItem3 = (short)heldItem3Dropdown.SelectedIndex;
+                if (eggGroup1Dropdown.SelectedIndex > 0) p.eggGroup1 = (byte)eggGroup1Dropdown.SelectedIndex;
+                if (eggGroup2Dropdown.SelectedIndex > 0) p.eggGroup2 = (byte)eggGroup2Dropdown.SelectedIndex;
 
                 p.levelUpMoves.moves = new List<LevelUpMoveSlot>();
                 foreach (object o in learnsetListBox.Items) if (o is LevelUpMoveSlot move)

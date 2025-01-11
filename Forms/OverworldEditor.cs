@@ -391,15 +391,15 @@ namespace NewEditor.Forms
             {
                 if (MainEditor.scriptNarc != null)
                 {
-                    //try
+                    try
                     {
                         int item = MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].sequences[i - 7000].commands[1].parameters[1];
                         string name = MainEditor.textNarc.textFiles[VersionConstants.ItemNameTextFileID].text[item];
                         giveItemLabel.Text = "Give Item: " + name;
                     }
-                    //catch
+                    catch
                     {
-                        //giveItemLabel.Text = "";
+                        giveItemLabel.Text = "";
                     }
                 }
             }
