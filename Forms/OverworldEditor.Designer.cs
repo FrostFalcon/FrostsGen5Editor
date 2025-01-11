@@ -147,6 +147,8 @@ namespace NewEditor.Forms
             this.label47 = new System.Windows.Forms.Label();
             this.flyXNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label48 = new System.Windows.Forms.Label();
+            this.setItemDropdown = new System.Windows.Forms.ComboBox();
+            this.setItemButton = new System.Windows.Forms.Button();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -409,7 +411,7 @@ namespace NewEditor.Forms
             // applyZoneButton
             // 
             this.applyZoneButton.Enabled = false;
-            this.applyZoneButton.Location = new System.Drawing.Point(23, 429);
+            this.applyZoneButton.Location = new System.Drawing.Point(23, 450);
             this.applyZoneButton.Name = "applyZoneButton";
             this.applyZoneButton.Size = new System.Drawing.Size(120, 40);
             this.applyZoneButton.TabIndex = 73;
@@ -476,12 +478,14 @@ namespace NewEditor.Forms
             this.overworlObjectTabs.Location = new System.Drawing.Point(316, 209);
             this.overworlObjectTabs.Name = "overworlObjectTabs";
             this.overworlObjectTabs.SelectedIndex = 0;
-            this.overworlObjectTabs.Size = new System.Drawing.Size(570, 260);
+            this.overworlObjectTabs.Size = new System.Drawing.Size(570, 280);
             this.overworlObjectTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.overworlObjectTabs.TabIndex = 77;
             // 
             // npcTab
             // 
+            this.npcTab.Controls.Add(this.setItemButton);
+            this.npcTab.Controls.Add(this.setItemDropdown);
             this.npcTab.Controls.Add(this.giveItemLabel);
             this.npcTab.Controls.Add(this.npcZPositionNumberBox);
             this.npcTab.Controls.Add(this.label16);
@@ -511,7 +515,7 @@ namespace NewEditor.Forms
             this.npcTab.Location = new System.Drawing.Point(4, 24);
             this.npcTab.Name = "npcTab";
             this.npcTab.Padding = new System.Windows.Forms.Padding(3);
-            this.npcTab.Size = new System.Drawing.Size(562, 232);
+            this.npcTab.Size = new System.Drawing.Size(562, 252);
             this.npcTab.TabIndex = 0;
             this.npcTab.Text = "NPCs";
             this.npcTab.UseVisualStyleBackColor = true;
@@ -580,7 +584,7 @@ namespace NewEditor.Forms
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(20, 172);
+            this.label17.Location = new System.Drawing.Point(20, 192);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(57, 16);
             this.label17.TabIndex = 93;
@@ -597,7 +601,7 @@ namespace NewEditor.Forms
             // 
             // npcXLeashNumberBox
             // 
-            this.npcXLeashNumberBox.Location = new System.Drawing.Point(85, 170);
+            this.npcXLeashNumberBox.Location = new System.Drawing.Point(85, 190);
             this.npcXLeashNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -642,7 +646,7 @@ namespace NewEditor.Forms
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(20, 202);
+            this.label19.Location = new System.Drawing.Point(20, 222);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(59, 16);
             this.label19.TabIndex = 95;
@@ -659,7 +663,7 @@ namespace NewEditor.Forms
             // 
             // npcYLeashNumberBox
             // 
-            this.npcYLeashNumberBox.Location = new System.Drawing.Point(85, 200);
+            this.npcYLeashNumberBox.Location = new System.Drawing.Point(85, 220);
             this.npcYLeashNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -725,7 +729,7 @@ namespace NewEditor.Forms
             // 
             // npcSightRangeNumberBox
             // 
-            this.npcSightRangeNumberBox.Location = new System.Drawing.Point(250, 170);
+            this.npcSightRangeNumberBox.Location = new System.Drawing.Point(250, 190);
             this.npcSightRangeNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -757,7 +761,7 @@ namespace NewEditor.Forms
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(158, 172);
+            this.label8.Location = new System.Drawing.Point(158, 192);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(82, 16);
             this.label8.TabIndex = 90;
@@ -797,7 +801,7 @@ namespace NewEditor.Forms
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(170, 202);
+            this.label12.Location = new System.Drawing.Point(170, 222);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 16);
             this.label12.TabIndex = 82;
@@ -814,7 +818,7 @@ namespace NewEditor.Forms
             // 
             // npcMovementPermissionsNumberBox
             // 
-            this.npcMovementPermissionsNumberBox.Location = new System.Drawing.Point(250, 200);
+            this.npcMovementPermissionsNumberBox.Location = new System.Drawing.Point(250, 220);
             this.npcMovementPermissionsNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -1878,12 +1882,34 @@ namespace NewEditor.Forms
             this.label48.TabIndex = 91;
             this.label48.Text = "Fly X:";
             // 
+            // setItemDropdown
+            // 
+            this.setItemDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.setItemDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.setItemDropdown.Enabled = false;
+            this.setItemDropdown.FormattingEnabled = true;
+            this.setItemDropdown.Location = new System.Drawing.Point(18, 130);
+            this.setItemDropdown.Name = "setItemDropdown";
+            this.setItemDropdown.Size = new System.Drawing.Size(120, 24);
+            this.setItemDropdown.TabIndex = 104;
+            // 
+            // setItemButton
+            // 
+            this.setItemButton.Enabled = false;
+            this.setItemButton.Location = new System.Drawing.Point(147, 130);
+            this.setItemButton.Name = "setItemButton";
+            this.setItemButton.Size = new System.Drawing.Size(75, 24);
+            this.setItemButton.TabIndex = 95;
+            this.setItemButton.Text = "Set Item";
+            this.setItemButton.UseVisualStyleBackColor = true;
+            this.setItemButton.Click += new System.EventHandler(this.setItemButton_Click);
+            // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(904, 481);
+            this.ClientSize = new System.Drawing.Size(904, 501);
             this.Controls.Add(this.flyYNumberBox);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.flyXNumberBox);
@@ -2105,5 +2131,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.NumericUpDown flyXNumberBox;
         private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Button setItemButton;
+        private System.Windows.Forms.ComboBox setItemDropdown;
     }
 }

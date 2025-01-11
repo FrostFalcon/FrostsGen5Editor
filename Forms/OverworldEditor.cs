@@ -26,6 +26,7 @@ namespace NewEditor.Forms
 
             zoneIdDropdown.Items.AddRange(zoneNARC.zones.ToArray());
             mapNameDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ZoneNameTextFileID].text.ToArray());
+            setItemDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ItemNameTextFileID].text.ToArray());
         }
 
         private void LoadZoneIntoEditor(object sender, EventArgs e)
@@ -396,14 +397,43 @@ namespace NewEditor.Forms
                         int item = MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].sequences[i - 7000].commands[1].parameters[1];
                         string name = MainEditor.textNarc.textFiles[VersionConstants.ItemNameTextFileID].text[item];
                         giveItemLabel.Text = "Give Item: " + name;
+
+                        setItemDropdown.SelectedIndex = MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].sequences[i - 7000].commands[1].parameters[1];
+                        setItemDropdown.Enabled = true;
+                        setItemButton.Enabled = true;
                     }
                     catch
                     {
                         giveItemLabel.Text = "";
+                        setItemDropdown.SelectedIndex = 0;
+                        setItemDropdown.Enabled = false;
+                        setItemButton.Enabled = false;
                     }
                 }
             }
-            else giveItemLabel.Text = "";
+            else
+            {
+                giveItemLabel.Text = "";
+                setItemDropdown.SelectedIndex = 0;
+                setItemDropdown.Enabled = false;
+                setItemButton.Enabled = false;
+            }
+        }
+
+        private void setItemButton_Click(object sender, EventArgs e)
+        {
+            int i = (int)npcScriptNumberBox.Value;
+            if (i >= 7000 && i < 7400 && setItemDropdown.SelectedIndex > 0)
+            {
+                if (MainEditor.scriptNarc != null)
+                {
+                    string name = MainEditor.textNarc.textFiles[VersionConstants.ItemNameTextFileID].text[setItemDropdown.SelectedIndex];
+                    giveItemLabel.Text = "Give Item: " + name;
+
+                    MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].sequences[i - 7000].commands[1].parameters[1] = setItemDropdown.SelectedIndex;
+                    MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].ApplyData();
+                }
+            }
         }
     }
 }
