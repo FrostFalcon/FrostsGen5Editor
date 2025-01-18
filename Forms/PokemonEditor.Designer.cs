@@ -146,15 +146,22 @@ namespace NewEditor.Forms
             this.label43 = new System.Windows.Forms.Label();
             this.formSpriteIDNumberBox = new System.Windows.Forms.NumericUpDown();
             this.eggMovesGroupBox = new System.Windows.Forms.GroupBox();
+            this.label45 = new System.Windows.Forms.Label();
+            this.eggGroup2Dropdown = new System.Windows.Forms.ComboBox();
+            this.eggGroup1Dropdown = new System.Windows.Forms.ComboBox();
             this.removeEggMoveButton = new System.Windows.Forms.Button();
             this.addEggMoveButton = new System.Windows.Forms.Button();
             this.applyEggMoveButton = new System.Windows.Forms.Button();
             this.eggMoveListBox = new System.Windows.Forms.ListBox();
             this.eggMoveDropdown = new System.Windows.Forms.ComboBox();
             this.label44 = new System.Windows.Forms.Label();
-            this.eggGroup1Dropdown = new System.Windows.Forms.ComboBox();
-            this.eggGroup2Dropdown = new System.Windows.Forms.ComboBox();
-            this.label45 = new System.Windows.Forms.Label();
+            this.pokemonEVHpNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVAttackNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVSpeedNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVDefenseNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVSpDefNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVSpAttNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -179,6 +186,12 @@ namespace NewEditor.Forms
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).BeginInit();
             this.eggMovesGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVHpNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVAttackNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpeedNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVDefenseNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pokemonNameDropdown
@@ -436,7 +449,7 @@ namespace NewEditor.Forms
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(200, 95);
+            this.label12.Location = new System.Drawing.Point(250, 95);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(49, 16);
             this.label12.TabIndex = 54;
@@ -447,7 +460,7 @@ namespace NewEditor.Forms
             this.pokemonTypeDropdown2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.pokemonTypeDropdown2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.pokemonTypeDropdown2.FormattingEnabled = true;
-            this.pokemonTypeDropdown2.Location = new System.Drawing.Point(265, 91);
+            this.pokemonTypeDropdown2.Location = new System.Drawing.Point(315, 91);
             this.pokemonTypeDropdown2.Name = "pokemonTypeDropdown2";
             this.pokemonTypeDropdown2.Size = new System.Drawing.Size(100, 24);
             this.pokemonTypeDropdown2.TabIndex = 53;
@@ -455,7 +468,7 @@ namespace NewEditor.Forms
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(200, 60);
+            this.label11.Location = new System.Drawing.Point(250, 60);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(49, 16);
             this.label11.TabIndex = 52;
@@ -466,7 +479,7 @@ namespace NewEditor.Forms
             this.pokemonTypeDropdown1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.pokemonTypeDropdown1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.pokemonTypeDropdown1.FormattingEnabled = true;
-            this.pokemonTypeDropdown1.Location = new System.Drawing.Point(265, 56);
+            this.pokemonTypeDropdown1.Location = new System.Drawing.Point(315, 56);
             this.pokemonTypeDropdown1.Name = "pokemonTypeDropdown1";
             this.pokemonTypeDropdown1.Size = new System.Drawing.Size(100, 24);
             this.pokemonTypeDropdown1.TabIndex = 51;
@@ -474,7 +487,7 @@ namespace NewEditor.Forms
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(200, 235);
+            this.label10.Location = new System.Drawing.Point(250, 235);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(58, 16);
             this.label10.TabIndex = 50;
@@ -485,7 +498,7 @@ namespace NewEditor.Forms
             this.pokeAbilityDropdown3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.pokeAbilityDropdown3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.pokeAbilityDropdown3.FormattingEnabled = true;
-            this.pokeAbilityDropdown3.Location = new System.Drawing.Point(265, 231);
+            this.pokeAbilityDropdown3.Location = new System.Drawing.Point(315, 231);
             this.pokeAbilityDropdown3.Name = "pokeAbilityDropdown3";
             this.pokeAbilityDropdown3.Size = new System.Drawing.Size(120, 24);
             this.pokeAbilityDropdown3.TabIndex = 49;
@@ -493,7 +506,7 @@ namespace NewEditor.Forms
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(200, 200);
+            this.label9.Location = new System.Drawing.Point(250, 200);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(58, 16);
             this.label9.TabIndex = 48;
@@ -504,7 +517,7 @@ namespace NewEditor.Forms
             this.pokeAbilityDropdown2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.pokeAbilityDropdown2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.pokeAbilityDropdown2.FormattingEnabled = true;
-            this.pokeAbilityDropdown2.Location = new System.Drawing.Point(265, 196);
+            this.pokeAbilityDropdown2.Location = new System.Drawing.Point(315, 196);
             this.pokeAbilityDropdown2.Name = "pokeAbilityDropdown2";
             this.pokeAbilityDropdown2.Size = new System.Drawing.Size(120, 24);
             this.pokeAbilityDropdown2.TabIndex = 47;
@@ -512,7 +525,7 @@ namespace NewEditor.Forms
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(200, 165);
+            this.label8.Location = new System.Drawing.Point(250, 165);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(58, 16);
             this.label8.TabIndex = 46;
@@ -523,7 +536,7 @@ namespace NewEditor.Forms
             this.pokeAbilityDropdown1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.pokeAbilityDropdown1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.pokeAbilityDropdown1.FormattingEnabled = true;
-            this.pokeAbilityDropdown1.Location = new System.Drawing.Point(265, 161);
+            this.pokeAbilityDropdown1.Location = new System.Drawing.Point(315, 161);
             this.pokeAbilityDropdown1.Name = "pokeAbilityDropdown1";
             this.pokeAbilityDropdown1.Size = new System.Drawing.Size(120, 24);
             this.pokeAbilityDropdown1.TabIndex = 45;
@@ -531,6 +544,13 @@ namespace NewEditor.Forms
             // baseStatsGroup
             // 
             this.baseStatsGroup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.baseStatsGroup.Controls.Add(this.label46);
+            this.baseStatsGroup.Controls.Add(this.pokemonEVHpNumberBox);
+            this.baseStatsGroup.Controls.Add(this.pokemonEVAttackNumberBox);
+            this.baseStatsGroup.Controls.Add(this.pokemonEVSpeedNumberBox);
+            this.baseStatsGroup.Controls.Add(this.pokemonEVDefenseNumberBox);
+            this.baseStatsGroup.Controls.Add(this.pokemonEVSpDefNumberBox);
+            this.baseStatsGroup.Controls.Add(this.pokemonEVSpAttNumberBox);
             this.baseStatsGroup.Controls.Add(this.pokemonBaseHpNumberBox);
             this.baseStatsGroup.Controls.Add(this.label13);
             this.baseStatsGroup.Controls.Add(this.label14);
@@ -1504,6 +1524,35 @@ namespace NewEditor.Forms
             this.eggMovesGroupBox.TabStop = false;
             this.eggMovesGroupBox.Text = "Egg Moves";
             // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(11, 40);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(80, 16);
+            this.label45.TabIndex = 91;
+            this.label45.Text = "Egg Groups:";
+            // 
+            // eggGroup2Dropdown
+            // 
+            this.eggGroup2Dropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.eggGroup2Dropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.eggGroup2Dropdown.FormattingEnabled = true;
+            this.eggGroup2Dropdown.Location = new System.Drawing.Point(100, 50);
+            this.eggGroup2Dropdown.Name = "eggGroup2Dropdown";
+            this.eggGroup2Dropdown.Size = new System.Drawing.Size(120, 24);
+            this.eggGroup2Dropdown.TabIndex = 90;
+            // 
+            // eggGroup1Dropdown
+            // 
+            this.eggGroup1Dropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.eggGroup1Dropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.eggGroup1Dropdown.FormattingEnabled = true;
+            this.eggGroup1Dropdown.Location = new System.Drawing.Point(100, 20);
+            this.eggGroup1Dropdown.Name = "eggGroup1Dropdown";
+            this.eggGroup1Dropdown.Size = new System.Drawing.Size(120, 24);
+            this.eggGroup1Dropdown.TabIndex = 89;
+            // 
             // removeEggMoveButton
             // 
             this.removeEggMoveButton.Location = new System.Drawing.Point(140, 160);
@@ -1562,34 +1611,116 @@ namespace NewEditor.Forms
             this.label44.TabIndex = 86;
             this.label44.Text = "Move:";
             // 
-            // eggGroup1Dropdown
+            // pokemonEVHpNumberBox
             // 
-            this.eggGroup1Dropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.eggGroup1Dropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.eggGroup1Dropdown.FormattingEnabled = true;
-            this.eggGroup1Dropdown.Location = new System.Drawing.Point(100, 20);
-            this.eggGroup1Dropdown.Name = "eggGroup1Dropdown";
-            this.eggGroup1Dropdown.Size = new System.Drawing.Size(120, 24);
-            this.eggGroup1Dropdown.TabIndex = 89;
+            this.pokemonEVHpNumberBox.Location = new System.Drawing.Point(140, 56);
+            this.pokemonEVHpNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVHpNumberBox.Name = "pokemonEVHpNumberBox";
+            this.pokemonEVHpNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVHpNumberBox.TabIndex = 70;
+            this.pokemonEVHpNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // eggGroup2Dropdown
+            // pokemonEVAttackNumberBox
             // 
-            this.eggGroup2Dropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.eggGroup2Dropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.eggGroup2Dropdown.FormattingEnabled = true;
-            this.eggGroup2Dropdown.Location = new System.Drawing.Point(100, 50);
-            this.eggGroup2Dropdown.Name = "eggGroup2Dropdown";
-            this.eggGroup2Dropdown.Size = new System.Drawing.Size(120, 24);
-            this.eggGroup2Dropdown.TabIndex = 90;
+            this.pokemonEVAttackNumberBox.Location = new System.Drawing.Point(140, 91);
+            this.pokemonEVAttackNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVAttackNumberBox.Name = "pokemonEVAttackNumberBox";
+            this.pokemonEVAttackNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVAttackNumberBox.TabIndex = 71;
+            this.pokemonEVAttackNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // label45
+            // pokemonEVSpeedNumberBox
             // 
-            this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(11, 40);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(80, 16);
-            this.label45.TabIndex = 91;
-            this.label45.Text = "Egg Groups:";
+            this.pokemonEVSpeedNumberBox.Location = new System.Drawing.Point(140, 231);
+            this.pokemonEVSpeedNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVSpeedNumberBox.Name = "pokemonEVSpeedNumberBox";
+            this.pokemonEVSpeedNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVSpeedNumberBox.TabIndex = 75;
+            this.pokemonEVSpeedNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVDefenseNumberBox
+            // 
+            this.pokemonEVDefenseNumberBox.Location = new System.Drawing.Point(140, 126);
+            this.pokemonEVDefenseNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVDefenseNumberBox.Name = "pokemonEVDefenseNumberBox";
+            this.pokemonEVDefenseNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVDefenseNumberBox.TabIndex = 72;
+            this.pokemonEVDefenseNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVSpDefNumberBox
+            // 
+            this.pokemonEVSpDefNumberBox.Location = new System.Drawing.Point(140, 196);
+            this.pokemonEVSpDefNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVSpDefNumberBox.Name = "pokemonEVSpDefNumberBox";
+            this.pokemonEVSpDefNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVSpDefNumberBox.TabIndex = 74;
+            this.pokemonEVSpDefNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVSpAttNumberBox
+            // 
+            this.pokemonEVSpAttNumberBox.Location = new System.Drawing.Point(140, 161);
+            this.pokemonEVSpAttNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVSpAttNumberBox.Name = "pokemonEVSpAttNumberBox";
+            this.pokemonEVSpAttNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVSpAttNumberBox.TabIndex = 73;
+            this.pokemonEVSpAttNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(137, 25);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(58, 16);
+            this.label46.TabIndex = 76;
+            this.label46.Text = "EV Yield";
             // 
             // PokemonEditor
             // 
@@ -1647,6 +1778,12 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).EndInit();
             this.eggMovesGroupBox.ResumeLayout(false);
             this.eggMovesGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVHpNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVAttackNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpeedNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVDefenseNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1779,5 +1916,12 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.ComboBox eggGroup2Dropdown;
         private System.Windows.Forms.ComboBox eggGroup1Dropdown;
+        private System.Windows.Forms.NumericUpDown pokemonEVHpNumberBox;
+        private System.Windows.Forms.NumericUpDown pokemonEVAttackNumberBox;
+        private System.Windows.Forms.NumericUpDown pokemonEVSpeedNumberBox;
+        private System.Windows.Forms.NumericUpDown pokemonEVDefenseNumberBox;
+        private System.Windows.Forms.NumericUpDown pokemonEVSpDefNumberBox;
+        private System.Windows.Forms.NumericUpDown pokemonEVSpAttNumberBox;
+        private System.Windows.Forms.Label label46;
     }
 }

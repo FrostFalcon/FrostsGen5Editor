@@ -138,6 +138,13 @@ namespace NewEditor.Forms
                 pokemonBaseSpDefNumberBox.Value = p.baseSpDef;
                 pokemonBaseSpeedNumberBox.Value = p.baseSpeed;
 
+                pokemonEVHpNumberBox.Value = p.evYeildHP;
+                pokemonEVAttackNumberBox.Value = p.evYeildAttack;
+                pokemonEVDefenseNumberBox.Value = p.evYeildDefense;
+                pokemonEVSpAttNumberBox.Value = p.evYeildSpAtt;
+                pokemonEVSpDefNumberBox.Value = p.evYeildSpDef;
+                pokemonEVSpeedNumberBox.Value = p.evYeildSpeed;
+
                 pokemonTypeDropdown1.SelectedIndex = p.type1;
                 pokemonTypeDropdown2.SelectedIndex = p.type2;
 
@@ -282,6 +289,13 @@ namespace NewEditor.Forms
                 p.baseSpAtt = (byte)pokemonBaseSpAttNumberBox.Value;
                 p.baseSpDef = (byte)pokemonBaseSpDefNumberBox.Value;
                 p.baseSpeed = (byte)pokemonBaseSpeedNumberBox.Value;
+
+                p.evYeildHP = (byte)pokemonEVHpNumberBox.Value;
+                p.evYeildAttack = (byte)pokemonEVAttackNumberBox.Value;
+                p.evYeildDefense = (byte)pokemonEVDefenseNumberBox.Value;
+                p.evYeildSpAtt = (byte)pokemonEVSpAttNumberBox.Value;
+                p.evYeildSpDef = (byte)pokemonEVSpDefNumberBox.Value;
+                p.evYeildSpeed = (byte)pokemonEVSpeedNumberBox.Value;
 
                 if (pokemonTypeDropdown1.SelectedIndex > 0) p.type1 = (byte)pokemonTypeDropdown1.SelectedIndex;
                 if (pokemonTypeDropdown2.SelectedIndex > 0) p.type2 = (byte)pokemonTypeDropdown2.SelectedIndex;

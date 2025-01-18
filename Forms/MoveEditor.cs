@@ -171,8 +171,7 @@ namespace NewEditor.Forms
 
                 if (moveNameDropdown.SelectedIndex >= 0)
                 {
-                    MoveAnimationEntry mAnim = moveNameDropdown.SelectedIndex < 560 ? moveAnimNARC.animations[moveNameDropdown.SelectedIndex] :
-                        moveAnim2NARC.animations[moveNameDropdown.SelectedIndex - 561];
+                    MoveAnimationEntry mAnim =  moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
                     string text = "";
                     foreach (byte b in mAnim.bytes) text += b.ToString("X2") + " ";
                     animDataTextBox.Text = text;
@@ -298,8 +297,7 @@ namespace NewEditor.Forms
             {
 
                 string text = "";
-                MoveAnimationEntry mAnim = copyAnimationDropdown.SelectedIndex < 560 ? moveAnimNARC.animations[copyAnimationDropdown.SelectedIndex] :
-                        moveAnim2NARC.animations[copyAnimationDropdown.SelectedIndex - 561];
+                MoveAnimationEntry mAnim = moveAnimNARC.animations[copyAnimationDropdown.SelectedIndex];
                 foreach (byte b in mAnim.bytes) text += b.ToString("X2") + " ";
                 animDataTextBox.Text = text;
             }
@@ -309,8 +307,7 @@ namespace NewEditor.Forms
         {
             if (moveNameDropdown.SelectedIndex >= 0)
             {
-                MoveAnimationEntry anim = moveNameDropdown.SelectedIndex < 560 ? moveAnimNARC.animations[moveNameDropdown.SelectedIndex] :
-                        moveAnim2NARC.animations[moveNameDropdown.SelectedIndex - 561];
+                MoveAnimationEntry anim = moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
 
                 //Test for improper text length
                 if (animDataTextBox.Text.Length % 3 == 2 && animDataTextBox.Text[animDataTextBox.Text.Length - 1] != ' ') animDataTextBox.Text += ' ';
@@ -351,11 +348,11 @@ namespace NewEditor.Forms
                     textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[4]);
                     textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[5]);
                 }
-                if (moveDataNARC.moves.Count < 680) textNARC.textFiles[403].text[moveDataNARC.moves.Count - 1] = "DontUse";
+                if (moveDataNARC.moves.Count <= 680) textNARC.textFiles[403].text[moveDataNARC.moves.Count - 1] = "DontUse";
             }
-            while (moveAnim2NARC.animations.Count < 400)
+            while (moveAnimNARC.animations.Count < 800)
             {
-                moveAnim2NARC.animations.Add(new MoveAnimationEntry(moveAnimNARC.animations[1].bytes.ToArray()));
+                moveAnimNARC.animations.Add(new MoveAnimationEntry(moveAnimNARC.animations[1].bytes.ToArray()));
             }
 
             TextFile template = textNARC.textFiles[0];

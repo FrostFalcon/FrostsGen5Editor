@@ -249,7 +249,7 @@ namespace NewEditor.Data.NARCTypes
                                     movements.RemoveAt(0);
                                 }
 
-                                sf.ApplyData(false);
+                                sf.ApplyData(true);
                                 int pos = sf.bytes.Length - 4 * sf.sequences.Count - 2;
                                 sf.sequences.Add(stack[0]);
                                 sf.ApplyData(false);
@@ -969,7 +969,7 @@ namespace NewEditor.Data.NARCTypes
             {0xB1, new CommandType("c0xB1", 0)},
             {0xB2, new CommandType("Multi2", 6, 1, 1, 1, 1, 1, 2)},
             {0xB3, new CommandType("FadeScreen", 4, 2, 2, 2, 2)},
-            {0xB4, new CommandType("ResetScreen", 3, 2, 2, 2)},
+            {0xB4, new CommandType("ResetScreen", 0)},
             {0xB5, new CommandType("Screenc0xB5", 3, 2, 2, 2)},
             {0xB6, new CommandType("TakeItem", 3, 2, 2, 2)},
             {0xB7, new CommandType("CheckItemBagSpace", 3, 2, 2, 2)},
