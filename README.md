@@ -24,7 +24,7 @@ Roms that include the fairy type implementation (This includes Blaze Black 2 and
 
 This editor should be compatible with rom hacks and other editors with the exception of roms using CTRMap's code injection features.
 
-If you have any other issues with the editor, please provide details on the error and rom you are using. There's also a support thread for this editor on the Kingdom of DS Rom Hacking Discord server.
+If you have any other issues with the editor, you can join my Discord server to get help. https://discord.gg/rA9gZ7v3na
 
 ![image](https://github.com/user-attachments/assets/fbfe3dd3-554e-4078-a4a1-62c691d58681)
 ![image](https://github.com/user-attachments/assets/feb7cb36-e8e9-46eb-9327-9b78ffda181e)
