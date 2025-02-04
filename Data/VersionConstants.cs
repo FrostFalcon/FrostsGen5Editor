@@ -12,9 +12,6 @@ namespace NewEditor.Data
     public static class VersionConstants
     {
         //File Data
-        public const int BW2_FirstNarcPointerLocation = 0x3644C0;
-        public const int BW2_LastNarc = 307;
-        public const int BW2_NARCsToSkip = 3;
         public const int BW2_FileSizeLimit = 0x12000000;
 
         //Narc Data
