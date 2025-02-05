@@ -109,6 +109,7 @@ namespace NewEditor.Data
             fs.Read(romTypeBytes, 0, 16);
             result.romType = Encoding.ASCII.GetString(romTypeBytes).ToLower();
             result.romType = result.romType.Remove(result.romType.IndexOf((char)0));
+            while (result.romType[result.romType.Length - 1] == (char)0x20) result.romType = result.romType.Remove(result.romType.Length - 1, 1);
 
             MainEditor.GetVersionConstants(result.romType);
 
@@ -349,6 +350,7 @@ namespace NewEditor.Data
             byte[] romTypeBytes = result.romHeader.GetRange(0, 16).ToArray();
             result.romType = Encoding.ASCII.GetString(romTypeBytes).ToLower();
             result.romType = result.romType.Remove(result.romType.IndexOf((char)0));
+            while (result.romType[result.romType.Length - 1] == (char)0x20) result.romType = result.romType.Remove(result.romType.Length - 2, 1);
 
             MainEditor.GetVersionConstants(result.romType);
 
