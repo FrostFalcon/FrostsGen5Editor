@@ -245,11 +245,11 @@ namespace NewEditor.Forms
             // 
             // locateByteButton
             // 
-            this.locateByteButton.Location = new System.Drawing.Point(840, 364);
+            this.locateByteButton.Location = new System.Drawing.Point(800, 364);
             this.locateByteButton.Name = "locateByteButton";
-            this.locateByteButton.Size = new System.Drawing.Size(80, 30);
+            this.locateByteButton.Size = new System.Drawing.Size(121, 30);
             this.locateByteButton.TabIndex = 91;
-            this.locateByteButton.Text = "Locate";
+            this.locateByteButton.Text = "Locate Command";
             this.locateByteButton.UseVisualStyleBackColor = true;
             this.locateByteButton.Click += new System.EventHandler(this.locateByteButton_Click);
             // 
