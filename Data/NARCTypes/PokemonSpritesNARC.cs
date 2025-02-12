@@ -28,7 +28,8 @@ namespace NewEditor.Data.NARCTypes
 
             //Populate data types
             int nameID = 0;
-            for (int i = 0; i < numFileEntries - 25; i += 20)
+            int i = 0;
+            for (i = 0; i <= numFileEntries - 20; i += 20)
             {
                 PokemonSpriteEntry p = new PokemonSpriteEntry() { nameID = nameID };
                 for (int j = 0; j < 20; j++)
@@ -51,7 +52,7 @@ namespace NewEditor.Data.NARCTypes
 
             remainingfiles = new List<byte[]>();
 
-            for (int i = numFileEntries - 25; i < numFileEntries; i++)
+            for (i = i; i < numFileEntries; i++)
             {
                 int start = HelperFunctions.ReadInt(byteData, pos);
                 int end = HelperFunctions.ReadInt(byteData, pos + 4);

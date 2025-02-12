@@ -39,7 +39,7 @@ namespace NewEditor.Forms
 
             if (arm.Count < paletteArrayOffset || arm[paletteArrayOffset] != 0 || !(arm[paletteArrayOffset + 1] == 0 || arm[paletteArrayOffset + 1] == 17 || arm[paletteArrayOffset + 1] == 34) ||
                 !(arm[paletteArrayOffset + 2] == 0 || arm[paletteArrayOffset + 2] == 17 || arm[paletteArrayOffset + 2] == 34) ||
-                !(arm[paletteArrayOffset + 3] == 0 || arm[paletteArrayOffset + 3] == 17 || arm[paletteArrayOffset + 3] == 34)) paletteArrayOffset = 0;
+                !(arm[paletteArrayOffset + 3] == 0 || arm[paletteArrayOffset + 3] == 17 || arm[paletteArrayOffset + 3] == 34) || spriteID >= 754) paletteArrayOffset = 0;
             else
             {
                 int value = arm[paletteArrayOffset + spriteID];
@@ -275,6 +275,7 @@ namespace NewEditor.Forms
         private void iconTypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             pokemonIconBox.Image = MainEditor.pokemonIconNarc.GetIcon(spriteID, iconTypeDropdown.SelectedIndex == 1, (int)paletteIDNumberBox.Value);
+            if (spriteID >= 754) return;
             if (paletteArrayOffset != 0)
             {
                 List<byte> arm = MainEditor.fileSystem.arm9;

@@ -684,24 +684,34 @@ namespace NewEditor.Forms
             }
         }
 
-        public static void FullCopyPokemon(int from, int spriteID)
+        public static void FullCopyPokemon(int from, int count)
         {
             PokemonEntry pk1 = pokemonNARC.pokemon[from];
-            pk1.numberOfForms = 2;
-            pk1.ApplyData();
-            PokemonEntry pk = new PokemonEntry(new List<byte>(pk1.bytes).ToArray());
-            pk1.formSpritesStart = (short)spriteID;
+
+            pk1.numberOfForms = (byte)(count + 1);
+            pk1.formSpritesStart = (short)(MainEditor.pokemonSpritesNarc.sprites.Count - 685);
             pk1.formsStart = (short)pokemonNARC.pokemon.Count;
+            for (int i = 0; i < count; i++)
+            {
+                MainEditor.pokemonSpritesNarc.sprites.Add(MainEditor.pokemonSpritesNarc.sprites[pokemonNARC.pokemon[from].spriteID]);
+                MainEditor.pokemonIconNarc.files.Add(MainEditor.pokemonIconNarc.files[pokemonNARC.pokemon[from].spriteID * 2 + 8]);
+                MainEditor.pokemonIconNarc.files.Add(MainEditor.pokemonIconNarc.files[pokemonNARC.pokemon[from].spriteID * 2 + 9]);
+
+                PokemonEntry pk = new PokemonEntry(new List<byte>(pk1.bytes).ToArray());
+                pk.nameID = pk1.nameID;
+                pk.spriteID = MainEditor.pokemonSpritesNarc.sprites.Count - 1;
+                pk.levelUpMoves = new LevelUpMoveset(new List<byte>(pk1.levelUpMoves.bytes).ToArray());
+                pk.evolutions = new EvolutionDataEntry(new List<byte>(pk1.evolutions.bytes).ToArray());
+                pk.formID = i + 1;
+                pk.formSpritesStart = 0;
+                pk.formsStart = 0;
+                pk.numberOfForms = (byte)(count + 1);
+                pk.ApplyData();
+                pokemonNARC.pokemon.Add(pk);
+                learnsetNarc.learnsets.Add(pk.levelUpMoves);
+                MainEditor.evolutionsNarc.evolutions.Add(pk.evolutions);
+            }
             pk1.ApplyData();
-            pk.nameID = pk1.nameID;
-            pk.spriteID = 685 + spriteID;
-            pk.levelUpMoves = new LevelUpMoveset(new List<byte>(pk1.levelUpMoves.bytes).ToArray());
-            pk.evolutions = new EvolutionDataEntry(new List<byte>(pk1.evolutions.bytes).ToArray());
-            pk.formID = 1;
-            pk.ApplyData();
-            pokemonNARC.pokemon.Add(pk);
-            learnsetNarc.learnsets.Add(pk.levelUpMoves);
-            MainEditor.evolutionsNarc.evolutions.Add(pk.evolutions);
         }
 
         private void applyEggMoveButton_Click(object sender, EventArgs e)
