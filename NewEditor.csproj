@@ -79,6 +79,7 @@
     <Compile Include="Data\NARCTypes\ChildPokemonNARC.cs" />
     <Compile Include="Data\NARCTypes\EggMoveNARC.cs" />
     <Compile Include="Data\NARCTypes\HabitatListNARC.cs" />
+    <Compile Include="Data\NARCTypes\HiddenGrottoNARC.cs" />
     <Compile Include="Data\NARCTypes\XPCurveNARC.cs" />
     <Compile Include="Data\NARCTypes\ItemDataNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextEntriesNARC.cs" />
@@ -145,6 +146,12 @@
     </Compile>
     <Compile Include="Forms\ExpCurveEditor.Designer.cs">
       <DependentUpon>ExpCurveEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GrottoEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GrottoEditor.Designer.cs">
+      <DependentUpon>GrottoEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PokemartEditor.cs">
       <SubType>Form</SubType>
@@ -226,6 +233,9 @@
     <EmbeddedResource Include="Forms\ExpCurveEditor.resx">
       <DependentUpon>ExpCurveEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GrottoEditor.resx">
+      <DependentUpon>GrottoEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PokemartEditor.resx">
       <DependentUpon>PokemartEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,6 +268,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Forms\PokemonEditor.resx">
       <DependentUpon>PokemonEditor.cs</DependentUpon>

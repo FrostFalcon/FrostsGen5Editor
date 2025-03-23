@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NewEditor.Data
 {
@@ -40,9 +42,10 @@ namespace NewEditor.Data
         public const int BW2_EggMoveNARCID = 124;
         public const int BW2_OverworldsNARCID = 126;
         public const int BW2_EncountersNARCID = 127;
-        public const int BW2_HabitatListNARCID = 296;
+        public const int BW2_HiddenGrottoNARCID = 273;
         public const int BW2_PokemartNARCID = 282;
         public const int BW2_PokemartItemCountNARCID = 283;
+        public const int BW2_HabitatListNARCID = 296;
 
         public const int BW1_TextNARCID = 2;
         public const int BW1_StoryTextNARCID = 3;
@@ -72,6 +75,7 @@ namespace NewEditor.Data
         public const int BW1_PokemartNARCID = -2;
         public const int BW1_PokemartItemCountNARCID = -3;
         public const int BW1_HabitatListNARCID = -4;
+        public const int BW1_HiddenGrottoNARCID = -5;
 
         //Text Data
         public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : MainEditor.RomType == RomType.BW1 ? 70 : 237;
@@ -671,5 +675,29 @@ namespace NewEditor.Data
 			new int[] { 122 }, // Route 14
 			new int[] { 20, 21, 22 }, // Chargestone Cave
 		};
+
+        public static List<string> BW2_HiddenGrottoNames = new List<string>()
+        {
+            "Floccesy Ranch",
+			"Route 5",
+			"Lostlorn Forest",
+			"Route 6 (Field)",
+			"Route 6 (Cave)",
+			"Route 7",
+			"Route 13 (Stairs Left)",
+			"Route 13 (Stairs Down)",
+			"Route 9",
+			"Giant Chasm",
+			"Route 22",
+			"Route 23",
+			"Abundant Shrine (Field)",
+			"Abundant Shrine (Pond)",
+			"Pinwheel Forest (Interior)",
+			"Pinwheel Forest (Exterior)",
+			"Route 3 (Daycare)",
+			"Route 3 (Pond)",
+			"Route 2",
+			"Route 18"
+        };
     }
 }

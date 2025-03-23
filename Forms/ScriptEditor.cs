@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -50,6 +51,7 @@ namespace NewEditor.Forms
                     applyRawDataButton.Enabled = true;
                     readScriptFileButton.Enabled = true;
                     exportScriptFileButton.Enabled = true;
+                    quickBuildButton.Enabled = quickBuildRom != "";
                 }
                 else
                 {
@@ -61,6 +63,7 @@ namespace NewEditor.Forms
                     applyRawDataButton.Enabled = true;
                     readScriptFileButton.Enabled = false;
                     exportScriptFileButton.Enabled = false;
+                    quickBuildButton.Enabled = false;
                 }
                 string text = "";
                 foreach (byte b in sf.bytes) text += b.ToString("X2") + " ";
@@ -448,6 +451,85 @@ namespace NewEditor.Forms
                     MessageBox.Show("Script file saved to " + prompt.FileName);
                 }
             }
+        }
+
+        string quickBuildScript = "";
+        string quickBuildRom = "";
+        int quickBuildID = 0;
+
+        private void setupQuickBuildButton_Click(object sender, EventArgs e)
+        {
+            if (scriptFileDropdown.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select a script file before setting up a quick build");
+                return;
+            }
+
+            OpenFileDialog script = new OpenFileDialog();
+            script.Title = "Select a script file to import";
+            script.Filter = "C file|*.c";
+            if (script.ShowDialog() != DialogResult.OK) return;
+
+            SaveFileDialog rom = new SaveFileDialog();
+            rom.Title = "Select where to save your rom";
+            rom.Filter = "Nds file|*.nds";
+            if (rom.ShowDialog() != DialogResult.OK) return;
+
+            quickBuildScript = script.FileName;
+            quickBuildRom = rom.FileName;
+            quickBuildID = scriptFileDropdown.SelectedIndex;
+
+            quickBuildLabel.Text = "Import " + quickBuildScript.Substring(quickBuildScript.LastIndexOf("\\") + 1) + " as file " + quickBuildID + ", Save rom to " + quickBuildRom.Substring(quickBuildRom.LastIndexOf("\\") + 1);
+            quickBuildButton.Enabled = exportScriptFileButton.Enabled;
+        }
+
+        private void quickBuildButton_Click(object sender, EventArgs e)
+        {
+            StreamReader reader = null;
+            try
+            {
+                reader = File.OpenText(quickBuildScript);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open file");
+                return;
+            }
+
+            if (reader != null)
+            {
+                ScriptFile newFile = null;
+                try
+                {
+                    newFile = ScriptFile.FromFile(reader);
+                }
+                catch (Exception ex)
+                {
+                    reader.Close();
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+
+                reader.Close();
+                MainEditor.scriptNarc.scriptFiles[quickBuildID] = newFile;
+                LoadScriptFile(sender, e);
+            }
+
+            FileStream fileStream = null;
+            try
+            {
+                fileStream = File.OpenWrite(quickBuildRom);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to save rom");
+                return;
+            }
+            fileStream.SetLength(0);
+            byte[] data = MainEditor.fileSystem.BuildRom();
+            fileStream.Write(data, 0, data.Length);
+            fileStream.Close();
+            MessageBox.Show("Rom saved to " + quickBuildRom);
         }
     }
 }

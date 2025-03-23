@@ -75,6 +75,7 @@ namespace NewEditor.Forms
             this.typeChartEditorButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.openGrottoEditorButton = new System.Windows.Forms.Button();
             this.openXPCurveEditorButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.replaceMapID = new System.Windows.Forms.NumericUpDown();
@@ -93,7 +94,7 @@ namespace NewEditor.Forms
             // openRomButton
             // 
             this.openRomButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.openRomButton.Location = new System.Drawing.Point(470, 15);
+            this.openRomButton.Location = new System.Drawing.Point(552, 14);
             this.openRomButton.Name = "openRomButton";
             this.openRomButton.Size = new System.Drawing.Size(100, 40);
             this.openRomButton.TabIndex = 1;
@@ -126,7 +127,7 @@ namespace NewEditor.Forms
             // 
             this.saveRomButton.Enabled = false;
             this.saveRomButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.saveRomButton.Location = new System.Drawing.Point(470, 65);
+            this.saveRomButton.Location = new System.Drawing.Point(552, 64);
             this.saveRomButton.Name = "saveRomButton";
             this.saveRomButton.Size = new System.Drawing.Size(100, 40);
             this.saveRomButton.TabIndex = 6;
@@ -136,7 +137,7 @@ namespace NewEditor.Forms
             // 
             // openTextViewerButton
             // 
-            this.openTextViewerButton.Location = new System.Drawing.Point(258, 100);
+            this.openTextViewerButton.Location = new System.Drawing.Point(10, 17);
             this.openTextViewerButton.Name = "openTextViewerButton";
             this.openTextViewerButton.Size = new System.Drawing.Size(120, 32);
             this.openTextViewerButton.TabIndex = 7;
@@ -146,7 +147,7 @@ namespace NewEditor.Forms
             // 
             // openPokemonEditorButton
             // 
-            this.openPokemonEditorButton.Location = new System.Drawing.Point(6, 60);
+            this.openPokemonEditorButton.Location = new System.Drawing.Point(10, 95);
             this.openPokemonEditorButton.Name = "openPokemonEditorButton";
             this.openPokemonEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openPokemonEditorButton.TabIndex = 8;
@@ -156,7 +157,7 @@ namespace NewEditor.Forms
             // 
             // openOverworldEditorButton
             // 
-            this.openOverworldEditorButton.Location = new System.Drawing.Point(132, 100);
+            this.openOverworldEditorButton.Location = new System.Drawing.Point(136, 135);
             this.openOverworldEditorButton.Name = "openOverworldEditorButton";
             this.openOverworldEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openOverworldEditorButton.TabIndex = 9;
@@ -175,7 +176,7 @@ namespace NewEditor.Forms
             this.groupBox1.Controls.Add(this.rogueModeButton);
             this.groupBox1.Controls.Add(this.openPresetMoveEditorButton);
             this.groupBox1.Controls.Add(this.openTypeSwapEditorButton);
-            this.groupBox1.Location = new System.Drawing.Point(426, 194);
+            this.groupBox1.Location = new System.Drawing.Point(508, 249);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(264, 240);
             this.groupBox1.TabIndex = 10;
@@ -277,7 +278,7 @@ namespace NewEditor.Forms
             // 
             // openMoveEditorButton
             // 
-            this.openMoveEditorButton.Location = new System.Drawing.Point(6, 20);
+            this.openMoveEditorButton.Location = new System.Drawing.Point(10, 55);
             this.openMoveEditorButton.Name = "openMoveEditorButton";
             this.openMoveEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openMoveEditorButton.TabIndex = 11;
@@ -287,7 +288,7 @@ namespace NewEditor.Forms
             // 
             // openScriptEditorButton
             // 
-            this.openScriptEditorButton.Location = new System.Drawing.Point(132, 60);
+            this.openScriptEditorButton.Location = new System.Drawing.Point(136, 95);
             this.openScriptEditorButton.Name = "openScriptEditorButton";
             this.openScriptEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openScriptEditorButton.TabIndex = 12;
@@ -297,7 +298,7 @@ namespace NewEditor.Forms
             // 
             // openTrainerEditorButton
             // 
-            this.openTrainerEditorButton.Location = new System.Drawing.Point(6, 100);
+            this.openTrainerEditorButton.Location = new System.Drawing.Point(10, 135);
             this.openTrainerEditorButton.Name = "openTrainerEditorButton";
             this.openTrainerEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openTrainerEditorButton.TabIndex = 14;
@@ -307,7 +308,7 @@ namespace NewEditor.Forms
             // 
             // openEncounterEditorButton
             // 
-            this.openEncounterEditorButton.Location = new System.Drawing.Point(132, 20);
+            this.openEncounterEditorButton.Location = new System.Drawing.Point(262, 135);
             this.openEncounterEditorButton.Name = "openEncounterEditorButton";
             this.openEncounterEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openEncounterEditorButton.TabIndex = 15;
@@ -347,7 +348,7 @@ namespace NewEditor.Forms
             // autoLoadButton
             // 
             this.autoLoadButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.autoLoadButton.Location = new System.Drawing.Point(520, 120);
+            this.autoLoadButton.Location = new System.Drawing.Point(602, 119);
             this.autoLoadButton.Name = "autoLoadButton";
             this.autoLoadButton.Size = new System.Drawing.Size(130, 35);
             this.autoLoadButton.TabIndex = 19;
@@ -398,7 +399,7 @@ namespace NewEditor.Forms
             // 
             // openShopEditorButton
             // 
-            this.openShopEditorButton.Location = new System.Drawing.Point(258, 60);
+            this.openShopEditorButton.Location = new System.Drawing.Point(136, 55);
             this.openShopEditorButton.Name = "openShopEditorButton";
             this.openShopEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openShopEditorButton.TabIndex = 26;
@@ -468,7 +469,7 @@ namespace NewEditor.Forms
             // 
             this.dumpRomButton.Enabled = false;
             this.dumpRomButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.dumpRomButton.Location = new System.Drawing.Point(590, 65);
+            this.dumpRomButton.Location = new System.Drawing.Point(672, 64);
             this.dumpRomButton.Name = "dumpRomButton";
             this.dumpRomButton.Size = new System.Drawing.Size(100, 40);
             this.dumpRomButton.TabIndex = 34;
@@ -502,7 +503,7 @@ namespace NewEditor.Forms
             // loadFromFolderButton
             // 
             this.loadFromFolderButton.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.loadFromFolderButton.Location = new System.Drawing.Point(590, 15);
+            this.loadFromFolderButton.Location = new System.Drawing.Point(672, 14);
             this.loadFromFolderButton.Name = "loadFromFolderButton";
             this.loadFromFolderButton.Size = new System.Drawing.Size(100, 40);
             this.loadFromFolderButton.TabIndex = 37;
@@ -550,6 +551,7 @@ namespace NewEditor.Forms
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox3.Controls.Add(this.openGrottoEditorButton);
             this.groupBox3.Controls.Add(this.openXPCurveEditorButton);
             this.groupBox3.Controls.Add(this.openTextViewerButton);
             this.groupBox3.Controls.Add(this.openPokemonEditorButton);
@@ -559,16 +561,26 @@ namespace NewEditor.Forms
             this.groupBox3.Controls.Add(this.openOverworldEditorButton);
             this.groupBox3.Controls.Add(this.openEncounterEditorButton);
             this.groupBox3.Controls.Add(this.openShopEditorButton);
-            this.groupBox3.Location = new System.Drawing.Point(12, 289);
+            this.groupBox3.Location = new System.Drawing.Point(12, 304);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(394, 145);
+            this.groupBox3.Size = new System.Drawing.Size(394, 185);
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Editors";
             // 
+            // openGrottoEditorButton
+            // 
+            this.openGrottoEditorButton.Location = new System.Drawing.Point(262, 95);
+            this.openGrottoEditorButton.Name = "openGrottoEditorButton";
+            this.openGrottoEditorButton.Size = new System.Drawing.Size(120, 32);
+            this.openGrottoEditorButton.TabIndex = 28;
+            this.openGrottoEditorButton.Text = "Grotto Editor";
+            this.openGrottoEditorButton.UseVisualStyleBackColor = true;
+            this.openGrottoEditorButton.Click += new System.EventHandler(this.OpenHiddenGrottoEditor);
+            // 
             // openXPCurveEditorButton
             // 
-            this.openXPCurveEditorButton.Location = new System.Drawing.Point(258, 20);
+            this.openXPCurveEditorButton.Location = new System.Drawing.Point(262, 55);
             this.openXPCurveEditorButton.Name = "openXPCurveEditorButton";
             this.openXPCurveEditorButton.Size = new System.Drawing.Size(120, 32);
             this.openXPCurveEditorButton.TabIndex = 27;
@@ -629,7 +641,7 @@ namespace NewEditor.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(704, 441);
+            this.ClientSize = new System.Drawing.Size(784, 501);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -713,6 +725,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button replaceMapButton;
         private System.Windows.Forms.Button littleCupButton;
         private System.Windows.Forms.Button openXPCurveEditorButton;
+        private System.Windows.Forms.Button openGrottoEditorButton;
     }
 }
 

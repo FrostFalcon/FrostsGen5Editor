@@ -147,12 +147,12 @@ namespace NewEditor.Data.NARCTypes
         public byte catchRate;
         public byte evolutionStage;
 
-        public byte evYeildHP;
-        public byte evYeildAttack;
-        public byte evYeildDefense;
-        public byte evYeildSpAtt;
-        public byte evYeildSpDef;
-        public byte evYeildSpeed;
+        public byte evYieldHP;
+        public byte evYieldAttack;
+        public byte evYieldDefense;
+        public byte evYieldSpAtt;
+        public byte evYieldSpDef;
+        public byte evYieldSpeed;
 
         public short heldItem1;
         public short heldItem2;
@@ -211,12 +211,12 @@ namespace NewEditor.Data.NARCTypes
             catchRate = bytes[8];
             evolutionStage = bytes[9];
 
-            evYeildHP = (byte)(bytes[10] & 0b_11);
-            evYeildAttack = (byte)((bytes[10] & 0b_1100) >> 2);
-            evYeildDefense = (byte)((bytes[10] & 0b_11_0000) >> 4);
-            evYeildSpeed = (byte)((bytes[10] & 0b_1100_0000) >> 6);
-            evYeildSpAtt = (byte)(bytes[11] & 0b_11);
-            evYeildSpDef = (byte)((bytes[11] & 0b_1100) >> 2);
+            evYieldHP = (byte)(bytes[10] & 0b_11);
+            evYieldAttack = (byte)((bytes[10] & 0b_1100) >> 2);
+            evYieldDefense = (byte)((bytes[10] & 0b_11_0000) >> 4);
+            evYieldSpeed = (byte)((bytes[10] & 0b_1100_0000) >> 6);
+            evYieldSpAtt = (byte)(bytes[11] & 0b_11);
+            evYieldSpDef = (byte)((bytes[11] & 0b_1100) >> 2);
 
             heldItem1 = (short)HelperFunctions.ReadShort(bytes, 12);
             heldItem2 = (short)HelperFunctions.ReadShort(bytes, 14);
@@ -305,12 +305,12 @@ namespace NewEditor.Data.NARCTypes
             catchRate = bytes[8];
             evolutionStage = bytes[9];
 
-            evYeildHP = (byte)(bytes[10] & 0b_11);
-            evYeildAttack = (byte)((bytes[10] & 0b_1100) >> 2);
-            evYeildDefense = (byte)((bytes[10] & 0b_11_0000) >> 4);
-            evYeildSpeed = (byte)((bytes[10] & 0b_1100_0000) >> 6);
-            evYeildSpAtt = (byte)(bytes[11] & 0b_11);
-            evYeildSpDef = (byte)((bytes[11] & 0b_1100) >> 2);
+            evYieldHP = (byte)(bytes[10] & 0b_11);
+            evYieldAttack = (byte)((bytes[10] & 0b_1100) >> 2);
+            evYieldDefense = (byte)((bytes[10] & 0b_11_0000) >> 4);
+            evYieldSpeed = (byte)((bytes[10] & 0b_1100_0000) >> 6);
+            evYieldSpAtt = (byte)(bytes[11] & 0b_11);
+            evYieldSpDef = (byte)((bytes[11] & 0b_1100) >> 2);
 
             heldItem1 = (short)HelperFunctions.ReadShort(bytes, 12);
             heldItem2 = (short)HelperFunctions.ReadShort(bytes, 14);
@@ -391,8 +391,8 @@ namespace NewEditor.Data.NARCTypes
                 bytes[8] = catchRate;
                 bytes[9] = evolutionStage;
 
-                bytes[10] = (byte)(evYeildHP + (evYeildAttack << 2) + (evYeildDefense << 4) + (evYeildSpeed << 6));
-                bytes[11] = (byte)(evYeildSpAtt + (evYeildSpDef << 2));
+                bytes[10] = (byte)(evYieldHP + (evYieldAttack << 2) + (evYieldDefense << 4) + (evYieldSpeed << 6));
+                bytes[11] = (byte)(evYieldSpAtt + (evYieldSpDef << 2));
 
                 HelperFunctions.WriteShort(bytes, 12, heldItem1);
                 HelperFunctions.WriteShort(bytes, 14, heldItem2);
@@ -485,8 +485,8 @@ namespace NewEditor.Data.NARCTypes
                 bytes[8] = catchRate;
                 bytes[9] = evolutionStage;
 
-                bytes[10] = (byte)(evYeildHP + (evYeildAttack << 2) + (evYeildDefense << 4) + (evYeildSpeed << 6));
-                bytes[11] = (byte)(evYeildSpAtt + (evYeildSpDef << 2));
+                bytes[10] = (byte)(evYieldHP + (evYieldAttack << 2) + (evYieldDefense << 4) + (evYieldSpeed << 6));
+                bytes[11] = (byte)(evYieldSpAtt + (evYieldSpDef << 2));
 
                 HelperFunctions.WriteShort(bytes, 12, heldItem1);
                 HelperFunctions.WriteShort(bytes, 14, heldItem2);

@@ -51,6 +51,7 @@ namespace NewEditor.Forms
         public static int keyboardNarcID = -1;
         public static int xpCurveNarcID = -1;
         public static int habitatListNarcID = -1;
+        public static int hiddenGrottoNarcID = -1;
 
         //Rom Data
         public static NDSFileSystem fileSystem;
@@ -86,6 +87,7 @@ namespace NewEditor.Forms
         public static KeyboardNARC keyboardNarc;
         public static XPCurveNARC xpCurveNarc;
         public static HabitatListNARC habitatListNarc;
+        public static HiddenGrottoNARC hiddenGrottoNarc;
 
         //Forms
         public static TextViewer textViewer;
@@ -98,6 +100,7 @@ namespace NewEditor.Forms
         public static TypeSwapEditor typeSwapEditor;
         public static RandomMovesEditor presetMovesEditor;
         public static PokemartEditor pokemartEditor;
+        public static GrottoEditor grottoEditor;
         public static ExpCurveEditor xpCurveEditor;
         public static OverlayEditor overlayEditor;
         public static TypeChartEditor typeChartEditor;
@@ -153,6 +156,7 @@ namespace NewEditor.Forms
                 keyboardNarcID = VersionConstants.BW2_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW2_HabitatListNARCID;
+                hiddenGrottoNarcID = VersionConstants.BW2_HiddenGrottoNARCID;
                 return;
             }
 
@@ -193,6 +197,7 @@ namespace NewEditor.Forms
                 keyboardNarcID = VersionConstants.BW1_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW1_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW1_HabitatListNARCID;
+                hiddenGrottoNarcID = VersionConstants.BW1_HiddenGrottoNARCID;
                 return;
             }
 
@@ -316,6 +321,7 @@ namespace NewEditor.Forms
             if (scriptEditor != null && !scriptEditor.IsDisposed) scriptEditor.Close();
             if (trainerEditor != null && !trainerEditor.IsDisposed) trainerEditor.Close();
             if (pokemartEditor != null && !pokemartEditor.IsDisposed) pokemartEditor.Close();
+            if (grottoEditor != null && !grottoEditor.IsDisposed) grottoEditor.Close();
             if (overlayEditor != null && !overlayEditor.IsDisposed) overlayEditor.Close();
             if (typeSwapEditor != null && !typeSwapEditor.IsDisposed) typeSwapEditor.Close();
             if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) presetMovesEditor.Close();
@@ -341,6 +347,7 @@ namespace NewEditor.Forms
             overworldsNarc = null;
             encounterNarc = null;
             pokemartEditor = null;
+            grottoEditor = null;
             overlayEditor = null;
             loadingNARCS = true;
             taskProgressBar.Value = 0;
@@ -420,6 +427,7 @@ namespace NewEditor.Forms
                 pokemartItemCountNarc = fileSystem.narcs[pokemartItemCountNarcID] as PokemartItemCountNARC;
                 keyboardNarc = fileSystem.narcs[keyboardNarcID] as KeyboardNARC;
                 habitatListNarc = fileSystem.narcs[habitatListNarcID] as HabitatListNARC;
+                hiddenGrottoNarc = fileSystem.narcs[hiddenGrottoNarcID] as HiddenGrottoNARC;
             }
         }
 
@@ -559,6 +567,24 @@ namespace NewEditor.Forms
             if (encounterEditor == null || encounterEditor.IsDisposed) encounterEditor = new EncounterEditor();
             encounterEditor.Show();
             encounterEditor.BringToFront();
+        }
+
+        private void OpenHiddenGrottoEditor(object sender, EventArgs e)
+        {
+            if (RomType != RomType.BW2)
+            {
+                MessageBox.Show("Only available for Black 2 and White 2 roms");
+                return;
+            }
+            if (hiddenGrottoNarc == null || loadingNARCS)
+            {
+                MessageBox.Show("Hidden Grotto data files have not been loaded");
+                return;
+            }
+
+            if (grottoEditor == null || grottoEditor.IsDisposed) grottoEditor = new GrottoEditor();
+            grottoEditor.Show();
+            grottoEditor.BringToFront();
         }
 
         private void OpenShopEditor(object sender, EventArgs e)
@@ -1112,6 +1138,68 @@ namespace NewEditor.Forms
             if (xpCurveEditor == null || xpCurveEditor.IsDisposed) xpCurveEditor = new ExpCurveEditor();
             xpCurveEditor.Show();
             xpCurveEditor.BringToFront();
+        }
+
+        private void FindChanges()
+        {
+            OpenFileDialog prompt = new OpenFileDialog();
+            prompt.Filter = "Nds Roms|*.nds";
+            prompt.Title = "Select the base version of the rom";
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fileStream = File.OpenRead(prompt.FileName);
+                NDSFileSystem other = NDSFileSystem.FromRom(fileStream);
+                fileStream.Close();
+
+                Debug.WriteLine("Moves:");
+                for (int i = 0; i < moveDataNarc.moves.Count; i++)
+                {
+                    if (i >= other.moveDataNarc.moves.Count || !other.moveDataNarc.moves[i].bytes.SequenceEqual(moveDataNarc.moves[i].bytes) ||
+                        textNarc.textFiles[VersionConstants.MoveDescriptionTextFileID].text[i] != other.textNarc.textFiles[VersionConstants.MoveDescriptionTextFileID].text[i])
+                    {
+                        Debug.WriteLine(moveDataNarc.moves[i].ToString());
+                    }
+                }
+                Debug.WriteLine("Trainers:");
+                for (int i = 0; i < trainerNarc.trainers.Count; i++)
+                {
+                    if (i >= other.trainerNarc.trainers.Count || !other.trainerNarc.trainers[i].bytes.SequenceEqual(trainerNarc.trainers[i].bytes) ||
+                        !other.trainerNarc.trainers[i].pokemon.bytes.SequenceEqual(trainerNarc.trainers[i].pokemon.bytes))
+                    {
+                        Debug.WriteLine(trainerNarc.trainers[i].ToString());
+                    }
+                }
+
+                Debug.WriteLine("Pokemon:");
+                for (int i = 0; i < pokemonDataNarc.pokemon.Count; i++)
+                {
+                    if (i < other.pokemonDataNarc.pokemon.Count) other.pokemonDataNarc.pokemon[i].bytes[9] = pokemonDataNarc.pokemon[i].bytes[9];
+                    if (i >= other.pokemonDataNarc.pokemon.Count || !other.pokemonDataNarc.pokemon[i].bytes.SequenceEqual(pokemonDataNarc.pokemon[i].bytes) ||
+                        !other.pokemonDataNarc.pokemon[i].evolutions.bytes.SequenceEqual(pokemonDataNarc.pokemon[i].evolutions.bytes) ||
+                        !other.pokemonDataNarc.pokemon[i].levelUpMoves.bytes.SequenceEqual(pokemonDataNarc.pokemon[i].levelUpMoves.bytes))
+                    {
+                        Debug.WriteLine(pokemonDataNarc.pokemon[i].Name);
+                    }
+                }
+
+                Debug.WriteLine("Egg moves:");
+                for (int i = 0; i < eggMoveNarc.entries.Count; i++)
+                {
+                    if (i >= other.eggMoveNarc.entries.Count || !other.eggMoveNarc.entries[i].bytes.SequenceEqual(eggMoveNarc.entries[i].bytes))
+                    {
+                        Debug.WriteLine(pokemonDataNarc.pokemon[i].Name);
+                    }
+                }
+
+                Debug.WriteLine("Encounters:");
+                for (int i = 0; i < encounterNarc.encounterPools.Count; i++)
+                {
+                    if (i >= other.encounterNarc.encounterPools.Count || !other.encounterNarc.encounterPools[i].bytes.SequenceEqual(encounterNarc.encounterPools[i].bytes))
+                    {
+                        Debug.WriteLine(encounterNarc.encounterPools[i].ToString());
+                    }
+                }
+            }
         }
     }
 

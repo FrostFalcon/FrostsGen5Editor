@@ -58,6 +58,13 @@ namespace NewEditor.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.pokeAbilityDropdown1 = new System.Windows.Forms.ComboBox();
             this.baseStatsGroup = new System.Windows.Forms.GroupBox();
+            this.label46 = new System.Windows.Forms.Label();
+            this.pokemonEVHpNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVAttackNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVSpeedNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVDefenseNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVSpDefNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokemonEVSpAttNumberBox = new System.Windows.Forms.NumericUpDown();
             this.miscStatsGroup = new System.Windows.Forms.GroupBox();
             this.catchRateNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
@@ -155,13 +162,6 @@ namespace NewEditor.Forms
             this.eggMoveListBox = new System.Windows.Forms.ListBox();
             this.eggMoveDropdown = new System.Windows.Forms.ComboBox();
             this.label44 = new System.Windows.Forms.Label();
-            this.pokemonEVHpNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokemonEVAttackNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokemonEVSpeedNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokemonEVDefenseNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokemonEVSpDefNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokemonEVSpAttNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label46 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -169,6 +169,12 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseAttackNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseHpNumberBox)).BeginInit();
             this.baseStatsGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVHpNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVAttackNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpeedNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVDefenseNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).BeginInit();
             this.miscStatsGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weightNumberBox)).BeginInit();
@@ -186,12 +192,6 @@ namespace NewEditor.Forms
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).BeginInit();
             this.eggMovesGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVHpNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVAttackNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpeedNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVDefenseNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pokemonNameDropdown
@@ -582,6 +582,117 @@ namespace NewEditor.Forms
             this.baseStatsGroup.TabIndex = 72;
             this.baseStatsGroup.TabStop = false;
             this.baseStatsGroup.Text = "Base Data";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(137, 25);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(58, 16);
+            this.label46.TabIndex = 76;
+            this.label46.Text = "EV Yield";
+            // 
+            // pokemonEVHpNumberBox
+            // 
+            this.pokemonEVHpNumberBox.Location = new System.Drawing.Point(140, 56);
+            this.pokemonEVHpNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVHpNumberBox.Name = "pokemonEVHpNumberBox";
+            this.pokemonEVHpNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVHpNumberBox.TabIndex = 70;
+            this.pokemonEVHpNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVAttackNumberBox
+            // 
+            this.pokemonEVAttackNumberBox.Location = new System.Drawing.Point(140, 91);
+            this.pokemonEVAttackNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVAttackNumberBox.Name = "pokemonEVAttackNumberBox";
+            this.pokemonEVAttackNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVAttackNumberBox.TabIndex = 71;
+            this.pokemonEVAttackNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVSpeedNumberBox
+            // 
+            this.pokemonEVSpeedNumberBox.Location = new System.Drawing.Point(140, 231);
+            this.pokemonEVSpeedNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVSpeedNumberBox.Name = "pokemonEVSpeedNumberBox";
+            this.pokemonEVSpeedNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVSpeedNumberBox.TabIndex = 75;
+            this.pokemonEVSpeedNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVDefenseNumberBox
+            // 
+            this.pokemonEVDefenseNumberBox.Location = new System.Drawing.Point(140, 126);
+            this.pokemonEVDefenseNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVDefenseNumberBox.Name = "pokemonEVDefenseNumberBox";
+            this.pokemonEVDefenseNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVDefenseNumberBox.TabIndex = 72;
+            this.pokemonEVDefenseNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVSpDefNumberBox
+            // 
+            this.pokemonEVSpDefNumberBox.Location = new System.Drawing.Point(140, 196);
+            this.pokemonEVSpDefNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVSpDefNumberBox.Name = "pokemonEVSpDefNumberBox";
+            this.pokemonEVSpDefNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVSpDefNumberBox.TabIndex = 74;
+            this.pokemonEVSpDefNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pokemonEVSpAttNumberBox
+            // 
+            this.pokemonEVSpAttNumberBox.Location = new System.Drawing.Point(140, 161);
+            this.pokemonEVSpAttNumberBox.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.pokemonEVSpAttNumberBox.Name = "pokemonEVSpAttNumberBox";
+            this.pokemonEVSpAttNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.pokemonEVSpAttNumberBox.TabIndex = 73;
+            this.pokemonEVSpAttNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // miscStatsGroup
             // 
@@ -1611,122 +1722,12 @@ namespace NewEditor.Forms
             this.label44.TabIndex = 86;
             this.label44.Text = "Move:";
             // 
-            // pokemonEVHpNumberBox
-            // 
-            this.pokemonEVHpNumberBox.Location = new System.Drawing.Point(140, 56);
-            this.pokemonEVHpNumberBox.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.pokemonEVHpNumberBox.Name = "pokemonEVHpNumberBox";
-            this.pokemonEVHpNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.pokemonEVHpNumberBox.TabIndex = 70;
-            this.pokemonEVHpNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // pokemonEVAttackNumberBox
-            // 
-            this.pokemonEVAttackNumberBox.Location = new System.Drawing.Point(140, 91);
-            this.pokemonEVAttackNumberBox.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.pokemonEVAttackNumberBox.Name = "pokemonEVAttackNumberBox";
-            this.pokemonEVAttackNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.pokemonEVAttackNumberBox.TabIndex = 71;
-            this.pokemonEVAttackNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // pokemonEVSpeedNumberBox
-            // 
-            this.pokemonEVSpeedNumberBox.Location = new System.Drawing.Point(140, 231);
-            this.pokemonEVSpeedNumberBox.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.pokemonEVSpeedNumberBox.Name = "pokemonEVSpeedNumberBox";
-            this.pokemonEVSpeedNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.pokemonEVSpeedNumberBox.TabIndex = 75;
-            this.pokemonEVSpeedNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // pokemonEVDefenseNumberBox
-            // 
-            this.pokemonEVDefenseNumberBox.Location = new System.Drawing.Point(140, 126);
-            this.pokemonEVDefenseNumberBox.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.pokemonEVDefenseNumberBox.Name = "pokemonEVDefenseNumberBox";
-            this.pokemonEVDefenseNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.pokemonEVDefenseNumberBox.TabIndex = 72;
-            this.pokemonEVDefenseNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // pokemonEVSpDefNumberBox
-            // 
-            this.pokemonEVSpDefNumberBox.Location = new System.Drawing.Point(140, 196);
-            this.pokemonEVSpDefNumberBox.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.pokemonEVSpDefNumberBox.Name = "pokemonEVSpDefNumberBox";
-            this.pokemonEVSpDefNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.pokemonEVSpDefNumberBox.TabIndex = 74;
-            this.pokemonEVSpDefNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // pokemonEVSpAttNumberBox
-            // 
-            this.pokemonEVSpAttNumberBox.Location = new System.Drawing.Point(140, 161);
-            this.pokemonEVSpAttNumberBox.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.pokemonEVSpAttNumberBox.Name = "pokemonEVSpAttNumberBox";
-            this.pokemonEVSpAttNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.pokemonEVSpAttNumberBox.TabIndex = 73;
-            this.pokemonEVSpAttNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(137, 25);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(58, 16);
-            this.label46.TabIndex = 76;
-            this.label46.Text = "EV Yield";
-            // 
             // PokemonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1584, 761);
             this.Controls.Add(this.eggMovesGroupBox);
             this.Controls.Add(this.label43);
@@ -1756,6 +1757,12 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseHpNumberBox)).EndInit();
             this.baseStatsGroup.ResumeLayout(false);
             this.baseStatsGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVHpNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVAttackNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpeedNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVDefenseNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).EndInit();
             this.miscStatsGroup.ResumeLayout(false);
             this.miscStatsGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).EndInit();
@@ -1778,12 +1785,6 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).EndInit();
             this.eggMovesGroupBox.ResumeLayout(false);
             this.eggMovesGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVHpNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVAttackNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpeedNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVDefenseNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

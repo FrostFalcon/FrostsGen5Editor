@@ -59,6 +59,11 @@ namespace NewEditor.Forms
                 7, 8, 4, 5, 2, 3, 11, 0, 1, 14, 12, 6, 10, 16, 9, 15, 13
             };
 
+            if (MainEditor.textNarc.textFiles[VersionConstants.TypeNameTextFileID].text.Count >= 18) nums = new List<int>()
+            {
+                7, 8, 4, 5, 2, 3, 11, 0, 1, 14, 12, 6, 10, 16, 9, 17, 13, 15
+            };
+
             foreach (ComboBox c in dropdowns)
             {
                 c.SelectedIndex = nums[dropdowns.IndexOf(c)];

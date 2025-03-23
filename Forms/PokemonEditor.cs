@@ -138,12 +138,12 @@ namespace NewEditor.Forms
                 pokemonBaseSpDefNumberBox.Value = p.baseSpDef;
                 pokemonBaseSpeedNumberBox.Value = p.baseSpeed;
 
-                pokemonEVHpNumberBox.Value = p.evYeildHP;
-                pokemonEVAttackNumberBox.Value = p.evYeildAttack;
-                pokemonEVDefenseNumberBox.Value = p.evYeildDefense;
-                pokemonEVSpAttNumberBox.Value = p.evYeildSpAtt;
-                pokemonEVSpDefNumberBox.Value = p.evYeildSpDef;
-                pokemonEVSpeedNumberBox.Value = p.evYeildSpeed;
+                pokemonEVHpNumberBox.Value = p.evYieldHP;
+                pokemonEVAttackNumberBox.Value = p.evYieldAttack;
+                pokemonEVDefenseNumberBox.Value = p.evYieldDefense;
+                pokemonEVSpAttNumberBox.Value = p.evYieldSpAtt;
+                pokemonEVSpDefNumberBox.Value = p.evYieldSpDef;
+                pokemonEVSpeedNumberBox.Value = p.evYieldSpeed;
 
                 pokemonTypeDropdown1.SelectedIndex = p.type1;
                 pokemonTypeDropdown2.SelectedIndex = p.type2;
@@ -290,12 +290,12 @@ namespace NewEditor.Forms
                 p.baseSpDef = (byte)pokemonBaseSpDefNumberBox.Value;
                 p.baseSpeed = (byte)pokemonBaseSpeedNumberBox.Value;
 
-                p.evYeildHP = (byte)pokemonEVHpNumberBox.Value;
-                p.evYeildAttack = (byte)pokemonEVAttackNumberBox.Value;
-                p.evYeildDefense = (byte)pokemonEVDefenseNumberBox.Value;
-                p.evYeildSpAtt = (byte)pokemonEVSpAttNumberBox.Value;
-                p.evYeildSpDef = (byte)pokemonEVSpDefNumberBox.Value;
-                p.evYeildSpeed = (byte)pokemonEVSpeedNumberBox.Value;
+                p.evYieldHP = (byte)pokemonEVHpNumberBox.Value;
+                p.evYieldAttack = (byte)pokemonEVAttackNumberBox.Value;
+                p.evYieldDefense = (byte)pokemonEVDefenseNumberBox.Value;
+                p.evYieldSpAtt = (byte)pokemonEVSpAttNumberBox.Value;
+                p.evYieldSpDef = (byte)pokemonEVSpDefNumberBox.Value;
+                p.evYieldSpeed = (byte)pokemonEVSpeedNumberBox.Value;
 
                 if (pokemonTypeDropdown1.SelectedIndex >= 0) p.type1 = (byte)pokemonTypeDropdown1.SelectedIndex;
                 if (pokemonTypeDropdown2.SelectedIndex >= 0) p.type2 = (byte)pokemonTypeDropdown2.SelectedIndex;
@@ -700,6 +700,7 @@ namespace NewEditor.Forms
                 PokemonEntry pk = new PokemonEntry(new List<byte>(pk1.bytes).ToArray());
                 pk.nameID = pk1.nameID;
                 pk.spriteID = MainEditor.pokemonSpritesNarc.sprites.Count - 1;
+                pk.RetrieveSprite();
                 pk.levelUpMoves = new LevelUpMoveset(new List<byte>(pk1.levelUpMoves.bytes).ToArray());
                 pk.evolutions = new EvolutionDataEntry(new List<byte>(pk1.evolutions.bytes).ToArray());
                 pk.formID = i + 1;

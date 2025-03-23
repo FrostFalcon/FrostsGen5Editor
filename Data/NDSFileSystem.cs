@@ -100,6 +100,7 @@ namespace NewEditor.Data
         public PokemartItemCountNARC pokemartItemCountNarc;
         public KeyboardNARC keyboardNarc;
         public XPCurveNARC xpCurveNarc;
+        public HiddenGrottoNARC hiddenGrottoNarc;
 
         //Read from rom file
         public static NDSFileSystem FromRom(FileStream fs, bool setEditorNarcs = false)
@@ -133,6 +134,7 @@ namespace NewEditor.Data
                 { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
                 { MainEditor.habitatListNarcID, typeof(HabitatListNARC) },
+                { MainEditor.hiddenGrottoNarcID, typeof(HiddenGrottoNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
@@ -305,6 +307,7 @@ namespace NewEditor.Data
                 result.pokemartItemCountNarc = result.narcs[MainEditor.pokemartItemCountNarcID] as PokemartItemCountNARC;
                 result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
                 result.habitatListNarc = result.narcs[MainEditor.habitatListNarcID] as HabitatListNARC;
+                result.hiddenGrottoNarc = result.narcs[MainEditor.hiddenGrottoNarcID] as HiddenGrottoNARC;
             }
 
             for (int i = 0; i < result.NARCCount; i++)
@@ -374,6 +377,7 @@ namespace NewEditor.Data
                 { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
                 { MainEditor.habitatListNarcID, typeof(HabitatListNARC) },
+                { MainEditor.hiddenGrottoNarcID, typeof(HiddenGrottoNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
@@ -467,6 +471,7 @@ namespace NewEditor.Data
                 result.pokemartItemCountNarc = result.narcs[MainEditor.pokemartItemCountNarcID] as PokemartItemCountNARC;
                 result.keyboardNarc = result.narcs[MainEditor.keyboardNarcID] as KeyboardNARC;
                 result.habitatListNarc = result.narcs[MainEditor.habitatListNarcID] as HabitatListNARC;
+                result.hiddenGrottoNarc = result.narcs[MainEditor.hiddenGrottoNarcID] as HiddenGrottoNARC;
             }
             for (int i = 0; i < result.NARCCount; i++)
             {

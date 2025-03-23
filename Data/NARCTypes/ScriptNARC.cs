@@ -162,12 +162,17 @@ namespace NewEditor.Data.NARCTypes
             int lineNumber = 0;
 
             string currentRoutineName = "";
-            Dictionary<string, int> routineLocations = new Dictionary<string, int>();
-            List<string> routinePointers = new List<string>();
+            Dictionary<ScriptCommand, string> routines = new Dictionary<ScriptCommand, string>();
+            Dictionary<ScriptCommand, string> routinePointers = new Dictionary<ScriptCommand, string>();
 
             List<List<RefByte>> movements = new List<List<RefByte>>();
             List<int[]> movementPointers = new List<int[]>();
             bool inMovement = false;
+
+            Dictionary<ScriptCommand, string> labels = new Dictionary<ScriptCommand, string>();
+            Dictionary<ScriptCommand, string> jumpPointers = new Dictionary<ScriptCommand, string>();
+            Dictionary<ScriptCommand, string> ifPointers = new Dictionary<ScriptCommand, string>();
+            List<string> labelQueue = new List<string>();
 
             int lastIfJump = 0;
 
@@ -192,6 +197,12 @@ namespace NewEditor.Data.NARCTypes
 
                     if (stack.Count != 0)
                     {
+                        if (line.Split(' ')[0].EndsWith(":"))
+                        {
+                            labelQueue.Add(line.Split(':')[0]);
+                            continue;
+                        }
+
                         if (line.StartsWith("Movement"))
                         {
                             int npcID = 0;
@@ -207,6 +218,11 @@ namespace NewEditor.Data.NARCTypes
                             ScriptCommand sc = new ScriptCommand(0x64, new int[] { npcID, 0 });
                             movementPointers.Add(sc.parameters);
                             stack[stack.Count - 1].commands.Add(sc);
+                            while (labelQueue.Count > 0)
+                            {
+                                if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                labelQueue.RemoveAt(0);
+                            }
 
                             inMovement = true;
                             movements.Add(new List<RefByte>());
@@ -218,7 +234,15 @@ namespace NewEditor.Data.NARCTypes
                             //End Sequence
                             if (stack.Count == 1)
                             {
-                                if (stack[0].commands.Count == 0) stack[0].commands.Add(new ScriptCommand(2, new int[0]));
+                                if (stack[0].commands.Count == 0)
+                                {
+                                    stack[0].commands.Add(new ScriptCommand(2, new int[0]));
+                                    while (labelQueue.Count > 0)
+                                    {
+                                        if (!labels.ContainsKey(stack[0].commands[stack[0].commands.Count - 1])) labels.Add(stack[0].commands[stack[0].commands.Count - 1], labelQueue[0]);
+                                        labelQueue.RemoveAt(0);
+                                    }
+                                }
 
                                 int seqLen = 0;
                                 foreach (ScriptCommand c in stack[0].commands) seqLen += c.ByteLength;
@@ -249,11 +273,11 @@ namespace NewEditor.Data.NARCTypes
                                     movements.RemoveAt(0);
                                 }
 
-                                sf.ApplyData(true);
-                                int pos = sf.bytes.Length - 4 * sf.sequences.Count - 2;
+                                //sf.ApplyData(true);
+                                //int pos = sf.bytes.Length - 4 * sf.sequences.Count - 2;
+                                //sf.ApplyData(false);
                                 sf.sequences.Add(stack[0]);
-                                sf.ApplyData(false);
-                                routineLocations.Add(currentRoutineName, pos);
+                                routines.Add(stack[0].commands[0], currentRoutineName);
                                 stack.RemoveAt(0);
                             }
                             else
@@ -261,6 +285,11 @@ namespace NewEditor.Data.NARCTypes
                                 int jumpAmount = 0;
                                 foreach (ScriptCommand c in stack[stack.Count - 1].commands) jumpAmount += c.ByteLength;
                                 stack[stack.Count - 2].commands.Add(new ScriptCommand(0x1E, new int[] { jumpAmount }));
+                                while (labelQueue.Count > 0)
+                                {
+                                    labels.Add(stack[stack.Count - 2].commands[stack[stack.Count - 2].commands.Count - 1], labelQueue[0]);
+                                    labelQueue.RemoveAt(0);
+                                }
                                 lastIfJump = stack[stack.Count - 2].commands.Count - 1;
                                 stack[stack.Count - 2].commands.AddRange(stack[stack.Count - 1].commands);
                                 stack.RemoveAt(stack.Count - 1);
@@ -272,6 +301,20 @@ namespace NewEditor.Data.NARCTypes
                         {
                             if (lastIfJump != 0) stack[stack.Count - 1].commands[lastIfJump].parameters[0] += 6;
                             stack.Add(new ScriptSequence());
+                            continue;
+                        }
+
+                        if (line.StartsWith("goto"))
+                        {
+                            ScriptCommand sc = new ScriptCommand(0x1E, new int[] { 0 });
+                            stack[stack.Count - 1].commands.Add(sc);
+                            while (labelQueue.Count > 0)
+                            {
+                                if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                labelQueue.RemoveAt(0);
+                            }
+                            string name = line.Split(' ')[1].Replace(";", "");
+                            jumpPointers.Add(sc, name);
                             continue;
                         }
 
@@ -318,23 +361,69 @@ namespace NewEditor.Data.NARCTypes
 
                         if (com.StartsWith("if"))
                         {
-                            if (pars.Count == 1)
+                            if (line.Contains("goto"))
                             {
-                                ScriptCommand sc = new ScriptCommand(0x1F, new int[] { pars[0], 6 });
-                                stack[stack.Count - 1].commands.Add(sc);
-                            }
-                            else if (pars.Count == 3)
-                            {
-                                ScriptCommand sc = new ScriptCommand(0x19, new int[] { pars[0], pars[2] });
-                                stack[stack.Count - 1].commands.Add(sc);
-                                sc = new ScriptCommand(0x1F, new int[] { pars[1], 6 });
-                                stack[stack.Count - 1].commands.Add(sc);
+                                if (pars.Count == 1)
+                                {
+                                    ScriptCommand sc = new ScriptCommand(0x1F, new int[] { pars[0], 6 });
+                                    stack[stack.Count - 1].commands.Add(sc);
+                                    while (labelQueue.Count > 0)
+                                    {
+                                        if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                        labelQueue.RemoveAt(0);
+                                    }
+                                    string name = line.Substring(line.IndexOf("goto") + 4).Replace(" ", "").Replace(";", "");
+                                    ifPointers.Add(sc, name);
+                                }
+                                else if (pars.Count == 3)
+                                {
+                                    ScriptCommand sc = new ScriptCommand(0x19, new int[] { pars[0], pars[2] });
+                                    stack[stack.Count - 1].commands.Add(sc);
+                                    while (labelQueue.Count > 0)
+                                    {
+                                        if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                        labelQueue.RemoveAt(0);
+                                    }
+                                    sc = new ScriptCommand(0x1F, new int[] { pars[1], 6 });
+                                    stack[stack.Count - 1].commands.Add(sc);
+                                    string name = line.Substring(line.IndexOf("goto") + 4).Replace(" ", "").Replace(";", "");
+                                    ifPointers.Add(sc, name);
+                                }
+                                else
+                                {
+                                    throw new Exception("Invalid conditional at line " + lineNumber);
+                                }
                             }
                             else
                             {
-                                throw new Exception("Invalid conditional at line " + lineNumber);
+                                if (pars.Count == 1)
+                                {
+                                    ScriptCommand sc = new ScriptCommand(0x1F, new int[] { pars[0], 6 });
+                                    stack[stack.Count - 1].commands.Add(sc);
+                                    while (labelQueue.Count > 0)
+                                    {
+                                        if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                        labelQueue.RemoveAt(0);
+                                    }
+                                }
+                                else if (pars.Count == 3)
+                                {
+                                    ScriptCommand sc = new ScriptCommand(0x19, new int[] { pars[0], pars[2] });
+                                    stack[stack.Count - 1].commands.Add(sc);
+                                    while (labelQueue.Count > 0)
+                                    {
+                                        if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                        labelQueue.RemoveAt(0);
+                                    }
+                                    sc = new ScriptCommand(0x1F, new int[] { pars[1], 6 });
+                                    stack[stack.Count - 1].commands.Add(sc);
+                                }
+                                else
+                                {
+                                    throw new Exception("Invalid conditional at line " + lineNumber);
+                                }
+                                stack.Add(new ScriptSequence());
                             }
-                            stack.Add(new ScriptSequence());
                             continue;
                         }
 
@@ -342,14 +431,24 @@ namespace NewEditor.Data.NARCTypes
                         {
                             ScriptCommand sc = new ScriptCommand((short)comDict[com], pars.ToArray());
                             stack[stack.Count - 1].commands.Add(sc);
-                            if (sc.commandID == 0x4) routinePointers.Add("");
+                            while (labelQueue.Count > 0)
+                            {
+                                if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                labelQueue.RemoveAt(0);
+                            }
+                            if (sc.commandID == 0x4) routinePointers.Add(sc, "");
                             continue;
                         }
                         else
                         {
                             ScriptCommand sc = new ScriptCommand(0x4, new int[] { 0 });
-                            routinePointers.Add(com);
+                            routinePointers.Add(sc, com);
                             stack[stack.Count - 1].commands.Add(sc);
+                            while (labelQueue.Count > 0)
+                            {
+                                if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
+                                labelQueue.RemoveAt(0);
+                            }
                             continue;
                         }
                     }
@@ -389,37 +488,172 @@ namespace NewEditor.Data.NARCTypes
                 }
             }
 
-            //Assign routines
+            //Calculate Labels
             sf.ApplyData();
+            Dictionary<string, int> labelLocations = new Dictionary<string, int>();
             for (int j = 0; j < sf.sequences.Count; j++)
             {
-                int jumpTo = 0;
-                int n = HelperFunctions.ReadInt(sf.bytes, j * 4);
-                n = j * 4 + n + 4;
-                int start = n;
-                for (int i = start; i < sf.bytes.Length && routinePointers.Count != 0; i++)
+                int pos = HelperFunctions.ReadInt(sf.bytes, j * 4) + 4 + j * 4;
+                foreach (ScriptCommand com in sf.sequences[j].commands)
                 {
-                    ScriptCommand sc = new ScriptCommand(sf.bytes, i);
-                    if (sc.commandID == 0x4)
+                    if (labels.ContainsKey(com))
                     {
-                        int jump = -i - 6;
-                        if (routineLocations.ContainsKey(routinePointers[0])) jump += routineLocations[routinePointers[0]] + sf.sequences.Count * 4 + 2;
-                        else jump = 0;
-                        if (jump != 0) HelperFunctions.WriteInt(sf.bytes, i + 2, jump);
-                        routinePointers.RemoveAt(0);
+                        labelLocations.Add(labels[com], pos);
                     }
-                    if (sc.commandID == 0x1E) jumpTo = i + 6 + sc.parameters[0];
-                    if (sc.commandID == 0x1F) jumpTo = i + 7 + sc.parameters[1];
-                    i += sc.ByteLength - 1;
-                    if (sc.commandID == 2 && i >= jumpTo) break;
+                    pos += com.ByteLength;
                 }
             }
-            sf.ReadData();
+            for (int j = 0; j < sf.sequences.Count; j++)
+            {
+                int pos = HelperFunctions.ReadInt(sf.bytes, j * 4) + 4 + j * 4;
+                foreach (ScriptCommand com in sf.sequences[j].commands)
+                {
+                    pos += com.ByteLength;
+                    if (jumpPointers.ContainsKey(com) && labelLocations.ContainsKey(jumpPointers[com]))
+                    {
+                        com.parameters[0] = labelLocations[jumpPointers[com]] - pos;
+                    }
+                    if (ifPointers.ContainsKey(com) && labelLocations.ContainsKey(ifPointers[com]))
+                    {
+                        com.parameters[1] = labelLocations[ifPointers[com]] - pos;
+                    }
+                }
+            }
+            //Calculate Routines
+            Dictionary<string, int> routineLocations = new Dictionary<string, int>();
+            for (int j = 0; j < sf.sequences.Count; j++)
+            {
+                int pos = HelperFunctions.ReadInt(sf.bytes, j * 4) + 4 + j * 4;
+                if (routines.ContainsKey(sf.sequences[j].commands[0])) routineLocations.Add(routines[sf.sequences[j].commands[0]], pos);
+            }
+            for (int j = 0; j < sf.sequences.Count; j++)
+            {
+                int pos = HelperFunctions.ReadInt(sf.bytes, j * 4) + 4 + j * 4;
+                foreach (ScriptCommand com in sf.sequences[j].commands)
+                {
+                    pos += com.ByteLength;
+                    if (routinePointers.ContainsKey(com) && routineLocations.ContainsKey(routinePointers[com]))
+                    {
+                        com.parameters[0] = routineLocations[routinePointers[com]] - pos;
+                    }
+                }
+            }
+            sf.ApplyData();
+            //Assign routines
+            //Dictionary<string, int> subRoutineLocations = new Dictionary<string, int>();
+            //for (int j = 0; j < sf.sequences.Count; j++)
+            //{
+            //    int jumpTo = 0;
+            //    int n = HelperFunctions.ReadInt(sf.bytes, j * 4);
+            //    n = j * 4 + n + 4;
+            //    int start = n;
+            //    for (int i = start; i < sf.bytes.Length && routinePointers.Count != 0; i++)
+            //    {
+            //        ScriptCommand sc = new ScriptCommand(sf.bytes, i);
+            //        if (sc.commandID == 0x4)
+            //        {
+            //            int jump = -i - 6;
+            //            if (routineLocations.ContainsKey(routinePointers[0])) jump += routineLocations[routinePointers[0]] + sf.sequences.Count * 4 + 2;
+            //            else jump = 0;
+            //            if (jump != 0) HelperFunctions.WriteInt(sf.bytes, i + 2, jump);
+            //            routinePointers.RemoveAt(0);
+            //        }
+            //        if (sc.commandID == 0x1E) jumpTo = i + 6 + sc.parameters[0];
+            //        if (sc.commandID == 0x1F) jumpTo = i + 7 + sc.parameters[1];
+            //        i += sc.ByteLength - 1;
+            //        if (sc.commandID == 2 && i >= jumpTo) break;
+            //    }
+            //}
+            //sf.ReadData();
 
             return sf;
         }
 
         public void Export(FileStream file)
+        {
+            file.WriteLine("#include \"ScriptCommands.h\"");
+            file.WriteLine("#include \"MovementCommands.h\"");
+
+            int seqID = 0;
+
+            List<int> sequenceRoutines = new List<int>();
+            List<int> routines = new List<int>();
+            List<int> jumpLocations = new List<int>();
+
+            //Find jump locations
+            foreach (ScriptSequence seq in sequences)
+            {
+                int n = HelperFunctions.ReadInt(bytes, seqID * 4) + seqID * 4 + 4;
+                sequenceRoutines.Add(n);
+                foreach (ScriptCommand com in seq.commands)
+                {
+                    n += com.ByteLength;
+                    if (com.commandID == 0x1E && !jumpLocations.Contains(n + com.parameters[0])) jumpLocations.Add(n + com.parameters[0]);
+                    if (com.commandID == 0x1F && !jumpLocations.Contains(n + com.parameters[1])) jumpLocations.Add(n + com.parameters[1]);
+                }
+                seqID++;
+            }
+
+            seqID = 0;
+            foreach (ScriptSequence seq in sequences)
+            {
+                file.WriteLine("\nvoid Sequence" + seqID + "()\n{");
+
+                int n = HelperFunctions.ReadInt(bytes, seqID * 4) + seqID * 4 + 4;
+                routines.Remove(n);
+                foreach (ScriptCommand com in seq.commands)
+                {
+                    if (jumpLocations.Contains(n)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(n) + ": ;");
+                    n += com.ByteLength;
+                    WriteCommandToFile(file, n, com, routines, sequenceRoutines, jumpLocations);
+                }
+
+                file.WriteLine("}");
+                seqID++;
+            }
+
+            int routineID = 0;
+
+            while (routineID < routines.Count)
+            {
+                int pos = routines[routineID];
+                int jumpMax = 0;
+                while (pos < bytes.Length)
+                {
+                    ScriptCommand com = new ScriptCommand(bytes, pos);
+                    if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
+                    if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
+                    if (com.commandID == 0x1E && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[0])) jumpLocations.Add(pos + com.ByteLength + com.parameters[0]);
+                    if (com.commandID == 0x1F && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[1])) jumpLocations.Add(pos + com.ByteLength + com.parameters[1]);
+                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    pos += com.ByteLength;
+                }
+                routineID++;
+            }
+
+            routineID = 0;
+
+            while (routineID < routines.Count)
+            {
+                file.WriteLine("\nvoid Routine" + routineID + "()\n{");
+                int pos = routines[routineID];
+                int jumpMax = 0;
+                while (pos < bytes.Length)
+                {
+                    ScriptCommand com = new ScriptCommand(bytes, pos);
+                    if (jumpLocations.Contains(pos)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(pos) + ": ;");
+                    if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
+                    if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
+                    WriteCommandToFile(file, pos + com.ByteLength, com, routines, sequenceRoutines, jumpLocations);
+                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    pos += com.ByteLength;
+                }
+                file.WriteLine("}");
+                routineID++;
+            }
+        }
+
+        public void OldExport(FileStream file)
         {
             file.WriteLine("#include \"ScriptCommands.h\"");
             file.WriteLine("#include \"MovementCommands.h\"");
@@ -437,7 +671,7 @@ namespace NewEditor.Data.NARCTypes
                     int n = HelperFunctions.ReadInt(bytes, seqID * 4);
                     for (int i = 0; i <= seq.commands.IndexOf(com); i++) n += seq.commands[i].ByteLength;
                     n = (int)seqID * 4 + n + 4;
-                    WriteCommandToFile(file, n, com, routines);
+                    //WriteCommandToFile(file, n, com, routines);
                 }
 
                 file.WriteLine("}");
@@ -456,7 +690,7 @@ namespace NewEditor.Data.NARCTypes
                     ScriptCommand com = new ScriptCommand(bytes, pos);
                     if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
                     if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
-                    WriteCommandToFile(file, pos + com.ByteLength, com, routines);
+                    //WriteCommandToFile(file, pos + com.ByteLength, com, routines);
                     if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
@@ -465,7 +699,7 @@ namespace NewEditor.Data.NARCTypes
             }
         }
 
-        void WriteCommandToFile(FileStream file, int pos, ScriptCommand com, List<int> routines)
+        void WriteCommandToFile(FileStream file, int pos, ScriptCommand com, List<int> routines, List<int> sequenceRoutines, List<int> jumpLocations)
         {
             //Handle movements
             if (com.commandID == 0x64)
@@ -486,12 +720,23 @@ namespace NewEditor.Data.NARCTypes
             {
                 int n = pos;
                 n += com.parameters[0];
-                if (routines.Contains(n)) file.WriteLine("\tRoutine" + routines.IndexOf(n) + "();");
+                if (sequenceRoutines.Contains(n)) file.WriteLine("\tSequence" + sequenceRoutines.IndexOf(n) + "();");
+                else if (routines.Contains(n)) file.WriteLine("\tRoutine" + routines.IndexOf(n) + "();");
                 else
                 {
                     file.WriteLine("\tRoutine" + routines.Count + "();");
                     routines.Add(n);
                 }
+            }
+
+            //Handle jumps
+            else if (com.commandID == 0x1E && jumpLocations.Contains(pos + com.parameters[0]))
+            {
+                file.WriteLine("\tgoto label" + jumpLocations.IndexOf(pos + com.parameters[0]) + ";");
+            }
+            else if (com.commandID == 0x1F && jumpLocations.Contains(pos + com.parameters[1]))
+            {
+                file.WriteLine("\tif (" + com.parameters[0] + ") goto label" + jumpLocations.IndexOf(pos + com.parameters[1]) + ";");
             }
 
             else file.WriteLine("\t" + com.CString());
@@ -650,7 +895,7 @@ namespace NewEditor.Data.NARCTypes
                 bytes = new RefByte[newBytes.Count];
                 for (int i = 0; i < newBytes.Count; i++) bytes[i] = newBytes[i];
 
-                ReadData();
+                //ReadData();
             }
         }
     }
@@ -667,7 +912,7 @@ namespace NewEditor.Data.NARCTypes
         }
     }
 
-    public struct ScriptCommand
+    public class ScriptCommand
     {
         public short commandID;
         public int[] parameters;
@@ -1262,7 +1507,7 @@ namespace NewEditor.Data.NARCTypes
             {0x1D6, new CommandType("c0x1D6", 2, 2, 2)},
             {0x1D7, new CommandType("c0x1D7", 4, 2, 2, 2, 2)},
             {0x1D8, new CommandType("c0x1D8", 4, 2, 2, 2, 2)},
-            {0x1D9, new CommandType("c0x1D9", 4, 2, 2, 2, 2)},
+            {0x1D9, new CommandType("c0x1D9", 5, 2, 2, 2, 2, 2)},
             {0x1DA, new CommandType("c0x1DA", 1, 2)},
             {0x1DB, new CommandType("c0x1DB", 1, 2)},
             {0x1DC, new CommandType("c0x1DC", 1, 2)},
@@ -1449,7 +1694,7 @@ namespace NewEditor.Data.NARCTypes
             {0x291, new CommandType("c0x291", 0)},
             {0x292, new CommandType("c0x292", 1, 1)},
             {0x293, new CommandType("c0x293", 1, 1)},
-            {0x294, new CommandType("c0x294", 2, 1, 1)},
+            {0x294, new CommandType("c0x294", 2, 2, 2)},
             {0x295, new CommandType("c0x295", 0)},
             {0x296, new CommandType("c0x296", 0)},
             {0x297, new CommandType("c0x297", 4, 2, 2, 2, 2)},
@@ -1495,7 +1740,7 @@ namespace NewEditor.Data.NARCTypes
             {0x2BF, new CommandType("c0x2BF", 0)},
             {0x2C0, new CommandType("c0x2C0", 2, 2, 2)},
             {0x2C1, new CommandType("c0x2C1", 0)},
-            {0x2C2, new CommandType("c0x2C2", 0)},
+            {0x2C2, new CommandType("c0x2C2", 1, 2)},
             {0x2C3, new CommandType("c0x2C3", 2, 2, 2)},
             {0x2C4, new CommandType("c0x2C4", 0)},
             {0x2C5, new CommandType("c0x2C5", 1, 2)},

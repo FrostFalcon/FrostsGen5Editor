@@ -53,6 +53,9 @@ namespace NewEditor.Forms
             this.label3 = new System.Windows.Forms.Label();
             this.readScriptFileButton = new System.Windows.Forms.Button();
             this.exportScriptFileButton = new System.Windows.Forms.Button();
+            this.setupQuickBuildButton = new System.Windows.Forms.Button();
+            this.quickBuildButton = new System.Windows.Forms.Button();
+            this.quickBuildLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sequenceIDNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.byteNumberBox)).BeginInit();
             this.SuspendLayout();
@@ -255,7 +258,7 @@ namespace NewEditor.Forms
             // 
             // cutsceneIDButton
             // 
-            this.cutsceneIDButton.Location = new System.Drawing.Point(800, 12);
+            this.cutsceneIDButton.Location = new System.Drawing.Point(220, 61);
             this.cutsceneIDButton.Name = "cutsceneIDButton";
             this.cutsceneIDButton.Size = new System.Drawing.Size(120, 30);
             this.cutsceneIDButton.TabIndex = 92;
@@ -308,12 +311,45 @@ namespace NewEditor.Forms
             this.exportScriptFileButton.UseVisualStyleBackColor = true;
             this.exportScriptFileButton.Click += new System.EventHandler(this.ExportScriptFile);
             // 
+            // setupQuickBuildButton
+            // 
+            this.setupQuickBuildButton.Location = new System.Drawing.Point(485, 15);
+            this.setupQuickBuildButton.Name = "setupQuickBuildButton";
+            this.setupQuickBuildButton.Size = new System.Drawing.Size(100, 50);
+            this.setupQuickBuildButton.TabIndex = 97;
+            this.setupQuickBuildButton.Text = "Setup\r\nQuick Build";
+            this.setupQuickBuildButton.UseVisualStyleBackColor = true;
+            this.setupQuickBuildButton.Click += new System.EventHandler(this.setupQuickBuildButton_Click);
+            // 
+            // quickBuildButton
+            // 
+            this.quickBuildButton.Enabled = false;
+            this.quickBuildButton.Location = new System.Drawing.Point(595, 15);
+            this.quickBuildButton.Name = "quickBuildButton";
+            this.quickBuildButton.Size = new System.Drawing.Size(100, 50);
+            this.quickBuildButton.TabIndex = 98;
+            this.quickBuildButton.Text = "Quick Build\r\nFile";
+            this.quickBuildButton.UseVisualStyleBackColor = true;
+            this.quickBuildButton.Click += new System.EventHandler(this.quickBuildButton_Click);
+            // 
+            // quickBuildLabel
+            // 
+            this.quickBuildLabel.AutoSize = true;
+            this.quickBuildLabel.Location = new System.Drawing.Point(485, 75);
+            this.quickBuildLabel.Name = "quickBuildLabel";
+            this.quickBuildLabel.Size = new System.Drawing.Size(78, 16);
+            this.quickBuildLabel.TabIndex = 99;
+            this.quickBuildLabel.Text = "Parameters:";
+            // 
             // ScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(933, 554);
+            this.Controls.Add(this.quickBuildLabel);
+            this.Controls.Add(this.quickBuildButton);
+            this.Controls.Add(this.setupQuickBuildButton);
             this.Controls.Add(this.exportScriptFileButton);
             this.Controls.Add(this.readScriptFileButton);
             this.Controls.Add(this.label3);
@@ -374,5 +410,8 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button readScriptFileButton;
         private System.Windows.Forms.Button exportScriptFileButton;
+        private System.Windows.Forms.Button setupQuickBuildButton;
+        private System.Windows.Forms.Button quickBuildButton;
+        private System.Windows.Forms.Label quickBuildLabel;
     }
 }
