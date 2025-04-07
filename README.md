@@ -9,6 +9,7 @@ Currently, the editor contains the following features:
 - Move animations (experimental)
 - Trainers and trainer teams
 - Wild encounters
+- Hidden Grottos
 - Overworld data, objects, and npcs
 - Scripting (experimental)
 - Text
