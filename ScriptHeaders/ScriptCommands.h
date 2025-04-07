@@ -74,30 +74,47 @@ void Message3(char p0, char p1, short p2, short p3, short p4, short p5, short p6
 void DoubleMessage(char p0, char p1, short p2, short p3, short p4, short p5, short p6);
 void AngryMessage(short p0, char p1, short p2);
 void CloseAngryMessage();
-void SetVarHero(char p0);
-void SetVarItem(char p0, short p1);
-void c0x4E(char p0, short p1, short p2, char p3);
-void SetVarItem2(char p0, short p1);
-void SetVarItem3(char p0, short p1);
-void SetVarMove(char p0, short p1);
-void SetVarBag(char p0, short p1);
-void SetVarPartyPokemon(char p0, short p1);
-void SetVarPartyPokemon2(char p0, short p1);
-void SetVar55(char p0, short p1);
-void SetVarType(char p0, short p1);
-void SetVarPokemon(char p0, short p1);
-void SetVarPokemon2(char p0, short p1);
-void SetVarLocation(char p0, short p1);
-void SetVarPokemonNick(char p0, short p1);
-void SetVar5B(char p0, short p1);
-void SetVarStoreVal5C(char p0, short p1, short p2);
-void SetVarMusicalInfo(short p0, short p1);
-void SetVarNations(char p0, short p1);
-void SetVarActivities(char p0, short p1);
-void SetVarPower(char p0, short p1);
-void SetVarTrainerType(char p0, short p1);
-void SetVarTrainerType2(char p0, short p1);
-void SetVarGeneralWord(char p0, short p1);
+
+//Assigns the player's name to a string buffer
+void SetWordPlayerName(char stringIndex);
+//Assigns an item name to a string buffer
+void SetWordItem(char stringIndex, short itemID);
+//Assigns a pluralized item name to a string buffer
+void SetWordItem2(char stringIndex, short itemID, short itemCount, char p3);
+//Assigns an item name with "a" or "an" before it to a string buffer
+void SetWordItem3(char stringIndex, short itemID);
+//Assigns the move corresponding to a TM to a string buffer
+//The item ids for TMs range from 328 to 425
+void SetWordTM(char stringIndex, short itemID);
+//Assigns a move name to a string buffer
+void SetWordMove(char stringIndex, short moveID);
+//Assigns the name of a pocket in the bag to a string buffer
+void SetWordItemPocket(char stringIndex, short pocketID);
+//Assigns the species name of a party pokemon to a string buffer
+void SetWordPartyPokemon(char stringIndex, short partySlot);
+//Assigns the nickname of a party pokemon to a string buffer
+void SetWordPartyNickname(char stringIndex, short partySlot);
+//Assigns the species name of a pokemon in the daycare to a string buffer
+void SetWordDaycarePokemon(char stringIndex, short daycareSlot);
+//Assigns the name of a type to a string buffer
+void SetWordType(char stringIndex, short typeID);
+//Assigns the species name of a pokemon to a string buffer
+void SetWordPokemon(char stringIndex, short pokemonID);
+//Assigns the species name of a pokemon with "a" or "an" before it to a string buffer
+void SetWordPokemon2(char stringIndex, short pokemonID);
+//Assigns the name of a map to a string buffer
+void SetWordLocation(char stringIndex, short mapID);
+void SetWordPokemonNick(char stringIndex, short p1);
+void SetWordDaycareNickname(char stringIndex, short p1);
+//Assigns a number to a string buffer
+void SetWordNumber(char stringIndex, short value, short maxDigits);
+void SetWordMusicalInfo(short stringIndex, short p1);
+void SetWordNations(char stringIndex, short p1);
+void SetWordActivities(char stringIndex, short p1);
+void SetWordPower(char stringIndex, short p1);
+void SetWordTrainerType(char stringIndex, short p1);
+void SetWordTrainerType2(char stringIndex, short p1);
+void SetWordGeneralWord(char stringIndex, short p1);
 void ApplyMovement(short p0, int p1);
 void WaitMovement();
 void StoreHeroPosition_0x66(short p0, short p1);
@@ -109,7 +126,7 @@ void AddNPC(short p0);
 void RemoveNPC(short npcID);
 void SetOWPosition(short p0, short p1, short p2, short p3, short p4);
 //Returns the direction the player is facing
-void c0x6E(short p0);
+void GetPlayerDirection(short returnVar);
 void c0x6F(short p0);
 void c0x70(short p0, short p1, short p2, short p3, short p4);
 void c0x71(short p0, short p1, short p2);
@@ -132,25 +149,32 @@ void c0x81();
 void c0x82(short p0, short p1);
 void SetVar0x83(short p0);
 void SetVar0x84(short p0);
-void SingleTrainerBattle(short p0, short p1, short p2);
-void DoubleTrainerBattle(short p0, short p1, short p2, short p3);
+//Initiates a trainer battle with the provided trainers
+//Setting trainer2 will result in a double battle, leaving it as 0 with result in a single battle
+//Setting canBlackout to 1 will allow the script to continue if the player loses the fight
+void StartTrainerBattle(short trainerID, short trainer2ID, short canBlackout);
+//Initiates a multi battle with the provided trainers
+void StartMultiTrainerBattle(short allyTrainerID, short enemyTrainerID, short enemyTrainerID2, short canBlackout);
 void c0x87(short p0, short p1, short p2);
 void c0x88(short p0, short p1, short p2);
 void c0x89();
 void c0x8A(short p0, short p1);
-void PlayTrainerMusic(short p0);
-void EndBattle();
-void StoreBattleResult(short p0);
-void DisableTrainer();
+void PlayTrainerMusic(short trainerID);
+//Blackout sequence from losing a trainer battle
+void TrainerBattleLose();
+//Returns 1 if the player won the last trainer battle, 0 if the player lost
+void GetTrainerBattleResult(short returnVar);
+//Restore the overworld scene after a trainer battle
+void TrainerBattleEnd();
 void c0x8F();
 void dvar90(short p0, short p1);
 void c0x91();
 void dvar92(short p0, short p1);
 void dvar93(short p0, short p1);
-void TrainerBattle(short p0, short p1, short p2, short p3);
-void DeactiveTrainerId(short p0);
-void c0x96(short p0);
-void StoreActiveTrainerId(short p0, short p1);
+void TradedTrainerBattle(short p0, short p1, short p2, short p3);
+void DeactiveTrainerId(short trainerID);
+void ReactiveTrainerId(short trainerID);
+void GetTrainerIDActive(short trainerID, short returnVar);
 void ChangeMusic(short p0);
 void c0x99();
 void c0x9A();
@@ -174,10 +198,17 @@ void Cry(short p0, short p1);
 void WaitCry();
 void c0xAD();
 void c0xAE();
-void SetTextScriptMessage(short p0, short p1, short p2);
-void CloseMulti();
-void c0xB1();
-void Multi2(char p0, char p1, char p2, char p3, char p4, short p5);
+//Adds an option for the working multiple choice dialogue box
+void AddDialogueOption(short textLine, short hintLine, short returnValue);
+//Display the working multiple choice dialogue box
+void ShowDialogueSelection();
+//Display the working multiple choice dialogue box
+void ShowDialogueSelection2();
+//Initiates a multiple choice dialigue box
+//Should be followed by one or more AddDialogueOptions and a ShowDialogueSelection
+//returnVar is set to the return value of the line selected
+//If canceled, returnVar is set to some negative value?
+void SetupDialogueSelection(char xPosition, char yPosition, short defaultIndex, char canCancel, short returnVar);
 void FadeScreen(short p0, short p1, short p2, short p3);
 void ResetScreen();
 void Screen0xB5(short p0, short p1, short p2);
@@ -258,7 +289,15 @@ void c0xFF(short p0, short p1);
 void c0x100();
 void c0x101(short p0, short p1);
 void StorePartyNotEgg(short p0, short p1);
-void StorePartyCountMore(short p0, short p1);
+
+//Returns the number of pokemon in the players party that match a certain condition
+//mode 0 - Number of filled slots
+//mode 1 - Number of non egg pokemon
+//mode 2 - Number of pokemon that can battle
+//mode 3 - Number of eggs
+//mode 4 - ???
+//mode 5 - Number of empty slots
+void GetPartyCount(short returnVar, short mode);
 void HealPokemon();
 void c0x105(short p0, short p1, short p2);
 void c0x106(short p0);
@@ -267,11 +306,11 @@ void c0x108(short p0, short p1);
 void c0x109(short p0, short p1, short p2, short p3);
 void c0x10A(short p0, short p1, short p2);
 void c0x10B(short p0, short p1, short p2);
-void GivePokemon(short returnVar, short pokemonID, short heldItem, short level);
+void GivePokemon(short returnVar, short pokemonID, short form, short level);
 void StorePokemonPartyAt(short p0, short p1);
 void GivePokemon2(short returnVar, short pokemonID, short form, short level, short ability, short gender, short shiny, short heldItem, short pokeball);
 void GiveEgg(short p0, short p1, short p2);
-void StorePokemonSex(short p0, short p1, short p2);
+void GetPokemonParam(short returnVar, short partySlot, short paramID);
 //stat = 70 + stat enum:
 //hp - 0
 //att - 1
@@ -378,9 +417,12 @@ void c0x170();
 void c0x171();
 void SetVar172(short p0);
 void c0x173();
-void StartWildBattle(short p0, short p1, short p2);
-void EndWildBattle();
-void WildBattle1();
+//Initiates a wild battle with the pokemon provided
+void StartWildBattle(short pokemonID, short level, short flags);
+//Restore the overworld scene after a wild battle
+void WildBattleEnd();
+//Blackout sequence from losing a wild battle
+void WildBattleLose();
 void SetVarBattle177(short p0);
 void BattleStoreResult(short p0);
 void c0x179();
@@ -479,7 +521,7 @@ void c0x1D5(short p0, short p1);
 void c0x1D6(short p0, short p1);
 void c0x1D7(short p0, short p1, short p2, short p3);
 void c0x1D8(short p0, short p1, short p2, short p3);
-void c0x1D9(short p0, short p1, short p2, short p3);
+void c0x1D9(short p0, short p1, short p2, short p3, short p4);
 void c0x1DA(short p0);
 void c0x1DB(short p0);
 void c0x1DC(short p0);

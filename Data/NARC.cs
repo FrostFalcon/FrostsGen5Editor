@@ -1,6 +1,7 @@
 ﻿using NewEditor.Forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -55,7 +56,27 @@ namespace NewEditor.Data
 
         public virtual void DumpNarc(string path)
         {
-            File.WriteAllBytes(path, byteData.ToArray());
+            //if (Encoding.ASCII.GetString(byteData, 0, 4) != "NARC")
+                File.WriteAllBytes(path, byteData.ToArray());
+            //else
+            //{
+            //    Directory.CreateDirectory(path);
+            //    string format = "D" + Math.Ceiling(Math.Log10(numFileEntries));
+            //    List<Task> tasks = new List<Task>();
+            //
+            //    for (int i = 0; i < numFileEntries; i++)
+            //    {
+            //        int id = i;
+            //        tasks.Add(Task.Run(() =>
+            //        {
+            //            int start = HelperFunctions.ReadInt(byteData, pointerStartAddress + 8 * id);
+            //            int len = HelperFunctions.ReadInt(byteData, pointerStartAddress + 4 + 8 * id) - start;
+            //            byte[] entry = new byte[len];
+            //            for (int j = 0; j < len; j++) entry[j] = byteData[start + j];
+            //            File.WriteAllBytes(path + "/" + id.ToString(format), entry);
+            //        }));
+            //    }
+            //}
         }
 
         public virtual void ReadNarcDump(string path)

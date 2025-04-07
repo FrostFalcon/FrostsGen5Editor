@@ -537,6 +537,7 @@ namespace NewEditor.Forms
                     sid = 685 + p.formSpritesStart + (int)formSpriteIDNumberBox.Value - 1;
                 }
                 PaletteEditor editor = new PaletteEditor(sid);
+                //MainEditor.darkMode.ApplyTheme(editor, MainEditor.darkMode.IsDarkMode);
                 editor.Owner = this;
                 editor.Show();
             }

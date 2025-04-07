@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DarkMode.cs" />
     <Compile Include="Data\BLZDecoder.cs" />
     <Compile Include="Data\DsDecmp.cs" />
     <Compile Include="Data\FileFunctions.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Data\TextHandler.cs" />
     <Compile Include="Data\TypeShuffler.cs" />
     <Compile Include="Data\VersionConstants.cs" />
+    <Compile Include="Data\Y9Table.cs" />
     <Compile Include="Forms\EncounterEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -291,6 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Images\Button.png" />
+    <None Include="Images\BGTiles.png" />
+    <None Include="Images\MenuButton.png" />
     <Content Include="ScriptHeaders\MovementCommands.h">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

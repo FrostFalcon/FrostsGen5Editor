@@ -1,5 +1,125 @@
 #define Movement int
 
+#define LookUp 0x0
+#define LookDown 0x1
+#define LookLeft 0x2
+#define LookRight 0x3
+
+#define SlowestWalkUp 0x4
+#define SlowestWalkDown 0x5
+#define SlowestWalkLeft 0x6
+#define SlowestWalkRight 0x7
+
+#define SlowWalkUp 0x8
+#define SlowWalkDown 0x9
+#define SlowWalkLeft 0xa
+#define SlowWalkRight 0xb
+
+#define WalkUp 0xc
+#define WalkDown 0xd
+#define WalkLeft 0xe
+#define WalkRight 0xf
+
+#define FastWalkUp 0x10
+#define FastWalkDown 0x11
+#define FastWalkLeft 0x12
+#define FastWalkRight 0x13
+
+#define FastestWalkUp 0x14
+#define FastestWalkDown 0x15
+#define FastestWalkLeft 0x16
+#define FastestWalkRight 0x17
+
+#define SlowestTurnUp 0x18
+#define SlowestTurnDown 0x19
+#define SlowestTurnLeft 0x1a
+#define SlowestTurnRight 0x1b
+
+#define SlowTurnUp 0x1c
+#define SlowTurnDown 0x1d
+#define SlowTurnLeft 0x1e
+#define SlowTurnRight 0x1f
+
+#define TurnUp 0x20
+#define TurnDown 0x21
+#define TurnLeft 0x22
+#define TurnRight 0x23
+
+#define FastTurnUp 0x24
+#define FastTurnDown 0x25
+#define FastTurnLeft 0x26
+#define FastTurnRight 0x27
+
+#define FastestTurnUp 0x28
+#define FastestTurnDown 0x29
+#define FastestTurnLeft 0x2a
+#define FastestTurnRight 0x2b
+
+#define SlowHopUp 0x2c
+#define SlowHopDown 0x2d
+#define SlowHopLeft 0x2e
+#define SlowHopRight 0x2f
+
+#define HopUp 0x30
+#define HopDown 0x31
+#define HopLeft 0x32
+#define HopRight 0x33
+
+#define JumpUp1 0x34
+#define JumpDown1 0x35
+#define JumpLeft1 0x36
+#define JumpRight1 0x37
+
+#define JumpUp2 0x38
+#define JumpDown2 0x39
+#define JumpLeft2 0x3a
+#define JumpRight2 0x3b
+
+#define Wait1 0x3c
+#define Wait2 0x3d
+#define Wait4 0x3e
+#define Wait8 0x3f
+#define Wait15 0x40
+#define Wait16 0x41
+#define Wait32 0x42
+
+#define WarpPadUp 0x43
+#define WarpPadDown 0x44
+
+#define Vanish 0x45
+#define Reappear 0x46
+
+#define LockDirection 0x47
+#define UnlockDirection 0x48
+
+#define PauseAnim 0x49
+#define UnpauseAnim 0x4a
+
+#define Exclaimation 0x4b
+#define QuestionMark 0x9f
+#define MusicNote 0xa0
+#define Ellipses 0xa1
+
+#define MediumFastWalkUp 0x4c
+#define MediumFastWalkDown 0x4d
+#define MediumFastWalkLeft 0x4e
+#define MediumFastWalkRight 0x4f
+
+#define FasterWalkUp 0x50
+#define FasterWalkDown 0x51
+#define FasterWalkLeft 0x52
+#define FasterWalkRight 0x53
+
+#define InstantWalkUp 0x54
+#define InstantWalkDown 0x55
+#define InstantWalkLeft 0x56
+#define InstantWalkRight 0x57
+
+#define RunUp 0x58
+#define RunDown 0x59
+#define RunLeft 0x5a
+#define RunRight 0x5b
+
 /*
 0	Face Up	Face direction.Simple
 1	Face Down

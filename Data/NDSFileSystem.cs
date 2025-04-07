@@ -56,9 +56,12 @@ namespace NewEditor.Data
         public List<byte> arm7;
         public List<byte> fnt;
         public List<byte> fat;
-        public List<byte> y9;
+        public Y9Table y9;
         public List<byte> banner;
         public List<byte> romEnder;
+
+        public List<byte> ctrCameraData;
+        public List<byte> ctrRailData;
 
         List<byte> fontData;
         List<byte> skb;
@@ -113,17 +116,16 @@ namespace NewEditor.Data
             while (result.romType[result.romType.Length - 1] == (char)0x20) result.romType = result.romType.Remove(result.romType.Length - 1, 1);
 
             MainEditor.GetVersionConstants(result.romType);
+            bool ctrRom = false;
 
             //Populate static fields
             if (result.RomType == RomType.BW2)
             {
-                result.OverlayCount = 344;
                 result.NARCCount = 308;
                 result.MiscCount = 7;
             }
             if (result.RomType == RomType.BW1)
             {
-                result.OverlayCount = 237;
                 result.NARCCount = 235;
                 result.MiscCount = 7;
             }
@@ -194,10 +196,14 @@ namespace NewEditor.Data
             fs.Read(b, 0, b.Length);
             result.fat = new List<byte>(b);
 
+            if (result.RomType == RomType.BW2 && result.fat.Count > 5296) ctrRom = true;
+            if (result.RomType == RomType.BW1 && result.fat.Count > 3872) ctrRom = true;
+
             b = new byte[HelperFunctions.ReadInt(result.romHeader, Y9_SizeLocation)];
             fs.Position = HelperFunctions.ReadInt(result.romHeader, Y9_PointerLocation);
             fs.Read(b, 0, b.Length);
-            result.y9 = new List<byte>(b);
+            result.y9 = new Y9Table(b);
+            result.OverlayCount = result.y9.entries.Count;
 
             b = new byte[HelperFunctions.ReadInt(result.fat, result.OverlayCount * 8) - HelperFunctions.ReadInt(result.romHeader, Banner_PointerLocation)];
             fs.Position = HelperFunctions.ReadInt(result.romHeader, Banner_PointerLocation);
@@ -213,24 +219,59 @@ namespace NewEditor.Data
                 b = new byte[oEnd - oStart];
                 fs.Position = oStart;
                 fs.Read(b, 0, b.Length);
-                bool compressed = result.y9[i * 32 + 31] == 3;
                 result.overlays.Add(new List<byte>(b));
                 pos += 8;
             }
 
+            int start;
+            int end;
+
+            if (ctrRom)
+            {
+                start = HelperFunctions.ReadInt(result.fat, pos);
+                end = HelperFunctions.ReadInt(result.fat, pos + 4);
+                b = new byte[end - start];
+                fs.Position = start;
+                fs.Read(b, 0, b.Length);
+                result.ctrCameraData = new List<byte>(b);
+                pos += 8;
+
+                if (result.RomType == RomType.BW2)
+                {
+                    start = HelperFunctions.ReadInt(result.fat, pos);
+                    end = HelperFunctions.ReadInt(result.fat, pos + 4);
+                    b = new byte[end - start];
+                    fs.Position = start;
+                    fs.Read(b, 0, b.Length);
+                    result.ctrRailData = new List<byte>(b);
+                    pos += 8;
+                }
+            }
+
             if (result.RomType == RomType.BW1)
             {
-                int start2 = HelperFunctions.ReadInt(result.fat, pos);
-                int end2 = HelperFunctions.ReadInt(result.fat, pos + 4);
-                b = new byte[end2 - start2];
-                fs.Position = start2;
+                start = HelperFunctions.ReadInt(result.fat, pos);
+                end = HelperFunctions.ReadInt(result.fat, pos + 4);
+                b = new byte[end - start];
+                fs.Position = start;
                 fs.Read(b, 0, b.Length);
                 result.fontData = new List<byte>(b);
                 pos += 8;
+
+                if (ctrRom)
+                {
+                    start = HelperFunctions.ReadInt(result.fat, pos);
+                    end = HelperFunctions.ReadInt(result.fat, pos + 4);
+                    b = new byte[end - start];
+                    fs.Position = start;
+                    fs.Read(b, 0, b.Length);
+                    result.ctrRailData = new List<byte>(b);
+                    pos += 8;
+                }
             }
 
-            int start = HelperFunctions.ReadInt(result.fat, pos);
-            int end = HelperFunctions.ReadInt(result.fat, pos + 4);
+            start = HelperFunctions.ReadInt(result.fat, pos);
+            end = HelperFunctions.ReadInt(result.fat, pos + 4);
             b = new byte[end - start];
             fs.Position = start;
             fs.Read(b, 0, b.Length);
@@ -410,10 +451,13 @@ namespace NewEditor.Data
             {
                 result.arm9 = new List<byte>(File.ReadAllBytes(rootFolder + "/arm9.bin"));
                 result.arm7 = new List<byte>(File.ReadAllBytes(rootFolder + "/arm7.bin"));
-                result.y9 = new List<byte>(File.ReadAllBytes(rootFolder + "/y9.bin"));
+                result.y9 = new Y9Table(File.ReadAllBytes(rootFolder + "/y9.bin"));
+                result.OverlayCount = result.y9.entries.Count;
                 result.fat = new List<byte>(File.ReadAllBytes(rootFolder + "/fat.bin"));
                 result.fnt = new List<byte>(File.ReadAllBytes(rootFolder + "/fnt.bin"));
                 result.banner = new List<byte>(File.ReadAllBytes(rootFolder + "/banner.bin"));
+                if (File.Exists(rootFolder + "/data/ctrCameraData.bin")) result.ctrCameraData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/ctrCameraData.bin"));
+                if (File.Exists(rootFolder + "/data/ctrRailData.bin")) result.ctrRailData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/ctrRailData.bin"));
                 if (result.RomType == RomType.BW1) result.fontData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/glf_font.bin"));
                 result.skb = new List<byte>(File.ReadAllBytes(rootFolder + "/data/skb.bin"));
                 result.soundStatus = new List<byte>(File.ReadAllBytes(rootFolder + "/data/SoundStatus.bin"));
@@ -493,8 +537,8 @@ namespace NewEditor.Data
             AddSection(romBytes, arm9);
 
             HelperFunctions.WriteInt(romHeader, Y9_PointerLocation, romBytes.Count);
-            HelperFunctions.WriteInt(romHeader, Y9_SizeLocation, y9.Count);
-            AddSection(romBytes, y9);
+            HelperFunctions.WriteInt(romHeader, Y9_SizeLocation, y9.bytes.Length);
+            AddSection(romBytes, y9.bytes);
 
             for (int i = 0; i < OverlayCount; i++)
             {
@@ -518,55 +562,94 @@ namespace NewEditor.Data
             HelperFunctions.WriteInt(romHeader, Banner_PointerLocation, romBytes.Count);
             AddSection(romBytes, banner);
 
+            int pos = OverlayCount * 8;
+
             if (RomType == RomType.BW1)
             {
-                HelperFunctions.WriteInt(fat, OverlayCount * 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 4, romBytes.Count + fontData.Count);
+                if (ctrCameraData != null)
+                {
+                    HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + ctrCameraData.Count);
+                    AddSection(romBytes, ctrCameraData);
+                    pos += 8;
+                }
+
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + fontData.Count);
                 AddSection(romBytes, fontData);
+                pos += 8;
 
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + skb.Count);
+                if (ctrRailData != null)
+                {
+                    HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + ctrRailData.Count);
+                    AddSection(romBytes, ctrRailData);
+                    pos += 8;
+                }
+
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + skb.Count);
                 AddSection(romBytes, skb);
+                pos += 8;
 
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 16, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundStatus.Count);
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + soundStatus.Count);
                 AddSection(romBytes, soundStatus);
+                pos += 8;
 
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28, romBytes.Count + titleDemo.Count);
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + titleDemo.Count);
                 AddSection(romBytes, titleDemo);
+                pos += 8;
 
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 32, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 36, romBytes.Count + soundData.bytes.Count);
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + soundData.bytes.Count);
                 AddSection(romBytes, soundData.bytes);
+                pos += 8;
 
                 for (int i = 0; i < NARCCount; i++)
                 {
                     narcs[i].WriteData();
-                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 40 + i * 8, romBytes.Count);
-                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 44 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                    HelperFunctions.WriteInt(fat, pos + i * 8, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4 + i * 8, romBytes.Count + narcs[i].byteData.Length);
                     AddSection(romBytes, narcs[i].byteData);
                 }
             }
             else
             {
-                HelperFunctions.WriteInt(fat, OverlayCount * 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 4, romBytes.Count + skb.Count);
+                if (ctrCameraData != null && ctrRailData != null)
+                {
+                    HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + ctrCameraData.Count);
+                    AddSection(romBytes, ctrCameraData);
+                    pos += 8;
+
+                    HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + ctrRailData.Count);
+                    AddSection(romBytes, ctrRailData);
+                    pos += 8;
+                }
+
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + skb.Count);
                 AddSection(romBytes, skb);
+                pos += 8;
 
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 12, romBytes.Count + soundStatus.Count);
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + soundStatus.Count);
                 AddSection(romBytes, soundStatus);
+                pos += 8;
 
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 16, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 20, romBytes.Count + soundData.bytes.Count);
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + soundData.bytes.Count);
                 AddSection(romBytes, soundData.bytes);
+                pos += 8;
 
                 for (int i = 0; i < NARCCount; i++)
                 {
                     narcs[i].WriteData();
-                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24 + i * 8, romBytes.Count);
-                    HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                    HelperFunctions.WriteInt(fat, pos + i * 8, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4 + i * 8, romBytes.Count + narcs[i].byteData.Length);
                     AddSection(romBytes, narcs[i].byteData);
                 }
             }
@@ -603,10 +686,12 @@ namespace NewEditor.Data
             File.WriteAllBytes(path + "/header.bin", romHeader.ToArray());
             File.WriteAllBytes(path + "/arm9.bin", arm9.ToArray());
             File.WriteAllBytes(path + "/arm7.bin", arm7.ToArray());
-            File.WriteAllBytes(path + "/y9.bin", y9.ToArray());
+            File.WriteAllBytes(path + "/y9.bin", y9.bytes);
             File.WriteAllBytes(path + "/fat.bin", fat.ToArray());
             File.WriteAllBytes(path + "/fnt.bin", fnt.ToArray());
             File.WriteAllBytes(path + "/banner.bin", banner.ToArray());
+            if (ctrCameraData != null) File.WriteAllBytes(path + "/data/ctrCameraData.bin", ctrCameraData.ToArray());
+            if (ctrRailData != null) File.WriteAllBytes(path + "/data/ctrRailData.bin", ctrRailData.ToArray());
             if (RomType == RomType.BW1) File.WriteAllBytes(path + "/data/gfl_font.bin", fontData.ToArray());
             File.WriteAllBytes(path + "/data/skb.bin", skb.ToArray());
             File.WriteAllBytes(path + "/data/SoundStatus.bin", soundStatus.ToArray());

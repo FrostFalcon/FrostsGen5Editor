@@ -80,6 +80,8 @@ namespace NewEditor.Forms
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.replaceMapID = new System.Windows.Forms.NumericUpDown();
             this.replaceMapButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.themeDropdown = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -318,10 +320,11 @@ namespace NewEditor.Forms
             // 
             // taskProgressBar
             // 
-            this.taskProgressBar.Location = new System.Drawing.Point(15, 74);
+            this.taskProgressBar.Location = new System.Drawing.Point(652, 187);
             this.taskProgressBar.Name = "taskProgressBar";
             this.taskProgressBar.Size = new System.Drawing.Size(120, 25);
             this.taskProgressBar.TabIndex = 17;
+            this.taskProgressBar.Visible = false;
             // 
             // replaceNarcButton
             // 
@@ -605,7 +608,7 @@ namespace NewEditor.Forms
             this.groupBox4.Controls.Add(this.replaceSoundID);
             this.groupBox4.Controls.Add(this.replaceOverlayButton);
             this.groupBox4.Controls.Add(this.replaceIconID);
-            this.groupBox4.Location = new System.Drawing.Point(31, 10);
+            this.groupBox4.Location = new System.Drawing.Point(148, 69);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(389, 229);
             this.groupBox4.TabIndex = 42;
@@ -636,12 +639,38 @@ namespace NewEditor.Forms
             this.replaceMapButton.UseVisualStyleBackColor = true;
             this.replaceMapButton.Click += new System.EventHandler(this.replaceMapButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.label1.Location = new System.Drawing.Point(12, 69);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 16);
+            this.label1.TabIndex = 43;
+            this.label1.Text = "Theme: ";
+            this.label1.Visible = false;
+            // 
+            // themeDropdown
+            // 
+            this.themeDropdown.FormattingEnabled = true;
+            this.themeDropdown.Items.AddRange(new object[] {
+            "Light",
+            "Dark"});
+            this.themeDropdown.Location = new System.Drawing.Point(65, 65);
+            this.themeDropdown.Name = "themeDropdown";
+            this.themeDropdown.Size = new System.Drawing.Size(120, 24);
+            this.themeDropdown.TabIndex = 21;
+            this.themeDropdown.Visible = false;
+            this.themeDropdown.SelectedIndexChanged += new System.EventHandler(this.ChangeTheme);
+            // 
             // MainEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(784, 501);
+            this.Controls.Add(this.themeDropdown);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -726,6 +755,8 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button littleCupButton;
         private System.Windows.Forms.Button openXPCurveEditorButton;
         private System.Windows.Forms.Button openGrottoEditorButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox themeDropdown;
     }
 }
 

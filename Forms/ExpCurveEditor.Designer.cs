@@ -48,7 +48,7 @@
             this.curveIDDropdown.Name = "curveIDDropdown";
             this.curveIDDropdown.Size = new System.Drawing.Size(192, 24);
             this.curveIDDropdown.TabIndex = 71;
-            this.curveIDDropdown.SelectedIndexChanged += new System.EventHandler(this.shopIDDropdown_SelectedIndexChanged);
+            this.curveIDDropdown.SelectedIndexChanged += new System.EventHandler(this.curveIDDropdown_SelectedIndexChanged);
             // 
             // xpRateChart
             // 
@@ -99,7 +99,7 @@
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ExpCurveEditor";
-            this.Text = "PokemartEditor";
+            this.Text = "Exp Curve Editor";
             ((System.ComponentModel.ISupportInitialize)(this.xpRateChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xpRateDataGrid)).EndInit();
             this.ResumeLayout(false);

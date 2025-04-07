@@ -54,6 +54,8 @@ namespace NewEditor.Forms
             this.openEncounterFileButton = new System.Windows.Forms.Button();
             this.overworlObjectTabs = new System.Windows.Forms.TabControl();
             this.npcTab = new System.Windows.Forms.TabPage();
+            this.setItemButton = new System.Windows.Forms.Button();
+            this.setItemDropdown = new System.Windows.Forms.ComboBox();
             this.giveItemLabel = new System.Windows.Forms.Label();
             this.npcZPositionNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
@@ -147,8 +149,6 @@ namespace NewEditor.Forms
             this.label47 = new System.Windows.Forms.Label();
             this.flyXNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label48 = new System.Windows.Forms.Label();
-            this.setItemDropdown = new System.Windows.Forms.ComboBox();
-            this.setItemButton = new System.Windows.Forms.Button();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -519,6 +519,28 @@ namespace NewEditor.Forms
             this.npcTab.TabIndex = 0;
             this.npcTab.Text = "NPCs";
             this.npcTab.UseVisualStyleBackColor = true;
+            // 
+            // setItemButton
+            // 
+            this.setItemButton.Enabled = false;
+            this.setItemButton.Location = new System.Drawing.Point(147, 130);
+            this.setItemButton.Name = "setItemButton";
+            this.setItemButton.Size = new System.Drawing.Size(75, 24);
+            this.setItemButton.TabIndex = 95;
+            this.setItemButton.Text = "Set Item";
+            this.setItemButton.UseVisualStyleBackColor = true;
+            this.setItemButton.Click += new System.EventHandler(this.setItemButton_Click);
+            // 
+            // setItemDropdown
+            // 
+            this.setItemDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.setItemDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.setItemDropdown.Enabled = false;
+            this.setItemDropdown.FormattingEnabled = true;
+            this.setItemDropdown.Location = new System.Drawing.Point(18, 130);
+            this.setItemDropdown.Name = "setItemDropdown";
+            this.setItemDropdown.Size = new System.Drawing.Size(120, 24);
+            this.setItemDropdown.TabIndex = 104;
             // 
             // giveItemLabel
             // 
@@ -916,7 +938,7 @@ namespace NewEditor.Forms
             this.furnitureTab.Controls.Add(this.label39);
             this.furnitureTab.Location = new System.Drawing.Point(4, 24);
             this.furnitureTab.Name = "furnitureTab";
-            this.furnitureTab.Size = new System.Drawing.Size(562, 232);
+            this.furnitureTab.Size = new System.Drawing.Size(562, 252);
             this.furnitureTab.TabIndex = 4;
             this.furnitureTab.Text = "Furniture";
             this.furnitureTab.UseVisualStyleBackColor = true;
@@ -1096,7 +1118,7 @@ namespace NewEditor.Forms
             this.warpTab.Location = new System.Drawing.Point(4, 24);
             this.warpTab.Name = "warpTab";
             this.warpTab.Padding = new System.Windows.Forms.Padding(3);
-            this.warpTab.Size = new System.Drawing.Size(562, 232);
+            this.warpTab.Size = new System.Drawing.Size(562, 252);
             this.warpTab.TabIndex = 1;
             this.warpTab.Text = "Warps";
             this.warpTab.UseVisualStyleBackColor = true;
@@ -1341,7 +1363,7 @@ namespace NewEditor.Forms
             this.triggerTab.Controls.Add(this.triggerConstValNumberBox);
             this.triggerTab.Location = new System.Drawing.Point(4, 24);
             this.triggerTab.Name = "triggerTab";
-            this.triggerTab.Size = new System.Drawing.Size(562, 232);
+            this.triggerTab.Size = new System.Drawing.Size(562, 252);
             this.triggerTab.TabIndex = 2;
             this.triggerTab.Text = "Triggers";
             this.triggerTab.UseVisualStyleBackColor = true;
@@ -1630,7 +1652,7 @@ namespace NewEditor.Forms
             this.overworldExtrasTab.Controls.Add(this.extraDataTextBox);
             this.overworldExtrasTab.Location = new System.Drawing.Point(4, 24);
             this.overworldExtrasTab.Name = "overworldExtrasTab";
-            this.overworldExtrasTab.Size = new System.Drawing.Size(562, 232);
+            this.overworldExtrasTab.Size = new System.Drawing.Size(562, 252);
             this.overworldExtrasTab.TabIndex = 3;
             this.overworldExtrasTab.Text = "Extras";
             this.overworldExtrasTab.UseVisualStyleBackColor = true;
@@ -1882,28 +1904,6 @@ namespace NewEditor.Forms
             this.label48.TabIndex = 91;
             this.label48.Text = "Fly X:";
             // 
-            // setItemDropdown
-            // 
-            this.setItemDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.setItemDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.setItemDropdown.Enabled = false;
-            this.setItemDropdown.FormattingEnabled = true;
-            this.setItemDropdown.Location = new System.Drawing.Point(18, 130);
-            this.setItemDropdown.Name = "setItemDropdown";
-            this.setItemDropdown.Size = new System.Drawing.Size(120, 24);
-            this.setItemDropdown.TabIndex = 104;
-            // 
-            // setItemButton
-            // 
-            this.setItemButton.Enabled = false;
-            this.setItemButton.Location = new System.Drawing.Point(147, 130);
-            this.setItemButton.Name = "setItemButton";
-            this.setItemButton.Size = new System.Drawing.Size(75, 24);
-            this.setItemButton.TabIndex = 95;
-            this.setItemButton.Text = "Set Item";
-            this.setItemButton.UseVisualStyleBackColor = true;
-            this.setItemButton.Click += new System.EventHandler(this.setItemButton_Click);
-            // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1951,7 +1951,7 @@ namespace NewEditor.Forms
             this.Controls.Add(this.zoneIdDropdown);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "OverworldEditor";
-            this.Text = "OverworldEditor";
+            this.Text = "Overworld Editor";
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textFileNumberBox)).EndInit();

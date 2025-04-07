@@ -13,6 +13,7 @@ using System.Diagnostics;
 using NewEditor.Data.NARCTypes;
 using System.Threading;
 using System.Runtime.InteropServices;
+using DarkModeForms;
 
 namespace NewEditor.Forms
 {
@@ -110,10 +111,51 @@ namespace NewEditor.Forms
         bool autoLoaded = false;
         public static string AutoLoad = "";
 
+        public static DarkModeCS darkMode = null;
+
+        public static MainEditor instance;
+
         public MainEditor()
         {
+            instance = this;
             InitializeComponent();
+
+            //darkMode = new DarkModeCS(this, false, false)
+            //{
+            //    ColorMode = DarkModeCS.DisplayMode.DarkMode
+            //};
+
             TryAutoLoad();
+        }
+
+        private void ChangeTheme(object sender, EventArgs e)
+        {
+            if (themeDropdown.SelectedIndex < 0 || themeDropdown.SelectedIndex >= themeDropdown.Items.Count) return;
+
+            //darkMode.ApplyTheme(themeDropdown.SelectedIndex == 1);
+            FileFunctions.WriteFileSection("Preferences.txt", "DarkMode", new byte[] { (byte)themeDropdown.SelectedIndex });
+        }
+
+        public static List<Form> GetAllForms()
+        {
+            List<Form> list = new List<Form>();
+            list.Add(instance);
+            if (textViewer != null && !textViewer.IsDisposed) list.Add(textViewer);
+            if (pokemonEditor != null && !pokemonEditor.IsDisposed) list.Add(pokemonEditor);
+            if (moveEditor != null && !moveEditor.IsDisposed) list.Add(moveEditor);
+            if (overworldEditor != null && !overworldEditor.IsDisposed) list.Add(overworldEditor);
+            if (encounterEditor != null && !encounterEditor.IsDisposed) list.Add(encounterEditor);
+            if (xpCurveEditor != null && !xpCurveEditor.IsDisposed) list.Add(xpCurveEditor);
+            if (scriptEditor != null && !scriptEditor.IsDisposed) list.Add(scriptEditor);
+            if (trainerEditor != null && !trainerEditor.IsDisposed) list.Add(trainerEditor);
+            if (pokemartEditor != null && !pokemartEditor.IsDisposed) list.Add(pokemartEditor);
+            if (grottoEditor != null && !grottoEditor.IsDisposed) list.Add(grottoEditor);
+            if (overlayEditor != null && !overlayEditor.IsDisposed) list.Add(overlayEditor);
+            if (typeSwapEditor != null && !typeSwapEditor.IsDisposed) list.Add(typeSwapEditor);
+            if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) list.Add(presetMovesEditor);
+            if (pokePatchEditor != null && !pokePatchEditor.IsDisposed) list.Add(pokePatchEditor);
+            if (typeChartEditor != null && !typeChartEditor.IsDisposed) list.Add(typeChartEditor);
+            return list;
         }
 
         public static void GetVersionConstants(string romType)
@@ -354,7 +396,7 @@ namespace NewEditor.Forms
 
             await Task.Run(() =>
             {
-                //try
+                try
                 {
                     if (fromFolder)
                     {
@@ -368,14 +410,14 @@ namespace NewEditor.Forms
                         fileStream.Close();
                     }
                 }
-                //catch (Exception ex)
+                catch (Exception ex)
                 {
                     if (autoLoaded)
                     {
                         DisableAutoLoad(null, null);
                         MessageBox.Show("Auto load has been disabled due to an error with the rom file.\nPlease restart the application.");
                     }
-                    //throw ex;
+                    throw ex;
                 }
             });
 
@@ -433,8 +475,27 @@ namespace NewEditor.Forms
 
         public void TryAutoLoad()
         {
+            List<byte> dark = FileFunctions.ReadFileSection("Preferences.txt", "DarkMode");
             List<byte> enabled = FileFunctions.ReadFileSection("Preferences.txt", "AutoLoad");
             List<byte> value = FileFunctions.ReadFileSection("Preferences.txt", "AutoLoadPath");
+            if (dark == null || dark.Count == 0)
+            {
+                FileFunctions.WriteFileSection("Preferences.txt", "DarkMode", new byte[] { 0 });
+                themeDropdown.SelectedIndex = 0;
+                //darkMode = new DarkModeCS(this, false, false)
+                //{
+                //    ColorMode = DarkModeCS.DisplayMode.ClearMode
+                //};
+            }
+            else
+            {
+                themeDropdown.SelectedIndex = dark[0];
+                //darkMode = new DarkModeCS(this, false, false)
+                //{
+                //    ColorMode = dark[0] == 1 ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode
+                //};
+            }
+
             if (enabled == null || value == null)
             {
                 FileFunctions.WriteFileSection("Preferences.txt", "AutoLoad", ASCIIEncoding.ASCII.GetBytes("Off"));
@@ -487,6 +548,7 @@ namespace NewEditor.Forms
             }
 
             if (textViewer == null || textViewer.IsDisposed) textViewer = new TextViewer();
+            ChangeTheme(null, null);
             textViewer.Show();
             textViewer.BringToFront();
         }
@@ -500,6 +562,7 @@ namespace NewEditor.Forms
             }
 
             if (pokemonEditor == null || pokemonEditor.IsDisposed) pokemonEditor = new PokemonEditor();
+            ChangeTheme(null, null);
             pokemonEditor.Show();
             pokemonEditor.BringToFront();
         }
@@ -513,6 +576,7 @@ namespace NewEditor.Forms
             }
 
             if (overworldEditor == null || overworldEditor.IsDisposed) overworldEditor = new OverworldEditor();
+            ChangeTheme(null, null);
             overworldEditor.Show();
             overworldEditor.BringToFront();
         }
@@ -526,6 +590,7 @@ namespace NewEditor.Forms
             }
 
             if (moveEditor == null || moveEditor.IsDisposed) moveEditor = new MoveEditor();
+            ChangeTheme(null, null);
             moveEditor.Show();
             moveEditor.BringToFront();
         }
@@ -539,6 +604,7 @@ namespace NewEditor.Forms
             }
 
             if (scriptEditor == null || scriptEditor.IsDisposed) scriptEditor = new ScriptEditor();
+            ChangeTheme(null, null);
             scriptEditor.Show();
             scriptEditor.BringToFront();
         }
@@ -552,6 +618,7 @@ namespace NewEditor.Forms
             }
 
             if (trainerEditor == null || trainerEditor.IsDisposed) trainerEditor = new TrainerEditor();
+            ChangeTheme(null, null);
             trainerEditor.Show();
             trainerEditor.BringToFront();
         }
@@ -565,6 +632,7 @@ namespace NewEditor.Forms
             }
 
             if (encounterEditor == null || encounterEditor.IsDisposed) encounterEditor = new EncounterEditor();
+            ChangeTheme(null, null);
             encounterEditor.Show();
             encounterEditor.BringToFront();
         }
@@ -583,6 +651,7 @@ namespace NewEditor.Forms
             }
 
             if (grottoEditor == null || grottoEditor.IsDisposed) grottoEditor = new GrottoEditor();
+            ChangeTheme(null, null);
             grottoEditor.Show();
             grottoEditor.BringToFront();
         }
@@ -601,6 +670,7 @@ namespace NewEditor.Forms
             }
 
             if (pokemartEditor == null || pokemartEditor.IsDisposed) pokemartEditor = new PokemartEditor();
+            ChangeTheme(null, null);
             pokemartEditor.Show();
             pokemartEditor.BringToFront();
         }
@@ -614,6 +684,7 @@ namespace NewEditor.Forms
             }
 
             if (overlayEditor == null || overlayEditor.IsDisposed) overlayEditor = new OverlayEditor(fileSystem);
+            ChangeTheme(null, null);
             overlayEditor.Show();
             overlayEditor.BringToFront();
         }
@@ -627,6 +698,7 @@ namespace NewEditor.Forms
             }
 
             if (typeSwapEditor == null || typeSwapEditor.IsDisposed) typeSwapEditor = new TypeSwapEditor();
+            ChangeTheme(null, null);
             typeSwapEditor.Show();
             typeSwapEditor.BringToFront();
         }
@@ -651,6 +723,7 @@ namespace NewEditor.Forms
             }
 
             if (presetMovesEditor == null || presetMovesEditor.IsDisposed) presetMovesEditor = new RandomMovesEditor();
+            ChangeTheme(null, null);
             presetMovesEditor.Show();
             presetMovesEditor.BringToFront();
         }
@@ -724,9 +797,9 @@ namespace NewEditor.Forms
                         {
                             data.Add("arm9_", fileSystem.arm9);
                         }
-                        if (!fileSystem.y9.SequenceEqual(other.y9))
+                        if (!fileSystem.y9.bytes.SequenceEqual(other.y9.bytes))
                         {
-                            data.Add("y9_", fileSystem.y9);
+                            data.Add("y9_", fileSystem.y9.bytes);
                         }
 
                         for (int i = 0; i < fileSystem.narcs.Count; i++)
@@ -829,7 +902,7 @@ namespace NewEditor.Forms
                     }
                     else if (entry.Key.StartsWith("y9_"))
                     {
-                        fileSystem.y9 = entry.Value.ToList();
+                        fileSystem.y9 = new Y9Table(entry.Value.ToArray());
                     }
                     else if (int.TryParse(entry.Key.Substring(3), out int id) && id >= 0 && id < fileSystem.narcs.Count)
                     {
@@ -1032,26 +1105,28 @@ namespace NewEditor.Forms
             }
 
             if (pokePatchEditor == null || pokePatchEditor.IsDisposed) pokePatchEditor = new Pokepatcher();
+            ChangeTheme(null, null);
             pokePatchEditor.Show();
             pokePatchEditor.BringToFront();
         }
 
         private void typeChartEditorButton_Click(object sender, EventArgs e)
         {
-            if (loadingNARCS)
+            if (pokemonDataNarc == null || loadingNARCS)
             {
                 MessageBox.Show("Necessary data files have not been loaded");
                 return;
             }
 
             if (typeChartEditor == null || typeChartEditor.IsDisposed) typeChartEditor = new TypeChartEditor();
+            ChangeTheme(null, null);
             typeChartEditor.Show();
             typeChartEditor.BringToFront();
         }
 
         private void littleCupButton_Click(object sender, EventArgs e)
         {
-            if (loadingNARCS)
+            if (pokemonDataNarc == null || loadingNARCS)
             {
                 MessageBox.Show("Necessary data files have not been loaded");
                 return;
@@ -1136,6 +1211,7 @@ namespace NewEditor.Forms
             }
 
             if (xpCurveEditor == null || xpCurveEditor.IsDisposed) xpCurveEditor = new ExpCurveEditor();
+            ChangeTheme(null, null);
             xpCurveEditor.Show();
             xpCurveEditor.BringToFront();
         }

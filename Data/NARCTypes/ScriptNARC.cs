@@ -197,7 +197,7 @@ namespace NewEditor.Data.NARCTypes
 
                     if (stack.Count != 0)
                     {
-                        if (line.Split(' ')[0].EndsWith(":"))
+                        if (line.Split(' ')[0].EndsWith(":") || line.Split(' ')[0].EndsWith(":;"))
                         {
                             labelQueue.Add(line.Split(':')[0]);
                             continue;
@@ -430,6 +430,10 @@ namespace NewEditor.Data.NARCTypes
                         if (comDict.ContainsKey(com))
                         {
                             ScriptCommand sc = new ScriptCommand((short)comDict[com], pars.ToArray());
+                            
+                            if (CommandReference.commandList[sc.commandID].numParameters != sc.parameters.Length)
+                                throw new Exception("Incorrect number of parameters at line " + lineNumber + "\nExpected: " + CommandReference.commandList[sc.commandID].numParameters + ", Found: " + sc.parameters.Length);
+
                             stack[stack.Count - 1].commands.Add(sc);
                             while (labelQueue.Count > 0)
                             {
@@ -471,7 +475,9 @@ namespace NewEditor.Data.NARCTypes
                         byte[] bytes = new byte[ps.Count];
                         for (int i = 0; i < ps.Count; i++)
                         {
-                            if (ps[i].Trim().StartsWith("0x")) bytes[i] = byte.Parse(ps[i].Trim().Substring(2), System.Globalization.NumberStyles.HexNumber);
+
+                            if (CommandReference.reverseMovements.ContainsKey(ps[i].Trim())) bytes[i] = (byte)CommandReference.reverseMovements[ps[0].Trim()];
+                            else if (ps[i].Trim().StartsWith("0x")) bytes[i] = byte.Parse(ps[i].Trim().Substring(2), System.Globalization.NumberStyles.HexNumber);
                             else bytes[i] = byte.Parse(ps[i].Trim());
                         }
 
@@ -498,6 +504,8 @@ namespace NewEditor.Data.NARCTypes
                 {
                     if (labels.ContainsKey(com))
                     {
+                        if (labelLocations.ContainsKey(labels[com]))
+                            throw new Exception("Duplicate label found: " + labels[com]);
                         labelLocations.Add(labels[com], pos);
                     }
                     pos += com.ByteLength;
@@ -599,13 +607,17 @@ namespace NewEditor.Data.NARCTypes
             {
                 file.WriteLine("\nvoid Sequence" + seqID + "()\n{");
 
-                int n = HelperFunctions.ReadInt(bytes, seqID * 4) + seqID * 4 + 4;
-                routines.Remove(n);
-                foreach (ScriptCommand com in seq.commands)
+                int pos = HelperFunctions.ReadInt(bytes, seqID * 4) + seqID * 4 + 4;
+                int jumpMax = 0;
+                while (pos < bytes.Length)
                 {
-                    if (jumpLocations.Contains(n)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(n) + ": ;");
-                    n += com.ByteLength;
-                    WriteCommandToFile(file, n, com, routines, sequenceRoutines, jumpLocations);
+                    ScriptCommand com = new ScriptCommand(bytes, pos);
+                    if (jumpLocations.Contains(pos)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(pos) + ": ;");
+                    if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
+                    if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
+                    WriteCommandToFile(file, pos + com.ByteLength, com, routines, sequenceRoutines, jumpLocations);
+                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    pos += com.ByteLength;
                 }
 
                 file.WriteLine("}");
@@ -710,7 +722,9 @@ namespace NewEditor.Data.NARCTypes
 
                 for (int i = n; bytes[i] != 0xFE && i < bytes.Length - 4; i += 4)
                 {
-                    file.WriteLine("\t\t0x" + ((byte)bytes[i]).ToString("X2") + ", " + ((byte)bytes[i + 2]) + ",");
+                    string move = "0x" + ((byte)bytes[i]).ToString("X2");
+                    if (CommandReference.movements.ContainsKey(bytes[i])) move = CommandReference.movements[bytes[i]];
+                    file.WriteLine("\t\t" + move + ", " + ((byte)bytes[i + 2]) + ",");
                 }
                 file.WriteLine("\t};\n");
             }
@@ -1032,6 +1046,204 @@ namespace NewEditor.Data.NARCTypes
 
     internal static class CommandReference
     {
+        internal static Dictionary<int, string> movements = new Dictionary<int, string>()
+        {
+            { 0x0, "LookUp" },
+            { 0x1, "LookDown" },
+            { 0x2, "LookLeft" },
+            { 0x3, "LookRight" },
+            { 0x4, "SlowestWalkUp" },
+            { 0x5, "SlowestWalkDown" },
+            { 0x6, "SlowestWalkLeft" },
+            { 0x7, "SlowestWalkRight" },
+            { 0x8, "SlowWalkUp" },
+            { 0x9, "SlowWalkDown" },
+            { 0xa, "SlowWalkLeft" },
+            { 0xb, "SlowWalkRight" },
+            { 0xc, "WalkUp" },
+            { 0xd, "WalkDown" },
+            { 0xe, "WalkLeft" },
+            { 0xf, "WalkRight" },
+            { 0x10, "FastWalkUp" },
+            { 0x11, "FastWalkDown" },
+            { 0x12, "FastWalkLeft" },
+            { 0x13, "FastWalkRight" },
+            { 0x14, "FastestWalkUp" },
+            { 0x15, "FastestWalkDown" },
+            { 0x16, "FastestWalkLeft" },
+            { 0x17, "FastestWalkRight" },
+            { 0x18, "SlowestTurnUp" },
+            { 0x19, "SlowestTurnDown" },
+            { 0x1a, "SlowestTurnLeft" },
+            { 0x1b, "SlowestTurnRight" },
+            { 0x1c, "SlowTurnUp" },
+            { 0x1d, "SlowTurnDown" },
+            { 0x1e, "SlowTurnLeft" },
+            { 0x1f, "SlowTurnRight" },
+            { 0x20, "TurnUp" },
+            { 0x21, "TurnDown" },
+            { 0x22, "TurnLeft" },
+            { 0x23, "TurnRight" },
+            { 0x24, "FastTurnUp" },
+            { 0x25, "FastTurnDown" },
+            { 0x26, "FastTurnLeft" },
+            { 0x27, "FastTurnRight" },
+            { 0x28, "FastestTurnUp" },
+            { 0x29, "FastestTurnDown" },
+            { 0x2a, "FastestTurnLeft" },
+            { 0x2b, "FastestTurnRight" },
+            { 0x2c, "SlowHopUp" },
+            { 0x2d, "SlowHopDown" },
+            { 0x2e, "SlowHopLeft" },
+            { 0x2f, "SlowHopRight" },
+            { 0x30, "HopUp" },
+            { 0x31, "HopDown" },
+            { 0x32, "HopLeft" },
+            { 0x33, "HopRight" },
+            { 0x34, "JumpUp1" },
+            { 0x35, "JumpDown1" },
+            { 0x36, "JumpLeft1" },
+            { 0x37, "JumpRight1" },
+            { 0x38, "JumpUp2" },
+            { 0x39, "JumpDown2" },
+            { 0x3a, "JumpLeft2" },
+            { 0x3b, "JumpRight2" },
+            { 0x3c, "Wait1" },
+            { 0x3d, "Wait2" },
+            { 0x3e, "Wait4" },
+            { 0x3f, "Wait8" },
+            { 0x40, "Wait15" },
+            { 0x41, "Wait16" },
+            { 0x42, "Wait32" },
+            { 0x43, "WarpPadUp" },
+            { 0x44, "WarpPadDown" },
+            { 0x45, "Vanish" },
+            { 0x46, "Reappear" },
+            { 0x47, "LockDirection" },
+            { 0x48, "UnlockDirection" },
+            { 0x49, "PauseAnim" },
+            { 0x4a, "UnpauseAnim" },
+            { 0x4b, "Exclaimation" },
+            { 0x9f, "QuestionMark" },
+            { 0xa0, "MusicNote" },
+            { 0xa1, "Ellipses" },
+            { 0x4c, "MediumFastWalkUp" },
+            { 0x4d, "MediumFastWalkDown" },
+            { 0x4e, "MediumFastWalkLeft" },
+            { 0x4f, "MediumFastWalkRight" },
+            { 0x50, "FasterWalkUp" },
+            { 0x51, "FasterWalkDown" },
+            { 0x52, "FasterWalkLeft" },
+            { 0x53, "FasterWalkRight" },
+            { 0x54, "InstantWalkUp" },
+            { 0x55, "InstantWalkDown" },
+            { 0x56, "InstantWalkLeft" },
+            { 0x57, "InstantWalkRight" },
+            { 0x58, "RunUp" },
+            { 0x59, "RunDown" },
+            { 0x5a, "RunLeft" },
+            { 0x5b, "RunRight" }
+        };
+
+        internal static Dictionary<string, int> reverseMovements = new Dictionary<string, int>()
+        {
+            { "LookUp", 0x0 },
+            { "LookDown", 0x1 },
+            { "LookLeft", 0x2 },
+            { "LookRight", 0x3 },
+            { "SlowestWalkUp", 0x4 },
+            { "SlowestWalkDown", 0x5 },
+            { "SlowestWalkLeft", 0x6 },
+            { "SlowestWalkRight", 0x7 },
+            { "SlowWalkUp", 0x8 },
+            { "SlowWalkDown", 0x9 },
+            { "SlowWalkLeft", 0xa },
+            { "SlowWalkRight", 0xb },
+            { "WalkUp", 0xc },
+            { "WalkDown", 0xd },
+            { "WalkLeft", 0xe },
+            { "WalkRight", 0xf },
+            { "FastWalkUp", 0x10 },
+            { "FastWalkDown", 0x11 },
+            { "FastWalkLeft", 0x12 },
+            { "FastWalkRight", 0x13 },
+            { "FastestWalkUp", 0x14 },
+            { "FastestWalkDown", 0x15 },
+            { "FastestWalkLeft", 0x16 },
+            { "FastestWalkRight", 0x17 },
+            { "SlowestTurnUp", 0x18 },
+            { "SlowestTurnDown", 0x19 },
+            { "SlowestTurnLeft", 0x1a },
+            { "SlowestTurnRight", 0x1b },
+            { "SlowTurnUp", 0x1c },
+            { "SlowTurnDown", 0x1d },
+            { "SlowTurnLeft", 0x1e },
+            { "SlowTurnRight", 0x1f },
+            { "TurnUp", 0x20 },
+            { "TurnDown", 0x21 },
+            { "TurnLeft", 0x22 },
+            { "TurnRight", 0x23 },
+            { "FastTurnUp", 0x24 },
+            { "FastTurnDown", 0x25 },
+            { "FastTurnLeft", 0x26 },
+            { "FastTurnRight", 0x27 },
+            { "FastestTurnUp", 0x28 },
+            { "FastestTurnDown", 0x29 },
+            { "FastestTurnLeft", 0x2a },
+            { "FastestTurnRight", 0x2b },
+            { "SlowHopUp", 0x2c },
+            { "SlowHopDown", 0x2d },
+            { "SlowHopLeft", 0x2e },
+            { "SlowHopRight", 0x2f },
+            { "HopUp", 0x30 },
+            { "HopDown", 0x31 },
+            { "HopLeft", 0x32 },
+            { "HopRight", 0x33 },
+            { "JumpUp1", 0x34 },
+            { "JumpDown1", 0x35 },
+            { "JumpLeft1", 0x36 },
+            { "JumpRight1", 0x37 },
+            { "JumpUp2", 0x38 },
+            { "JumpDown2", 0x39 },
+            { "JumpLeft2", 0x3a },
+            { "JumpRight2", 0x3b },
+            { "Wait1", 0x3c },
+            { "Wait2", 0x3d },
+            { "Wait4", 0x3e },
+            { "Wait8", 0x3f },
+            { "Wait15", 0x40 },
+            { "Wait16", 0x41 },
+            { "Wait32", 0x42 },
+            { "WarpPadUp", 0x43 },
+            { "WarpPadDown", 0x44 },
+            { "Vanish", 0x45 },
+            { "Reappear", 0x46 },
+            { "LockDirection", 0x47 },
+            { "UnlockDirection", 0x48 },
+            { "PauseAnim", 0x49 },
+            { "UnpauseAnim", 0x4a },
+            { "Exclaimation", 0x4b },
+            { "QuestionMark", 0x9f },
+            { "MusicNote", 0xa0 },
+            { "Ellipses", 0xa1 },
+            { "MediumFastWalkUp", 0x4c },
+            { "MediumFastWalkDown", 0x4d },
+            { "MediumFastWalkLeft", 0x4e },
+            { "MediumFastWalkRight", 0x4f },
+            { "FasterWalkUp", 0x50 },
+            { "FasterWalkDown", 0x51 },
+            { "FasterWalkLeft", 0x52 },
+            { "FasterWalkRight", 0x53 },
+            { "InstantWalkUp", 0x54 },
+            { "InstantWalkDown", 0x55 },
+            { "InstantWalkLeft", 0x56 },
+            { "InstantWalkRight", 0x57 },
+            { "RunUp", 0x58 },
+            { "RunDown", 0x59 },
+            { "RunLeft", 0x5a },
+            { "RunRight", 0x5b }
+        };
+
         internal static Dictionary<int, CommandType> commandList = new Dictionary<int, CommandType>()
         {
             {0x0, new CommandType("c0x0", 0)},
@@ -1110,30 +1322,30 @@ namespace NewEditor.Data.NARCTypes
             {0x49, new CommandType("DoubleMessage", 7, 1, 1, 2, 2, 2, 2, 2)},
             {0x4A, new CommandType("AngryMessage", 3, 2, 1, 2)},
             {0x4B, new CommandType("CloseAngryMessage", 0)},
-            {0x4C, new CommandType("SetVarHero", 1, 1)},
-            {0x4D, new CommandType("SetVarItem", 2, 1, 2)},
-            {0x4E, new CommandType("c0x4E", 4, 1, 2, 2, 1)},
-            {0x4F, new CommandType("SetVarItem2", 2, 1, 2)},
-            {0x50, new CommandType("SetVarItem3", 2, 1, 2)},
-            {0x51, new CommandType("SetVarMove", 2, 1, 2)},
-            {0x52, new CommandType("SetVarBag", 2, 1, 2)},
-            {0x53, new CommandType("SetVarPartyPokemon", 2, 1, 2)},
-            {0x54, new CommandType("SetVarPartyPokemon2", 2, 1, 2)},
-            {0x55, new CommandType("SetVar55", 2, 1, 2)},
-            {0x56, new CommandType("SetVarType", 2, 1, 2)},
-            {0x57, new CommandType("SetVarPokemon", 2, 1, 2)},
-            {0x58, new CommandType("SetVarPokemon2", 2, 1, 2)},
-            {0x59, new CommandType("SetVarLocation", 2, 1, 2)},
-            {0x5A, new CommandType("SetVarPokemonNick", 2, 1, 2)},
-            {0x5B, new CommandType("SetVar5B", 2, 1, 2)},
-            {0x5C, new CommandType("SetVarStoreVal5C", 3, 1, 2, 2)},
-            {0x5D, new CommandType("SetVarMusicalInfo", 2, 2, 2)},
-            {0x5E, new CommandType("SetVarNations", 2, 1, 2)},
-            {0x5F, new CommandType("SetVarActivities", 2, 1, 2)},
-            {0x60, new CommandType("SetVarPower", 2, 1, 2)},
-            {0x61, new CommandType("SetVarTrainerType", 2, 1, 2)},
-            {0x62, new CommandType("SetVarTrainerType2", 2, 1, 2)},
-            {0x63, new CommandType("SetVarGeneralWord", 2, 1, 2)},
+            {0x4C, new CommandType("SetWordPlayerName", 1, 1)},
+            {0x4D, new CommandType("SetWordItem", 2, 1, 2)},
+            {0x4E, new CommandType("SetWordItem2", 4, 1, 2, 2, 1)},
+            {0x4F, new CommandType("SetWordItem3", 2, 1, 2)},
+            {0x50, new CommandType("SetWordTM", 2, 1, 2)},
+            {0x51, new CommandType("SetWordMove", 2, 1, 2)},
+            {0x52, new CommandType("SetWordItemPocket", 2, 1, 2)},
+            {0x53, new CommandType("SetWordPartyPokemon", 2, 1, 2)},
+            {0x54, new CommandType("SetWordPartyNickname", 2, 1, 2)},
+            {0x55, new CommandType("SetWordDaycarePokemon", 2, 1, 2)},
+            {0x56, new CommandType("SetWordType", 2, 1, 2)},
+            {0x57, new CommandType("SetWordPokemon", 2, 1, 2)},
+            {0x58, new CommandType("SetWordPokemon2", 2, 1, 2)},
+            {0x59, new CommandType("SetWordLocation", 2, 1, 2)},
+            {0x5A, new CommandType("SetWordPokemonNick", 2, 1, 2)},
+            {0x5B, new CommandType("SetWordDaycareNickname", 2, 1, 2)},
+            {0x5C, new CommandType("SetWordNumber", 3, 1, 2, 2)},
+            {0x5D, new CommandType("SetWordMusicalInfo", 2, 2, 2)},
+            {0x5E, new CommandType("SetWordNations", 2, 1, 2)},
+            {0x5F, new CommandType("SetWordActivities", 2, 1, 2)},
+            {0x60, new CommandType("SetWordPower", 2, 1, 2)},
+            {0x61, new CommandType("SetWordTrainerType", 2, 1, 2)},
+            {0x62, new CommandType("SetWordTrainerType2", 2, 1, 2)},
+            {0x63, new CommandType("SetWordGeneralWord", 2, 1, 2)},
             {0x64, new CommandType("ApplyMovement", 2, 2, 4)},
             {0x65, new CommandType("WaitMovement", 0)},
             {0x66, new CommandType("StoreHeroPosition_c0x66", 2, 2, 2)},
@@ -1144,7 +1356,7 @@ namespace NewEditor.Data.NARCTypes
             {0x6B, new CommandType("AddNPC", 1, 2)},
             {0x6C, new CommandType("RemoveNPC", 1, 2)},
             {0x6D, new CommandType("SetOWPosition", 5, 2, 2, 2, 2, 2)},
-            {0x6E, new CommandType("c0x6E", 1, 2)},
+            {0x6E, new CommandType("GetPlayerDirection", 1, 2)},
             {0x6F, new CommandType("c0x6F", 1, 2)},
             {0x70, new CommandType("c0x70", 5, 2, 2, 2, 2, 2)},
             {0x71, new CommandType("c0x71", 3, 2, 2, 2)},
@@ -1167,16 +1379,16 @@ namespace NewEditor.Data.NARCTypes
             {0x82, new CommandType("c0x82", 2, 2, 2)},
             {0x83, new CommandType("SetVarc0x83", 1, 2)},
             {0x84, new CommandType("SetVarc0x84", 1, 2)},
-            {0x85, new CommandType("SingleTrainerBattle", 3, 2, 2, 2)},
-            {0x86, new CommandType("DoubleTrainerBattle", 4, 2, 2, 2, 2)},
+            {0x85, new CommandType("StartTrainerBattle", 3, 2, 2, 2)},
+            {0x86, new CommandType("StartMultiTrainerBattle", 4, 2, 2, 2, 2)},
             {0x87, new CommandType("c0x87", 3, 2, 2, 2)},
             {0x88, new CommandType("c0x88", 3, 2, 2, 2)},
             {0x89, new CommandType("c0x89", 0)},
             {0x8A, new CommandType("c0x8A", 2, 2, 2)},
             {0x8B, new CommandType("PlayTrainerMusic", 1, 2)},
-            {0x8C, new CommandType("EndBattle", 0)},
-            {0x8D, new CommandType("StoreBattleResult", 1, 2)},
-            {0x8E, new CommandType("DisableTrainer", 0)},
+            {0x8C, new CommandType("TrainerBattleLose", 0)},
+            {0x8D, new CommandType("GetTrainerBattleResult", 1, 2)},
+            {0x8E, new CommandType("TrainerBattleEnd", 0)},
             {0x8F, new CommandType("c0x8F", 0)},
             {0x90, new CommandType("dvar90", 2, 2, 2)},
             {0x91, new CommandType("c0x91", 0)},
@@ -1184,8 +1396,8 @@ namespace NewEditor.Data.NARCTypes
             {0x93, new CommandType("dvar93", 2, 2, 2)},
             {0x94, new CommandType("TrainerBattle", 4, 2, 2, 2, 2)},
             {0x95, new CommandType("DeactiveTrainerId", 1, 2)},
-            {0x96, new CommandType("c0x96", 1, 2)},
-            {0x97, new CommandType("StoreActiveTrainerId", 2, 2, 2)},
+            {0x96, new CommandType("ReactiveTrainerId", 1, 2)},
+            {0x97, new CommandType("GetTrainerIDActive", 2, 2, 2)},
             {0x98, new CommandType("ChangeMusic", 1, 2)},
             {0x99, new CommandType("c0x99", 0)},
             {0x9A, new CommandType("c0x9A", 0)},
@@ -1209,10 +1421,10 @@ namespace NewEditor.Data.NARCTypes
             {0xAC, new CommandType("WaitCry", 0)},
             {0xAD, new CommandType("c0xAD", 0)},
             {0xAE, new CommandType("c0xAE", 0)},
-            {0xAF, new CommandType("SetTextScriptMessage", 3, 2, 2, 2)},
-            {0xB0, new CommandType("CloseMulti", 0)},
-            {0xB1, new CommandType("c0xB1", 0)},
-            {0xB2, new CommandType("Multi2", 6, 1, 1, 1, 1, 1, 2)},
+            {0xAF, new CommandType("AddDialogueOption", 3, 2, 2, 2)},
+            {0xB0, new CommandType("ShowDialogueSelection", 0)},
+            {0xB1, new CommandType("ShowDialogueSelection2", 0)},
+            {0xB2, new CommandType("SetupDialogueSelection", 5, 1, 1, 2, 1, 2)},
             {0xB3, new CommandType("FadeScreen", 4, 2, 2, 2, 2)},
             {0xB4, new CommandType("ResetScreen", 0)},
             {0xB5, new CommandType("Screenc0xB5", 3, 2, 2, 2)},
@@ -1293,7 +1505,7 @@ namespace NewEditor.Data.NARCTypes
             {0x100, new CommandType("c0x100", 0)},
             {0x101, new CommandType("c0x101", 2, 2, 2)},
             {0x102, new CommandType("StorePartyNotEgg", 2, 2, 2)},
-            {0x103, new CommandType("StorePartyCountMore", 2, 2, 2)},
+            {0x103, new CommandType("GetPartyCount", 2, 2, 2)},
             {0x104, new CommandType("HealPokemon", 0)},
             {0x105, new CommandType("c0x105", 3, 2, 2, 2)},
             {0x106, new CommandType("c0x106", 1, 2)},
@@ -1306,7 +1518,7 @@ namespace NewEditor.Data.NARCTypes
             {0x10D, new CommandType("StorePokemonPartyAt", 2, 2, 2)},
             {0x10E, new CommandType("GivePokemon2", 9, 2, 2, 2, 2, 2, 2, 2, 2, 2)},
             {0x10F, new CommandType("GiveEgg", 3, 2, 2, 2)},
-            {0x110, new CommandType("StorePokemonSex", 3, 2, 2, 2)},
+            {0x110, new CommandType("GetPokemonParam", 3, 2, 2, 2)},
             {0x111, new CommandType("SetPokemonIV", 3, 2, 2, 2)},
             {0x112, new CommandType("c0x112", 0)},
             {0x113, new CommandType("c0x113", 2, 2, 2)},
@@ -1407,8 +1619,8 @@ namespace NewEditor.Data.NARCTypes
             {0x172, new CommandType("SetVar172", 1, 2)},
             {0x173, new CommandType("c0x173", 0)},
             {0x174, new CommandType("StartWildBattle", 3, 2, 2, 2)},
-            {0x175, new CommandType("EndWildBattle", 0)},
-            {0x176, new CommandType("WildBattle1", 0)},
+            {0x175, new CommandType("WildBattleEnd", 0)},
+            {0x176, new CommandType("WildBattleLose", 0)},
             {0x177, new CommandType("SetVarBattle177", 1, 2)},
             {0x178, new CommandType("BattleStoreResult", 1, 2)},
             {0x179, new CommandType("c0x179", 0)},
@@ -1950,5 +2162,10 @@ namespace NewEditor.Data.NARCTypes
             this.numParameters = numParameters;
             this.parameterBytes = new List<int>(parameterBytes);
         }
+    }
+
+    internal struct CommandDefinition
+    {
+        public string name;
     }
 }

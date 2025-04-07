@@ -337,9 +337,8 @@ namespace NewEditor.Forms
             this.quickBuildLabel.AutoSize = true;
             this.quickBuildLabel.Location = new System.Drawing.Point(485, 75);
             this.quickBuildLabel.Name = "quickBuildLabel";
-            this.quickBuildLabel.Size = new System.Drawing.Size(78, 16);
+            this.quickBuildLabel.Size = new System.Drawing.Size(0, 16);
             this.quickBuildLabel.TabIndex = 99;
-            this.quickBuildLabel.Text = "Parameters:";
             // 
             // ScriptEditor
             // 
@@ -377,7 +376,7 @@ namespace NewEditor.Forms
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ScriptEditor";
-            this.Text = "ScriptEditor";
+            this.Text = "Script Editor";
             ((System.ComponentModel.ISupportInitialize)(this.sequenceIDNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.byteNumberBox)).EndInit();
             this.ResumeLayout(false);

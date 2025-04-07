@@ -48,7 +48,7 @@ namespace NewEditor.Forms
             curveIDDropdown.SelectedIndex = 3;
         }
 
-        private void shopIDDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        private void curveIDDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             xpRateChart.Series[0].Points.Clear();
             for (int i = 1; i <= 100; i++)
