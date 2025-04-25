@@ -98,7 +98,7 @@ namespace NewEditor.Data.NARCTypes
 
         public short[] items;
 
-        public byte AI;
+        public int AI;
 
         public byte prizeMoney;
         public short prizeItem;
@@ -147,7 +147,7 @@ namespace NewEditor.Data.NARCTypes
             items = new short[4];
             for (int i = 0; i < items.Length; i++) items[i] = (short)HelperFunctions.ReadShort(bytes, 4 + (2 * i));
 
-            AI = bytes[12];
+            AI = HelperFunctions.ReadInt(bytes, 12);
 
             if (bytes.Length > 16)
             {
@@ -167,7 +167,7 @@ namespace NewEditor.Data.NARCTypes
 
             for (int i = 0; i < items.Length; i++) HelperFunctions.WriteShort(bytes, 4 + (i * 2), items[i]);
 
-            bytes[12] = AI;
+            HelperFunctions.WriteInt(bytes, 12, AI);
 
             if (bytes.Length > 16)
             {

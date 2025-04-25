@@ -167,6 +167,12 @@
     <Compile Include="Forms\PokemonEditor.Designer.cs">
       <DependentUpon>PokemonEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\NewScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewScriptEditor.Designer.cs">
+      <DependentUpon>NewScriptEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TypeChartEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +247,9 @@
     <EmbeddedResource Include="Forms\PokemartEditor.resx">
       <DependentUpon>PokemartEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewScriptEditor.resx">
+      <DependentUpon>NewScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\TypeChartEditor.resx">
       <DependentUpon>TypeChartEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -293,13 +302,64 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="ScriptHeaders\CommandOverlay50.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay51.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay52.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay53.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay54.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay55.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay58.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay61.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay62.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay63.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay64.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay65.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay66.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay67.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\CommandOverlay68.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\PokeScriptCommandsBW2.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScriptHeaders\ScriptCommandsBW1.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\Button.png" />
     <None Include="Images\BGTiles.png" />
     <None Include="Images\MenuButton.png" />
-    <Content Include="ScriptHeaders\MovementCommands.h">
+    <Content Include="ScriptHeaders\FrostScriptCommandsBW2.h">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ScriptHeaders\ScriptCommands.h">
+    <Content Include="ScriptHeaders\MovementCommands.h">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

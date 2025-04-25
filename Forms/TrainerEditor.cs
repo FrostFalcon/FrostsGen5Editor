@@ -140,7 +140,7 @@ namespace NewEditor.Forms
                 tr.heldItems = heldItemsCheckBox.Checked;
                 tr.uniqueMoves = uniqueMovesCheckBox.Checked;
                 tr.isHealer = healerCheckBox.Checked;
-                tr.AI = (byte)aiNumberBox.Value;
+                tr.AI = (int)aiNumberBox.Value;
                 tr.items[0] = (short)item1Dropdown.SelectedIndex;
                 tr.items[1] = (short)item2Dropdown.SelectedIndex;
                 tr.items[2] = (short)item3Dropdown.SelectedIndex;

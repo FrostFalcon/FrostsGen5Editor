@@ -166,7 +166,7 @@ namespace NewEditor.Forms
             // 
             this.aiNumberBox.Location = new System.Drawing.Point(40, 222);
             this.aiNumberBox.Maximum = new decimal(new int[] {
-            255,
+            65535,
             0,
             0,
             0});

@@ -14,6 +14,7 @@ using NewEditor.Data.NARCTypes;
 using System.Threading;
 using System.Runtime.InteropServices;
 using DarkModeForms;
+using System.Drawing.Imaging;
 
 namespace NewEditor.Forms
 {
@@ -96,7 +97,7 @@ namespace NewEditor.Forms
         public static MoveEditor moveEditor;
         public static OverworldEditor overworldEditor;
         public static EncounterEditor encounterEditor;
-        public static ScriptEditor scriptEditor;
+        public static NewScriptEditor scriptEditor;
         public static TrainerEditor trainerEditor;
         public static TypeSwapEditor typeSwapEditor;
         public static RandomMovesEditor presetMovesEditor;
@@ -106,6 +107,7 @@ namespace NewEditor.Forms
         public static OverlayEditor overlayEditor;
         public static TypeChartEditor typeChartEditor;
         public static Pokepatcher pokePatchEditor;
+        public static List<Form> extraForms = new List<Form>();
 
         public bool loadingNARCS = false;
         bool autoLoaded = false;
@@ -120,19 +122,19 @@ namespace NewEditor.Forms
             instance = this;
             InitializeComponent();
 
-            //darkMode = new DarkModeCS(this, false, false)
-            //{
-            //    ColorMode = DarkModeCS.DisplayMode.DarkMode
-            //};
-
             TryAutoLoad();
         }
 
-        private void ChangeTheme(object sender, EventArgs e)
+        public void ChangeTheme(object sender, EventArgs e)
         {
             if (themeDropdown.SelectedIndex < 0 || themeDropdown.SelectedIndex >= themeDropdown.Items.Count) return;
+            if (themeDropdown.SelectedIndex == 0 && darkMode == null) return;
 
-            //darkMode.ApplyTheme(themeDropdown.SelectedIndex == 1);
+            if (darkMode == null) darkMode = new DarkModeCS(this)
+            {
+                ColorMode = themeDropdown.SelectedIndex == 1 ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode
+            };
+            darkMode.ApplyTheme(themeDropdown.SelectedIndex == 1);
             FileFunctions.WriteFileSection("Preferences.txt", "DarkMode", new byte[] { (byte)themeDropdown.SelectedIndex });
         }
 
@@ -155,6 +157,16 @@ namespace NewEditor.Forms
             if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) list.Add(presetMovesEditor);
             if (pokePatchEditor != null && !pokePatchEditor.IsDisposed) list.Add(pokePatchEditor);
             if (typeChartEditor != null && !typeChartEditor.IsDisposed) list.Add(typeChartEditor);
+            for (int i = 0; i < extraForms.Count; i++)
+            {
+                if (extraForms[i].IsDisposed)
+                {
+                    extraForms.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+                list.Add(extraForms[i]);
+            }
             return list;
         }
 
@@ -482,18 +494,12 @@ namespace NewEditor.Forms
             {
                 FileFunctions.WriteFileSection("Preferences.txt", "DarkMode", new byte[] { 0 });
                 themeDropdown.SelectedIndex = 0;
-                //darkMode = new DarkModeCS(this, false, false)
-                //{
-                //    ColorMode = DarkModeCS.DisplayMode.ClearMode
-                //};
+                ChangeTheme(null, null);
             }
             else
             {
                 themeDropdown.SelectedIndex = dark[0];
-                //darkMode = new DarkModeCS(this, false, false)
-                //{
-                //    ColorMode = dark[0] == 1 ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode
-                //};
+                ChangeTheme(null, null);
             }
 
             if (enabled == null || value == null)
@@ -603,7 +609,7 @@ namespace NewEditor.Forms
                 return;
             }
 
-            if (scriptEditor == null || scriptEditor.IsDisposed) scriptEditor = new ScriptEditor();
+            if (scriptEditor == null || scriptEditor.IsDisposed) scriptEditor = new NewScriptEditor();
             ChangeTheme(null, null);
             scriptEditor.Show();
             scriptEditor.BringToFront();
@@ -1214,6 +1220,62 @@ namespace NewEditor.Forms
             ChangeTheme(null, null);
             xpCurveEditor.Show();
             xpCurveEditor.BringToFront();
+        }
+
+        private void ReadCommandHeaders()
+        {
+            //string[] lines = File.ReadAllLines("ScriptCommands.h");
+            //string[] lines2 = File.ReadAllLines("ScriptCommands2.h");
+            //string[] lines3 = File.ReadAllLines("ScriptCommands3.h");
+            //for (int i = 0; i < lines.Length; i++)
+            //{
+            //    string[] parts = lines[i].Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries);
+            //    string[] parts2 = lines2[i].Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries);
+            //    int num = int.Parse(parts[0], System.Globalization.NumberStyles.HexNumber);
+            //    string name = parts[1];
+            //    int[] par = new int[parts.Length - 2];
+            //    for (int j = 0; j < par.Length; j++)
+            //    {
+            //        if (parts[j + 2] == "i") par[j] = 4;
+            //        else if (parts[j + 2] == "s") par[j] = 2;
+            //        else if (parts[j + 2] == "b") par[j] = 1;
+            //        else throw new Exception();
+            //    }
+            //    Debug.WriteLine("//" + lines3[i]);
+            //    string output = "void " + name + "(";
+            //    for (int j = 0; j < par.Length; j++)
+            //    {
+            //        output += par[j] == 1 ? "char " : par[j] == 2 ? "short " : "int ";
+            //        if (j + 2 < parts2.Length) output += parts2[j + 2];
+            //        else output += "p" + j.ToString();
+            //        if (j < par.Length - 1) output += ", ";
+            //    }
+            //    output += ");";
+            //    Debug.WriteLine(output);
+            //}
+
+            string[] lines = File.ReadAllLines("ScriptCommands.h");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] parts = lines[i].Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries);
+                int num = int.Parse(parts[0], System.Globalization.NumberStyles.HexNumber);
+                string name = parts[1];
+                int[] par = new int[parts.Length - 2];
+                for (int j = 0; j < par.Length; j++)
+                {
+                    if (parts[j + 2] == "i") par[j] = 4;
+                    else if (parts[j + 2] == "s") par[j] = 2;
+                    else if (parts[j + 2] == "b") par[j] = 1;
+                    else throw new Exception();
+                }
+                string output = "{0x" + parts[0].ToUpper() + ", new CommandType(\"" + parts[1] + "\", " + par.Length;
+                for (int j = 0; j < par.Length; j++)
+                {
+                    output += ", " + par[j];
+                }
+                output += ")},";
+                Debug.WriteLine(output);
+            }
         }
 
         private void FindChanges()

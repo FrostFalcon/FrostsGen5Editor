@@ -268,7 +268,6 @@ namespace NewEditor.Forms
             }
         }
 
-        List<Label> parameterLabels = new List<Label>();
         List<NumericUpDown> parameterNumberBoxes = new List<NumericUpDown>();
 
         private void ChangeCommandDropdown(object sender, EventArgs e)
@@ -292,17 +291,6 @@ namespace NewEditor.Forms
                     Controls.Add(parameterNumberBoxes[i]);
                 }
 
-            foreach (Label n in parameterLabels) Controls.Remove(n);
-            parameterLabels.Clear();
-
-            if (CommandReference.parameters.ContainsKey(commandTypeDropdown.SelectedIndex)) for (int i = 0; i < CommandReference.parameters[commandTypeDropdown.SelectedIndex].Count; i++)
-                {
-                    parameterLabels.Add(new Label() { Location = new Point(436 + 80 * i, 196), Size = new Size(80, 22) });
-
-                    parameterLabels[i].Text = CommandReference.parameters[commandTypeDropdown.SelectedIndex][i];
-
-                    Controls.Add(parameterLabels[i]);
-                }
         }
 
         private void ApplyCommand(object sender, EventArgs e)
@@ -446,7 +434,7 @@ namespace NewEditor.Forms
                 if (writer != null)
                 {
                     writer.SetLength(0);
-                    MainEditor.scriptNarc.scriptFiles[scriptFileDropdown.SelectedIndex].Export(writer);
+                    MainEditor.scriptNarc.scriptFiles[scriptFileDropdown.SelectedIndex].Export(writer, "ScriptCommmands.h", "MovementCommands.h");
                     writer.Close();
                     MessageBox.Show("Script file saved to " + prompt.FileName);
                 }

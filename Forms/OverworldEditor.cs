@@ -189,12 +189,108 @@ namespace NewEditor.Forms
             }
         }
 
+        static Dictionary<int, int> overlayZones = new Dictionary<int, int>()
+        {
+            { 381, 53 },
+            { 52, 51 },
+            { 193, 55 },
+            { 192, 55 },
+            { 573, 63 },
+            { 490, 58 },
+            { 491, 58 },
+            { 463, 67 },
+            { 465, 67 },
+            { 474, 67 },
+            { 565, 68 },
+            { 614, 68 },
+            { 53, 68 },
+            { 604, 66 },
+            { 427, 66 },
+            { 139, 66 },
+            { 213, 66 },
+            { 566, 62 },
+            { 567, 62 },
+            { 568, 62 },
+            { 574, 62 },
+            { 140, 52 },
+            { 141, 52 },
+            { 142, 52 },
+            { 143, 52 },
+            { 144, 52 },
+            { 241, 54 },
+            { 242, 54 },
+            { 243, 54 },
+            { 244, 54 },
+            { 245, 54 },
+            { 561, 64 },
+            { 564, 64 },
+            { 553, 64 },
+            { 563, 64 },
+            { 558, 64 },
+            { 579, 64 },
+            { 580, 64 },
+            { 581, 64 },
+            { 582, 64 },
+            { 583, 64 },
+            { 66, 50 },
+            { 67, 50 },
+            { 68, 50 },
+            { 69, 50 },
+            { 70, 50 },
+            { 71, 50 },
+            { 72, 50 },
+            { 73, 50 },
+            { 74, 50 },
+            { 75, 50 },
+            { 76, 50 },
+            { 478, 61 },
+            { 479, 61 },
+            { 480, 61 },
+            { 481, 61 },
+            { 482, 61 },
+            { 483, 61 },
+            { 484, 61 },
+            { 485, 61 },
+            { 486, 61 },
+            { 487, 61 },
+            { 492, 61 },
+            { 493, 61 },
+            { 1, 65 },
+            { 8, 65 },
+            { 20, 65 },
+            { 41, 65 },
+            { 65, 65 },
+            { 99, 65 },
+            { 109, 65 },
+            { 115, 65 },
+            { 122, 65 },
+            { 146, 65 },
+            { 398, 65 },
+            { 407, 65 },
+            { 413, 65 },
+            { 425, 65 },
+            { 435, 65 },
+            { 443, 65 },
+            { 454, 65 },
+            { 460, 65 },
+            { 472, 65 },
+            { 602, 65 },
+        };
+
         private void openScriptFileButton_Click(object sender, EventArgs e)
         {
             Program.main.OpenScriptEditor(sender, e);
             if (MainEditor.scriptEditor != null)
             {
-                if (scriptFileNumberBox.Value > 0 && scriptFileNumberBox.Value < MainEditor.scriptEditor.scriptFileDropdown.Items.Count) MainEditor.scriptEditor.scriptFileDropdown.SelectedIndex = (int)scriptFileNumberBox.Value;
+                if (scriptFileNumberBox.Value >= 0 && scriptFileNumberBox.Value < MainEditor.scriptEditor.scriptFileDropdown.Items.Count)
+                {
+                    MainEditor.scriptEditor.scriptFileDropdown.SelectedIndex = (int)scriptFileNumberBox.Value;
+                    if (overlayZones.ContainsKey(zoneIdDropdown.SelectedIndex) && MainEditor.RomType == RomType.BW2)
+                    {
+                        MainEditor.scriptEditor.loadedOverlayDropdown.SelectedItem = overlayZones[zoneIdDropdown.SelectedIndex].ToString();
+                    }
+                    else MainEditor.scriptEditor.loadedOverlayDropdown.SelectedIndex = 0;
+                }
                 else MessageBox.Show("Could not find the script file by index");
             }
         }

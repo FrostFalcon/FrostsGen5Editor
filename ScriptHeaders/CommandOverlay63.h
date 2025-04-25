@@ -1,0 +1,2 @@
+void c0x3E8(short p0);
+void c0x3E9();

@@ -1,4 +1,5 @@
-﻿using NewEditor.Data;
+﻿using DarkModeForms;
+using NewEditor.Data;
 using NewEditor.Data.NARCTypes;
 using System;
 using System.Collections.Generic;
@@ -68,11 +69,9 @@ namespace NewEditor.Forms
             imageTypeDropdown.SelectedIndex = 0;
             iconTypeDropdown.SelectedIndex = 0;
             fileIDDropdown.SelectedIndex = 0;
-
-            Setup(spriteID);
         }
 
-        void Setup(int spriteID)
+        public void Setup(int spriteID)
         {
             sprite = MainEditor.pokemonSpritesNarc.sprites[spriteID];
 

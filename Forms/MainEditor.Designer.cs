@@ -648,7 +648,6 @@ namespace NewEditor.Forms
             this.label1.Size = new System.Drawing.Size(54, 16);
             this.label1.TabIndex = 43;
             this.label1.Text = "Theme: ";
-            this.label1.Visible = false;
             // 
             // themeDropdown
             // 
@@ -660,7 +659,6 @@ namespace NewEditor.Forms
             this.themeDropdown.Name = "themeDropdown";
             this.themeDropdown.Size = new System.Drawing.Size(120, 24);
             this.themeDropdown.TabIndex = 21;
-            this.themeDropdown.Visible = false;
             this.themeDropdown.SelectedIndexChanged += new System.EventHandler(this.ChangeTheme);
             // 
             // MainEditor

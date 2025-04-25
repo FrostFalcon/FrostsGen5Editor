@@ -305,6 +305,8 @@ namespace NewEditor.Forms
 
         private void applyAnimDataButton_Click(object sender, EventArgs e)
         {
+            animDataTextBox.Text = animDataTextBox.Text.Replace("\n", " ");
+
             if (moveNameDropdown.SelectedIndex >= 0)
             {
                 MoveAnimationEntry anim = moveAnimNARC.animations[moveNameDropdown.SelectedIndex];

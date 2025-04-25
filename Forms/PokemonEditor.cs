@@ -1,4 +1,5 @@
-﻿using NewEditor.Data;
+﻿using DarkModeForms;
+using NewEditor.Data;
 using NewEditor.Data.NARCTypes;
 using System;
 using System.Collections.Generic;
@@ -537,9 +538,11 @@ namespace NewEditor.Forms
                     sid = 685 + p.formSpritesStart + (int)formSpriteIDNumberBox.Value - 1;
                 }
                 PaletteEditor editor = new PaletteEditor(sid);
-                //MainEditor.darkMode.ApplyTheme(editor, MainEditor.darkMode.IsDarkMode);
                 editor.Owner = this;
                 editor.Show();
+                MainEditor.extraForms.Add(editor);
+                MainEditor.instance.ChangeTheme(null, null);
+                editor.Setup(sid);
             }
         }
 
