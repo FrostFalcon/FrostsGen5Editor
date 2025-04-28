@@ -317,7 +317,7 @@ void GetPartyCount(short returnVar, short mode);
 void HealPokemon();
 void c0x105(short p0, short p1, short p2);
 void c0x106(short p0);
-void OpenChoosePokemonMenu(short p0, short p1, short p2, short p3);
+void OpenChoosePokemonMenu(short p0, short successVar, short returnVar, short p3);
 void c0x108(short p0, short p1);
 void c0x109(short p0, short p1, short p2, short p3);
 void c0x10A(short p0, short p1, short p2);
@@ -329,11 +329,11 @@ void GiveEgg(short p0, short p1, short p2);
 void GetPokemonParam(short returnVar, short partySlot, short paramID);
 //stat = 70 + stat enum:
 //hp - 0
-//att - 1
-//def - 2
-//spe - 3
-//spA - 4
-//spD - 5
+//attack - 1
+//defense - 2
+//speed - 3
+//sp att - 4
+//sp def - 5
 void SetPokemonIV(short partySlot, short stat, short amount);
 void GetPokemonEVTotal(short returnVar, short partySlot);
 void c0x113(short p0, short p1);

@@ -44,6 +44,8 @@ namespace NewEditor.Forms
             this.commandNameSelection2 = new System.Windows.Forms.RadioButton();
             this.loadedOverlayDropdown = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.exportRawDataButton = new System.Windows.Forms.Button();
+            this.importRawDataButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.byteNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -180,9 +182,9 @@ namespace NewEditor.Forms
             this.commandNameSelection2.AutoSize = true;
             this.commandNameSelection2.Location = new System.Drawing.Point(20, 120);
             this.commandNameSelection2.Name = "commandNameSelection2";
-            this.commandNameSelection2.Size = new System.Drawing.Size(87, 20);
+            this.commandNameSelection2.Size = new System.Drawing.Size(95, 20);
             this.commandNameSelection2.TabIndex = 102;
-            this.commandNameSelection2.Text = "Pokescript";
+            this.commandNameSelection2.Text = "Beaterscript";
             this.commandNameSelection2.UseVisualStyleBackColor = true;
             this.commandNameSelection2.CheckedChanged += new System.EventHandler(this.commandNameSelection2_CheckedChanged);
             // 
@@ -223,11 +225,35 @@ namespace NewEditor.Forms
             this.label2.TabIndex = 104;
             this.label2.Text = "Loaded Overlay";
             // 
+            // exportRawDataButton
+            // 
+            this.exportRawDataButton.Enabled = false;
+            this.exportRawDataButton.Location = new System.Drawing.Point(12, 360);
+            this.exportRawDataButton.Name = "exportRawDataButton";
+            this.exportRawDataButton.Size = new System.Drawing.Size(120, 40);
+            this.exportRawDataButton.TabIndex = 105;
+            this.exportRawDataButton.Text = "Export Raw Data";
+            this.exportRawDataButton.UseVisualStyleBackColor = true;
+            this.exportRawDataButton.Click += new System.EventHandler(this.exportRawDataButton_Click);
+            // 
+            // importRawDataButton
+            // 
+            this.importRawDataButton.Enabled = false;
+            this.importRawDataButton.Location = new System.Drawing.Point(12, 309);
+            this.importRawDataButton.Name = "importRawDataButton";
+            this.importRawDataButton.Size = new System.Drawing.Size(120, 40);
+            this.importRawDataButton.TabIndex = 106;
+            this.importRawDataButton.Text = "Import Raw Data";
+            this.importRawDataButton.UseVisualStyleBackColor = true;
+            this.importRawDataButton.Click += new System.EventHandler(this.importRawDataButton_Click);
+            // 
             // NewScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 461);
+            this.Controls.Add(this.importRawDataButton);
+            this.Controls.Add(this.exportRawDataButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.loadedOverlayDropdown);
             this.Controls.Add(this.commandNameSelection2);
@@ -269,5 +295,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.RadioButton commandNameSelection2;
         public System.Windows.Forms.ComboBox loadedOverlayDropdown;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button exportRawDataButton;
+        private System.Windows.Forms.Button importRawDataButton;
     }
 }

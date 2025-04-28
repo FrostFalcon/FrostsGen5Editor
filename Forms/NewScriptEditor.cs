@@ -34,7 +34,7 @@ namespace NewEditor.Forms
             List<byte> names = FileFunctions.ReadFileSection("Preferences.txt", "CommandNames");
             if (names != null)
             {
-                if (Encoding.ASCII.GetString(names.ToArray()) == "Pokescript")
+                if (Encoding.ASCII.GetString(names.ToArray()) == "Beaterscript")
                 {
                     commandNameSelection2.Checked = true;
                 }
@@ -55,6 +55,8 @@ namespace NewEditor.Forms
                     applyRawDataButton.Enabled = true;
                     readScriptFileButton.Enabled = true;
                     exportScriptFileButton.Enabled = true;
+                    importRawDataButton.Enabled = true;
+                    exportRawDataButton.Enabled = true;
                     quickBuildButton.Enabled = quickBuildRom != "";
                 }
                 else
@@ -63,6 +65,8 @@ namespace NewEditor.Forms
                     applyRawDataButton.Enabled = true;
                     readScriptFileButton.Enabled = false;
                     exportScriptFileButton.Enabled = false;
+                    importRawDataButton.Enabled = true;
+                    exportRawDataButton.Enabled = true;
                     quickBuildButton.Enabled = false;
                 }
                 string text = "";
@@ -75,6 +79,8 @@ namespace NewEditor.Forms
         {
             if (scriptFileDropdown.SelectedIndex >= 0 && scriptFileDropdown.SelectedIndex < scriptFileDropdown.Items.Count)
             {
+                rawDataTextBox.Text = rawDataTextBox.Text.Replace("\n", " ");
+
                 ScriptFile sf = MainEditor.scriptNarc.scriptFiles[scriptFileDropdown.SelectedIndex];
 
                 //Test for improper text length
@@ -124,7 +130,7 @@ namespace NewEditor.Forms
         private void ReadScriptFile(object sender, EventArgs e)
         {
             CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
-                commandNameSelection2.Checked ? CommandReference.bw2PokeScriptCommandList : CommandReference.bw2CommandList);
+                commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
             if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov))
             {
                 foreach (var cmd in CommandReference.bw2OverlayCommands[ov])
@@ -171,7 +177,7 @@ namespace NewEditor.Forms
         private void ExportScriptFile(object sender, EventArgs e)
         {
             CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
-                commandNameSelection2.Checked ? CommandReference.bw2PokeScriptCommandList : CommandReference.bw2CommandList);
+                commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
             if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov))
             {
                 foreach (var cmd in CommandReference.bw2OverlayCommands[ov])
@@ -202,7 +208,7 @@ namespace NewEditor.Forms
                     List<string> headers = new List<string>()
                     {
                         MainEditor.RomType == RomType.BW1 ? "ScriptHeaders/ScriptCommandsBW1.h" :
-                        commandNameSelection2.Checked ? "ScriptHeaders/PokeScriptCommandsBW2.h" : "ScriptHeaders/FrostScriptCommandsBW2.h",
+                        commandNameSelection2.Checked ? "ScriptHeaders/BeaterScriptCommandsBW2.h" : "ScriptHeaders/FrostScriptCommandsBW2.h",
                         "ScriptHeaders/MovementCommands.h"
                     };
                     if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov2))
@@ -232,7 +238,14 @@ namespace NewEditor.Forms
                         File.Copy(file, root + "\\ScriptHeaders\\" + Path.GetFileName(file), true);
                     }
                 }
-                MessageBox.Show("Script file saved to " + prompt.FileName);
+
+                var result = MessageBox.Show("Script file saved to " + prompt.FileName + "\n\nWould you like to open the file in a text editor?", "Script Saved", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    ProcessStartInfo start = new ProcessStartInfo("explorer", prompt.FileName);
+                    Process.Start(start);
+                }
             }
         }
 
@@ -269,7 +282,7 @@ namespace NewEditor.Forms
         private void quickBuildButton_Click(object sender, EventArgs e)
         {
             CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
-                commandNameSelection2.Checked ? CommandReference.bw2PokeScriptCommandList : CommandReference.bw2CommandList);
+                commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
             if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov))
             {
                 foreach (var cmd in CommandReference.bw2OverlayCommands[ov])
@@ -334,7 +347,42 @@ namespace NewEditor.Forms
         private void commandNameSelection2_CheckedChanged(object sender, EventArgs e)
         {
             if (!loading)
-                FileFunctions.WriteFileSection("Preferences.txt", "CommandNames", ASCIIEncoding.ASCII.GetBytes("Pokescript"));
+                FileFunctions.WriteFileSection("Preferences.txt", "CommandNames", ASCIIEncoding.ASCII.GetBytes("Beaterscript"));
+        }
+
+        private void importRawDataButton_Click(object sender, EventArgs e)
+        {
+            if (scriptFileDropdown.SelectedIndex == -1) return;
+
+            ScriptFile sf = MainEditor.scriptNarc.scriptFiles[scriptFileDropdown.SelectedIndex];
+            OpenFileDialog open = new OpenFileDialog();
+            open.FileName = scriptFileDropdown.SelectedItem.ToString() + ".bin";
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                byte[] b = File.ReadAllBytes(open.FileName);
+                sf.bytes = new RefByte[b.Length];
+                for (int i = 0; i < b.Length; i++) sf.bytes[i] = b[i];
+            }
+
+            sf.ReadData();
+            LoadScriptFile(null, null);
+        }
+
+        private void exportRawDataButton_Click(object sender, EventArgs e)
+        {
+            if (scriptFileDropdown.SelectedIndex == -1) return;
+
+            ScriptFile sf = MainEditor.scriptNarc.scriptFiles[scriptFileDropdown.SelectedIndex];
+            SaveFileDialog save = new SaveFileDialog();
+            save.FileName = scriptFileDropdown.SelectedItem.ToString() + ".bin";
+
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                byte[] b = new byte[sf.bytes.Length];
+                for (int i = 0; i < b.Length; i++) b[i] = sf.bytes[i];
+                File.WriteAllBytes(save.FileName, b);
+            }
         }
     }
 }

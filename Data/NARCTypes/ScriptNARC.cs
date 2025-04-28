@@ -1928,7 +1928,7 @@ namespace NewEditor.Data.NARCTypes
             {0x2F2, new CommandType("c0x2F2", 2, 2, 2)},
         };
 
-        internal static Dictionary<int, CommandType> bw2PokeScriptCommandList = new Dictionary<int, CommandType>()
+        internal static Dictionary<int, CommandType> bw2BeaterScriptCommandList = new Dictionary<int, CommandType>()
         {
             {0x0, new CommandType("VMNop", 0)},
             {0x1, new CommandType("VMNop2", 0)},

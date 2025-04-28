@@ -135,8 +135,6 @@ namespace NewEditor.Forms
             this.removeObjectButton = new System.Windows.Forms.Button();
             this.addObjectButton = new System.Windows.Forms.Button();
             this.applyObjectButton = new System.Windows.Forms.Button();
-            this.scriptPresetsComboBox = new System.Windows.Forms.ComboBox();
-            this.label37 = new System.Windows.Forms.Label();
             this.weatherNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label38 = new System.Windows.Forms.Label();
             this.textureNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -1695,38 +1693,6 @@ namespace NewEditor.Forms
             this.applyObjectButton.UseVisualStyleBackColor = true;
             this.applyObjectButton.Click += new System.EventHandler(this.applyObjectButton_Click);
             // 
-            // scriptPresetsComboBox
-            // 
-            this.scriptPresetsComboBox.FormattingEnabled = true;
-            this.scriptPresetsComboBox.Items.AddRange(new object[] {
-            "2100 - Pokemon Center Healer",
-            "2101 - Union Room NPC",
-            "",
-            "2200 - Day Care Man",
-            "2201 - Day Care Lady",
-            "2250 - Egg?",
-            "2260 - Move Deleter",
-            "2280 - Drayden Move Tutor",
-            "2283 - Red Shard Move Tutor",
-            "",
-            "10100 - ",
-            "10397 - Mystery Gift Guy"});
-            this.scriptPresetsComboBox.Location = new System.Drawing.Point(686, 20);
-            this.scriptPresetsComboBox.Name = "scriptPresetsComboBox";
-            this.scriptPresetsComboBox.Size = new System.Drawing.Size(200, 24);
-            this.scriptPresetsComboBox.TabIndex = 81;
-            this.scriptPresetsComboBox.Visible = false;
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(585, 24);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(94, 16);
-            this.label37.TabIndex = 82;
-            this.label37.Text = "Script Presets:";
-            this.label37.Visible = false;
-            // 
             // weatherNumberBox
             // 
             this.weatherNumberBox.Enabled = false;
@@ -1922,8 +1888,6 @@ namespace NewEditor.Forms
             this.Controls.Add(this.label41);
             this.Controls.Add(this.weatherNumberBox);
             this.Controls.Add(this.label38);
-            this.Controls.Add(this.label37);
-            this.Controls.Add(this.scriptPresetsComboBox);
             this.Controls.Add(this.applyObjectButton);
             this.Controls.Add(this.addObjectButton);
             this.Controls.Add(this.removeObjectButton);
@@ -2102,8 +2066,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.NumericUpDown triggerWidthNumberBox;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.NumericUpDown triggerHeightNumberBox;
-        private System.Windows.Forms.ComboBox scriptPresetsComboBox;
-        private System.Windows.Forms.Label label37;
         private System.Windows.Forms.TabPage overworldExtrasTab;
         private System.Windows.Forms.RichTextBox extraDataTextBox;
         private System.Windows.Forms.Label giveItemLabel;
