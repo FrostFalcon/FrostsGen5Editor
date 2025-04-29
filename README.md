@@ -23,7 +23,7 @@ Currently, the editor contains the following features:
 
 Roms that include the fairy type implementation (This includes Blaze Black 2 and Volt White 2 Redux) will require you to open the text editor, file 199 for BW or 398 for BW2, and add "Fairy" to the list of types before edits can be made.
 
-This editor should be compatible with rom hacks and other editors with the exception of roms using CTRMap's code injection features.
+This editor should be fully compatible with rom hacks and other editors.
 
 If you have any other issues with the editor, you can join my Discord server to get help. https://discord.gg/rA9gZ7v3na
 
