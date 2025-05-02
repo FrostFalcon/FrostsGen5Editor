@@ -648,19 +648,20 @@ namespace NewEditor.Data
                 for (int i = 0; i < NARCCount; i++)
                 {
                     narcs[i].WriteData();
-                    HelperFunctions.WriteInt(fat, pos + i * 8, romBytes.Count);
-                    HelperFunctions.WriteInt(fat, pos + 4 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                    HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + narcs[i].byteData.Length);
                     AddSection(romBytes, narcs[i].byteData);
+                    pos += 8;
                 }
             }
             
 
             for (int i = 0; i < misc.Count; i++)
             {
-                narcs[i].WriteData();
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 24 + NARCCount * 8 + i * 8, romBytes.Count);
-                HelperFunctions.WriteInt(fat, OverlayCount * 8 + 28 + NARCCount * 8 + i * 8, romBytes.Count + misc[i].Count);
+                HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + misc[i].Count);
                 AddSection(romBytes, misc[i]);
+                pos += 8;
             }
 
             HelperFunctions.WriteInt(romHeader, End_PointerLocation, romEnder.Count == 0 ? 0 : romBytes.Count);
