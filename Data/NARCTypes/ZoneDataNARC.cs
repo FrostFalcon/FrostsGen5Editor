@@ -78,8 +78,8 @@ namespace NewEditor.Data.NARCTypes
         public byte unknown3;
         public byte flags;
         public short unknown4;
-        public byte nameIcon;
-        public byte unknown5;
+        public short nameIcon;
+        public byte difficultyLevelChange;
         public int flyX;
         public int flyY;
         public int flyZ;
@@ -117,8 +117,9 @@ namespace NewEditor.Data.NARCTypes
             unknown3 = bytes[30];
             flags = bytes[31];
             unknown4 = (short)HelperFunctions.ReadShort(bytes, 32);
-            nameIcon = bytes[34];
-            unknown5 = bytes[35];
+            nameIcon = (short)HelperFunctions.ReadShort(bytes, 34);
+            difficultyLevelChange = (byte)((nameIcon >> 13) & 7);
+            nameIcon = (short)(nameIcon & 0x1FFF);
             flyX = HelperFunctions.ReadInt(bytes, 36);
             flyY = HelperFunctions.ReadInt(bytes, 40);
             flyZ = HelperFunctions.ReadInt(bytes, 44);
@@ -149,8 +150,7 @@ namespace NewEditor.Data.NARCTypes
             bytes[30] = unknown3;
             bytes[31] = flags;
             HelperFunctions.WriteShort(bytes, 32, unknown4);
-            bytes[34] = nameIcon;
-            bytes[35] = unknown5;
+            HelperFunctions.WriteShort(bytes, 34, nameIcon | (difficultyLevelChange << 13));
             HelperFunctions.WriteInt(bytes, 36, flyX);
             HelperFunctions.WriteInt(bytes, 40, flyY);
             HelperFunctions.WriteInt(bytes, 44, flyZ);

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,6 +133,15 @@ namespace NewEditor.Forms
                 for (int i = 0; i < activeNarc.textFiles.Count; i++) if (activeNarc.textFiles[i].text.Count > template.text.Count) template = activeNarc.textFiles[i];
 
                 while (activeNarc.textFiles[fileID].text.Count < template.text.Count) activeNarc.textFiles[fileID].text.Add("");
+
+                //OpenFileDialog prompt = new OpenFileDialog();
+                //prompt.Filter = "Nds Roms|*.nds";
+                //
+                //if (prompt.ShowDialog() == DialogResult.OK)
+                //{
+                //    var fs = NDSFileSystem.FromRom(File.OpenRead(prompt.FileName));
+                //    template = fs.textNarc.textFiles[16];
+                //}
 
                 activeNarc.textFiles[fileID].bytes = PPTxtHandler.SaveEntry(template.bytes, activeNarc.textFiles[fileID].text);
 

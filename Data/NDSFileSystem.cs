@@ -610,9 +610,10 @@ namespace NewEditor.Data
                 for (int i = 0; i < NARCCount; i++)
                 {
                     narcs[i].WriteData();
-                    HelperFunctions.WriteInt(fat, pos + i * 8, romBytes.Count);
-                    HelperFunctions.WriteInt(fat, pos + 4 + i * 8, romBytes.Count + narcs[i].byteData.Length);
+                    HelperFunctions.WriteInt(fat, pos, romBytes.Count);
+                    HelperFunctions.WriteInt(fat, pos + 4, romBytes.Count + narcs[i].byteData.Length);
                     AddSection(romBytes, narcs[i].byteData);
+                    pos += 8;
                 }
             }
             else

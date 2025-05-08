@@ -147,6 +147,8 @@ namespace NewEditor.Forms
             this.label47 = new System.Windows.Forms.Label();
             this.flyXNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label48 = new System.Windows.Forms.Label();
+            this.challengeLevelNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label37 = new System.Windows.Forms.Label();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -200,6 +202,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.unk2NumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flyYNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flyXNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.challengeLevelNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mapTypeNumberBox
@@ -1870,12 +1873,41 @@ namespace NewEditor.Forms
             this.label48.TabIndex = 91;
             this.label48.Text = "Fly X:";
             // 
+            // challengeLevelNumberBox
+            // 
+            this.challengeLevelNumberBox.Enabled = false;
+            this.challengeLevelNumberBox.Location = new System.Drawing.Point(128, 416);
+            this.challengeLevelNumberBox.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.challengeLevelNumberBox.Name = "challengeLevelNumberBox";
+            this.challengeLevelNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.challengeLevelNumberBox.TabIndex = 96;
+            this.challengeLevelNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(21, 419);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(101, 16);
+            this.label37.TabIndex = 95;
+            this.label37.Text = "Challenge Level:";
+            // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(904, 501);
+            this.Controls.Add(this.challengeLevelNumberBox);
+            this.Controls.Add(this.label37);
             this.Controls.Add(this.flyYNumberBox);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.flyXNumberBox);
@@ -1972,6 +2004,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.unk2NumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.flyYNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.flyXNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.challengeLevelNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2095,5 +2128,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Button setItemButton;
         private System.Windows.Forms.ComboBox setItemDropdown;
+        private System.Windows.Forms.NumericUpDown challengeLevelNumberBox;
+        private System.Windows.Forms.Label label37;
     }
 }

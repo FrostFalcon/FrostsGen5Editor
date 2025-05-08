@@ -39,6 +39,7 @@ namespace NewEditor.Forms
             new TextValue(0x3F, "75% M / 25% F"),
             new TextValue(0x7F, "50% M / 50% F"),
             new TextValue(0xBF, "25% M / 75% F"),
+            new TextValue(0xE1, "12.5% M / 87.5% F"),
             new TextValue(0xFE, "100% female"),
             new TextValue(0xFF, "Genderless"),
         };

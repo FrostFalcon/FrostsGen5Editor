@@ -9,6 +9,7 @@ using System.IO;
 using System.Diagnostics;
 using NewEditor.Data.NARCTypes;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 //Modified version of the UPR's version of PPTxtHandler
 

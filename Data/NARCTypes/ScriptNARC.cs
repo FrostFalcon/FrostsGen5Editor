@@ -1335,7 +1335,7 @@ namespace NewEditor.Data.NARCTypes
             {0x42, new CommandType("UpdateMoneyBox", 0)},
             {0x43, new CommandType("BorderedMessage", 2, 2, 2)},
             {0x44, new CommandType("CloseBorderedMessage", 0)},
-            {0x45, new CommandType("CheckerMessage", 2, 2, 1, 1, 2)},
+            {0x45, new CommandType("CheckerMessage", 4, 2, 1, 1, 2)},
             {0x46, new CommandType("CloseCheckerMessage", 0)},
             {0x47, new CommandType("YesNoBox", 1, 2)},
             {0x48, new CommandType("GenderedMessage", 6, 2, 2, 2, 2, 2, 2)},

@@ -45,6 +45,7 @@ namespace NewEditor.Forms
                 unk4NumberBox.Value = z.unknown4;
                 unk2NumberBox.Value = z.unknown2;
                 mapNameDropdown.SelectedIndex = z.nameId;
+                challengeLevelNumberBox.Value = z.difficultyLevelChange;
                 flyXNumberBox.Value = z.flyX;
                 flyYNumberBox.Value = z.flyZ;
 
@@ -61,6 +62,7 @@ namespace NewEditor.Forms
                 unk2NumberBox.Enabled = true;
                 mapNameDropdown.Enabled = true;
                 applyZoneButton.Enabled = true;
+                challengeLevelNumberBox.Enabled = true;
                 flyXNumberBox.Enabled = true;
                 flyYNumberBox.Enabled = true;
 
@@ -148,6 +150,7 @@ namespace NewEditor.Forms
                 unk2NumberBox.Enabled = false;
                 mapNameDropdown.Enabled = false;
                 applyZoneButton.Enabled = false;
+                challengeLevelNumberBox.Enabled = false;
                 flyXNumberBox.Enabled = false;
                 flyYNumberBox.Enabled = false;
 
@@ -171,6 +174,7 @@ namespace NewEditor.Forms
                 z.weather = (byte)weatherNumberBox.Value;
                 z.texture = (short)textureNumberBox.Value;
                 z.nameId = (byte)mapNameDropdown.SelectedIndex;
+                z.difficultyLevelChange = (byte)challengeLevelNumberBox.Value;
                 z.flyX = (int)flyXNumberBox.Value;
                 z.flyZ = (int)flyYNumberBox.Value;
 
@@ -189,7 +193,7 @@ namespace NewEditor.Forms
             }
         }
 
-        static Dictionary<int, int> overlayZones = new Dictionary<int, int>()
+        public static Dictionary<int, int> overlayZones = new Dictionary<int, int>()
         {
             { 381, 53 },
             { 52, 51 },
