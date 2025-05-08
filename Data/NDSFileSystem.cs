@@ -458,7 +458,7 @@ namespace NewEditor.Data
                 result.banner = new List<byte>(File.ReadAllBytes(rootFolder + "/banner.bin"));
                 if (File.Exists(rootFolder + "/data/ctrCameraData.bin")) result.ctrCameraData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/ctrCameraData.bin"));
                 if (File.Exists(rootFolder + "/data/ctrRailData.bin")) result.ctrRailData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/ctrRailData.bin"));
-                if (result.RomType == RomType.BW1) result.fontData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/glf_font.bin"));
+                if (result.RomType == RomType.BW1) result.fontData = new List<byte>(File.ReadAllBytes(rootFolder + "/data/gfl_font.bin"));
                 result.skb = new List<byte>(File.ReadAllBytes(rootFolder + "/data/skb.bin"));
                 result.soundStatus = new List<byte>(File.ReadAllBytes(rootFolder + "/data/SoundStatus.bin"));
                 result.soundData = new SoundData(File.ReadAllBytes(rootFolder + "/data/SoundData.sdat"));
