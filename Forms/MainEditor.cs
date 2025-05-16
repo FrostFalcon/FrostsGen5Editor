@@ -445,6 +445,66 @@ namespace NewEditor.Forms
 
             MessageBox.Show("Rom Loaded");
 
+            //Dictionary<int, int> rates = new Dictionary<int, int>();
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    rates.Add(i, xpCurveNarc.curves[3].GetXPAtLevel(i) - xpCurveNarc.curves[3].GetXPAtLevel(i - 1));
+            //}
+            //for (int i = 31; i <= 36; i++)
+            //{
+            //    rates[i] = (int)(rates[i] * 0.9f);
+            //}
+            //for (int i = 37; i <= 100; i++)
+            //{
+            //    rates[i] = (int)(rates[i] * 0.8f);
+            //}
+            //int total = 0;
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    xpCurveNarc.curves[3].SetXPAtLevel(i - 1, total);
+            //    total += rates[i];
+            //}
+            //total = 0;
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    rates[i] = (int)(rates[i] * 1.2f);
+            //    xpCurveNarc.curves[5].SetXPAtLevel(i - 1, total);
+            //    total += rates[i];
+            //}
+            //
+            //rates = new Dictionary<int, int>();
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    rates.Add(i, xpCurveNarc.curves[4].GetXPAtLevel(i) - xpCurveNarc.curves[4].GetXPAtLevel(i - 1));
+            //}
+            //for (int i = 21; i <= 30; i++)
+            //{
+            //    rates[i] = (int)(rates[i] * 0.9f);
+            //}
+            //for (int i = 31; i <= 100; i++)
+            //{
+            //    rates[i] = (int)(rates[i] * 0.8f);
+            //}
+            //total = 0;
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    xpCurveNarc.curves[4].SetXPAtLevel(i - 1, total);
+            //    total += rates[i];
+            //}
+            //total = 0;
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    rates[i] = (int)(rates[i] * 1.2f);
+            //    xpCurveNarc.curves[0].SetXPAtLevel(i - 1, total);
+            //    total += rates[i];
+            //}
+
+            //foreach (var pk in pokemonDataNarc.pokemon)
+            //{
+            //    if (pk.levelRate == 1) Debug.WriteLine(pk.Name + " - Erratic");
+            //    if (pk.levelRate == 2) Debug.WriteLine(pk.Name + " - Fluctuating");
+            //}
+
             loadingNARCS = false;
             autoLoaded = false;
         }
@@ -792,7 +852,7 @@ namespace NewEditor.Forms
                     }
 
                     SaveFileDialog save = new SaveFileDialog();
-                    save.Filter = "Black White 2 Patch File|*.bw2Patch";
+                    save.Filter = RomType == RomType.BW1 ? "Black White 1 Patch File|*.bw1Patch" : "Black White 2 Patch File|*.bw2Patch";
                     save.Title = "Select where to save the patch file";
 
                     if (save.ShowDialog() == DialogResult.OK)
@@ -809,17 +869,19 @@ namespace NewEditor.Forms
                         }
 
                         for (int i = 0; i < fileSystem.narcs.Count; i++)
+                        {
+                            fileSystem.narcs[i].WriteData();
                             if (!fileSystem.narcs[i].byteData.SequenceEqual(other.narcs[i].byteData))
                             {
-                                fileSystem.narcs[i].WriteData();
                                 data.Add("id_" + i, fileSystem.narcs[i].GetPatchBytes(other.narcs[i]));
                             }
+                        }
 
-                        for (int i = 0; i < 700/*textNarc.textFiles[VersionConstants.PokemonNameTextFileID].text.Count*/; i++)
-                            if (!fileSystem.soundData.GetSoundBytes(i).SequenceEqual(other.soundData.GetSoundBytes(i)))
-                            {
-                                data.Add("sound" + (i + 1), fileSystem.soundData.GetSoundBytes(i));
-                            }
+                        //for (int i = 0; i < 700/*textNarc.textFiles[VersionConstants.PokemonNameTextFileID].text.Count*/; i++)
+                        //    if (!fileSystem.soundData.GetSoundBytes(i).SequenceEqual(other.soundData.GetSoundBytes(i)))
+                        //    {
+                        //        data.Add("sound" + (i + 1), fileSystem.soundData.GetSoundBytes(i));
+                        //    }
 
                         for (int i = 0; i < fileSystem.overlays.Count; i++)
                             if (!fileSystem.overlays[i].SequenceEqual(other.overlays[i]))
@@ -851,7 +913,7 @@ namespace NewEditor.Forms
                     }
 
                     SaveFileDialog prompt2 = new SaveFileDialog();
-                    prompt2.Filter = "Black White 2 Patch File|*.bw2Patch";
+                    prompt2.Filter = RomType == RomType.BW1 ? "Black White 1 Patch File|*.bw1Patch" : "Black White 2 Patch File|*.bw2Patch";
                     if (prompt2.ShowDialog() == DialogResult.OK)
                     {
                         Dictionary<string, IEnumerable<byte>> data = new Dictionary<string, IEnumerable<byte>>();
@@ -880,7 +942,7 @@ namespace NewEditor.Forms
             }
 
             OpenFileDialog prompt = new OpenFileDialog();
-            prompt.Filter = "Black White 2 Patch File|*.bw2Patch";
+            prompt.Filter = RomType == RomType.BW1 ? "Black White 1 Patch File|*.bw1Patch" : "Black White 2 Patch File|*.bw2Patch";
 
             if (prompt.ShowDialog() == DialogResult.OK)
             {
@@ -890,10 +952,10 @@ namespace NewEditor.Forms
                 {
                     if (entry.Key.StartsWith("sound"))
                     {
-                        if (int.TryParse(entry.Key.Substring(5), out int id) && id >= 0)
-                        {
-                            fileSystem.soundData.WriteToSwavFromPatch(id - 1, entry.Value.ToList());
-                        }
+                        //if (int.TryParse(entry.Key.Substring(5), out int id) && id >= 0)
+                        //{
+                        //    fileSystem.soundData.WriteToSwavFromPatch(id - 1, entry.Value.ToList());
+                        //}
                     }
                     else if (entry.Key.StartsWith("ov_"))
                     {

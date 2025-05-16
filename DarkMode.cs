@@ -606,21 +606,21 @@ namespace DarkModeForms
             if (control is ComboBox comboBox)
             {
                 // Fixing a glitch that makes all instances of the ComboBox showing as having a Selected value, even when they dont
-                if (comboBox.DropDownStyle != ComboBoxStyle.DropDownList)
+                if (comboBox.DropDownStyle != ComboBoxStyle.DropDown)
                 {
                     comboBox.SelectionStart = comboBox.Text.Length;
                 }
                 //control.BeginInvoke(() => (control as ComboBox).SelectionLength = 0);
                 control.BeginInvoke(new Action(() =>
                 {
-                    if (!((ComboBox)control).DropDownStyle.Equals(ComboBoxStyle.DropDownList))
+                    if (!((ComboBox)control).DropDownStyle.Equals(ComboBoxStyle.DropDown))
                         ((ComboBox)control).SelectionLength = 0;
                 }));
 
                 // Fixes a glitch showing the Combo Backgroud white when the control is Disabled:
                 if (!control.Enabled && IsDarkMode)
                 {
-                    comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                    comboBox.DropDownStyle = ComboBoxStyle.DropDown;
                 }
 
                 // Apply Windows Color Mode:

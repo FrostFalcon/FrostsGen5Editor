@@ -52,6 +52,7 @@ namespace NewEditor.Forms
             this.textBoxDisplay.Text = "";
             this.textBoxDisplay.WordWrap = false;
             this.textBoxDisplay.Click += new System.EventHandler(this.textBoxDisplay_Click);
+            this.textBoxDisplay.TextChanged += new System.EventHandler(this.textBoxDisplay_TextChanged);
             // 
             // fileNumComboBox
             // 
@@ -120,6 +121,7 @@ namespace NewEditor.Forms
             this.addLinesButton.TabIndex = 7;
             this.addLinesButton.Text = "Add Lines";
             this.addLinesButton.UseVisualStyleBackColor = true;
+            this.addLinesButton.Visible = false;
             this.addLinesButton.Click += new System.EventHandler(this.addLinesButton_Click);
             // 
             // label1

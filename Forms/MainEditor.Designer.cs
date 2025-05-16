@@ -608,7 +608,7 @@ namespace NewEditor.Forms
             this.groupBox4.Controls.Add(this.replaceSoundID);
             this.groupBox4.Controls.Add(this.replaceOverlayButton);
             this.groupBox4.Controls.Add(this.replaceIconID);
-            this.groupBox4.Location = new System.Drawing.Point(148, 69);
+            this.groupBox4.Location = new System.Drawing.Point(247, 69);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(389, 229);
             this.groupBox4.TabIndex = 42;

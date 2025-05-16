@@ -159,6 +159,7 @@ namespace NewEditor.Forms
                 xpYieldNumberBox.Value = p.xpYield;
                 friendshipNumberBox.Value = p.baseHappiness;
                 catchRateNumberBox.Value = p.catchRate;
+                eggCyclesNumberBox.Value = p.hatchCounter;
                 heightNumberBox.Value = p.height;
                 weightNumberBox.Value = p.weight;
                 babyPokemonDropdown.SelectedIndex = babyPokemonNARC.ids[p.nameID];
@@ -313,6 +314,7 @@ namespace NewEditor.Forms
                 p.weight = (short)weightNumberBox.Value;
                 p.baseHappiness = (byte)friendshipNumberBox.Value;
                 p.catchRate = (byte)catchRateNumberBox.Value;
+                p.hatchCounter = (byte)eggCyclesNumberBox.Value;
 
                 if (heldItem1Dropdown.SelectedIndex >= 0) p.heldItem1 = (short)heldItem1Dropdown.SelectedIndex;
                 if (heldItem2Dropdown.SelectedIndex >= 0) p.heldItem2 = (short)heldItem2Dropdown.SelectedIndex;

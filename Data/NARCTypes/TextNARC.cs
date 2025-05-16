@@ -170,7 +170,11 @@ namespace NewEditor.Data.NARCTypes
         {
             if (MainEditor.RomType == RomType.BW2 || MainEditor.RomType == RomType.BW1)
             {
-                bytes = PPTxtHandler.SaveEntry(bytes, text);
+                if (File.Exists("TextFileTemplate"))
+                {
+                    bytes = PPTxtHandler.SaveEntry(File.ReadAllBytes("TextFileTemplate"), text);
+                }
+                else bytes = PPTxtHandler.SaveEntry(bytes, text);
             }
             else
             {

@@ -130,9 +130,6 @@ namespace NewEditor.Forms
             {
                 //Get the text file with the most lines to use as a template
                 TextFile template = activeNarc.textFiles[0];
-                for (int i = 0; i < activeNarc.textFiles.Count; i++) if (activeNarc.textFiles[i].text.Count > template.text.Count) template = activeNarc.textFiles[i];
-
-                while (activeNarc.textFiles[fileID].text.Count < template.text.Count) activeNarc.textFiles[fileID].text.Add("");
 
                 //OpenFileDialog prompt = new OpenFileDialog();
                 //prompt.Filter = "Nds Roms|*.nds";
@@ -141,7 +138,11 @@ namespace NewEditor.Forms
                 //{
                 //    var fs = NDSFileSystem.FromRom(File.OpenRead(prompt.FileName));
                 //    template = fs.textNarc.textFiles[16];
+                //    File.WriteAllBytes("TextFileTemplate", template.bytes);
                 //}
+                for (int i = 0; i < activeNarc.textFiles.Count; i++) if (activeNarc.textFiles[i].text.Count > template.text.Count) template = activeNarc.textFiles[i];
+
+                while (activeNarc.textFiles[fileID].text.Count < template.text.Count) activeNarc.textFiles[fileID].text.Add("");
 
                 activeNarc.textFiles[fileID].bytes = PPTxtHandler.SaveEntry(template.bytes, activeNarc.textFiles[fileID].text);
 
@@ -163,6 +164,16 @@ namespace NewEditor.Forms
         {
             updateLine = false;
             selectedLineNumberBox.Value = textBoxDisplay.GetLineFromCharIndex(textBoxDisplay.SelectionStart);
+            updateLine = true;
+        }
+
+        private void textBoxDisplay_TextChanged(object sender, EventArgs e)
+        {
+            updateLine = false;
+            selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length;
+            selectedLineNumberBox.Maximum = textBoxDisplay.GetLineFromCharIndex(textBoxDisplay.SelectionStart);
+            selectedLineNumberBox.Value = textBoxDisplay.GetLineFromCharIndex(textBoxDisplay.SelectionStart);
+            lineCountLabel.Text = "/ " + selectedLineNumberBox.Maximum;
             updateLine = true;
         }
     }

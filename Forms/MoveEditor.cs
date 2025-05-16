@@ -122,6 +122,16 @@ namespace NewEditor.Forms
 
             statusEffectDropdown.Items.AddRange(statusEffects.ToArray());
             addMovesButton.Enabled = moveDataNARC.moves.Count < 1000;
+
+            //Check for move expansion
+            int start = MainEditor.RomType == RomType.BW1 ? 0x304A : 0x353A;
+            byte[] b = new byte[] { 0, 0, 0, 0, 0x88, 0x4b, 0x01, 0x28, 0x38, 0xD0 };
+            byte[] ov = MainEditor.fileSystem.overlays[MainEditor.RomType == RomType.BW1 ? 94 : 168].GetRange(start, 10).ToArray();
+            if (ov.SequenceEqual(b) && moveDataNARC.moves.Count < 1000)
+            {
+                addMovesButton.Visible = true;
+                addMovesButton.Enabled = true;
+            }
         }
 
         private void LoadMoveIntoEditor(object sender, EventArgs e)
@@ -339,40 +349,35 @@ namespace NewEditor.Forms
 
         private void addMovesButton_Click(object sender, EventArgs e)
         {
-            while (moveDataNARC.moves.Count < 800)
+            int moveAmount = 1000;// moveDataNARC.moves.Count < 700 ? 800 : (moveDataNARC.moves.Count + 100);
+            while (moveDataNARC.moves.Count < moveAmount)
             {
                 moveDataNARC.moves.Add(new MoveDataEntry(moveDataNARC.moves[1].bytes.ToArray()) { nameID = moveDataNARC.moves.Count });
-                if (textNARC.textFiles[403].text.Count < moveDataNARC.moves.Count) textNARC.textFiles[403].text.Add(textNARC.textFiles[403].text[1]);
-                if (textNARC.textFiles[402].text.Count < moveDataNARC.moves.Count) textNARC.textFiles[402].text.Add(textNARC.textFiles[402].text[1]);
-                if (textNARC.textFiles[16].text.Count < moveDataNARC.moves.Count * 3)
+                if (textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.Count < moveDataNARC.moves.Count) textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.Add(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[1]);
+                if (textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text.Count < moveDataNARC.moves.Count) textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text.Add(textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[1]);
+                if (textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text.Count < moveDataNARC.moves.Count * 3)
                 {
-                    textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[3]);
-                    textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[4]);
-                    textNARC.textFiles[16].text.Add(textNARC.textFiles[16].text[5]);
+                    textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text.Add(textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[3]);
+                    textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text.Add(textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[4]);
+                    textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text.Add(textNARC.textFiles[VersionConstants.MoveUsageTextFileID].text[5]);
                 }
-                if (moveDataNARC.moves.Count <= 680) textNARC.textFiles[403].text[moveDataNARC.moves.Count - 1] = "DontUse";
+                if (moveDataNARC.moves.Count <= 680) textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[moveDataNARC.moves.Count - 1] = "DontUse";
             }
-            while (moveAnimNARC.animations.Count < 800)
+            while (moveAnimNARC.animations.Count < moveAmount)
             {
                 moveAnimNARC.animations.Add(new MoveAnimationEntry(moveAnimNARC.animations[1].bytes.ToArray()));
             }
 
-            TextFile template = textNARC.textFiles[0];
-            for (int i = 0; i < textNARC.textFiles.Count; i++) if (textNARC.textFiles[i].text.Count > template.text.Count && textNARC.textFiles[i].text.Count < 2900) template = textNARC.textFiles[i];
-            while (textNARC.textFiles[16].text.Count < template.text.Count) textNARC.textFiles[16].text.Add("");
-            textNARC.textFiles[16].bytes = PPTxtHandler.SaveEntry(template.bytes, textNARC.textFiles[16].text);
-
-            while (textNARC.textFiles[403].text.Count < template.text.Count) textNARC.textFiles[403].text.Add("");
-            textNARC.textFiles[403].bytes = PPTxtHandler.SaveEntry(template.bytes, textNARC.textFiles[403].text);
-
-            while (textNARC.textFiles[402].text.Count < template.text.Count) textNARC.textFiles[402].text.Add("");
-            textNARC.textFiles[402].bytes = PPTxtHandler.SaveEntry(template.bytes, textNARC.textFiles[402].text);
+            textNARC.textFiles[VersionConstants.MoveUsageTextFileID].CompressData();
+            textNARC.textFiles[VersionConstants.MoveNameTextFileID].CompressData();
+            textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].CompressData();
 
             moveNameDropdown.Items.Clear();
             moveNameDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
             copyAnimationDropdown.Items.Clear();
             copyAnimationDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
             addMovesButton.Enabled = false;
+            addMovesButton.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
