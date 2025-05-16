@@ -445,66 +445,6 @@ namespace NewEditor.Forms
 
             MessageBox.Show("Rom Loaded");
 
-            //Dictionary<int, int> rates = new Dictionary<int, int>();
-            //for (int i = 1; i <= 100; i++)
-            //{
-            //    rates.Add(i, xpCurveNarc.curves[3].GetXPAtLevel(i) - xpCurveNarc.curves[3].GetXPAtLevel(i - 1));
-            //}
-            //for (int i = 31; i <= 36; i++)
-            //{
-            //    rates[i] = (int)(rates[i] * 0.9f);
-            //}
-            //for (int i = 37; i <= 100; i++)
-            //{
-            //    rates[i] = (int)(rates[i] * 0.8f);
-            //}
-            //int total = 0;
-            //for (int i = 1; i <= 100; i++)
-            //{
-            //    xpCurveNarc.curves[3].SetXPAtLevel(i - 1, total);
-            //    total += rates[i];
-            //}
-            //total = 0;
-            //for (int i = 1; i <= 100; i++)
-            //{
-            //    rates[i] = (int)(rates[i] * 1.2f);
-            //    xpCurveNarc.curves[5].SetXPAtLevel(i - 1, total);
-            //    total += rates[i];
-            //}
-            //
-            //rates = new Dictionary<int, int>();
-            //for (int i = 1; i <= 100; i++)
-            //{
-            //    rates.Add(i, xpCurveNarc.curves[4].GetXPAtLevel(i) - xpCurveNarc.curves[4].GetXPAtLevel(i - 1));
-            //}
-            //for (int i = 21; i <= 30; i++)
-            //{
-            //    rates[i] = (int)(rates[i] * 0.9f);
-            //}
-            //for (int i = 31; i <= 100; i++)
-            //{
-            //    rates[i] = (int)(rates[i] * 0.8f);
-            //}
-            //total = 0;
-            //for (int i = 1; i <= 100; i++)
-            //{
-            //    xpCurveNarc.curves[4].SetXPAtLevel(i - 1, total);
-            //    total += rates[i];
-            //}
-            //total = 0;
-            //for (int i = 1; i <= 100; i++)
-            //{
-            //    rates[i] = (int)(rates[i] * 1.2f);
-            //    xpCurveNarc.curves[0].SetXPAtLevel(i - 1, total);
-            //    total += rates[i];
-            //}
-
-            //foreach (var pk in pokemonDataNarc.pokemon)
-            //{
-            //    if (pk.levelRate == 1) Debug.WriteLine(pk.Name + " - Erratic");
-            //    if (pk.levelRate == 2) Debug.WriteLine(pk.Name + " - Fluctuating");
-            //}
-
             loadingNARCS = false;
             autoLoaded = false;
         }
