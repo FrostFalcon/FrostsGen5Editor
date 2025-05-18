@@ -47,9 +47,13 @@
             this.importIconButton = new System.Windows.Forms.Button();
             this.setIconPaletteButton = new System.Windows.Forms.Button();
             this.saveIconPaletteButton = new System.Windows.Forms.Button();
+            this.dumpFilesButton = new System.Windows.Forms.Button();
+            this.dumpFilesPIDNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonSpriteBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonIconBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.paletteIDNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dumpFilesPIDNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pokemonSpriteBox
@@ -184,7 +188,7 @@
             // pokemonIconBox
             // 
             this.pokemonIconBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pokemonIconBox.Location = new System.Drawing.Point(908, 209);
+            this.pokemonIconBox.Location = new System.Drawing.Point(908, 219);
             this.pokemonIconBox.Name = "pokemonIconBox";
             this.pokemonIconBox.Size = new System.Drawing.Size(64, 128);
             this.pokemonIconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -193,7 +197,7 @@
             // 
             // paletteIDNumberBox
             // 
-            this.paletteIDNumberBox.Location = new System.Drawing.Point(862, 209);
+            this.paletteIDNumberBox.Location = new System.Drawing.Point(862, 219);
             this.paletteIDNumberBox.Maximum = new decimal(new int[] {
             2,
             0,
@@ -207,7 +211,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(804, 211);
+            this.label1.Location = new System.Drawing.Point(804, 221);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 16);
             this.label1.TabIndex = 14;
@@ -219,7 +223,7 @@
             this.iconTypeDropdown.Items.AddRange(new object[] {
             "Male Icon",
             "Female Icon"});
-            this.iconTypeDropdown.Location = new System.Drawing.Point(812, 179);
+            this.iconTypeDropdown.Location = new System.Drawing.Point(812, 189);
             this.iconTypeDropdown.Name = "iconTypeDropdown";
             this.iconTypeDropdown.Size = new System.Drawing.Size(160, 24);
             this.iconTypeDropdown.TabIndex = 15;
@@ -227,7 +231,7 @@
             // 
             // saveIconButton
             // 
-            this.saveIconButton.Location = new System.Drawing.Point(756, 343);
+            this.saveIconButton.Location = new System.Drawing.Point(756, 353);
             this.saveIconButton.Name = "saveIconButton";
             this.saveIconButton.Size = new System.Drawing.Size(100, 35);
             this.saveIconButton.TabIndex = 16;
@@ -237,7 +241,7 @@
             // 
             // importIconButton
             // 
-            this.importIconButton.Location = new System.Drawing.Point(872, 343);
+            this.importIconButton.Location = new System.Drawing.Point(872, 353);
             this.importIconButton.Name = "importIconButton";
             this.importIconButton.Size = new System.Drawing.Size(100, 35);
             this.importIconButton.TabIndex = 17;
@@ -247,7 +251,7 @@
             // 
             // setIconPaletteButton
             // 
-            this.setIconPaletteButton.Location = new System.Drawing.Point(817, 237);
+            this.setIconPaletteButton.Location = new System.Drawing.Point(817, 247);
             this.setIconPaletteButton.Name = "setIconPaletteButton";
             this.setIconPaletteButton.Size = new System.Drawing.Size(85, 30);
             this.setIconPaletteButton.TabIndex = 18;
@@ -257,7 +261,7 @@
             // 
             // saveIconPaletteButton
             // 
-            this.saveIconPaletteButton.Location = new System.Drawing.Point(807, 273);
+            this.saveIconPaletteButton.Location = new System.Drawing.Point(807, 283);
             this.saveIconPaletteButton.Name = "saveIconPaletteButton";
             this.saveIconPaletteButton.Size = new System.Drawing.Size(95, 30);
             this.saveIconPaletteButton.TabIndex = 19;
@@ -265,12 +269,46 @@
             this.saveIconPaletteButton.UseVisualStyleBackColor = true;
             this.saveIconPaletteButton.Click += new System.EventHandler(this.saveIconPaletteButton_Click);
             // 
+            // dumpFilesButton
+            // 
+            this.dumpFilesButton.Location = new System.Drawing.Point(872, 124);
+            this.dumpFilesButton.Name = "dumpFilesButton";
+            this.dumpFilesButton.Size = new System.Drawing.Size(100, 35);
+            this.dumpFilesButton.TabIndex = 20;
+            this.dumpFilesButton.Text = "Dump Files";
+            this.dumpFilesButton.UseVisualStyleBackColor = true;
+            this.dumpFilesButton.Click += new System.EventHandler(this.dumpFilesButton_Click);
+            // 
+            // dumpFilesPIDNumberBox
+            // 
+            this.dumpFilesPIDNumberBox.Location = new System.Drawing.Point(806, 131);
+            this.dumpFilesPIDNumberBox.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.dumpFilesPIDNumberBox.Name = "dumpFilesPIDNumberBox";
+            this.dumpFilesPIDNumberBox.Size = new System.Drawing.Size(60, 22);
+            this.dumpFilesPIDNumberBox.TabIndex = 21;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(748, 134);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 16);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Dex ID:";
+            // 
             // PaletteEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(984, 721);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.dumpFilesPIDNumberBox);
+            this.Controls.Add(this.dumpFilesButton);
             this.Controls.Add(this.saveIconPaletteButton);
             this.Controls.Add(this.setIconPaletteButton);
             this.Controls.Add(this.importIconButton);
@@ -297,6 +335,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pokemonSpriteBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonIconBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.paletteIDNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dumpFilesPIDNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,5 +362,8 @@
         private System.Windows.Forms.Button importIconButton;
         private System.Windows.Forms.Button setIconPaletteButton;
         private System.Windows.Forms.Button saveIconPaletteButton;
+        private System.Windows.Forms.Button dumpFilesButton;
+        private System.Windows.Forms.NumericUpDown dumpFilesPIDNumberBox;
+        private System.Windows.Forms.Label label2;
     }
 }

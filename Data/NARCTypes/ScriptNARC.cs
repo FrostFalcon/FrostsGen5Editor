@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using NewEditor.Forms;
 
@@ -166,6 +167,7 @@ namespace NewEditor.Data.NARCTypes
             string currentRoutineName = "";
             Dictionary<ScriptCommand, string> routines = new Dictionary<ScriptCommand, string>();
             Dictionary<ScriptCommand, string> routinePointers = new Dictionary<ScriptCommand, string>();
+            Dictionary<string, List<int>> unusedRoutines = new Dictionary<string, List<int>>();
 
             List<List<RefByte>> movements = new List<List<RefByte>>();
             List<int[]> movementPointers = new List<int[]>();
@@ -442,13 +444,18 @@ namespace NewEditor.Data.NARCTypes
                                 if (!labels.ContainsKey(sc)) labels.Add(sc, labelQueue[0]);
                                 labelQueue.RemoveAt(0);
                             }
-                            if (sc.commandID == 0x4) routinePointers.Add(sc, "");
+                            if (sc.commandID == 0x4)
+                            {
+                                routinePointers.Add(sc, "");
+                            }
                             continue;
                         }
                         else
                         {
                             ScriptCommand sc = new ScriptCommand(0x4, new int[] { 0 });
                             routinePointers.Add(sc, com);
+                            if (unusedRoutines.ContainsKey(com)) unusedRoutines[com].Add(lineNumber);
+                            else unusedRoutines.Add(com, new List<int>() { lineNumber });
                             stack[stack.Count - 1].commands.Add(sc);
                             while (labelQueue.Count > 0)
                             {
@@ -534,7 +541,10 @@ namespace NewEditor.Data.NARCTypes
             for (int j = 0; j < sf.sequences.Count; j++)
             {
                 int pos = HelperFunctions.ReadInt(sf.bytes, j * 4) + 4 + j * 4;
-                if (routines.ContainsKey(sf.sequences[j].commands[0])) routineLocations.Add(routines[sf.sequences[j].commands[0]], pos);
+                if (routines.ContainsKey(sf.sequences[j].commands[0]))
+                {
+                    routineLocations.Add(routines[sf.sequences[j].commands[0]], pos);
+                }
             }
             for (int j = 0; j < sf.sequences.Count; j++)
             {
@@ -545,8 +555,28 @@ namespace NewEditor.Data.NARCTypes
                     if (routinePointers.ContainsKey(com) && routineLocations.ContainsKey(routinePointers[com]))
                     {
                         com.parameters[0] = routineLocations[routinePointers[com]] - pos;
+                        unusedRoutines.Remove(routinePointers[com]);
                     }
                 }
+            }
+            if (unusedRoutines.Count > 0)
+            {
+                string msg = "Warning: Script file contains undefined commands.\nPlease ensure you are using the correct headers,\nand no commands are misspelled.\n";
+                foreach (var s in unusedRoutines)
+                {
+                    if (s.Value.Count == 1) msg += "\n - " + s.Key + " at line " + s.Value[0];
+                    else
+                    {
+                        msg += "\n - " + s.Key + " at lines " + s.Value[0];
+                        for (int i = 1; i < s.Value.Count; i++) msg += (i % 6 == 0 ? ",\n" : ", ") + s.Value[i];
+                    }
+                    if (msg.Split('\n').Length > 20)
+                    {
+                        msg += "\n...";
+                        break;
+                    }
+                }
+                throw new Exception(msg);
             }
             sf.ApplyData();
             //Assign routines
@@ -2849,7 +2879,7 @@ namespace NewEditor.Data.NARCTypes
             {0x104, new CommandType("PokePartyRecoverAll", 0)},
             {0x105, new CommandType("CallPokeNameInput", 3, 2, 2, 2)},
             {0x106, new CommandType("CallEggHatch", 1, 2)},
-            {0x107, new CommandType("CallPokeSelect", 4, 2, 2, 2, 2)},
+            {0x107, new CommandType("CallPokeSelect", 3, 2, 2, 2)},
             {0x108, new CommandType("PokePartyGetMoveCount", 2, 2, 2)},
             {0x109, new CommandType("CallPokeMoveReplace", 4, 2, 2, 2, 2)},
             {0x10A, new CommandType("PokePartyGetMove", 3, 2, 2, 2)},

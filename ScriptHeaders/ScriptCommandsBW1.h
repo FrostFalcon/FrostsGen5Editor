@@ -509,7 +509,7 @@ void CallPokeNameInput(short pSuccess, short poke, short transition);
 //TODO
 void CallEggHatch(short pPartyIdx);
 //TODO
-void CallPokeSelect(short wantEgg, short pDlgSuccess, short pPartyIdx, short unused);
+void CallPokeSelect(short wantEgg, short pDlgSuccess, short pPartyIdx);
 //TODO
 void PokePartyGetMoveCount(short dest, short partyIdx);
 //TODO

@@ -339,5 +339,21 @@ namespace NewEditor.Forms
                 bmp.Save(save.FileName);
             }
         }
+
+        private void dumpFilesButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog prompt = new FolderBrowserDialog();
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                int start = (int)dumpFilesPIDNumberBox.Value * 20;
+                for (int i = 0; i < 20; i++)
+                {
+                    string location = prompt.SelectedPath + "\\004_" + start.ToString("D8") + ".bin";
+                    File.WriteAllBytes(location, sprite.files[i]);
+                    Debug.WriteLine(location);
+                    start++;
+                }
+            }
+        }
     }
 }
