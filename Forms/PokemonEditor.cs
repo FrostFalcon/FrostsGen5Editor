@@ -246,8 +246,11 @@ namespace NewEditor.Forms
                 if (p.nameID < textNARC.textFiles[VersionConstants.PokedexImpericalHeightTextFileID[0]].text.Count)
                 {
                     string imp = textNARC.textFiles[VersionConstants.PokedexImpericalHeightTextFileID[0]].text[p.nameID];
-                    pokedexHeightFt.Text = imp.Substring(0, imp.IndexOf('\''));
-                    pokedexHeightIn.Text = imp.Substring(imp.IndexOf('\'') + 1, 2);
+                    if (imp.IndexOf('\'') >= 0)
+                    {
+                        pokedexHeightFt.Text = imp.Substring(0, imp.IndexOf('\''));
+                        pokedexHeightIn.Text = imp.Substring(imp.IndexOf('\'') + 1, 2);
+                    }
                 }
                 if (p.nameID < textNARC.textFiles[VersionConstants.PokedexMetricCommaHeightTextFileID[0]].text.Count)
                 {
@@ -258,8 +261,11 @@ namespace NewEditor.Forms
                 if (p.nameID < textNARC.textFiles[VersionConstants.PokedexImpericalWeightTextFileID[0]].text.Count)
                 {
                     string imp = textNARC.textFiles[VersionConstants.PokedexImpericalWeightTextFileID[0]].text[p.nameID];
-                    pokedexWeightLbs.Text = imp.Substring(0, imp.IndexOf('.'));
-                    pokedexWeightSubLbs.Text = imp.Substring(imp.IndexOf('.') + 1, imp.IndexOf(' ') - (imp.IndexOf('.') + 1));
+                    if (imp.IndexOf('.') >= 0)
+                    {
+                        pokedexWeightLbs.Text = imp.Substring(0, imp.IndexOf('.'));
+                        pokedexWeightSubLbs.Text = imp.Substring(imp.IndexOf('.') + 1, imp.IndexOf(' ') - (imp.IndexOf('.') + 1));
+                    }
                 }
                 if (p.nameID < textNARC.textFiles[VersionConstants.PokedexMetricCommaWeightTextFileID[0]].text.Count)
                 {
@@ -659,7 +665,11 @@ namespace NewEditor.Forms
 
                 foreach (int i in VersionConstants.PokedexImpericalHeightTextFileID)
                 {
-                    if (p.nameID < textNARC.textFiles[i].text.Count) textNARC.textFiles[i].text[p.nameID] = pokedexHeightFt.Text + "\'" + pokedexHeightIn.Text + "\"";
+                    if (p.nameID < textNARC.textFiles[i].text.Count)
+                    {
+                        if (textNARC.textFiles[i].text[p.nameID].Contains("\'")) textNARC.textFiles[i].text[p.nameID] = pokedexHeightFt.Text + "\'" + pokedexHeightIn.Text + "\"";
+                        else textNARC.textFiles[i].text[p.nameID] = pokedexHeightM.Text + "," + pokedexHeightSubM.Text + " m";
+                    }
                     textNARC.textFiles[i].CompressData();
                 }
                 foreach (int i in VersionConstants.PokedexMetricCommaHeightTextFileID)
@@ -675,7 +685,11 @@ namespace NewEditor.Forms
 
                 foreach (int i in VersionConstants.PokedexImpericalWeightTextFileID)
                 {
-                    if (p.nameID < textNARC.textFiles[i].text.Count) textNARC.textFiles[i].text[p.nameID] = pokedexWeightLbs.Text + "." + pokedexWeightSubLbs.Text + " lbs.";
+                    if (p.nameID < textNARC.textFiles[i].text.Count)
+                    {
+                        if (textNARC.textFiles[i].text[p.nameID].Contains("lbs")) textNARC.textFiles[i].text[p.nameID] = pokedexWeightLbs.Text + "." + pokedexWeightSubLbs.Text + " lbs.";
+                        else textNARC.textFiles[i].text[p.nameID] = pokedexWeightKg.Text + "," + pokedexWeightSubKg.Text + " kg";
+                    }
                     textNARC.textFiles[i].CompressData();
                 }
                 foreach (int i in VersionConstants.PokedexMetricCommaWeightTextFileID)
