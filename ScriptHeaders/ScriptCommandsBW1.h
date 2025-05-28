@@ -33,6 +33,12 @@ void StackDiv();
 //Stores the flag on the stack(?).
 void StackPushFlag(short flag);
 //Compares the two topmost elements of the stack based on a condition and pushes the result back onto the stack.
+// == - 1
+// != - 5
+// > - 2
+// >= - 4
+// < - 0
+// <= - 3
 void StackCmp(short cond);
 //var &= operand
 void WorkAnd(short var, short operand);

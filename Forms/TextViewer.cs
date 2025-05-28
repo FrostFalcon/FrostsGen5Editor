@@ -170,8 +170,7 @@ namespace NewEditor.Forms
         private void textBoxDisplay_TextChanged(object sender, EventArgs e)
         {
             updateLine = false;
-            selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length;
-            selectedLineNumberBox.Maximum = textBoxDisplay.GetLineFromCharIndex(textBoxDisplay.SelectionStart);
+            selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length - 1;
             selectedLineNumberBox.Value = textBoxDisplay.GetLineFromCharIndex(textBoxDisplay.SelectionStart);
             lineCountLabel.Text = "/ " + selectedLineNumberBox.Maximum;
             updateLine = true;
