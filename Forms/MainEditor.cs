@@ -59,6 +59,7 @@ namespace NewEditor.Forms
         public static NDSFileSystem fileSystem;
         private static string romType = "";
         public static RomType RomType => (romType == "pokemon b2" || romType == "pokemon w2") ? RomType.BW2 : (romType == "pokemon b" || romType == "pokemon w") ? RomType.BW1 : (romType == "pokemon hg" || romType == "pokemon ss") ? RomType.HGSS : RomType.Other;
+        public static bool BlackVersion => romType.IndexOf('b') != -1;
 
         //Narcs
         public static TextNARC textNarc;

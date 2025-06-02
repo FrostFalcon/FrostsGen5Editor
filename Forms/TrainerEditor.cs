@@ -4,11 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace NewEditor.Forms
 {
@@ -93,7 +96,6 @@ namespace NewEditor.Forms
 
                 pokemonIVsNumberBox.Value = p.IVs;
                 pokemonGenderDropdown.SelectedIndex = p.gender;
-                pokemonNatureDropdown.SelectedIndex = p.nature;
 
                 if (trainerNameDropdown.SelectedItem is TrainerEntry tr)
                 {
@@ -156,7 +158,6 @@ namespace NewEditor.Forms
                     p.ability = (byte)pokemonAbilityDropdown.SelectedIndex;
                     p.IVs = (byte)pokemonIVsNumberBox.Value;
                     p.gender = (byte)pokemonGenderDropdown.SelectedIndex;
-                    p.nature = (byte)pokemonNatureDropdown.SelectedIndex;
 
                     if (tr.heldItems && oldHeldItem) p.heldItem = (short)pokemonHeldItemDropdown.SelectedIndex;
                     else p.heldItem = 0;
@@ -263,6 +264,63 @@ namespace NewEditor.Forms
             {
                 trDialogueTextBox.Text = tr.dialogue[dialogueTypeDropdown.SelectedIndex];
             }
+        }
+
+        private void editTrainerAIButton_Click(object sender, EventArgs e)
+        {
+            int val = (int)aiNumberBox.Value;
+            Form prompt = new Form();
+            prompt.Font = Font;
+            prompt.Width = 240;
+            prompt.Height = 592;
+            prompt.Text = "AI flags";
+            FlowLayoutPanel panel = new FlowLayoutPanel();
+            panel.Height = 600;
+            CheckBox[] boxes = new CheckBox[]
+            {
+                new CheckBox() { Text = "Avoid \"No Effect\" Moves", Checked = (val & 1) > 0 },
+                new CheckBox() { Text = "Use Strongest Attack", Checked = (val & 2) > 0 },
+                new CheckBox() { Text = "Smart AI", Checked = (val & 4) > 0 },
+                new CheckBox() { Text = "First Turn Setup", Checked = (val & 8) > 0 },
+                new CheckBox() { Text = "First Rival Fight", Checked = (val & 16) > 0 },
+                new CheckBox() { Text = "N Final Battle", Checked = (val & 32) > 0 },
+                new CheckBox() { Text = "Baton Pass", Checked = (val & 64) > 0 },
+                new CheckBox() { Text = "Double/Triple Battle", Checked = (val & 128) > 0 },
+                new CheckBox() { Text = "Health Evaluation", Checked = (val & 256) > 0 },
+                new CheckBox() { Text = "First Turn Weather", Checked = (val & 512) > 0 },
+                new CheckBox() { Text = "Disruption Moves", Checked = (val & 1024) > 0 },
+                new CheckBox() { Text = "Roaming Pokemon", Checked = (val & 2048) > 0 },
+                new CheckBox() { Text = "Safari Pokemon", Checked = (val & 4096) > 0 },
+                new CheckBox() { Text = "Tutorial Battle", Checked = (val & 8192) > 0 },
+                new CheckBox() { Text = "Extra 1", Checked = (val & 16384) > 0 },
+                new CheckBox() { Text = "Extra 2", Checked = (val & 32768) > 0 },
+            };
+            Button ok = new Button() { Text = "Apply", Size = new Size(80, 28) };
+            ok.Click += (s, ev) =>
+            {
+                val = 0;
+                for (int i = 0; i < boxes.Length; i++) if (boxes[i].Checked) val |= (int)Math.Pow(2, i);
+                aiNumberBox.Value = val;
+                prompt.Close();
+            };
+            Button no = new Button() { Text = "Cancel", Size = new Size(80, 28) };
+            no.Click += (s, ev) => { prompt.Close(); };
+            foreach (CheckBox c in boxes)
+            {
+                c.Width = 180;
+                panel.Controls.Add(c);
+                panel.SetFlowBreak(c, true);
+            }
+            LinkLabel ll = new LinkLabel() { Text = "See this document for details", LinkArea = new LinkArea(4, 4), AutoSize = true, Font = Font };
+            ll.LinkClicked += (s, ev) =>
+            {
+                Process.Start("https://docs.google.com/document/d/1AziiMPsY1TcABKIwl92677A4nYGtByvjFOR7p6PAXY0");
+            };
+            panel.Controls.Add(ll);
+            panel.Controls.Add(ok);
+            panel.Controls.Add(no);
+            prompt.Controls.Add(panel);
+            prompt.ShowDialog();
         }
     }
 }

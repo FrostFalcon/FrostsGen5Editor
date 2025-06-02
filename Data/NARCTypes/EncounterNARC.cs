@@ -132,6 +132,7 @@ namespace NewEditor.Data.NARCTypes
                 if (i > 2) slotAssignment = new EncounterSlot[5];
                 List<int> encounterRates = new List<int>() { 20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1 };
                 if (i > 2) encounterRates = new List<int>() { 60, 30, 5, 4, 1 };
+                if (i > 4) encounterRates = new List<int>() { 40, 40, 15, 4, 1 };
                 for (int x = 0; x < slotAssignment.Length; x++)
                 {
                     slotAssignment[x] = new EncounterSlot((short)HelperFunctions.ReadShort(bytes, loc), 0, bytes[loc + 2], bytes[loc + 3], encounterRates[x]);
@@ -181,6 +182,7 @@ namespace NewEditor.Data.NARCTypes
                 if (i > 2) slotAssignment = new EncounterSlot[5];
                 List<int> encounterRates = new List<int>() { 20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1 };
                 if (i > 2) encounterRates = new List<int>() { 60, 30, 5, 4, 1 };
+                if (i > 4) encounterRates = new List<int>() { 40, 40, 15, 4, 1 };
 
                 //Assign Groups to slots
                 foreach (EncounterSlot slot in slotList.ToArray())

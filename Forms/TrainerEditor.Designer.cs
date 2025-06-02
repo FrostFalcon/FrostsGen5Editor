@@ -60,9 +60,7 @@ namespace NewEditor.Forms
             this.pokemonAbilityDropdown = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.pokemonGenderDropdown = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.pokemonIVsNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokemonNatureDropdown = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.pokemonLevelNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -82,6 +80,7 @@ namespace NewEditor.Forms
             this.dialogueGroup = new System.Windows.Forms.GroupBox();
             this.trDialogueTextBox = new System.Windows.Forms.TextBox();
             this.dialogueTypeDropdown = new System.Windows.Forms.ComboBox();
+            this.editTrainerAIButton = new System.Windows.Forms.Button();
             this.trainerDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trainerClassNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiNumberBox)).BeginInit();
@@ -108,6 +107,7 @@ namespace NewEditor.Forms
             // trainerDataGroup
             // 
             this.trainerDataGroup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trainerDataGroup.Controls.Add(this.editTrainerAIButton);
             this.trainerDataGroup.Controls.Add(this.trainerClassNumberBox);
             this.trainerDataGroup.Controls.Add(this.label16);
             this.trainerDataGroup.Controls.Add(this.aiNumberBox);
@@ -373,9 +373,7 @@ namespace NewEditor.Forms
             this.pokemonGroupBox.Controls.Add(this.pokemonAbilityDropdown);
             this.pokemonGroupBox.Controls.Add(this.label13);
             this.pokemonGroupBox.Controls.Add(this.pokemonGenderDropdown);
-            this.pokemonGroupBox.Controls.Add(this.label12);
             this.pokemonGroupBox.Controls.Add(this.pokemonIVsNumberBox);
-            this.pokemonGroupBox.Controls.Add(this.pokemonNatureDropdown);
             this.pokemonGroupBox.Controls.Add(this.label11);
             this.pokemonGroupBox.Controls.Add(this.label10);
             this.pokemonGroupBox.Controls.Add(this.pokemonLevelNumberBox);
@@ -457,7 +455,7 @@ namespace NewEditor.Forms
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(120, 184);
+            this.label13.Location = new System.Drawing.Point(10, 219);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(53, 16);
             this.label13.TabIndex = 89;
@@ -472,19 +470,10 @@ namespace NewEditor.Forms
             "Any",
             "Male",
             "Female"});
-            this.pokemonGenderDropdown.Location = new System.Drawing.Point(180, 180);
+            this.pokemonGenderDropdown.Location = new System.Drawing.Point(70, 215);
             this.pokemonGenderDropdown.Name = "pokemonGenderDropdown";
             this.pokemonGenderDropdown.Size = new System.Drawing.Size(80, 24);
             this.pokemonGenderDropdown.TabIndex = 88;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 219);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(49, 16);
-            this.label12.TabIndex = 84;
-            this.label12.Text = "Nature:";
             // 
             // pokemonIVsNumberBox
             // 
@@ -497,43 +486,6 @@ namespace NewEditor.Forms
             this.pokemonIVsNumberBox.Name = "pokemonIVsNumberBox";
             this.pokemonIVsNumberBox.Size = new System.Drawing.Size(60, 22);
             this.pokemonIVsNumberBox.TabIndex = 84;
-            // 
-            // pokemonNatureDropdown
-            // 
-            this.pokemonNatureDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.pokemonNatureDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.pokemonNatureDropdown.FormattingEnabled = true;
-            this.pokemonNatureDropdown.Items.AddRange(new object[] {
-            "Any",
-            "Hardy",
-            "Lonely",
-            "Brave",
-            "Adamant",
-            "Naughty",
-            "Bold",
-            "Docile",
-            "Relaxed",
-            "Impish",
-            "Lax",
-            "Timid",
-            "Hasty",
-            "Serious",
-            "Jolly",
-            "Naive",
-            "Modest",
-            "Mild",
-            "Quiet",
-            "Bashful",
-            "Rash",
-            "Calm",
-            "Gentle",
-            "Sassy",
-            "Careful",
-            "Quirky"});
-            this.pokemonNatureDropdown.Location = new System.Drawing.Point(60, 215);
-            this.pokemonNatureDropdown.Name = "pokemonNatureDropdown";
-            this.pokemonNatureDropdown.Size = new System.Drawing.Size(100, 24);
-            this.pokemonNatureDropdown.TabIndex = 83;
             // 
             // label11
             // 
@@ -889,6 +841,16 @@ namespace NewEditor.Forms
             this.dialogueTypeDropdown.TabIndex = 3;
             this.dialogueTypeDropdown.SelectedIndexChanged += new System.EventHandler(this.dialogueTypeDropdown_SelectedIndexChanged);
             // 
+            // editTrainerAIButton
+            // 
+            this.editTrainerAIButton.Location = new System.Drawing.Point(106, 221);
+            this.editTrainerAIButton.Name = "editTrainerAIButton";
+            this.editTrainerAIButton.Size = new System.Drawing.Size(24, 24);
+            this.editTrainerAIButton.TabIndex = 97;
+            this.editTrainerAIButton.Text = ">";
+            this.editTrainerAIButton.UseVisualStyleBackColor = true;
+            this.editTrainerAIButton.Click += new System.EventHandler(this.editTrainerAIButton_Click);
+            // 
             // TrainerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -963,8 +925,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.ComboBox pokemonMove1Dropdown;
         private System.Windows.Forms.NumericUpDown pokemonIVsNumberBox;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox pokemonNatureDropdown;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox pokemonGenderDropdown;
         private System.Windows.Forms.Label label15;
@@ -980,5 +940,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.GroupBox dialogueGroup;
         private System.Windows.Forms.ComboBox dialogueTypeDropdown;
         private System.Windows.Forms.TextBox trDialogueTextBox;
+        private System.Windows.Forms.Button editTrainerAIButton;
     }
 }
