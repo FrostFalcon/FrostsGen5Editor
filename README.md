@@ -4,14 +4,14 @@ This is a general purpose editor made to handle all of the most important rom ha
 
 Currently, the editor contains the following features:
 - Pokemon stats, movesets, evolutions, tms, tutors, and egg moves
-- Pokemon sprites and icons (experimental)
+- Pokemon sprites and icons
 - Move data
-- Move animations (experimental)
+- Move animations
 - Trainers and trainer teams
 - Wild encounters
 - Hidden Grottos
 - Overworld data, objects, and npcs
-- Scripting (experimental)
+- Scripting
 - Text
 - Pokemarts (BW2 only)
 - Experience curves
