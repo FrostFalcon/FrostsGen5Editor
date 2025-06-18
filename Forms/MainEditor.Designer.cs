@@ -320,7 +320,7 @@ namespace NewEditor.Forms
             // 
             // taskProgressBar
             // 
-            this.taskProgressBar.Location = new System.Drawing.Point(652, 187);
+            this.taskProgressBar.Location = new System.Drawing.Point(100, 72);
             this.taskProgressBar.Name = "taskProgressBar";
             this.taskProgressBar.Size = new System.Drawing.Size(120, 25);
             this.taskProgressBar.TabIndex = 17;
@@ -383,22 +383,26 @@ namespace NewEditor.Forms
             // 
             // selectivePatchTextBox
             // 
-            this.selectivePatchTextBox.Location = new System.Drawing.Point(116, 126);
+            this.selectivePatchTextBox.Enabled = false;
+            this.selectivePatchTextBox.Location = new System.Drawing.Point(120, 21);
             this.selectivePatchTextBox.Name = "selectivePatchTextBox";
             this.selectivePatchTextBox.Size = new System.Drawing.Size(100, 22);
             this.selectivePatchTextBox.TabIndex = 23;
             this.selectivePatchTooltip.SetToolTip(this.selectivePatchTextBox, "By entering numbers separated by a space, a patch file will be created using only" +
         " the NARC files listed.");
+            this.selectivePatchTextBox.Visible = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Enabled = false;
             this.label2.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.label2.Location = new System.Drawing.Point(12, 130);
+            this.label2.Location = new System.Drawing.Point(16, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 16);
             this.label2.TabIndex = 24;
             this.label2.Text = "Selective Patch:";
+            this.label2.Visible = false;
             // 
             // openShopEditorButton
             // 
@@ -542,11 +546,9 @@ namespace NewEditor.Forms
             this.groupBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox2.Controls.Add(this.createPatchButton);
             this.groupBox2.Controls.Add(this.applyPatchButton);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.selectivePatchTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(12, 120);
+            this.groupBox2.Location = new System.Drawing.Point(12, 179);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 160);
+            this.groupBox2.Size = new System.Drawing.Size(120, 119);
             this.groupBox2.TabIndex = 40;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Patching";
@@ -596,10 +598,13 @@ namespace NewEditor.Forms
             this.groupBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox4.Controls.Add(this.replaceMapID);
             this.groupBox4.Controls.Add(this.typeShuffleButton);
+            this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.replaceMapButton);
+            this.groupBox4.Controls.Add(this.selectivePatchTextBox);
             this.groupBox4.Controls.Add(this.pokepatcherButton);
             this.groupBox4.Controls.Add(this.replaceNarcButton);
             this.groupBox4.Controls.Add(this.openOverlayEditorButton);
+            this.groupBox4.Controls.Add(this.taskProgressBar);
             this.groupBox4.Controls.Add(this.narcToReplaceNumberBox);
             this.groupBox4.Controls.Add(this.typeChartEditorButton);
             this.groupBox4.Controls.Add(this.replaceSoundButton);
@@ -608,7 +613,7 @@ namespace NewEditor.Forms
             this.groupBox4.Controls.Add(this.replaceSoundID);
             this.groupBox4.Controls.Add(this.replaceOverlayButton);
             this.groupBox4.Controls.Add(this.replaceIconID);
-            this.groupBox4.Location = new System.Drawing.Point(247, 69);
+            this.groupBox4.Location = new System.Drawing.Point(191, 14);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(389, 229);
             this.groupBox4.TabIndex = 42;
@@ -675,7 +680,6 @@ namespace NewEditor.Forms
             this.Controls.Add(this.loadFromFolderButton);
             this.Controls.Add(this.dumpRomButton);
             this.Controls.Add(this.autoLoadButton);
-            this.Controls.Add(this.taskProgressBar);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.saveRomButton);
             this.Controls.Add(this.romTypeText);
@@ -684,7 +688,7 @@ namespace NewEditor.Forms
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainEditor";
-            this.Text = "Frost\'s Ultimate Gen 5 Editor 2.3.0";
+            this.Text = "Frost\'s Ultimate Gen 5 Editor 3.0.0";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).EndInit();
@@ -692,9 +696,9 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.replaceIconID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceOverlayID)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.replaceMapID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

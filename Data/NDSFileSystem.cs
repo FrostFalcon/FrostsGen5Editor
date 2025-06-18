@@ -14,7 +14,7 @@ namespace NewEditor.Data
 {
     public class NDSFileSystem
     {
-        private string romType = "";
+        public string romType = "";
         public RomType RomType => (romType == "pokemon b2" || romType == "pokemon w2") ? RomType.BW2 : (romType == "pokemon b" || romType == "pokemon w") ? RomType.BW1 : (romType == "pokemon hg" || romType == "pokemon ss") ? RomType.HGSS : RomType.Other;
 
         int OverlayCount = 0;

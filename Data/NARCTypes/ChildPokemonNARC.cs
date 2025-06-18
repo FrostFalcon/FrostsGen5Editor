@@ -52,7 +52,7 @@ namespace NewEditor.Data.NARCTypes
                 newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
                 pPos += 4;
                 totalSize += 4;
-                newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
+                newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize - 2));
                 pPos += 4;
             }
 

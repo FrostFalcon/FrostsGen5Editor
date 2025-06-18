@@ -66,6 +66,8 @@ namespace NewEditor.Forms
             this.pokemonEVSpDefNumberBox = new System.Windows.Forms.NumericUpDown();
             this.pokemonEVSpAttNumberBox = new System.Windows.Forms.NumericUpDown();
             this.miscStatsGroup = new System.Windows.Forms.GroupBox();
+            this.eggCyclesNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label47 = new System.Windows.Forms.Label();
             this.catchRateNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
             this.weightNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -162,8 +164,8 @@ namespace NewEditor.Forms
             this.eggMoveListBox = new System.Windows.Forms.ListBox();
             this.eggMoveDropdown = new System.Windows.Forms.ComboBox();
             this.label44 = new System.Windows.Forms.Label();
-            this.eggCyclesNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.label47 = new System.Windows.Forms.Label();
+            this.moveUpButton = new System.Windows.Forms.Button();
+            this.moveDownButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -178,6 +180,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).BeginInit();
             this.miscStatsGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eggCyclesNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weightNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumberBox)).BeginInit();
@@ -194,7 +197,6 @@ namespace NewEditor.Forms
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).BeginInit();
             this.eggMovesGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.eggCyclesNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pokemonNameDropdown
@@ -731,6 +733,32 @@ namespace NewEditor.Forms
             this.miscStatsGroup.TabStop = false;
             this.miscStatsGroup.Text = "Misc Stats";
             // 
+            // eggCyclesNumberBox
+            // 
+            this.eggCyclesNumberBox.Location = new System.Drawing.Point(230, 97);
+            this.eggCyclesNumberBox.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.eggCyclesNumberBox.Name = "eggCyclesNumberBox";
+            this.eggCyclesNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.eggCyclesNumberBox.TabIndex = 90;
+            this.eggCyclesNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(147, 100);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(78, 16);
+            this.label47.TabIndex = 91;
+            this.label47.Text = "Egg Cycles:";
+            // 
             // catchRateNumberBox
             // 
             this.catchRateNumberBox.Location = new System.Drawing.Point(125, 165);
@@ -949,6 +977,8 @@ namespace NewEditor.Forms
             // levelUpMovesGroup
             // 
             this.levelUpMovesGroup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.levelUpMovesGroup.Controls.Add(this.moveDownButton);
+            this.levelUpMovesGroup.Controls.Add(this.moveUpButton);
             this.levelUpMovesGroup.Controls.Add(this.learnsetApplyMoveButton);
             this.levelUpMovesGroup.Controls.Add(this.learnsetListBox);
             this.levelUpMovesGroup.Controls.Add(this.learnsetMoveDropdown);
@@ -999,7 +1029,7 @@ namespace NewEditor.Forms
             // 
             // addLearnsetMoveButton
             // 
-            this.addLearnsetMoveButton.Location = new System.Drawing.Point(220, 334);
+            this.addLearnsetMoveButton.Location = new System.Drawing.Point(220, 330);
             this.addLearnsetMoveButton.Name = "addLearnsetMoveButton";
             this.addLearnsetMoveButton.Size = new System.Drawing.Size(100, 30);
             this.addLearnsetMoveButton.TabIndex = 75;
@@ -1018,7 +1048,7 @@ namespace NewEditor.Forms
             // 
             // removeLearnsetMoveButton
             // 
-            this.removeLearnsetMoveButton.Location = new System.Drawing.Point(220, 374);
+            this.removeLearnsetMoveButton.Location = new System.Drawing.Point(220, 370);
             this.removeLearnsetMoveButton.Name = "removeLearnsetMoveButton";
             this.removeLearnsetMoveButton.Size = new System.Drawing.Size(100, 30);
             this.removeLearnsetMoveButton.TabIndex = 76;
@@ -1727,31 +1757,25 @@ namespace NewEditor.Forms
             this.label44.TabIndex = 86;
             this.label44.Text = "Move:";
             // 
-            // eggCyclesNumberBox
+            // moveUpButton
             // 
-            this.eggCyclesNumberBox.Location = new System.Drawing.Point(230, 97);
-            this.eggCyclesNumberBox.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.eggCyclesNumberBox.Name = "eggCyclesNumberBox";
-            this.eggCyclesNumberBox.Size = new System.Drawing.Size(50, 22);
-            this.eggCyclesNumberBox.TabIndex = 90;
-            this.eggCyclesNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.moveUpButton.Location = new System.Drawing.Point(220, 410);
+            this.moveUpButton.Name = "moveUpButton";
+            this.moveUpButton.Size = new System.Drawing.Size(24, 24);
+            this.moveUpButton.TabIndex = 84;
+            this.moveUpButton.Text = "^";
+            this.moveUpButton.UseVisualStyleBackColor = true;
+            this.moveUpButton.Click += new System.EventHandler(this.moveUpButton_Click);
             // 
-            // label47
+            // moveDownButton
             // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(147, 100);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(78, 16);
-            this.label47.TabIndex = 91;
-            this.label47.Text = "Egg Cycles:";
+            this.moveDownButton.Location = new System.Drawing.Point(220, 440);
+            this.moveDownButton.Name = "moveDownButton";
+            this.moveDownButton.Size = new System.Drawing.Size(24, 24);
+            this.moveDownButton.TabIndex = 85;
+            this.moveDownButton.Text = "v";
+            this.moveDownButton.UseVisualStyleBackColor = true;
+            this.moveDownButton.Click += new System.EventHandler(this.moveDownButton_Click);
             // 
             // PokemonEditor
             // 
@@ -1796,6 +1820,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonEVSpAttNumberBox)).EndInit();
             this.miscStatsGroup.ResumeLayout(false);
             this.miscStatsGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eggCyclesNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.catchRateNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weightNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumberBox)).EndInit();
@@ -1816,7 +1841,6 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.formSpriteIDNumberBox)).EndInit();
             this.eggMovesGroupBox.ResumeLayout(false);
             this.eggMovesGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.eggCyclesNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1958,5 +1982,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.NumericUpDown eggCyclesNumberBox;
         private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Button moveDownButton;
+        private System.Windows.Forms.Button moveUpButton;
     }
 }

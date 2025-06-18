@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -109,7 +110,6 @@ namespace NewEditor.Forms
             InitializeComponent();
 
             moveNameDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
-            copyAnimationDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
 
             moveTypeDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.TypeNameTextFileID].text.ToArray());
             moveCategoryDropdown.Items.AddRange(categories.ToArray());
@@ -176,30 +176,51 @@ namespace NewEditor.Forms
                 applyMoveButton.Enabled = true;
                 renameMoveButton.Enabled = true;
                 setDescriptionButton.Enabled = true;
-                copyAnimationButton.Enabled = true;
                 flagsListBox.Enabled = true;
+                moveAnimGroupBox.Enabled = true;
 
                 if (moveNameDropdown.SelectedIndex >= 0)
                 {
                     MoveAnimationEntry mAnim =  moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
                     string text = "";
                     foreach (byte b in mAnim.bytes) text += b.ToString("X2") + " ";
-                    animDataTextBox.Text = text;
+                    moveAnimGroupBox.Enabled = true;
 
-                    animDataTextBox.Enabled = true;
-                    applyAnimDataButton.Enabled = true;
+                    text = "";
+                    int i = 0;
+                    foreach (var seq in mAnim.sequences)
+                    {
+                        if (i != 0) text += "\n\n\n\n";
+                        i++;
+
+                        text += "--Sequence " + i + "--";
+                        foreach (var cmd in seq)
+                        {
+                            List<string> comDef = MoveAnimationCommand.commandDefinitions[cmd.commandID];
+                            text += "\n" + comDef[0];
+                            for (int n = 0; n < cmd.parameters.Length; n++)
+                            {
+                                if ((cmd.commandID == 0x1B || cmd.commandID == 0x2A) && n == 4)
+                                {
+                                    Color c = DsDecmp.Read16BitColor(cmd.parameters[n]);
+                                    text += " rgb" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+                                }
+                                else text += " " + cmd.parameters[n];
+                            }
+                        }
+                    }
+                    animationScriptTextBox.Text = text;
                 }
                 else
                 {
-                    animDataTextBox.Enabled = false;
-                    applyAnimDataButton.Enabled = false;
+                    moveAnimGroupBox.Enabled = false;
                 }
 
                 int id = moveDataNARC.moves.IndexOf(m);
                 if (id >= 0)
                 {
                     newMoveNameTextBox.Text = textNARC.textFiles[VersionConstants.MoveNameTextFileID].text[id];
-                    setDescriptionTextBox.Text = textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[id];
+                    setMoveDescriptionTextBox.Text = textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[id].Replace("\\xfffe", "\n");
                 }
 
                 for (int i = 0; i < 16; i++)
@@ -215,10 +236,9 @@ namespace NewEditor.Forms
                 applyMoveButton.Enabled = false;
                 renameMoveButton.Enabled = false;
                 setDescriptionButton.Enabled = false;
-                copyAnimationButton.Enabled = false;
                 flagsListBox.Enabled = false;
+                moveAnimGroupBox.Enabled = false;
 
-                animDataTextBox.Enabled = false;
                 applyAnimDataButton.Enabled = false;
             }
         }
@@ -296,54 +316,108 @@ namespace NewEditor.Forms
                 int id = moveDataNARC.moves.IndexOf(m);
                 if (id <= 0) return;
 
-                textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[id] = setDescriptionTextBox.Text;
+                textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[id] = setMoveDescriptionTextBox.Text.Replace("\n", "\\xfffe");
                 textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].CompressData();
-            }
-        }
-
-        private void copyAnimationButton_Click(object sender, EventArgs e)
-        {
-            if (moveNameDropdown.SelectedItem is MoveDataEntry m1 && copyAnimationDropdown.SelectedItem is MoveDataEntry m2)
-            {
-
-                string text = "";
-                MoveAnimationEntry mAnim = moveAnimNARC.animations[copyAnimationDropdown.SelectedIndex];
-                foreach (byte b in mAnim.bytes) text += b.ToString("X2") + " ";
-                animDataTextBox.Text = text;
             }
         }
 
         private void applyAnimDataButton_Click(object sender, EventArgs e)
         {
-            animDataTextBox.Text = animDataTextBox.Text.Replace("\n", " ");
+            //animDataTextBox.Text = animDataTextBox.Text.Replace("\n", " ");
 
             if (moveNameDropdown.SelectedIndex >= 0)
             {
                 MoveAnimationEntry anim = moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
 
-                //Test for improper text length
-                if (animDataTextBox.Text.Length % 3 == 2 && animDataTextBox.Text[animDataTextBox.Text.Length - 1] != ' ') animDataTextBox.Text += ' ';
-                if (animDataTextBox.Text.Length < 3 || animDataTextBox.Text.Length % 3 != 0)
+                List<List<MoveAnimationCommand>> sequences = new List<List<MoveAnimationCommand>>();
+                int lineNum = 0;
+                foreach (string str in animationScriptTextBox.Lines)
                 {
-                    MessageBox.Show("Raw Data detected an incorrect format");
-                    return;
-                }
-
-                //Test for improper text values
-                for (int i = 2; i < animDataTextBox.Text.Length; i += 3) if (animDataTextBox.Text[i] != ' ' ||
-                        (!char.IsDigit(animDataTextBox.Text[i - 1]) && !(animDataTextBox.Text[i - 1] >= 'A' && animDataTextBox.Text[i - 1] <= 'F')) ||
-                        (!char.IsDigit(animDataTextBox.Text[i - 2]) && !(animDataTextBox.Text[i - 2] >= 'A' && animDataTextBox.Text[i - 2] <= 'F')))
+                    lineNum++;
+                    if (str.Length == 0) continue;
+                    if (str.StartsWith("--") || sequences.Count == 0) sequences.Add(new List<MoveAnimationCommand>());
+                    else
                     {
-                        MessageBox.Show("Raw Data detected an incorrect format");
-                        return;
-                    }
+                        string[] line = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        List<string> comDef = MoveAnimationCommand.commandDefinitions.FirstOrDefault(l => l[0] == line[0]);
+                        if (comDef == null)
+                        {
+                            MessageBox.Show("Invalid command: " + line[0] + " at line " + lineNum);
+                            return;
+                        }
+                        if (line.Length != comDef.Count)
+                        {
+                            MessageBox.Show("Command: " + line[0] + " at line " + lineNum + "\nexpected " + (comDef.Count - 1) + " parameters but found " + (line.Length - 1));
+                            return;
+                        }
 
-                //Convert data to file
-                anim.bytes = new byte[animDataTextBox.Text.Length / 3];
-                for (int i = 0; i < animDataTextBox.Text.Length; i += 3)
-                {
-                    anim.bytes[i / 3] = byte.Parse(animDataTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber);
+                        List<int> pars = new List<int>();
+                        for (int i = 1; i < comDef.Count; i++)
+                        {
+                            if (line[i].StartsWith("rgb"))
+                            {
+                                try
+                                {
+                                    if (int.TryParse(line[i].Substring(3, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int r) &&
+                                        int.TryParse(line[i].Substring(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int g) &&
+                                        int.TryParse(line[i].Substring(7, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int b))
+                                    {
+                                        pars.Add(DsDecmp.Write16BitColor(Color.FromArgb(r, g, b)));
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Failed to parse rgb parameter for command:\n" + line[0] + " at line " + lineNum);
+                                        return;
+                                    }
+                                }
+                                catch
+                                {
+                                    MessageBox.Show("Failed to parse rgb parameter for command:\n" + line[0] + " at line " + lineNum);
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                if (int.TryParse(line[i], out int num)) pars.Add(num);
+                                else
+                                {
+                                    MessageBox.Show("Failed to parse parameter for command:\n" + line[0] + " at line " + lineNum);
+                                    return;
+                                }
+                            }
+                        }
+                        sequences[sequences.Count - 1].Add(new MoveAnimationCommand(MoveAnimationCommand.commandDefinitions.IndexOf(comDef), pars.ToArray()));
+                    }
                 }
+
+                anim.sequences = sequences;
+                anim.ApplyData();
+
+                //MoveAnimationEntry anim = moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
+                //
+                ////Test for improper text length
+                //if (animDataTextBox.Text.Length % 3 == 2 && animDataTextBox.Text[animDataTextBox.Text.Length - 1] != ' ') animDataTextBox.Text += ' ';
+                //if (animDataTextBox.Text.Length < 3 || animDataTextBox.Text.Length % 3 != 0)
+                //{
+                //    MessageBox.Show("Raw Data detected an incorrect format");
+                //    return;
+                //}
+                //
+                ////Test for improper text values
+                //for (int i = 2; i < animDataTextBox.Text.Length; i += 3) if (animDataTextBox.Text[i] != ' ' ||
+                //        (!char.IsDigit(animDataTextBox.Text[i - 1]) && !(animDataTextBox.Text[i - 1] >= 'A' && animDataTextBox.Text[i - 1] <= 'F')) ||
+                //        (!char.IsDigit(animDataTextBox.Text[i - 2]) && !(animDataTextBox.Text[i - 2] >= 'A' && animDataTextBox.Text[i - 2] <= 'F')))
+                //    {
+                //        MessageBox.Show("Raw Data detected an incorrect format");
+                //        return;
+                //    }
+                //
+                ////Convert data to file
+                //anim.bytes = new byte[animDataTextBox.Text.Length / 3];
+                //for (int i = 0; i < animDataTextBox.Text.Length; i += 3)
+                //{
+                //    anim.bytes[i / 3] = byte.Parse(animDataTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber);
+                //}
             }
         }
 
@@ -374,8 +448,6 @@ namespace NewEditor.Forms
 
             moveNameDropdown.Items.Clear();
             moveNameDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
-            copyAnimationDropdown.Items.Clear();
-            copyAnimationDropdown.Items.AddRange(moveDataNARC.moves.ToArray());
             addMovesButton.Enabled = false;
             addMovesButton.Visible = false;
         }
@@ -437,6 +509,27 @@ namespace NewEditor.Forms
 
                 MessageBox.Show("NARC replace complete");
             }
+        }
+
+        private void UpdateCommandDescription(object sender, EventArgs e)
+        {
+            string line = animationScriptTextBox.Lines[animationScriptTextBox.GetLineFromCharIndex(animationScriptTextBox.SelectionStart)];
+            if (line.Length == 0)
+            {
+                commandDescriptionText.Text = "No command selected";
+                return;
+            }
+
+            List<string> comDef = MoveAnimationCommand.commandDefinitions.FirstOrDefault(l => l[0] == line.Split(' ')[0]);
+            if (comDef == null)
+            {
+                commandDescriptionText.Text = "No command selected";
+                return;
+            }
+
+            string text = comDef[0] + ":";
+            for (int i = 1; i < comDef.Count; i++) text += "\n" + comDef[i];
+            commandDescriptionText.Text = text;
         }
     }
 }

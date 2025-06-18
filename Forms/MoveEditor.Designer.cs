@@ -82,18 +82,18 @@ namespace NewEditor.Forms
             this.label22 = new System.Windows.Forms.Label();
             this.statusEffectDropdown = new System.Windows.Forms.ComboBox();
             this.applyMoveButton = new System.Windows.Forms.Button();
-            this.copyAnimationDropdown = new System.Windows.Forms.ComboBox();
-            this.copyAnimationButton = new System.Windows.Forms.Button();
-            this.animDataTextBox = new System.Windows.Forms.RichTextBox();
             this.applyAnimDataButton = new System.Windows.Forms.Button();
             this.renameMoveButton = new System.Windows.Forms.Button();
             this.newMoveNameTextBox = new System.Windows.Forms.TextBox();
-            this.setDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.setDescriptionButton = new System.Windows.Forms.Button();
             this.addMovesButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.flagsListBox = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.setMoveDescriptionTextBox = new System.Windows.Forms.RichTextBox();
+            this.animationScriptTextBox = new System.Windows.Forms.RichTextBox();
+            this.moveAnimGroupBox = new System.Windows.Forms.GroupBox();
+            this.commandDescriptionText = new System.Windows.Forms.Label();
             this.baseDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.movePPNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveAccuracyNumberBox)).BeginInit();
@@ -118,6 +118,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.statChangeStagesNumberBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveStatusChanceNumberBox)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.moveAnimGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // moveNameDropdown
@@ -319,7 +320,7 @@ namespace NewEditor.Forms
             this.additionalStatsGroupBox.Controls.Add(this.label9);
             this.additionalStatsGroupBox.Controls.Add(this.label10);
             this.additionalStatsGroupBox.Enabled = false;
-            this.additionalStatsGroupBox.Location = new System.Drawing.Point(495, 60);
+            this.additionalStatsGroupBox.Location = new System.Drawing.Point(500, 60);
             this.additionalStatsGroupBox.Name = "additionalStatsGroupBox";
             this.additionalStatsGroupBox.Size = new System.Drawing.Size(420, 180);
             this.additionalStatsGroupBox.TabIndex = 74;
@@ -368,7 +369,7 @@ namespace NewEditor.Forms
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(111, 16);
             this.label12.TabIndex = 76;
-            this.label12.Text = "Trap Turn Range:";
+            this.label12.Text = "Effect Duration:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // moveMinMultihitsNumberBox
@@ -538,9 +539,9 @@ namespace NewEditor.Forms
             this.inflictionsGroupBox.Controls.Add(this.label22);
             this.inflictionsGroupBox.Controls.Add(this.statusEffectDropdown);
             this.inflictionsGroupBox.Enabled = false;
-            this.inflictionsGroupBox.Location = new System.Drawing.Point(395, 255);
+            this.inflictionsGroupBox.Location = new System.Drawing.Point(20, 260);
             this.inflictionsGroupBox.Name = "inflictionsGroupBox";
-            this.inflictionsGroupBox.Size = new System.Drawing.Size(520, 180);
+            this.inflictionsGroupBox.Size = new System.Drawing.Size(460, 180);
             this.inflictionsGroupBox.TabIndex = 74;
             this.inflictionsGroupBox.TabStop = false;
             this.inflictionsGroupBox.Text = "Inflictions";
@@ -548,7 +549,7 @@ namespace NewEditor.Forms
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(182, 40);
+            this.label19.Location = new System.Drawing.Point(172, 40);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(51, 16);
             this.label19.TabIndex = 92;
@@ -556,21 +557,21 @@ namespace NewEditor.Forms
             // 
             // statChangeChanceNumberBox3
             // 
-            this.statChangeChanceNumberBox3.Location = new System.Drawing.Point(185, 136);
+            this.statChangeChanceNumberBox3.Location = new System.Drawing.Point(175, 136);
             this.statChangeChanceNumberBox3.Name = "statChangeChanceNumberBox3";
             this.statChangeChanceNumberBox3.Size = new System.Drawing.Size(50, 22);
             this.statChangeChanceNumberBox3.TabIndex = 91;
             // 
             // statChangeChanceNumberBox2
             // 
-            this.statChangeChanceNumberBox2.Location = new System.Drawing.Point(185, 101);
+            this.statChangeChanceNumberBox2.Location = new System.Drawing.Point(175, 101);
             this.statChangeChanceNumberBox2.Name = "statChangeChanceNumberBox2";
             this.statChangeChanceNumberBox2.Size = new System.Drawing.Size(50, 22);
             this.statChangeChanceNumberBox2.TabIndex = 90;
             // 
             // statChangeChanceNumberBox1
             // 
-            this.statChangeChanceNumberBox1.Location = new System.Drawing.Point(185, 66);
+            this.statChangeChanceNumberBox1.Location = new System.Drawing.Point(175, 66);
             this.statChangeChanceNumberBox1.Name = "statChangeChanceNumberBox1";
             this.statChangeChanceNumberBox1.Size = new System.Drawing.Size(50, 22);
             this.statChangeChanceNumberBox1.TabIndex = 89;
@@ -578,7 +579,7 @@ namespace NewEditor.Forms
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(130, 40);
+            this.label18.Location = new System.Drawing.Point(120, 40);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(48, 16);
             this.label18.TabIndex = 88;
@@ -586,7 +587,7 @@ namespace NewEditor.Forms
             // 
             // statChangeStagesNumberBox3
             // 
-            this.statChangeStagesNumberBox3.Location = new System.Drawing.Point(135, 136);
+            this.statChangeStagesNumberBox3.Location = new System.Drawing.Point(125, 136);
             this.statChangeStagesNumberBox3.Maximum = new decimal(new int[] {
             6,
             0,
@@ -603,7 +604,7 @@ namespace NewEditor.Forms
             // 
             // statChangeStagesNumberBox2
             // 
-            this.statChangeStagesNumberBox2.Location = new System.Drawing.Point(135, 101);
+            this.statChangeStagesNumberBox2.Location = new System.Drawing.Point(125, 101);
             this.statChangeStagesNumberBox2.Maximum = new decimal(new int[] {
             6,
             0,
@@ -620,7 +621,7 @@ namespace NewEditor.Forms
             // 
             // statChangeStagesNumberBox1
             // 
-            this.statChangeStagesNumberBox1.Location = new System.Drawing.Point(135, 66);
+            this.statChangeStagesNumberBox1.Location = new System.Drawing.Point(125, 66);
             this.statChangeStagesNumberBox1.Maximum = new decimal(new int[] {
             6,
             0,
@@ -640,7 +641,7 @@ namespace NewEditor.Forms
             this.statChangeStatDropdown3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.statChangeStatDropdown3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.statChangeStatDropdown3.FormattingEnabled = true;
-            this.statChangeStatDropdown3.Location = new System.Drawing.Point(25, 135);
+            this.statChangeStatDropdown3.Location = new System.Drawing.Point(15, 135);
             this.statChangeStatDropdown3.Name = "statChangeStatDropdown3";
             this.statChangeStatDropdown3.Size = new System.Drawing.Size(100, 24);
             this.statChangeStatDropdown3.TabIndex = 85;
@@ -650,7 +651,7 @@ namespace NewEditor.Forms
             this.statChangeStatDropdown2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.statChangeStatDropdown2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.statChangeStatDropdown2.FormattingEnabled = true;
-            this.statChangeStatDropdown2.Location = new System.Drawing.Point(25, 100);
+            this.statChangeStatDropdown2.Location = new System.Drawing.Point(15, 100);
             this.statChangeStatDropdown2.Name = "statChangeStatDropdown2";
             this.statChangeStatDropdown2.Size = new System.Drawing.Size(100, 24);
             this.statChangeStatDropdown2.TabIndex = 84;
@@ -660,7 +661,7 @@ namespace NewEditor.Forms
             this.statChangeStatDropdown1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.statChangeStatDropdown1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.statChangeStatDropdown1.FormattingEnabled = true;
-            this.statChangeStatDropdown1.Location = new System.Drawing.Point(25, 65);
+            this.statChangeStatDropdown1.Location = new System.Drawing.Point(15, 65);
             this.statChangeStatDropdown1.Name = "statChangeStatDropdown1";
             this.statChangeStatDropdown1.Size = new System.Drawing.Size(100, 24);
             this.statChangeStatDropdown1.TabIndex = 70;
@@ -668,7 +669,7 @@ namespace NewEditor.Forms
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(20, 40);
+            this.label17.Location = new System.Drawing.Point(10, 40);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(79, 16);
             this.label17.TabIndex = 83;
@@ -676,23 +677,23 @@ namespace NewEditor.Forms
             // 
             // moveStatusChanceNumberBox
             // 
-            this.moveStatusChanceNumberBox.Location = new System.Drawing.Point(380, 72);
+            this.moveStatusChanceNumberBox.Location = new System.Drawing.Point(335, 73);
             this.moveStatusChanceNumberBox.Name = "moveStatusChanceNumberBox";
             this.moveStatusChanceNumberBox.Size = new System.Drawing.Size(50, 22);
             this.moveStatusChanceNumberBox.TabIndex = 82;
             // 
             // label16
             // 
-            this.label16.Location = new System.Drawing.Point(280, 75);
+            this.label16.Location = new System.Drawing.Point(235, 75);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(106, 16);
+            this.label16.Size = new System.Drawing.Size(98, 16);
             this.label16.TabIndex = 81;
             this.label16.Text = "Effect Chance:";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(280, 40);
+            this.label22.Location = new System.Drawing.Point(235, 40);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(86, 16);
             this.label22.TabIndex = 54;
@@ -703,7 +704,7 @@ namespace NewEditor.Forms
             this.statusEffectDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.statusEffectDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.statusEffectDropdown.FormattingEnabled = true;
-            this.statusEffectDropdown.Location = new System.Drawing.Point(380, 36);
+            this.statusEffectDropdown.Location = new System.Drawing.Point(325, 37);
             this.statusEffectDropdown.Name = "statusEffectDropdown";
             this.statusEffectDropdown.Size = new System.Drawing.Size(120, 24);
             this.statusEffectDropdown.TabIndex = 53;
@@ -711,49 +712,17 @@ namespace NewEditor.Forms
             // applyMoveButton
             // 
             this.applyMoveButton.Enabled = false;
-            this.applyMoveButton.Location = new System.Drawing.Point(20, 255);
+            this.applyMoveButton.Location = new System.Drawing.Point(200, 16);
             this.applyMoveButton.Name = "applyMoveButton";
-            this.applyMoveButton.Size = new System.Drawing.Size(120, 40);
+            this.applyMoveButton.Size = new System.Drawing.Size(100, 30);
             this.applyMoveButton.TabIndex = 93;
             this.applyMoveButton.Text = "Apply Move";
             this.applyMoveButton.UseVisualStyleBackColor = true;
             this.applyMoveButton.Click += new System.EventHandler(this.ApplyMove);
             // 
-            // copyAnimationDropdown
-            // 
-            this.copyAnimationDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.copyAnimationDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.copyAnimationDropdown.FormattingEnabled = true;
-            this.copyAnimationDropdown.Location = new System.Drawing.Point(186, 336);
-            this.copyAnimationDropdown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.copyAnimationDropdown.Name = "copyAnimationDropdown";
-            this.copyAnimationDropdown.Size = new System.Drawing.Size(166, 24);
-            this.copyAnimationDropdown.TabIndex = 95;
-            // 
-            // copyAnimationButton
-            // 
-            this.copyAnimationButton.Enabled = false;
-            this.copyAnimationButton.Location = new System.Drawing.Point(20, 333);
-            this.copyAnimationButton.Name = "copyAnimationButton";
-            this.copyAnimationButton.Size = new System.Drawing.Size(160, 30);
-            this.copyAnimationButton.TabIndex = 96;
-            this.copyAnimationButton.Text = "Copy Anim Data From:";
-            this.copyAnimationButton.UseVisualStyleBackColor = true;
-            this.copyAnimationButton.Click += new System.EventHandler(this.copyAnimationButton_Click);
-            // 
-            // animDataTextBox
-            // 
-            this.animDataTextBox.Enabled = false;
-            this.animDataTextBox.Location = new System.Drawing.Point(20, 369);
-            this.animDataTextBox.Name = "animDataTextBox";
-            this.animDataTextBox.Size = new System.Drawing.Size(230, 140);
-            this.animDataTextBox.TabIndex = 98;
-            this.animDataTextBox.Text = "";
-            // 
             // applyAnimDataButton
             // 
-            this.applyAnimDataButton.Enabled = false;
-            this.applyAnimDataButton.Location = new System.Drawing.Point(257, 469);
+            this.applyAnimDataButton.Location = new System.Drawing.Point(586, 318);
             this.applyAnimDataButton.Name = "applyAnimDataButton";
             this.applyAnimDataButton.Size = new System.Drawing.Size(120, 40);
             this.applyAnimDataButton.TabIndex = 99;
@@ -764,7 +733,7 @@ namespace NewEditor.Forms
             // renameMoveButton
             // 
             this.renameMoveButton.Enabled = false;
-            this.renameMoveButton.Location = new System.Drawing.Point(1066, 444);
+            this.renameMoveButton.Location = new System.Drawing.Point(1086, 60);
             this.renameMoveButton.Name = "renameMoveButton";
             this.renameMoveButton.Size = new System.Drawing.Size(100, 30);
             this.renameMoveButton.TabIndex = 94;
@@ -774,22 +743,15 @@ namespace NewEditor.Forms
             // 
             // newMoveNameTextBox
             // 
-            this.newMoveNameTextBox.Location = new System.Drawing.Point(930, 448);
+            this.newMoveNameTextBox.Location = new System.Drawing.Point(926, 65);
             this.newMoveNameTextBox.Name = "newMoveNameTextBox";
-            this.newMoveNameTextBox.Size = new System.Drawing.Size(120, 22);
+            this.newMoveNameTextBox.Size = new System.Drawing.Size(140, 22);
             this.newMoveNameTextBox.TabIndex = 97;
-            // 
-            // setDescriptionTextBox
-            // 
-            this.setDescriptionTextBox.Location = new System.Drawing.Point(670, 484);
-            this.setDescriptionTextBox.Name = "setDescriptionTextBox";
-            this.setDescriptionTextBox.Size = new System.Drawing.Size(360, 22);
-            this.setDescriptionTextBox.TabIndex = 101;
             // 
             // setDescriptionButton
             // 
             this.setDescriptionButton.Enabled = false;
-            this.setDescriptionButton.Location = new System.Drawing.Point(1046, 480);
+            this.setDescriptionButton.Location = new System.Drawing.Point(926, 210);
             this.setDescriptionButton.Name = "setDescriptionButton";
             this.setDescriptionButton.Size = new System.Drawing.Size(120, 30);
             this.setDescriptionButton.TabIndex = 100;
@@ -800,7 +762,7 @@ namespace NewEditor.Forms
             // addMovesButton
             // 
             this.addMovesButton.Enabled = false;
-            this.addMovesButton.Location = new System.Drawing.Point(1072, 16);
+            this.addMovesButton.Location = new System.Drawing.Point(320, 16);
             this.addMovesButton.Name = "addMovesButton";
             this.addMovesButton.Size = new System.Drawing.Size(100, 30);
             this.addMovesButton.TabIndex = 102;
@@ -811,7 +773,7 @@ namespace NewEditor.Forms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(966, 16);
+            this.button1.Location = new System.Drawing.Point(440, 14);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 30);
             this.button1.TabIndex = 103;
@@ -823,6 +785,7 @@ namespace NewEditor.Forms
             // flagsListBox
             // 
             this.flagsListBox.CheckOnClick = true;
+            this.flagsListBox.ColumnWidth = 200;
             this.flagsListBox.Enabled = false;
             this.flagsListBox.FormattingEnabled = true;
             this.flagsListBox.Items.AddRange(new object[] {
@@ -842,38 +805,75 @@ namespace NewEditor.Forms
             "Bypass substitute",
             "Extra 1",
             "Extra 2"});
-            this.flagsListBox.Location = new System.Drawing.Point(6, 21);
+            this.flagsListBox.Location = new System.Drawing.Point(6, 30);
+            this.flagsListBox.MultiColumn = true;
             this.flagsListBox.Name = "flagsListBox";
-            this.flagsListBox.Size = new System.Drawing.Size(239, 276);
+            this.flagsListBox.Size = new System.Drawing.Size(448, 140);
             this.flagsListBox.TabIndex = 104;
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox1.Controls.Add(this.flagsListBox);
-            this.groupBox1.Location = new System.Drawing.Point(921, 60);
+            this.groupBox1.Location = new System.Drawing.Point(20, 448);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(251, 303);
+            this.groupBox1.Size = new System.Drawing.Size(460, 180);
             this.groupBox1.TabIndex = 105;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Flags";
+            // 
+            // setMoveDescriptionTextBox
+            // 
+            this.setMoveDescriptionTextBox.Location = new System.Drawing.Point(926, 120);
+            this.setMoveDescriptionTextBox.Name = "setMoveDescriptionTextBox";
+            this.setMoveDescriptionTextBox.Size = new System.Drawing.Size(260, 80);
+            this.setMoveDescriptionTextBox.TabIndex = 106;
+            this.setMoveDescriptionTextBox.Text = "";
+            // 
+            // animationScriptTextBox
+            // 
+            this.animationScriptTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.animationScriptTextBox.Location = new System.Drawing.Point(6, 21);
+            this.animationScriptTextBox.Name = "animationScriptTextBox";
+            this.animationScriptTextBox.Size = new System.Drawing.Size(480, 337);
+            this.animationScriptTextBox.TabIndex = 107;
+            this.animationScriptTextBox.Text = "";
+            this.animationScriptTextBox.SelectionChanged += new System.EventHandler(this.UpdateCommandDescription);
+            // 
+            // moveAnimGroupBox
+            // 
+            this.moveAnimGroupBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.moveAnimGroupBox.Controls.Add(this.commandDescriptionText);
+            this.moveAnimGroupBox.Controls.Add(this.animationScriptTextBox);
+            this.moveAnimGroupBox.Controls.Add(this.applyAnimDataButton);
+            this.moveAnimGroupBox.Enabled = false;
+            this.moveAnimGroupBox.Location = new System.Drawing.Point(500, 260);
+            this.moveAnimGroupBox.Name = "moveAnimGroupBox";
+            this.moveAnimGroupBox.Size = new System.Drawing.Size(712, 368);
+            this.moveAnimGroupBox.TabIndex = 93;
+            this.moveAnimGroupBox.TabStop = false;
+            this.moveAnimGroupBox.Text = "Move Animation";
+            // 
+            // commandDescriptionText
+            // 
+            this.commandDescriptionText.Location = new System.Drawing.Point(492, 20);
+            this.commandDescriptionText.Name = "commandDescriptionText";
+            this.commandDescriptionText.Size = new System.Drawing.Size(214, 295);
+            this.commandDescriptionText.TabIndex = 70;
             // 
             // MoveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1184, 521);
+            this.ClientSize = new System.Drawing.Size(1224, 641);
+            this.Controls.Add(this.moveAnimGroupBox);
+            this.Controls.Add(this.setMoveDescriptionTextBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.addMovesButton);
-            this.Controls.Add(this.setDescriptionTextBox);
             this.Controls.Add(this.setDescriptionButton);
-            this.Controls.Add(this.applyAnimDataButton);
-            this.Controls.Add(this.animDataTextBox);
             this.Controls.Add(this.newMoveNameTextBox);
-            this.Controls.Add(this.copyAnimationButton);
-            this.Controls.Add(this.copyAnimationDropdown);
             this.Controls.Add(this.renameMoveButton);
             this.Controls.Add(this.applyMoveButton);
             this.Controls.Add(this.inflictionsGroupBox);
@@ -910,6 +910,7 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.statChangeStagesNumberBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveStatusChanceNumberBox)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.moveAnimGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -970,17 +971,17 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.NumericUpDown statChangeStagesNumberBox3;
         private System.Windows.Forms.Button applyMoveButton;
-        private System.Windows.Forms.ComboBox copyAnimationDropdown;
-        private System.Windows.Forms.Button copyAnimationButton;
-        private System.Windows.Forms.RichTextBox animDataTextBox;
         private System.Windows.Forms.Button applyAnimDataButton;
         private System.Windows.Forms.Button renameMoveButton;
         private System.Windows.Forms.TextBox newMoveNameTextBox;
-        private System.Windows.Forms.TextBox setDescriptionTextBox;
         private System.Windows.Forms.Button setDescriptionButton;
         private System.Windows.Forms.Button addMovesButton;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckedListBox flagsListBox;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RichTextBox setMoveDescriptionTextBox;
+        private System.Windows.Forms.RichTextBox animationScriptTextBox;
+        private System.Windows.Forms.GroupBox moveAnimGroupBox;
+        private System.Windows.Forms.Label commandDescriptionText;
     }
 }

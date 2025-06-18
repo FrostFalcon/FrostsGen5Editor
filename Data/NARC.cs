@@ -1,4 +1,5 @@
-﻿using NewEditor.Forms;
+﻿using NewEditor.Data.NARCTypes;
+using NewEditor.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,13 +34,7 @@ namespace NewEditor.Data
 
         protected void FixHeaders(int fileCount)
         {
-            int pos = 0;
-            while (pos < byteData.Length)
-            {
-                pos++;
-                if (pos >= byteData.Length) return;
-                if (byteData[pos] == 'B' && byteData[pos + 1] == 'T' && byteData[pos + 2] == 'N' && byteData[pos + 3] == 'F') break;
-            }
+            int pos = pointerStartAddress + fileCount * 8;
 
             HelperFunctions.WriteInt(byteData, 8, byteData.Length);
             HelperFunctions.WriteInt(byteData, 24, fileCount);
@@ -82,6 +77,77 @@ namespace NewEditor.Data
         public virtual void ReadNarcDump(string path)
         {
             byteData = File.ReadAllBytes(path);
+        }
+
+        public List<byte> GetFileEntry(int fileID)
+        {
+            if (byteData[0] != (byte)'N' || fileID < 0 || fileID >= numFileEntries) return null;
+
+            int start = HelperFunctions.ReadInt(byteData, pointerStartAddress + fileID * 8) + FileEntryStart;
+            int length = HelperFunctions.ReadInt(byteData, pointerStartAddress + fileID * 8 + 4) + FileEntryStart - start;
+            List<byte> list = new List<byte>();
+            for (int j = 0; j < length; j++) list.Add(byteData[start + j]);
+            return list;
+        }
+
+        public void ReplaceFileEntry(int fileID, List<byte> data)
+        {
+            if (byteData[0] != (byte)'N' || fileID < 0 || fileID >= numFileEntries) return;
+
+            List<byte> oldFile = GetFileEntry(fileID);
+            int dif = data.Count - oldFile.Count;
+
+            int pos = pointerStartAddress + fileID * 8;
+            int fileStart = HelperFunctions.ReadInt(byteData, pointerStartAddress + fileID * 8) + FileEntryStart;
+            int fileLength = HelperFunctions.ReadInt(byteData, pointerStartAddress + fileID * 8 + 4) + FileEntryStart - fileStart;
+
+            //Update File Pointers
+            for (int i = fileID; i < numFileEntries; i++)
+            {
+                int start = HelperFunctions.ReadInt(byteData, pos);
+                int end = HelperFunctions.ReadInt(byteData, pos + 4);
+
+                if (i != fileID)
+                {
+                    start += dif;
+                    HelperFunctions.WriteInt(byteData, pos, start);
+                }
+                end += dif;
+                HelperFunctions.WriteInt(byteData, pos + 4, end);
+                pos += 8;
+            }
+
+            List<byte> b = new List<byte>(byteData);
+            b.RemoveRange(fileStart, fileLength);
+            b.InsertRange(fileStart, data);
+            byteData = b.ToArray();
+
+            FixHeaders(numFileEntries);
+        }
+
+        public void AddFileEntry(int fileID, List<byte> data)
+        {
+            if (byteData[0] != (byte)'N' || fileID < 0) return;
+
+            if (fileID > numFileEntries)
+            {
+                AddFileEntry(fileID - 1, new List<byte>());
+            }
+            if (fileID < numFileEntries)
+            {
+                ReplaceFileEntry(fileID, data);
+                return;
+            }
+
+            List<byte> b = new List<byte>(byteData);
+            int pos = pointerStartAddress + numFileEntries * 8;
+            b.InsertRange(pos, new byte[8]);
+            b.AddRange(data);
+            byteData = b.ToArray();
+
+            FixHeaders(numFileEntries + 1);
+            HelperFunctions.WriteInt(byteData, pos, byteData.Length - FileEntryStart - data.Count);
+            HelperFunctions.WriteInt(byteData, pos + 4, byteData.Length - FileEntryStart);
         }
     }
 }

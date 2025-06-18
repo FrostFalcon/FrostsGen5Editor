@@ -63,8 +63,8 @@ namespace NewEditor.Forms
                     .Replace("\\xf000Ā\\x0001\\x0002", "[V2]")
                     .Replace("\\xf000Ā\\x0001\\x0003", "[V3]");
                 selectedLineNumberBox.Value = 0;
-                selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length;
-                lineCountLabel.Text = "/ " + (activeNarc.textFiles[fileID].text.Count - 1);
+                selectedLineNumberBox.Maximum = Math.Max(textBoxDisplay.Lines.Length - 1, 0);
+                lineCountLabel.Text = "/ " + selectedLineNumberBox.Maximum;
             }
         }
 
@@ -170,7 +170,7 @@ namespace NewEditor.Forms
         private void textBoxDisplay_TextChanged(object sender, EventArgs e)
         {
             updateLine = false;
-            selectedLineNumberBox.Maximum = textBoxDisplay.Lines.Length - 1;
+            selectedLineNumberBox.Maximum = Math.Max(textBoxDisplay.Lines.Length - 1, 0);
             selectedLineNumberBox.Value = textBoxDisplay.GetLineFromCharIndex(textBoxDisplay.SelectionStart);
             lineCountLabel.Text = "/ " + selectedLineNumberBox.Maximum;
             updateLine = true;

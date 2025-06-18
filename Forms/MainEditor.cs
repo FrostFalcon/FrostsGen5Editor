@@ -173,8 +173,7 @@ namespace NewEditor.Forms
 
         public static void GetVersionConstants(string romType)
         {
-            MainEditor.romType = romType;
-            if (RomType == RomType.BW2)
+            if (romType == "pokemon b2" || romType == "pokemon w2")
             {
                 //FirstNARCPointerLocation = VersionConstants.BW2_FirstNarcPointerLocation;
                 //FirstNARCPointerLocation = VersionConstants.FindFirstNARCPointerLocation(romFile);
@@ -214,8 +213,7 @@ namespace NewEditor.Forms
                 hiddenGrottoNarcID = VersionConstants.BW2_HiddenGrottoNARCID;
                 return;
             }
-
-            if (RomType == RomType.BW1)
+            else if (romType == "pokemon b" || romType == "pokemon w")
             {
                 //FirstNARCPointerLocation = VersionConstants.BW2_FirstNarcPointerLocation;
                 //FirstNARCPointerLocation = VersionConstants.FindFirstNARCPointerLocation(romFile);
@@ -452,6 +450,7 @@ namespace NewEditor.Forms
 
         public static void SetNARCVars(NDSFileSystem fileSystem)
         {
+            romType = fileSystem.romType;
             textNarc = fileSystem.narcs[textNarcID] as TextNARC;
             storyTextNarc = fileSystem.narcs[storyTextNarcID] as TextNARC;
             pokemonSpritesNarc = fileSystem.narcs[pokemonSpritesNarcID] as PokemonSpritesNARC;
@@ -786,53 +785,70 @@ namespace NewEditor.Forms
                     NDSFileSystem other = NDSFileSystem.FromRom(fileStream);
                     fileStream.Close();
 
-                    if (other.RomType != RomType)
+                    if (other.romType != romType)
                     {
                         MessageBox.Show("The provided game does not match the loaded rom.");
                         return;
                     }
 
-                    SaveFileDialog save = new SaveFileDialog();
-                    save.Filter = RomType == RomType.BW1 ? "Black White 1 Patch File|*.bw1Patch" : "Black White 2 Patch File|*.bw2Patch";
-                    save.Title = "Select where to save the patch file";
+                    var patch = PatchingSystem.MakePatch(fileSystem, other);
 
-                    if (save.ShowDialog() == DialogResult.OK)
+                    if (xpCurveNarc == null || loadingNARCS)
                     {
-                        Dictionary<string, IEnumerable<byte>> data = new Dictionary<string, IEnumerable<byte>>();
-
-                        if (!fileSystem.arm9.SequenceEqual(other.arm9))
-                        {
-                            data.Add("arm9_", fileSystem.arm9);
-                        }
-                        if (!fileSystem.y9.bytes.SequenceEqual(other.y9.bytes))
-                        {
-                            data.Add("y9_", fileSystem.y9.bytes);
-                        }
-
-                        for (int i = 0; i < fileSystem.narcs.Count; i++)
-                        {
-                            fileSystem.narcs[i].WriteData();
-                            if (!fileSystem.narcs[i].byteData.SequenceEqual(other.narcs[i].byteData))
-                            {
-                                data.Add("id_" + i, fileSystem.narcs[i].GetPatchBytes(other.narcs[i]));
-                            }
-                        }
-
-                        //for (int i = 0; i < 700/*textNarc.textFiles[VersionConstants.PokemonNameTextFileID].text.Count*/; i++)
-                        //    if (!fileSystem.soundData.GetSoundBytes(i).SequenceEqual(other.soundData.GetSoundBytes(i)))
-                        //    {
-                        //        data.Add("sound" + (i + 1), fileSystem.soundData.GetSoundBytes(i));
-                        //    }
-
-                        for (int i = 0; i < fileSystem.overlays.Count; i++)
-                            if (!fileSystem.overlays[i].SequenceEqual(other.overlays[i]))
-                            {
-                                data.Add("ov_" + i, fileSystem.overlays[i]);
-                            }
-
-                        FileFunctions.WriteAllSections(save.FileName, data, true);
-                        MessageBox.Show("Patch Created");
+                        MessageBox.Show("Necessary data files have not been loaded");
+                        return;
                     }
+
+                    if (patch.Count == 0)
+                    {
+                        MessageBox.Show("No changes found in from the provided file.");
+                        return;
+                    }
+
+                    PatchMaker maker = new PatchMaker(patch);
+                    maker.ShowDialog();
+
+                    //SaveFileDialog save = new SaveFileDialog();
+                    //save.Filter = RomType == RomType.BW1 ? "Black White 1 Patch File|*.bw1Patch" : "Black White 2 Patch File|*.bw2Patch";
+                    //save.Title = "Select where to save the patch file";
+
+                    //if (save.ShowDialog() == DialogResult.OK)
+                    //{
+                    //    Dictionary<string, IEnumerable<byte>> data = new Dictionary<string, IEnumerable<byte>>();
+
+                    //    if (!fileSystem.arm9.SequenceEqual(other.arm9))
+                    //    {
+                    //        data.Add("arm9_", fileSystem.arm9);
+                    //    }
+                    //    if (!fileSystem.y9.bytes.SequenceEqual(other.y9.bytes))
+                    //    {
+                    //        data.Add("y9_", fileSystem.y9.bytes);
+                    //    }
+
+                    //    for (int i = 0; i < fileSystem.narcs.Count; i++)
+                    //    {
+                    //        fileSystem.narcs[i].WriteData();
+                    //        if (!fileSystem.narcs[i].byteData.SequenceEqual(other.narcs[i].byteData))
+                    //        {
+                    //            data.Add("id_" + i, fileSystem.narcs[i].GetPatchBytes(other.narcs[i]));
+                    //        }
+                    //    }
+
+                    //    //for (int i = 0; i < 700/*textNarc.textFiles[VersionConstants.PokemonNameTextFileID].text.Count*/; i++)
+                    //    //    if (!fileSystem.soundData.GetSoundBytes(i).SequenceEqual(other.soundData.GetSoundBytes(i)))
+                    //    //    {
+                    //    //        data.Add("sound" + (i + 1), fileSystem.soundData.GetSoundBytes(i));
+                    //    //    }
+
+                    //    for (int i = 0; i < fileSystem.overlays.Count; i++)
+                    //        if (!fileSystem.overlays[i].SequenceEqual(other.overlays[i]))
+                    //        {
+                    //            data.Add("ov_" + i, fileSystem.overlays[i]);
+                    //        }
+
+                    //    FileFunctions.WriteAllSections(save.FileName, data, true);
+                    //    MessageBox.Show("Patch Created");
+                    //}
                 }
             }
             else
@@ -883,43 +899,63 @@ namespace NewEditor.Forms
             }
 
             OpenFileDialog prompt = new OpenFileDialog();
-            prompt.Filter = RomType == RomType.BW1 ? "Black White 1 Patch File|*.bw1Patch" : "Black White 2 Patch File|*.bw2Patch";
+            prompt.Filter = "Gen 5 Patch File|*.Vpatch";
 
             if (prompt.ShowDialog() == DialogResult.OK)
             {
                 Dictionary<string, IEnumerable<byte>> data = FileFunctions.ReadAllSections(prompt.FileName, true);
 
-                foreach (KeyValuePair<string, IEnumerable<byte>> entry in data)
+                if (data.ContainsKey("version"))
                 {
-                    if (entry.Key.StartsWith("sound"))
+                    string version = Encoding.ASCII.GetString(data["version"].ToArray());
+                    if (version != romType)
                     {
-                        //if (int.TryParse(entry.Key.Substring(5), out int id) && id >= 0)
-                        //{
-                        //    fileSystem.soundData.WriteToSwavFromPatch(id - 1, entry.Value.ToList());
-                        //}
-                    }
-                    else if (entry.Key.StartsWith("ov_"))
-                    {
-                        if (int.TryParse(entry.Key.Substring(3), out int id) && id >= 0 && id < fileSystem.overlays.Count)
-                        {
-                            fileSystem.overlays[id] = entry.Value.ToList();
-                        }
-                    }
-                    else if (entry.Key.StartsWith("arm9_"))
-                    {
-                        fileSystem.arm9 = entry.Value.ToList();
-                    }
-                    else if (entry.Key.StartsWith("y9_"))
-                    {
-                        fileSystem.y9 = new Y9Table(entry.Value.ToArray());
-                    }
-                    else if (int.TryParse(entry.Key.Substring(3), out int id) && id >= 0 && id < fileSystem.narcs.Count)
-                    {
-                        fileSystem.narcs[id].ReadPatchBytes(entry.Value.ToArray());
+                        MessageBox.Show("This patch's game version does not match the current rom.");
+                        return;
                     }
                 }
+                else
+                {
+                    MessageBox.Show("This patch's game version does not match the current rom.");
+                    return;
+                }
+
+                PatchingSystem.ApplyPatch(fileSystem, data);
 
                 MessageBox.Show("Patch Applied");
+                return;
+
+                //foreach (KeyValuePair<string, IEnumerable<byte>> entry in data)
+                //{
+                //    if (entry.Key.StartsWith("sound"))
+                //    {
+                //        //if (int.TryParse(entry.Key.Substring(5), out int id) && id >= 0)
+                //        //{
+                //        //    fileSystem.soundData.WriteToSwavFromPatch(id - 1, entry.Value.ToList());
+                //        //}
+                //    }
+                //    else if (entry.Key.StartsWith("ov_"))
+                //    {
+                //        if (int.TryParse(entry.Key.Substring(3), out int id) && id >= 0 && id < fileSystem.overlays.Count)
+                //        {
+                //            fileSystem.overlays[id] = entry.Value.ToList();
+                //        }
+                //    }
+                //    else if (entry.Key.StartsWith("arm9_"))
+                //    {
+                //        fileSystem.arm9 = entry.Value.ToList();
+                //    }
+                //    else if (entry.Key.StartsWith("y9_"))
+                //    {
+                //        fileSystem.y9 = new Y9Table(entry.Value.ToArray());
+                //    }
+                //    else if (int.TryParse(entry.Key.Substring(3), out int id) && id >= 0 && id < fileSystem.narcs.Count)
+                //    {
+                //        fileSystem.narcs[id].ReadPatchBytes(entry.Value.ToArray());
+                //    }
+                //}
+                //
+                //MessageBox.Show("Patch Applied");
             }
         }
 

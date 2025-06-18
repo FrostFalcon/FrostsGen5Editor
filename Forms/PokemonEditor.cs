@@ -494,7 +494,7 @@ namespace NewEditor.Forms
             else evolutionConditionDropdown.SelectedIndex = 0;
         }
 
-        private static int CompareLearnsetMoves(LevelUpMoveSlot m1, LevelUpMoveSlot m2) => m1.level == m2.level ? Math.Sign(m1.moveID - m2.moveID) : Math.Sign(m1.level - m2.level);
+        private static int CompareLearnsetMoves(LevelUpMoveSlot m1, LevelUpMoveSlot m2) => m1.level == m2.level ? 0 : Math.Sign(m1.level - m2.level);
     
         private int EvolutionConditionType(int method)
         {
@@ -759,6 +759,30 @@ namespace NewEditor.Forms
                 int i = eggMoveListBox.SelectedIndex;
                 eggMoveListBox.Items.RemoveAt(eggMoveListBox.SelectedIndex);
                 if (i < eggMoveListBox.Items.Count) eggMoveListBox.SelectedIndex = i;
+            }
+        }
+
+        private void moveUpButton_Click(object sender, EventArgs e)
+        {
+            if (learnsetListBox.SelectedIndex > 0)
+            {
+                var move = learnsetListBox.SelectedItem;
+                int i = learnsetListBox.SelectedIndex;
+                learnsetListBox.Items.Remove(move);
+                learnsetListBox.Items.Insert(i - 1, move);
+                learnsetListBox.SelectedIndex = i - 1;
+            }
+        }
+
+        private void moveDownButton_Click(object sender, EventArgs e)
+        {
+            if (learnsetListBox.SelectedIndex >= 0 && learnsetListBox.SelectedIndex < learnsetListBox.Items.Count - 1)
+            {
+                var move = learnsetListBox.SelectedItem;
+                int i = learnsetListBox.SelectedIndex;
+                learnsetListBox.Items.Remove(move);
+                learnsetListBox.Items.Insert(i + 1, move);
+                learnsetListBox.SelectedIndex = i + 1;
             }
         }
     }
