@@ -513,6 +513,7 @@ namespace NewEditor.Forms
 
         private void UpdateCommandDescription(object sender, EventArgs e)
         {
+            if (animationScriptTextBox.Lines.Length == 0) return;
             string line = animationScriptTextBox.Lines[animationScriptTextBox.GetLineFromCharIndex(animationScriptTextBox.SelectionStart)];
             if (line.Length == 0)
             {
