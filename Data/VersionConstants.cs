@@ -88,6 +88,7 @@ namespace NewEditor.Data
         public static int MoveUsageTextFileID => MainEditor.RomType == RomType.BW2 ? 16 : MainEditor.RomType == RomType.BW1 ? 13 : 3;
         public static int ZoneNameTextFileID => MainEditor.RomType == RomType.BW2 ? 109 : MainEditor.RomType == RomType.BW1 ? 89 : 279;
         public static int TrainerNameTextFileID => MainEditor.RomType == RomType.BW2 ? 382 : MainEditor.RomType == RomType.BW1 ? 190 : 729;
+        public static int TrainerClassTextFileID => MainEditor.RomType == RomType.BW2 ? 383 : MainEditor.RomType == RomType.BW1 ? 191 : -1;
         public static int TrainerDialogueTextFileID => MainEditor.RomType == RomType.BW2 ? 381 : MainEditor.RomType == RomType.BW1 ? 189 : -1;
         public static int PokedexEntryTextFileID => 
 			MainEditor.RomType == RomType.BW2 ? 442 : 

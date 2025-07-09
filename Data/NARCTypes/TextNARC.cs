@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using NewEditor.Forms;
 using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NewEditor.Data.NARCTypes
 {
@@ -123,7 +124,12 @@ namespace NewEditor.Data.NARCTypes
             t.text = new List<string>();
             for (int i = 0; i < textbox.Lines.Length; i++)
             {
-                t.text.Add(textbox.Lines[i].Replace("[C]", "\\xf000븁\\x0000\\xfffe")
+                t.text.Add(FormatText(textbox.Lines[i]));
+            }
+            t.CompressData();
+        }
+
+        public static string FormatText(string text) => text.Replace("[C]", "\\xf000븁\\x0000\\xfffe")
                     .Replace("[L]", "\\xf000븀\\x0000\\xfffe")
                     .Replace("[N]", "\\xfffe")
                     .Replace("[E]", "\\xf000븁\\x0000")
@@ -137,10 +143,23 @@ namespace NewEditor.Data.NARCTypes
                     .Replace("[V0]", "\\xf000Ā\\x0001\\x0000")
                     .Replace("[V1]", "\\xf000Ā\\x0001\\x0001")
                     .Replace("[V2]", "\\xf000Ā\\x0001\\x0002")
-                    .Replace("[V3]", "\\xf000Ā\\x0001\\x0003"));
-            }
-            t.CompressData();
-        }
+                    .Replace("[V3]", "\\xf000Ā\\x0001\\x0003");
+
+        public static string UnFormatText(string text) => text.Replace("\\xf000븁\\x0000\\xfffe", "[C]")
+                    .Replace("\\xf000븀\\x0000\\xfffe", "[L]")
+                    .Replace("\\xfffe", "[N]")
+                    .Replace("\\xf000븁\\x0000", "[E]")
+                    .Replace("\\xf000＀\\x0001\\x0000", "[gray]")
+                    .Replace("\\xf000＀\\x0001\\x0001", "[red]")
+                    .Replace("\\xf000＀\\x0001\\x0002", "[blue]")
+                    .Replace("\\xf000＀\\x0001\\x0003", "[yellow]")
+                    .Replace("\\xf000＀\\x0001\\x0004", "[green]")
+                    .Replace("\\xf000＀\\x0001\\x0005", "[orange]")
+                    .Replace("\\xf000＀\\x0001\\x0006", "[pink]")
+                    .Replace("\\xf000Ā\\x0001\\x0000", "[V0]")
+                    .Replace("\\xf000Ā\\x0001\\x0001", "[V1]")
+                    .Replace("\\xf000Ā\\x0001\\x0002", "[V2]")
+                    .Replace("\\xf000Ā\\x0001\\x0003", "[V3]");
 
         public string GetLine(int file, int line) => textFiles[file].text[line];
     }

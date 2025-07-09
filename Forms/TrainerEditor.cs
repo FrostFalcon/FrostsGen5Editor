@@ -27,6 +27,13 @@ namespace NewEditor.Forms
             InitializeComponent();
 
             trainerNameDropdown.Items.AddRange(trainerNARC.trainers.ToArray());
+
+            List<string> classes = new List<string>();
+            for (int i = 0; i < textNARC.textFiles[VersionConstants.TrainerClassTextFileID].text.Count; i++)
+            {
+                classes.Add(textNARC.textFiles[VersionConstants.TrainerClassTextFileID].text[i] + " - " + i);
+            }
+            trainerClassDropdown.Items.AddRange(classes.ToArray());
             item1Dropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ItemNameTextFileID].text.ToArray());
             item2Dropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ItemNameTextFileID].text.ToArray());
             item3Dropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ItemNameTextFileID].text.ToArray());
@@ -45,7 +52,7 @@ namespace NewEditor.Forms
         {
             if (trainerNameDropdown.SelectedItem is TrainerEntry tr && tr.numPokemon > 0)
             {
-                trainerClassNumberBox.Value = tr.trainerClass;
+                trainerClassDropdown.SelectedIndex = tr.trainerClass;
                 numPokemonBox.Value = tr.numPokemon;
                 battleTypeDropdown.SelectedIndex = tr.battleType;
                 heldItemsCheckBox.Checked = tr.heldItems;
@@ -65,14 +72,17 @@ namespace NewEditor.Forms
 
                 if (dialogueTypeDropdown.SelectedIndex == -1)
                     dialogueTypeDropdown.SelectedIndex = 0;
-                trDialogueTextBox.Text = tr.dialogue[dialogueTypeDropdown.SelectedIndex];
+                trDialogueTextBox.Text = TextNARC.UnFormatText(tr.dialogue[dialogueTypeDropdown.SelectedIndex]);
+                trainerNameTextBox.Text = textNARC.textFiles[VersionConstants.TrainerNameTextFileID].text[tr.nameID];
 
+                trainerNameTextBox.Enabled = true;
                 trainerDataGroup.Enabled = true;
                 pokemonGroupBox.Enabled = true;
                 dialogueGroup.Enabled = true;
             }
             else
             {
+                trainerNameTextBox.Enabled = false;
                 trainerDataGroup.Enabled = false;
                 pokemonGroupBox.Enabled = false;
                 dialogueGroup.Enabled = false;
@@ -135,7 +145,7 @@ namespace NewEditor.Forms
                 bool oldHeldItem = tr.heldItems;
                 bool oldUniqueMoves = tr.uniqueMoves;
 
-                tr.trainerClass = (byte)trainerClassNumberBox.Value;
+                tr.trainerClass = (byte)trainerClassDropdown.SelectedIndex;
                 tr.numPokemon = (byte)numPokemonBox.Value;
 
                 tr.battleType = (byte)battleTypeDropdown.SelectedIndex;
@@ -180,7 +190,7 @@ namespace NewEditor.Forms
                 while (num > tr.pokemon.pokemon.Count) num--;
                 if (num < pokemonListBox.Items.Count) pokemonListBox.SelectedIndex = num;
 
-                tr.dialogue[dialogueTypeDropdown.SelectedIndex] = trDialogueTextBox.Text;
+                tr.dialogue[dialogueTypeDropdown.SelectedIndex] = TextNARC.FormatText(trDialogueTextBox.Text);
 
                 //Rebuild Dialogue Indices
                 List<byte> entryTable = new List<byte>();
@@ -204,6 +214,15 @@ namespace NewEditor.Forms
                 trainerNARC.fileSystem.trTextEntriesNarc.tableBytes = entryTable.ToArray();
                 trainerNARC.fileSystem.trTextIndicesNarc.tableBytes = indexTable.ToArray();
                 trainerNARC.fileSystem.textNarc.textFiles[VersionConstants.TrainerDialogueTextFileID].CompressData();
+
+                List<string> names = trainerNARC.fileSystem.textNarc.textFiles[VersionConstants.TrainerNameTextFileID].text;
+                if (tr.nameID < names.Count) names[tr.nameID] = trainerNameTextBox.Text;
+                trainerNARC.fileSystem.textNarc.textFiles[VersionConstants.TrainerNameTextFileID].CompressData();
+
+                int n = trainerNARC.trainers.IndexOf(tr);
+                trainerNameDropdown.Items.RemoveAt(n);
+                trainerNameDropdown.Items.Insert(n, tr);
+                trainerNameDropdown.SelectedIndex = n;
             }
         }
 
@@ -240,6 +259,11 @@ namespace NewEditor.Forms
         private void addTrainerButton_Click(object sender, EventArgs e)
         {
             int id = trainerNameDropdown.SelectedIndex > 0 ? trainerNameDropdown.SelectedIndex : 1;
+
+            List<string> names = trainerNARC.fileSystem.textNarc.textFiles[VersionConstants.TrainerNameTextFileID].text;
+            if (trainerNARC.trainers.Count + 1 > names.Count) names.Add("Trainer");
+            trainerNARC.fileSystem.textNarc.textFiles[VersionConstants.TrainerNameTextFileID].CompressData();
+
             TrainerEntry t = new TrainerEntry(new List<byte>(trainerNARC.trainers[id].bytes).ToArray()) { nameID = trainerNARC.trainers.Count };
             TrainerPokemonEntry p = new TrainerPokemonEntry(new List<byte>(trainerNARC.trainers[id].pokemon.bytes).ToArray(), t);
             t.pokemon = p;
@@ -262,7 +286,7 @@ namespace NewEditor.Forms
         {
             if (trainerNameDropdown.SelectedItem is TrainerEntry tr)
             {
-                trDialogueTextBox.Text = tr.dialogue[dialogueTypeDropdown.SelectedIndex];
+                trDialogueTextBox.Text = TextNARC.UnFormatText(tr.dialogue[dialogueTypeDropdown.SelectedIndex]);
             }
         }
 

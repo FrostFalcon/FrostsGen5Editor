@@ -965,6 +965,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.furnitureZPosNumberBox.Visible = false;
             // 
             // label44
             // 
@@ -974,6 +975,7 @@ namespace NewEditor.Forms
             this.label44.Size = new System.Drawing.Size(18, 16);
             this.label44.TabIndex = 107;
             this.label44.Text = "Z:";
+            this.label44.Visible = false;
             // 
             // furnitureYPosNumberBox
             // 
@@ -996,6 +998,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.furnitureYPosNumberBox.Visible = false;
             // 
             // label45
             // 
@@ -1005,6 +1008,7 @@ namespace NewEditor.Forms
             this.label45.Size = new System.Drawing.Size(19, 16);
             this.label45.TabIndex = 105;
             this.label45.Text = "Y:";
+            this.label45.Visible = false;
             // 
             // furnitureXPosNumberBox
             // 
@@ -1027,6 +1031,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.furnitureXPosNumberBox.Visible = false;
             // 
             // label46
             // 
@@ -1036,6 +1041,7 @@ namespace NewEditor.Forms
             this.label46.Size = new System.Drawing.Size(18, 16);
             this.label46.TabIndex = 103;
             this.label46.Text = "X:";
+            this.label46.Visible = false;
             // 
             // furnitureScriptNumberBox
             // 
@@ -1588,7 +1594,8 @@ namespace NewEditor.Forms
             // 
             // triggerConstRefNumberBox
             // 
-            this.triggerConstRefNumberBox.Location = new System.Drawing.Point(95, 100);
+            this.triggerConstRefNumberBox.Hexadecimal = true;
+            this.triggerConstRefNumberBox.Location = new System.Drawing.Point(95, 70);
             this.triggerConstRefNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -1611,24 +1618,24 @@ namespace NewEditor.Forms
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(15, 72);
+            this.label34.Location = new System.Drawing.Point(15, 102);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(67, 16);
+            this.label34.Size = new System.Drawing.Size(43, 16);
             this.label34.TabIndex = 126;
-            this.label34.Text = "Const Val:";
+            this.label34.Text = "Value:";
             // 
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(15, 102);
+            this.label35.Location = new System.Drawing.Point(15, 72);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(68, 16);
+            this.label35.Size = new System.Drawing.Size(79, 16);
             this.label35.TabIndex = 128;
-            this.label35.Text = "Const Ref:";
+            this.label35.Text = "Variable:  0x";
             // 
             // triggerConstValNumberBox
             // 
-            this.triggerConstValNumberBox.Location = new System.Drawing.Point(95, 70);
+            this.triggerConstValNumberBox.Location = new System.Drawing.Point(95, 100);
             this.triggerConstValNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,

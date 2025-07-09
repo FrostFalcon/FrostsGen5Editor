@@ -47,21 +47,7 @@ namespace NewEditor.Forms
                 StringBuilder text = new StringBuilder();
                 foreach (string str in activeNarc.textFiles[fileID].text) text.Append(str + '\n');
                 if (text.Length > 0) text.Remove(text.Length - 1, 1);
-                textBoxDisplay.Text = text.ToString().Replace("\\xf000븁\\x0000\\xfffe", "[C]")
-                    .Replace("\\xf000븀\\x0000\\xfffe", "[L]")
-                    .Replace("\\xfffe", "[N]")
-                    .Replace("\\xf000븁\\x0000", "[E]")
-                    .Replace("\\xf000＀\\x0001\\x0000", "[gray]")
-                    .Replace("\\xf000＀\\x0001\\x0001", "[red]")
-                    .Replace("\\xf000＀\\x0001\\x0002", "[blue]")
-                    .Replace("\\xf000＀\\x0001\\x0003", "[yellow]")
-                    .Replace("\\xf000＀\\x0001\\x0004", "[green]")
-                    .Replace("\\xf000＀\\x0001\\x0005", "[orange]")
-                    .Replace("\\xf000＀\\x0001\\x0006", "[pink]")
-                    .Replace("\\xf000Ā\\x0001\\x0000", "[V0]")
-                    .Replace("\\xf000Ā\\x0001\\x0001", "[V1]")
-                    .Replace("\\xf000Ā\\x0001\\x0002", "[V2]")
-                    .Replace("\\xf000Ā\\x0001\\x0003", "[V3]");
+                textBoxDisplay.Text = TextNARC.UnFormatText(text.ToString());
                 selectedLineNumberBox.Value = 0;
                 selectedLineNumberBox.Maximum = Math.Max(textBoxDisplay.Lines.Length - 1, 0);
                 lineCountLabel.Text = "/ " + selectedLineNumberBox.Maximum;

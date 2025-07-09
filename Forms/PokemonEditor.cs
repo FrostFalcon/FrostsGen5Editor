@@ -241,7 +241,7 @@ namespace NewEditor.Forms
                 if (p.nameID < textNARC.textFiles[VersionConstants.PokedexClassificationTextFileID].text.Count)
                 {
                     pokedexClassTextBox.Text = textNARC.textFiles[VersionConstants.PokedexClassificationTextFileID].text[p.nameID];
-                    pokedexDescriptionTextBox.Text = textNARC.textFiles[VersionConstants.PokedexEntryTextFileID].text[p.nameID];
+                    pokedexDescriptionTextBox.Text = TextNARC.UnFormatText(textNARC.textFiles[VersionConstants.PokedexEntryTextFileID].text[p.nameID]);
                 }
                 if (p.nameID < textNARC.textFiles[VersionConstants.PokedexImpericalHeightTextFileID[0]].text.Count)
                 {
@@ -656,7 +656,7 @@ namespace NewEditor.Forms
                 textNARC.textFiles[VersionConstants.PokemonNameTextFileID].text[p.nameID] = pokedexNameTextBox.Text;
                 textNARC.textFiles[VersionConstants.PokemonName2TextFileID].text[p.nameID] = (dexAnCheckBox.Checked ? "\\xf000봁\\x0000an \\xf000＀\\x0001ÿ" : "\\xf000봁\\x0000a \\xf000＀\\x0001ÿ") + pokedexNameTextBox.Text;
                 textNARC.textFiles[VersionConstants.PokedexClassificationTextFileID].text[p.nameID] = pokedexClassTextBox.Text;
-                textNARC.textFiles[VersionConstants.PokedexEntryTextFileID].text[p.nameID] = pokedexDescriptionTextBox.Text;
+                textNARC.textFiles[VersionConstants.PokedexEntryTextFileID].text[p.nameID] = TextNARC.FormatText(pokedexDescriptionTextBox.Text);
 
                 textNARC.textFiles[VersionConstants.PokemonNameTextFileID].CompressData();
                 textNARC.textFiles[VersionConstants.PokemonName2TextFileID].CompressData();

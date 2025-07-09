@@ -31,7 +31,7 @@ namespace NewEditor.Forms
         {
             this.trainerNameDropdown = new System.Windows.Forms.ComboBox();
             this.trainerDataGroup = new System.Windows.Forms.GroupBox();
-            this.trainerClassNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.editTrainerAIButton = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.aiNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
@@ -80,9 +80,10 @@ namespace NewEditor.Forms
             this.dialogueGroup = new System.Windows.Forms.GroupBox();
             this.trDialogueTextBox = new System.Windows.Forms.TextBox();
             this.dialogueTypeDropdown = new System.Windows.Forms.ComboBox();
-            this.editTrainerAIButton = new System.Windows.Forms.Button();
+            this.trainerNameTextBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.trainerClassDropdown = new System.Windows.Forms.ComboBox();
             this.trainerDataGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trainerClassNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prizeMoneyNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPokemonBox)).BeginInit();
@@ -107,8 +108,8 @@ namespace NewEditor.Forms
             // trainerDataGroup
             // 
             this.trainerDataGroup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trainerDataGroup.Controls.Add(this.trainerClassDropdown);
             this.trainerDataGroup.Controls.Add(this.editTrainerAIButton);
-            this.trainerDataGroup.Controls.Add(this.trainerClassNumberBox);
             this.trainerDataGroup.Controls.Add(this.label16);
             this.trainerDataGroup.Controls.Add(this.aiNumberBox);
             this.trainerDataGroup.Controls.Add(this.label6);
@@ -129,29 +130,22 @@ namespace NewEditor.Forms
             this.trainerDataGroup.Controls.Add(this.uniqueMovesCheckBox);
             this.trainerDataGroup.Controls.Add(this.heldItemsCheckBox);
             this.trainerDataGroup.Enabled = false;
-            this.trainerDataGroup.Location = new System.Drawing.Point(12, 60);
+            this.trainerDataGroup.Location = new System.Drawing.Point(12, 80);
             this.trainerDataGroup.Name = "trainerDataGroup";
             this.trainerDataGroup.Size = new System.Drawing.Size(420, 260);
             this.trainerDataGroup.TabIndex = 73;
             this.trainerDataGroup.TabStop = false;
             this.trainerDataGroup.Text = "Trainer Data";
             // 
-            // trainerClassNumberBox
+            // editTrainerAIButton
             // 
-            this.trainerClassNumberBox.Location = new System.Drawing.Point(102, 26);
-            this.trainerClassNumberBox.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.trainerClassNumberBox.Name = "trainerClassNumberBox";
-            this.trainerClassNumberBox.Size = new System.Drawing.Size(40, 22);
-            this.trainerClassNumberBox.TabIndex = 85;
-            this.trainerClassNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.editTrainerAIButton.Location = new System.Drawing.Point(106, 221);
+            this.editTrainerAIButton.Name = "editTrainerAIButton";
+            this.editTrainerAIButton.Size = new System.Drawing.Size(24, 24);
+            this.editTrainerAIButton.TabIndex = 97;
+            this.editTrainerAIButton.Text = ">";
+            this.editTrainerAIButton.UseVisualStyleBackColor = true;
+            this.editTrainerAIButton.Click += new System.EventHandler(this.editTrainerAIButton_Click);
             // 
             // label16
             // 
@@ -387,7 +381,7 @@ namespace NewEditor.Forms
             this.pokemonGroupBox.Controls.Add(this.pokemonListBox);
             this.pokemonGroupBox.Controls.Add(this.pokemonIDDropdown);
             this.pokemonGroupBox.Enabled = false;
-            this.pokemonGroupBox.Location = new System.Drawing.Point(440, 60);
+            this.pokemonGroupBox.Location = new System.Drawing.Point(440, 80);
             this.pokemonGroupBox.Name = "pokemonGroupBox";
             this.pokemonGroupBox.Size = new System.Drawing.Size(530, 260);
             this.pokemonGroupBox.TabIndex = 83;
@@ -790,7 +784,7 @@ namespace NewEditor.Forms
             this.dialogueGroup.Controls.Add(this.trDialogueTextBox);
             this.dialogueGroup.Controls.Add(this.dialogueTypeDropdown);
             this.dialogueGroup.Enabled = false;
-            this.dialogueGroup.Location = new System.Drawing.Point(12, 329);
+            this.dialogueGroup.Location = new System.Drawing.Point(12, 349);
             this.dialogueGroup.Name = "dialogueGroup";
             this.dialogueGroup.Size = new System.Drawing.Size(958, 80);
             this.dialogueGroup.TabIndex = 96;
@@ -841,22 +835,41 @@ namespace NewEditor.Forms
             this.dialogueTypeDropdown.TabIndex = 3;
             this.dialogueTypeDropdown.SelectedIndexChanged += new System.EventHandler(this.dialogueTypeDropdown_SelectedIndexChanged);
             // 
-            // editTrainerAIButton
+            // trainerNameTextBox
             // 
-            this.editTrainerAIButton.Location = new System.Drawing.Point(106, 221);
-            this.editTrainerAIButton.Name = "editTrainerAIButton";
-            this.editTrainerAIButton.Size = new System.Drawing.Size(24, 24);
-            this.editTrainerAIButton.TabIndex = 97;
-            this.editTrainerAIButton.Text = ">";
-            this.editTrainerAIButton.UseVisualStyleBackColor = true;
-            this.editTrainerAIButton.Click += new System.EventHandler(this.editTrainerAIButton_Click);
+            this.trainerNameTextBox.Enabled = false;
+            this.trainerNameTextBox.Location = new System.Drawing.Point(60, 47);
+            this.trainerNameTextBox.Name = "trainerNameTextBox";
+            this.trainerNameTextBox.Size = new System.Drawing.Size(152, 22);
+            this.trainerNameTextBox.TabIndex = 97;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(10, 50);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(45, 16);
+            this.label12.TabIndex = 98;
+            this.label12.Text = "Name:";
+            // 
+            // trainerClassDropdown
+            // 
+            this.trainerClassDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.trainerClassDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.trainerClassDropdown.FormattingEnabled = true;
+            this.trainerClassDropdown.Location = new System.Drawing.Point(105, 22);
+            this.trainerClassDropdown.Name = "trainerClassDropdown";
+            this.trainerClassDropdown.Size = new System.Drawing.Size(151, 24);
+            this.trainerClassDropdown.TabIndex = 98;
             // 
             // TrainerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(984, 421);
+            this.ClientSize = new System.Drawing.Size(984, 441);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.trainerNameTextBox);
             this.Controls.Add(this.dialogueGroup);
             this.Controls.Add(this.addTrainerButton);
             this.Controls.Add(this.applyButton);
@@ -871,7 +884,6 @@ namespace NewEditor.Forms
             this.Text = "Trainer Editor";
             this.trainerDataGroup.ResumeLayout(false);
             this.trainerDataGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trainerClassNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.aiNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.prizeMoneyNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPokemonBox)).EndInit();
@@ -935,11 +947,13 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button movePokemonDownButton;
         private System.Windows.Forms.Button movePokemonUpButton;
         private System.Windows.Forms.Button addTrainerButton;
-        private System.Windows.Forms.NumericUpDown trainerClassNumberBox;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox dialogueGroup;
         private System.Windows.Forms.ComboBox dialogueTypeDropdown;
         private System.Windows.Forms.TextBox trDialogueTextBox;
         private System.Windows.Forms.Button editTrainerAIButton;
+        private System.Windows.Forms.TextBox trainerNameTextBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox trainerClassDropdown;
     }
 }

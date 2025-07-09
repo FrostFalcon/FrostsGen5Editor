@@ -75,6 +75,7 @@
     <Compile Include="Data\BLZDecoder.cs" />
     <Compile Include="Data\DsDecmp.cs" />
     <Compile Include="Data\FileFunctions.cs" />
+    <Compile Include="Data\FileNameTable.cs" />
     <Compile Include="Data\Gen4UnicodeTable.cs" />
     <Compile Include="Data\HelperFunctions.cs" />
     <Compile Include="Data\NARCTypes\ChildPokemonNARC.cs" />

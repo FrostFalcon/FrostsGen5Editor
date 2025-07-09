@@ -690,6 +690,8 @@ namespace NewEditor.Data.NARCTypes
                     if (jumpLocations.Contains(pos)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(pos) + ": ;");
                     if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
                     if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
+                    if (com.commandID == 0x1E && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[0])) jumpLocations.Add(pos + com.ByteLength + com.parameters[0]);
+                    if (com.commandID == 0x1F && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[1])) jumpLocations.Add(pos + com.ByteLength + com.parameters[1]);
                     WriteCommandToFile(file, pos + com.ByteLength, com, routines, sequenceRoutines, jumpLocations);
                     if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
                     pos += com.ByteLength;
@@ -786,7 +788,6 @@ namespace NewEditor.Data.NARCTypes
             {
                 file.WriteLine("\tif (" + com.parameters[0] + ") goto label" + jumpLocations.IndexOf(pos + com.parameters[1]) + ";");
             }
-
             else file.WriteLine("\t" + com.CString());
         }
 
@@ -1836,7 +1837,7 @@ namespace NewEditor.Data.NARCTypes
             {0x24D, new CommandType("c0x24D", 0)},
             {0x24E, new CommandType("c0x24E", 2, 2, 2)},
             {0x24F, new CommandType("NPCPathFind", 6, 2, 2, 2, 2, 2, 2)},
-            {0x250, new CommandType("c0x250", 5, 2, 2, 2, 2, 2)},
+            {0x250, new CommandType("NPCFollowPlayer", 5, 2, 2, 2, 2, 2)},
             {0x251, new CommandType("c0x251", 2, 2, 2)},
             {0x252, new CommandType("c0x252", 1, 2)},
             {0x253, new CommandType("c0x253", 1, 1)},

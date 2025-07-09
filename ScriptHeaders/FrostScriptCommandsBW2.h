@@ -637,7 +637,7 @@ void c0x24C();
 void c0x24D();
 void c0x24E(short p0, short p1);
 void NPCPathFind(short npcID, short targetX, short targetY, short flags, short p4, short pathfindType);
-void c0x250(short p0, short p1, short p2, short p3, short p4);
+void NPCFollowPlayer(short npcID, short followerID, short global, short trainerID, short scriptID);
 void c0x251(short p0, short p1);
 void c0x252(short p0);
 void c0x253(char p0);

@@ -23,6 +23,7 @@ namespace NewEditor.Data
             return BitConverter.ToInt32(toInt, 0);
         }
         public static int ReadShort(byte[] data, int offset) => offset < data.Length - 1 ? ((data[offset] & 0xFF) + ((data[offset + 1] & 0xFF) << 8)) : 0;
+        public static int ReadShort(List<byte> data, int offset) => offset < data.Count - 1 ? ((data[offset] & 0xFF) + ((data[offset + 1] & 0xFF) << 8)) : 0;
         public static int ReadInt(byte[] data, int offset) => offset < data.Length - 3 ? (data[offset] & 0xFF) + ((data[offset + 1] & 0xFF) << 8) + ((data[offset + 2] & 0xFF) << 16)
                 + ((data[offset + 3] & 0xFF) << 24) : 0;
         public static int ReadInt(List<byte> data, int offset) => offset < data.Count - 3 ? (data[offset] & 0xFF) + ((data[offset + 1] & 0xFF) << 8) + ((data[offset + 2] & 0xFF) << 16)

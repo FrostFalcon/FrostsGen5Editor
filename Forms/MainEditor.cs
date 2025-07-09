@@ -1087,7 +1087,7 @@ namespace NewEditor.Forms
 
         private void replaceSoundButton_Click(object sender, EventArgs e)
         {
-            fileSystem.soundData.WriteToSwav((int)replaceSoundID.Value - 1);
+            //fileSystem.soundData.WriteToSwav((int)replaceSoundID.Value - 1);
         }
 
         private void replaceIconButton_Click(object sender, EventArgs e)

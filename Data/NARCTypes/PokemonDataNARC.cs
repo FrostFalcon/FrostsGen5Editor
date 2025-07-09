@@ -16,6 +16,7 @@ namespace NewEditor.Data.NARCTypes
     public class PokemonDataNARC : NARC
     {
         public List<PokemonEntry> pokemon;
+        int AltFormSpriteStart = 0;
 
         public override void ReadData()
         {
@@ -28,6 +29,7 @@ namespace NewEditor.Data.NARCTypes
             pokemon = new List<PokemonEntry>();
 
             //Populate data types
+            AltFormSpriteStart = (MainEditor.RomType == RomType.BW2 ? 685 : 652);
             int nameID = 0;
             Dictionary<int, int> formNames = new Dictionary<int, int>();
             for (int i = 0; i < numFileEntries; i++)
@@ -55,10 +57,9 @@ namespace NewEditor.Data.NARCTypes
                 {
                     int formNum = i - pokemon[p.nameID].formsStart;
                     p.formID = formNum + 1;
-                    p.spriteID = (MainEditor.RomType == RomType.BW2 ? 685 : 652) + pokemon[p.nameID].formSpritesStart + formNum;
+                    p.spriteID = AltFormSpriteStart + pokemon[p.nameID].formSpritesStart + formNum;
                 }
                 nameID++;
-
                 pos += 8;
             }
 
