@@ -36,6 +36,7 @@ namespace NewEditor.Forms
             this.label3 = new System.Windows.Forms.Label();
             this.readScriptFileButton = new System.Windows.Forms.Button();
             this.exportScriptFileButton = new System.Windows.Forms.Button();
+            this.exportAllScriptsButton = new System.Windows.Forms.Button();
             this.setupQuickBuildButton = new System.Windows.Forms.Button();
             this.quickBuildButton = new System.Windows.Forms.Button();
             this.quickBuildLabel = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@ namespace NewEditor.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.exportRawDataButton = new System.Windows.Forms.Button();
             this.importRawDataButton = new System.Windows.Forms.Button();
+            this.exportProgressBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.byteNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -125,6 +127,16 @@ namespace NewEditor.Forms
             this.exportScriptFileButton.Text = "Export Script File";
             this.exportScriptFileButton.UseVisualStyleBackColor = true;
             this.exportScriptFileButton.Click += new System.EventHandler(this.ExportScriptFile);
+            // 
+            // exportAllScriptsButton
+            // 
+            this.exportAllScriptsButton.Location = new System.Drawing.Point(140, 205);
+            this.exportAllScriptsButton.Name = "exportAllScriptsButton";
+            this.exportAllScriptsButton.Size = new System.Drawing.Size(120, 40);
+            this.exportAllScriptsButton.TabIndex = 97;
+            this.exportAllScriptsButton.Text = "Export All Scripts";
+            this.exportAllScriptsButton.UseVisualStyleBackColor = true;
+            this.exportAllScriptsButton.Click += new System.EventHandler(this.ExportAllScripts);
             // 
             // setupQuickBuildButton
             // 
@@ -247,6 +259,14 @@ namespace NewEditor.Forms
             this.importRawDataButton.UseVisualStyleBackColor = true;
             this.importRawDataButton.Click += new System.EventHandler(this.importRawDataButton_Click);
             // 
+            // exportProgressBar
+            // 
+            this.exportProgressBar.Location = new System.Drawing.Point(14, 250);
+            this.exportProgressBar.Name = "exportProgressBar";
+            this.exportProgressBar.Size = new System.Drawing.Size(246, 20);
+            this.exportProgressBar.TabIndex = 98;
+            this.exportProgressBar.Visible = false;
+            // 
             // NewScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -254,6 +274,7 @@ namespace NewEditor.Forms
             this.ClientSize = new System.Drawing.Size(544, 461);
             this.Controls.Add(this.importRawDataButton);
             this.Controls.Add(this.exportRawDataButton);
+            this.Controls.Add(this.exportProgressBar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.loadedOverlayDropdown);
             this.Controls.Add(this.commandNameSelection2);
@@ -262,6 +283,7 @@ namespace NewEditor.Forms
             this.Controls.Add(this.quickBuildLabel);
             this.Controls.Add(this.quickBuildButton);
             this.Controls.Add(this.setupQuickBuildButton);
+            this.Controls.Add(this.exportAllScriptsButton);
             this.Controls.Add(this.exportScriptFileButton);
             this.Controls.Add(this.readScriptFileButton);
             this.Controls.Add(this.label3);
@@ -287,6 +309,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button readScriptFileButton;
         private System.Windows.Forms.Button exportScriptFileButton;
+        private System.Windows.Forms.Button exportAllScriptsButton;
         private System.Windows.Forms.Button setupQuickBuildButton;
         private System.Windows.Forms.Button quickBuildButton;
         private System.Windows.Forms.Label quickBuildLabel;
@@ -297,5 +320,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button exportRawDataButton;
         private System.Windows.Forms.Button importRawDataButton;
+        private System.Windows.Forms.ProgressBar exportProgressBar;
     }
 }
