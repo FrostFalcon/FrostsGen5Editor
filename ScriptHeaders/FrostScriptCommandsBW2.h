@@ -224,7 +224,7 @@ void GiveItem(short itemID, short amount, short successVar);
 void TakeItem(short itemID, short amount, short successVar);
 void CheckItemBagSpace(short itemID, short amount, short successVar);
 void CheckItemBagNumber(short itemID, short amount, short successVar);
-void StoreItemCount(short itemID, short successVar);
+void StoreItemCount(short itemID, short returnVar);
 void c0xBA(short p0, short p1);
 void c0xBB(short p0, short p1);
 void c0xBC(short p0);

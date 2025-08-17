@@ -94,6 +94,7 @@ namespace NewEditor.Forms
             this.animationScriptTextBox = new System.Windows.Forms.RichTextBox();
             this.moveAnimGroupBox = new System.Windows.Forms.GroupBox();
             this.commandDescriptionText = new System.Windows.Forms.Label();
+            this.statusText = new System.Windows.Forms.Label();
             this.baseDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.movePPNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveAccuracyNumberBox)).BeginInit();
@@ -838,6 +839,7 @@ namespace NewEditor.Forms
             this.animationScriptTextBox.Size = new System.Drawing.Size(480, 337);
             this.animationScriptTextBox.TabIndex = 107;
             this.animationScriptTextBox.Text = "";
+            this.animationScriptTextBox.WordWrap = false;
             this.animationScriptTextBox.SelectionChanged += new System.EventHandler(this.UpdateCommandDescription);
             // 
             // moveAnimGroupBox
@@ -861,12 +863,21 @@ namespace NewEditor.Forms
             this.commandDescriptionText.Size = new System.Drawing.Size(214, 295);
             this.commandDescriptionText.TabIndex = 70;
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(17, 636);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 107;
+            // 
             // MoveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1224, 641);
+            this.ClientSize = new System.Drawing.Size(1224, 661);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.moveAnimGroupBox);
             this.Controls.Add(this.setMoveDescriptionTextBox);
             this.Controls.Add(this.groupBox1);
@@ -983,5 +994,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.RichTextBox animationScriptTextBox;
         private System.Windows.Forms.GroupBox moveAnimGroupBox;
         private System.Windows.Forms.Label commandDescriptionText;
+        private System.Windows.Forms.Label statusText;
     }
 }

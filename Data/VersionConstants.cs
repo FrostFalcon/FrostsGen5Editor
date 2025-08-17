@@ -42,6 +42,7 @@ namespace NewEditor.Data
         public const int BW2_EggMoveNARCID = 124;
         public const int BW2_OverworldsNARCID = 126;
         public const int BW2_EncountersNARCID = 127;
+        public const int BW2_AIScriptNARCID = 169;
         public const int BW2_HiddenGrottoNARCID = 273;
         public const int BW2_PokemartNARCID = 282;
         public const int BW2_PokemartItemCountNARCID = 283;
@@ -71,6 +72,7 @@ namespace NewEditor.Data
         public const int BW1_EggMovesNARCID = 123;
         public const int BW1_OverworldsNARCID = 125;
         public const int BW1_EncountersNARCID = 126;
+        public const int BW1_AIScriptNARCID = 171;
         public const int BW1_KeyboardLayoutNARCID = -1;
         public const int BW1_PokemartNARCID = -2;
         public const int BW1_PokemartItemCountNARCID = -3;
@@ -627,8 +629,8 @@ namespace NewEditor.Data
 			new int[] { 97 }, // Village Bridge
 			new int[] { 27, 28, 29, 30 }, // Dragonspiral Tower
 			new int[] { 81, 82, 83 }, // Relic Passage
-			new int[] { 106 }, // Route 5*
-			new int[] { 125 }, // Route 16*
+			new int[] { 125 }, // Route 5
+			new int[] { 106 }, // Route 16
 			new int[] { 98 }, // Marvelous Bridge
 			new int[] { 123 }, // Abundant Shrine
 			new int[] { 132 }, // Undella Town

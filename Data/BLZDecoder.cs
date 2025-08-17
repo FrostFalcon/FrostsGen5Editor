@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -367,6 +368,8 @@ namespace NewEditor.Data
                 while (raw < raw_end)
                 {
                     pak_buffer[pak] = raw_buffer[raw];
+                    pak++;
+                    raw++;
                 }
 
                 while ((pak & 3) > 0)

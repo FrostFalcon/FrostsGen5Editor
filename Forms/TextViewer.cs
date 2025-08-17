@@ -60,6 +60,7 @@ namespace NewEditor.Forms
             if (int.TryParse(fileNumComboBox.Text, out fileID) && fileID >= 0 && activeNarc != null && fileID < activeNarc.textFiles.Count)
             {
                 activeNarc.ApplyTextList(textBoxDisplay, fileID);
+                statusText.Text = "Saved text file " + fileID + " - " + DateTime.Now.StatusText();
             }
         }
 
@@ -69,6 +70,7 @@ namespace NewEditor.Forms
             {
                 int currentFile = (int)fileNumComboBox.SelectedItem;
                 fileNumComboBox.Items.Clear();
+                int start = 0;
 
                 for (int i = 0; i < activeNarc.textFiles.Count; i++)
                 {
@@ -84,19 +86,22 @@ namespace NewEditor.Forms
                 }
                 if (fileNumComboBox.Items.Contains(currentFile))
                 {
+                    start = (int)selectedLineNumberBox.Value;
                     fileNumComboBox.SelectedItem = currentFile;
                 }
+                statusText.Text = "Found " + fileNumComboBox.Items.Count + " files with the provided text";
 
                 //Highlight searched text
                 int fileID;
                 if (int.TryParse(fileNumComboBox.Text, out fileID) && fileID >= 0 && activeNarc != null && fileID < activeNarc.textFiles.Count)
                 {
-                    for (int i = 0; i < activeNarc.textFiles[fileID].text.Count; i++)
+                    for (int i = start + 1; i < activeNarc.textFiles[fileID].text.Count; i++)
                     {
                         string line = activeNarc.textFiles[fileID].text[i];
                         if (line.Contains(searchTextBox.Text))
                         {
                             selectedLineNumberBox.Value = i;
+                            break;
                         }
                     }
                 }

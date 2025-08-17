@@ -153,6 +153,8 @@ namespace NewEditor.Forms
                     foreach (EncounterSlot slot in encounterGroupListBox.Items) route.groupedWaterSlots[selectedType - 3].Add(slot);
                 }
                 route.ApplyData();
+
+                statusText.Text = "Saved encoutner data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -242,6 +244,8 @@ namespace NewEditor.Forms
                     s.maxLevel = (byte)Math.Min((int)Math.Ceiling(s.maxLevel * 1.1f), 100);
                     route.groupedLandSlots[1].Add(s);
                 }
+
+                statusText.Text = "Copied grass encounters to dark grass - " + DateTime.Now.StatusText();
             }
         }
 
@@ -274,12 +278,16 @@ namespace NewEditor.Forms
                     encounterNarc.subEncounterPools.RemoveAll(r => r.parentPool == route);
                     route.season = -1;
                     toggleSeasonsButton.Text = "Add Seasons";
+
+                    statusText.Text = "Removed seasons to encounter pool - " + DateTime.Now.StatusText();
                 }
                 else if (route.season == -1)
                 {
                     for (int i = 1; i <= 3; i++) encounterNarc.subEncounterPools.Add(new EncounterEntry(route.bytes.ToArray()) { nameID = route.nameID, season = i, parentPool = route });
                     route.season = 0;
                     toggleSeasonsButton.Text = "Remove Seasons";
+
+                    statusText.Text = "Added seasons to encounter pool - " + DateTime.Now.StatusText();
                 }
 
                 encounterRouteNameDropdown.Items.Clear();

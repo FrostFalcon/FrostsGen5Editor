@@ -75,6 +75,7 @@ namespace NewEditor.Forms
             this.typeChartEditorButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.OpenFileExplorerButton = new System.Windows.Forms.Button();
             this.openGrottoEditorButton = new System.Windows.Forms.Button();
             this.openXPCurveEditorButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -82,6 +83,7 @@ namespace NewEditor.Forms
             this.replaceMapButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.themeDropdown = new System.Windows.Forms.ComboBox();
+            this.statusText = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -556,6 +558,7 @@ namespace NewEditor.Forms
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox3.Controls.Add(this.OpenFileExplorerButton);
             this.groupBox3.Controls.Add(this.openGrottoEditorButton);
             this.groupBox3.Controls.Add(this.openXPCurveEditorButton);
             this.groupBox3.Controls.Add(this.openTextViewerButton);
@@ -572,6 +575,16 @@ namespace NewEditor.Forms
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Editors";
+            // 
+            // OpenFileExplorerButton
+            // 
+            this.OpenFileExplorerButton.Location = new System.Drawing.Point(136, 17);
+            this.OpenFileExplorerButton.Name = "OpenFileExplorerButton";
+            this.OpenFileExplorerButton.Size = new System.Drawing.Size(120, 32);
+            this.OpenFileExplorerButton.TabIndex = 29;
+            this.OpenFileExplorerButton.Text = "File Explorer";
+            this.OpenFileExplorerButton.UseVisualStyleBackColor = true;
+            this.OpenFileExplorerButton.Click += new System.EventHandler(this.OpenFileExplorer);
             // 
             // openGrottoEditorButton
             // 
@@ -666,12 +679,22 @@ namespace NewEditor.Forms
             this.themeDropdown.TabIndex = 21;
             this.themeDropdown.SelectedIndexChanged += new System.EventHandler(this.ChangeTheme);
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(9, 496);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(113, 16);
+            this.statusText.TabIndex = 44;
+            this.statusText.Text = "Ready to load rom";
+            // 
             // MainEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(784, 501);
+            this.ClientSize = new System.Drawing.Size(784, 521);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.themeDropdown);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox4);
@@ -688,7 +711,7 @@ namespace NewEditor.Forms
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainEditor";
-            this.Text = "Frost\'s Ultimate Gen 5 Editor 3.0.1";
+            this.Text = "Frost\'s Ultimate Gen 5 Editor 4.0";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).EndInit();
@@ -759,6 +782,8 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button openGrottoEditorButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox themeDropdown;
+        private System.Windows.Forms.Button OpenFileExplorerButton;
+        private System.Windows.Forms.Label statusText;
     }
 }
 

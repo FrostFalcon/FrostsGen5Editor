@@ -39,6 +39,7 @@
             this.applyShopButton = new System.Windows.Forms.Button();
             this.priceNumberBox = new System.Windows.Forms.NumericUpDown();
             this.setPriceButton = new System.Windows.Forms.Button();
+            this.statusText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.priceNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,11 +161,20 @@
             this.setPriceButton.UseVisualStyleBackColor = true;
             this.setPriceButton.Click += new System.EventHandler(this.setPriceButton_Click);
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(11, 296);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 84;
+            // 
             // PokemartEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 311);
+            this.ClientSize = new System.Drawing.Size(464, 321);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.setPriceButton);
             this.Controls.Add(this.priceNumberBox);
             this.Controls.Add(this.applyShopButton);
@@ -182,6 +192,7 @@
             this.Text = "Pokemart Editor";
             ((System.ComponentModel.ISupportInitialize)(this.priceNumberBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -198,5 +209,6 @@
         private System.Windows.Forms.Button applyShopButton;
         private System.Windows.Forms.NumericUpDown priceNumberBox;
         private System.Windows.Forms.Button setPriceButton;
+        private System.Windows.Forms.Label statusText;
     }
 }

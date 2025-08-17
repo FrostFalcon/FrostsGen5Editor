@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,35 @@ namespace NewEditor.Forms
         TrainerDataNARC trainerNARC => MainEditor.trainerNarc;
         TrainerPokeNARC trainerPokeNARC => MainEditor.trainerPokeNarc;
         PokemonDataNARC pokemonNARC => MainEditor.pokemonDataNarc;
+
+        List<string> natures = new List<string>()
+        {
+            "Hardy",
+            "Lonely",
+            "Brave",
+            "Adamant",
+            "Naughty",
+            "Bold",
+            "Docile",
+            "Relaxed",
+            "Impish",
+            "Lax",
+            "Timid",
+            "Hasty",
+            "Serious",
+            "Jolly",
+            "Naive",
+            "Modest",
+            "Mild",
+            "Quiet",
+            "Bashful",
+            "Rash",
+            "Calm",
+            "Gentle",
+            "Sassy",
+            "Careful",
+            "Quirky"
+        };
 
         public TrainerEditor()
         {
@@ -46,6 +76,8 @@ namespace NewEditor.Forms
             pokemonMove2Dropdown.Items.AddRange(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.ToArray());
             pokemonMove3Dropdown.Items.AddRange(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.ToArray());
             pokemonMove4Dropdown.Items.AddRange(textNARC.textFiles[VersionConstants.MoveNameTextFileID].text.ToArray());
+
+            aiScriptFileNumberBox.Maximum = MainEditor.AIScriptNarc.scripts.Count - 1;
         }
 
         private void LoadTrainerIntoEditor(object sender, EventArgs e)
@@ -79,6 +111,7 @@ namespace NewEditor.Forms
                 trainerDataGroup.Enabled = true;
                 pokemonGroupBox.Enabled = true;
                 dialogueGroup.Enabled = true;
+                pokemonIVsNumberBox_ValueChanged(null, null);
             }
             else
             {
@@ -135,6 +168,8 @@ namespace NewEditor.Forms
                         pokemonMove4Dropdown.Enabled = false;
                     }
                 }
+
+                pokemonIVsNumberBox_ValueChanged(null, null);
             }
         }
 
@@ -142,6 +177,7 @@ namespace NewEditor.Forms
         {
             if (trainerNameDropdown.SelectedItem is TrainerEntry tr && tr.numPokemon > 0)
             {
+                int oldSelectedPoke = pokemonListBox.SelectedIndex;
                 bool oldHeldItem = tr.heldItems;
                 bool oldUniqueMoves = tr.uniqueMoves;
 
@@ -223,6 +259,9 @@ namespace NewEditor.Forms
                 trainerNameDropdown.Items.RemoveAt(n);
                 trainerNameDropdown.Items.Insert(n, tr);
                 trainerNameDropdown.SelectedIndex = n;
+                if (oldSelectedPoke >= 0 && oldSelectedPoke < pokemonListBox.Items.Count) pokemonListBox.SelectedIndex = oldSelectedPoke;
+
+                statusText.Text = "Saved trainer data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -280,6 +319,8 @@ namespace NewEditor.Forms
             }
 
             t.ApplyData();
+
+            statusText.Text = "Added new trainer data - " + DateTime.Now.StatusText();
         }
 
         private void dialogueTypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
@@ -345,6 +386,83 @@ namespace NewEditor.Forms
             panel.Controls.Add(no);
             prompt.Controls.Add(panel);
             prompt.ShowDialog();
+        }
+
+        private void exportAIScriptButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "c file|*.c";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                AIScript script = MainEditor.AIScriptNarc.scripts[(int)aiScriptFileNumberBox.Value];
+                script.Export(dialog.FileName);
+            }
+
+            string root = Path.GetDirectoryName(dialog.FileName);
+            if (File.Exists(Directory.GetCurrentDirectory() + "/AIScriptCommands.h") && !File.Exists(root + "/AIScriptCommands.h"))
+            {
+                File.Copy(Directory.GetCurrentDirectory() + "/AIScriptCommands.h", root + "/AIScriptCommands.h", false);
+            }
+
+            statusText.Text = "Exported AI Script file " + aiScriptFileNumberBox.Value + " - " + DateTime.Now.StatusText();
+
+            var result = MessageBox.Show("AI Script saved to " + dialog.FileName + "\n\nWould you like to open the file in a text editor?", "AI Script Saved", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                ProcessStartInfo start = new ProcessStartInfo("explorer", dialog.FileName);
+                Process.Start(start);
+            }
+        }
+
+        private void importAIScriptButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "c file|*.c";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                AIScript script = MainEditor.AIScriptNarc.scripts[(int)aiScriptFileNumberBox.Value];
+                try
+                {
+                    script.Import(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            statusText.Text = "Imported AI Script file " + aiScriptFileNumberBox.Value + " - " + DateTime.Now.StatusText();
+        }
+
+        private void pokemonIDDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pokemonIVsNumberBox_ValueChanged(null, null);
+        }
+
+        private void pokemonLevelNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            pokemonIVsNumberBox_ValueChanged(null, null);
+        }
+
+        private void pokemonIVsNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (trainerNameDropdown.SelectedItem is TrainerEntry trainer && pokemonListBox.SelectedItem is TrainerPokemon poke)
+            {
+                int normRand = (int)pokemonIVsNumberBox.Value + (int)pokemonLevelNumberBox.Value + (int)pokemonIDDropdown.SelectedIndex + trainerNARC.trainers.IndexOf(trainer);
+
+                int nature = LCG(normRand, trainer.trainerClass) % 25;
+                pokeNatureLabel.Text = "(" + ((int)pokemonIVsNumberBox.Value * 31 / 255) + "/31 IVs " + natures[nature] + " Nature)";
+            }
+        }
+
+        int LCG(long seed, int classID)
+        {
+            for (int i = 0; i < classID; i++)
+            {
+                seed = (seed * 0x5D588B656C078965 + 0x269EC3);
+            }
+
+            return (int)(((seed >> 32) & 0xFFFFFFFF) >> 16);
         }
     }
 }

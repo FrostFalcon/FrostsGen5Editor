@@ -150,6 +150,7 @@
             this.comboBox38 = new System.Windows.Forms.ComboBox();
             this.comboBox39 = new System.Windows.Forms.ComboBox();
             this.comboBox40 = new System.Windows.Forms.ComboBox();
+            this.statusText = new System.Windows.Forms.Label();
             this.commonEncounterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonPokeGender4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.commonPokeMaxLv4)).BeginInit();
@@ -1684,11 +1685,20 @@
             this.comboBox40.Size = new System.Drawing.Size(120, 24);
             this.comboBox40.TabIndex = 0;
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(11, 596);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 83;
+            // 
             // GrottoEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1064, 601);
+            this.ClientSize = new System.Drawing.Size(1064, 621);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox8);
@@ -1899,5 +1909,6 @@
         private System.Windows.Forms.ComboBox comboBox38;
         private System.Windows.Forms.ComboBox comboBox39;
         private System.Windows.Forms.ComboBox comboBox40;
+        private System.Windows.Forms.Label statusText;
     }
 }

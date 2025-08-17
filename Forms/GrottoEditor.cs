@@ -192,6 +192,8 @@ namespace NewEditor.Forms
             }
 
             grottoNarc.grottos[grottoIDDropdown.SelectedIndex].ApplyData();
+
+            statusText.Text = "Saved hidden grotto data - " + DateTime.Now.StatusText();
         }
     }
 }

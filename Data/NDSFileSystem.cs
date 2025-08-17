@@ -92,6 +92,7 @@ namespace NewEditor.Data
         public HabitatListNARC habitatListNarc;
         public PokemartNARC pokemartNarc;
         public PokemartItemCountNARC pokemartItemCountNarc;
+        public AIScriptNARC AIScriptNarc;
         public KeyboardNARC keyboardNarc;
         public XPCurveNARC xpCurveNarc;
         public HiddenGrottoNARC hiddenGrottoNarc;
@@ -119,6 +120,7 @@ namespace NewEditor.Data
             }
             result.narcIDs = new Dictionary<int, Type>()
             {
+                { MainEditor.AIScriptNarcID, typeof(AIScriptNARC) },
                 { MainEditor.childPokemonNarcID, typeof(ChildPokemonNARC) },
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
                 { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
@@ -255,6 +257,7 @@ namespace NewEditor.Data
             result.overworldsNarc = result.narcs[MainEditor.overworldsNarcID] as OverworldObjectsNARC;
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
             result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
+            result.AIScriptNarc = result.narcs[MainEditor.AIScriptNarcID] as AIScriptNARC;
             if (result.RomType == RomType.BW2)
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
@@ -311,6 +314,7 @@ namespace NewEditor.Data
             }
             result.narcIDs = new Dictionary<int, Type>()
             {
+                { MainEditor.AIScriptNarcID, typeof(AIScriptNARC) },
                 { MainEditor.childPokemonNarcID, typeof(ChildPokemonNARC) },
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
                 { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
@@ -406,6 +410,7 @@ namespace NewEditor.Data
             result.overworldsNarc = result.narcs[MainEditor.overworldsNarcID] as OverworldObjectsNARC;
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
             result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
+            result.AIScriptNarc = result.narcs[MainEditor.AIScriptNarcID] as AIScriptNARC;
             if (result.RomType == RomType.BW2)
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;

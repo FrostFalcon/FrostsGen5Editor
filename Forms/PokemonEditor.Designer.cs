@@ -88,6 +88,8 @@ namespace NewEditor.Forms
             this.pkGenderRatioDropdown = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.levelUpMovesGroup = new System.Windows.Forms.GroupBox();
+            this.moveDownButton = new System.Windows.Forms.Button();
+            this.moveUpButton = new System.Windows.Forms.Button();
             this.learnsetApplyMoveButton = new System.Windows.Forms.Button();
             this.learnsetListBox = new System.Windows.Forms.ListBox();
             this.learnsetMoveDropdown = new System.Windows.Forms.ComboBox();
@@ -164,8 +166,7 @@ namespace NewEditor.Forms
             this.eggMoveListBox = new System.Windows.Forms.ListBox();
             this.eggMoveDropdown = new System.Windows.Forms.ComboBox();
             this.label44 = new System.Windows.Forms.Label();
-            this.moveUpButton = new System.Windows.Forms.Button();
-            this.moveDownButton = new System.Windows.Forms.Button();
+            this.statusText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpeedNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpDefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonBaseSpAttNumberBox)).BeginInit();
@@ -997,6 +998,26 @@ namespace NewEditor.Forms
             this.levelUpMovesGroup.TabStop = false;
             this.levelUpMovesGroup.Text = "Level Up Moves";
             // 
+            // moveDownButton
+            // 
+            this.moveDownButton.Location = new System.Drawing.Point(220, 440);
+            this.moveDownButton.Name = "moveDownButton";
+            this.moveDownButton.Size = new System.Drawing.Size(24, 24);
+            this.moveDownButton.TabIndex = 85;
+            this.moveDownButton.Text = "v";
+            this.moveDownButton.UseVisualStyleBackColor = true;
+            this.moveDownButton.Click += new System.EventHandler(this.moveDownButton_Click);
+            // 
+            // moveUpButton
+            // 
+            this.moveUpButton.Location = new System.Drawing.Point(220, 410);
+            this.moveUpButton.Name = "moveUpButton";
+            this.moveUpButton.Size = new System.Drawing.Size(24, 24);
+            this.moveUpButton.TabIndex = 84;
+            this.moveUpButton.Text = "^";
+            this.moveUpButton.UseVisualStyleBackColor = true;
+            this.moveUpButton.Click += new System.EventHandler(this.moveUpButton_Click);
+            // 
             // learnsetApplyMoveButton
             // 
             this.learnsetApplyMoveButton.Location = new System.Drawing.Point(220, 238);
@@ -1757,25 +1778,13 @@ namespace NewEditor.Forms
             this.label44.TabIndex = 86;
             this.label44.Text = "Move:";
             // 
-            // moveUpButton
+            // statusText
             // 
-            this.moveUpButton.Location = new System.Drawing.Point(220, 410);
-            this.moveUpButton.Name = "moveUpButton";
-            this.moveUpButton.Size = new System.Drawing.Size(24, 24);
-            this.moveUpButton.TabIndex = 84;
-            this.moveUpButton.Text = "^";
-            this.moveUpButton.UseVisualStyleBackColor = true;
-            this.moveUpButton.Click += new System.EventHandler(this.moveUpButton_Click);
-            // 
-            // moveDownButton
-            // 
-            this.moveDownButton.Location = new System.Drawing.Point(220, 440);
-            this.moveDownButton.Name = "moveDownButton";
-            this.moveDownButton.Size = new System.Drawing.Size(24, 24);
-            this.moveDownButton.TabIndex = 85;
-            this.moveDownButton.Text = "v";
-            this.moveDownButton.UseVisualStyleBackColor = true;
-            this.moveDownButton.Click += new System.EventHandler(this.moveDownButton_Click);
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(17, 746);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 91;
             // 
             // PokemonEditor
             // 
@@ -1783,7 +1792,8 @@ namespace NewEditor.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1584, 761);
+            this.ClientSize = new System.Drawing.Size(1584, 771);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.eggMovesGroupBox);
             this.Controls.Add(this.label43);
             this.Controls.Add(this.tmTutorsGroupBox);
@@ -1984,5 +1994,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Button moveDownButton;
         private System.Windows.Forms.Button moveUpButton;
+        private System.Windows.Forms.Label statusText;
     }
 }

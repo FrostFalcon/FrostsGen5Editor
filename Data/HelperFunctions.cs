@@ -112,6 +112,13 @@ namespace NewEditor.Data
                 ts[r] = tmp;
             }
         }
+
+        public static string StatusText(this DateTime dt)
+        {
+            string text = dt.ToString();
+            if (text.Contains(" ")) text = text.Substring(text.IndexOf(" ") + 1);
+            return text;
+        }
     }
 
     public class RefByte : Object

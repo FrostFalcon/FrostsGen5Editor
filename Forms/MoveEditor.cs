@@ -287,6 +287,8 @@ namespace NewEditor.Forms
                 m.flags = f;
 
                 m.ApplyData();
+
+                statusText.Text = "Saved move data for " + m.ToString() + " - " + DateTime.Now.StatusText();
             }
         }
 
@@ -306,6 +308,8 @@ namespace NewEditor.Forms
 
                 textNARC.textFiles[VersionConstants.MoveNameTextFileID].CompressData();
                 textNARC.textFiles[VersionConstants.MoveUsageTextFileID].CompressData();
+
+                statusText.Text = "Saved move name - " + DateTime.Now.StatusText();
             }
         }
 
@@ -318,6 +322,8 @@ namespace NewEditor.Forms
 
                 textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].text[id] = setMoveDescriptionTextBox.Text.Replace("\n", "\\xfffe");
                 textNARC.textFiles[VersionConstants.MoveDescriptionTextFileID].CompressData();
+
+                statusText.Text = "Saved move description - " + DateTime.Now.StatusText();
             }
         }
 
@@ -392,6 +398,8 @@ namespace NewEditor.Forms
 
                 anim.sequences = sequences;
                 anim.ApplyData();
+
+                statusText.Text = "Saved move animation - " + DateTime.Now.StatusText();
 
                 //MoveAnimationEntry anim = moveAnimNARC.animations[moveNameDropdown.SelectedIndex];
                 //

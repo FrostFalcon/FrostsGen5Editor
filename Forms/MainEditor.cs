@@ -50,6 +50,7 @@ namespace NewEditor.Forms
         public static int encounterNarcID = -1;
         public static int pokemartNarcID = -1;
         public static int pokemartItemCountNarcID = -1;
+        public static int AIScriptNarcID = -1;
         public static int keyboardNarcID = -1;
         public static int xpCurveNarcID = -1;
         public static int habitatListNarcID = -1;
@@ -87,6 +88,7 @@ namespace NewEditor.Forms
         public static EncounterNARC encounterNarc;
         public static PokemartNARC pokemartNarc;
         public static PokemartItemCountNARC pokemartItemCountNarc;
+        public static AIScriptNARC AIScriptNarc;
         public static KeyboardNARC keyboardNarc;
         public static XPCurveNARC xpCurveNarc;
         public static HabitatListNARC habitatListNarc;
@@ -108,6 +110,7 @@ namespace NewEditor.Forms
         public static OverlayEditor overlayEditor;
         public static TypeChartEditor typeChartEditor;
         public static Pokepatcher pokePatchEditor;
+        public static FileExplorer fileExplorer;
         public static List<Form> extraForms = new List<Form>();
 
         public bool loadingNARCS = false;
@@ -157,6 +160,7 @@ namespace NewEditor.Forms
             if (typeSwapEditor != null && !typeSwapEditor.IsDisposed) list.Add(typeSwapEditor);
             if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) list.Add(presetMovesEditor);
             if (pokePatchEditor != null && !pokePatchEditor.IsDisposed) list.Add(pokePatchEditor);
+            if (fileExplorer != null && !fileExplorer.IsDisposed) list.Add(fileExplorer);
             if (typeChartEditor != null && !typeChartEditor.IsDisposed) list.Add(typeChartEditor);
             for (int i = 0; i < extraForms.Count; i++)
             {
@@ -207,6 +211,7 @@ namespace NewEditor.Forms
                 encounterNarcID = VersionConstants.BW2_EncountersNARCID;
                 pokemartNarcID = VersionConstants.BW2_PokemartNARCID;
                 pokemartItemCountNarcID = VersionConstants.BW2_PokemartItemCountNARCID;
+                AIScriptNarcID = VersionConstants.BW2_AIScriptNARCID;
                 keyboardNarcID = VersionConstants.BW2_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW2_HabitatListNARCID;
@@ -247,6 +252,7 @@ namespace NewEditor.Forms
                 encounterNarcID = VersionConstants.BW1_EncountersNARCID;
                 pokemartNarcID = VersionConstants.BW1_PokemartNARCID;
                 pokemartItemCountNarcID = VersionConstants.BW1_PokemartItemCountNARCID;
+                AIScriptNarcID = VersionConstants.BW1_AIScriptNARCID;
                 keyboardNarcID = VersionConstants.BW1_KeyboardLayoutNARCID;
                 xpCurveNarcID = VersionConstants.BW1_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW1_HabitatListNARCID;
@@ -310,6 +316,8 @@ namespace NewEditor.Forms
             SaveFileDialog prompt = new SaveFileDialog();
             prompt.Filter = "Nds Roms|*.nds";
 
+            string prevStatus = statusText.Text;
+            statusText.Text = "Saving rom";
             if (prompt.ShowDialog() == DialogResult.OK)
             {
                 taskProgressBar.Value = 0;
@@ -322,6 +330,8 @@ namespace NewEditor.Forms
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unable to save rom");
+
+                    statusText.Text = "Failed to save rom - " + DateTime.Now.StatusText();
                     return;
                 }
                 fileStream.SetLength(0);
@@ -329,17 +339,29 @@ namespace NewEditor.Forms
                 fileStream.Write(data, 0, data.Length);
                 fileStream.Close();
                 taskProgressBar.Value = taskProgressBar.Maximum;
+                statusText.Text = "Saved rom to " + prompt.FileName + " - " + DateTime.Now.StatusText();
                 MessageBox.Show("Rom saved to " + prompt.FileName);
+            }
+            else
+            {
+                statusText.Text = prevStatus;
             }
         }
 
         private void dumpRomButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog prompt = new FolderBrowserDialog();
+            string prevStatus = statusText.Text;
+            statusText.Text = "Dumping rom";
             if (prompt.ShowDialog() == DialogResult.OK)
             {
                 fileSystem.DumpFileSystem(prompt.SelectedPath);
+                statusText.Text = "Dumped rom to " + prompt.SelectedPath + " - " + DateTime.Now.StatusText();
                 MessageBox.Show("Rom dumped successfully");
+            }
+            else
+            {
+                statusText.Text = prevStatus;
             }
         }
 
@@ -379,6 +401,7 @@ namespace NewEditor.Forms
             if (typeSwapEditor != null && !typeSwapEditor.IsDisposed) typeSwapEditor.Close();
             if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) presetMovesEditor.Close();
             if (pokePatchEditor != null && !pokePatchEditor.IsDisposed) pokePatchEditor.Close();
+            if (fileExplorer != null && !fileExplorer.IsDisposed) fileExplorer.Close();
             if (typeChartEditor != null && !typeChartEditor.IsDisposed) typeChartEditor.Close();
             textNarc = null;
             storyTextNarc = null;
@@ -404,14 +427,22 @@ namespace NewEditor.Forms
             overlayEditor = null;
             loadingNARCS = true;
             taskProgressBar.Value = 0;
+            statusText.Text = "Loading rom from " + (fromFolder ? "folder" : "file");
 
+            bool fail = false;
             await Task.Run(() =>
             {
                 try
                 {
                     if (fromFolder)
                     {
-                        fileSystem = NDSFileSystem.FromFileSystem(loadedRomPath, true);
+                        NDSFileSystem fs = NDSFileSystem.FromFileSystem(loadedRomPath, true);
+                        if (fs == null)
+                        {
+                            fail = true;
+                            return;
+                        }
+                        fileSystem = fs;
                     }
                     else
                     {
@@ -431,6 +462,14 @@ namespace NewEditor.Forms
                     throw ex;
                 }
             });
+            if (fail)
+            {
+                openRomButton.Enabled = true;
+                loadFromFolderButton.Enabled = true;
+                autoLoadButton.Enabled = true;
+                statusText.Text = "Failed to load rom - " + DateTime.Now.StatusText();
+                return;
+            }
 
             //Setup Editor
             saveRomButton.Enabled = true;
@@ -441,9 +480,10 @@ namespace NewEditor.Forms
             romNameText.Text = "Rom: " + loadedRomPath.Substring(loadedRomPath.LastIndexOf('\\') + 1, loadedRomPath.Length - (loadedRomPath.LastIndexOf('\\') + 1));
             romTypeText.Text = "Rom Type: " + romType;
             taskProgressBar.Value = taskProgressBar.Maximum;
+            statusText.Text = "Loaded rom - " + DateTime.Now.StatusText();
 
             MessageBox.Show("Rom Loaded");
-
+            
             loadingNARCS = false;
             autoLoaded = false;
         }
@@ -475,6 +515,7 @@ namespace NewEditor.Forms
             overworldsNarc = fileSystem.narcs[overworldsNarcID] as OverworldObjectsNARC;
             encounterNarc = fileSystem.narcs[encounterNarcID] as EncounterNARC;
             xpCurveNarc = fileSystem.narcs[xpCurveNarcID] as XPCurveNARC;
+            AIScriptNarc = fileSystem.narcs[AIScriptNarcID] as AIScriptNARC;
             if (RomType == RomType.BW2)
             {
                 pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
@@ -679,6 +720,20 @@ namespace NewEditor.Forms
             ChangeTheme(null, null);
             pokemartEditor.Show();
             pokemartEditor.BringToFront();
+        }
+
+        public void OpenFileExplorer(object sender, EventArgs e)
+        {
+            if (fileSystem == null || loadingNARCS)
+            {
+                MessageBox.Show("Data files have not been loaded");
+                return;
+            }
+
+            if (fileExplorer == null || fileExplorer.IsDisposed) fileExplorer = new FileExplorer();
+            ChangeTheme(null, null);
+            fileExplorer.Show();
+            fileExplorer.BringToFront();
         }
 
         private void openOverlayEditorButton_Click(object sender, EventArgs e)

@@ -40,6 +40,7 @@ namespace NewEditor.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.selectedLineNumberBox = new System.Windows.Forms.NumericUpDown();
             this.lineCountLabel = new System.Windows.Forms.Label();
+            this.statusText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.selectedLineNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -150,12 +151,21 @@ namespace NewEditor.Forms
             this.lineCountLabel.TabIndex = 10;
             this.lineCountLabel.Text = "/ 0";
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(14, 436);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 11;
+            // 
             // TextViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(944, 441);
+            this.ClientSize = new System.Drawing.Size(944, 461);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.lineCountLabel);
             this.Controls.Add(this.selectedLineNumberBox);
             this.Controls.Add(this.label1);
@@ -189,5 +199,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown selectedLineNumberBox;
         private System.Windows.Forms.Label lineCountLabel;
+        private System.Windows.Forms.Label statusText;
     }
 }

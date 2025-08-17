@@ -179,6 +179,8 @@ namespace NewEditor.Forms
                 z.flyZ = (int)flyYNumberBox.Value;
 
                 z.ApplyData();
+
+                statusText.Text = "Saved overworld header data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -417,6 +419,8 @@ namespace NewEditor.Forms
                 npc.yPosition = (short)npcYPositionNumberBox.Value;
                 npc.zPosition = (short)npcZPositionNumberBox.Value;
                 npc.defaultDirection = (short)npcDirectionNumberBox.Value;
+
+                statusText.Text = "Saved npc data - " + DateTime.Now.StatusText();
             }
             if (overworlObjectTabs.SelectedIndex == 1)
             {
@@ -426,6 +430,8 @@ namespace NewEditor.Forms
                 //fur.xPosition = (short)furnitureXPosNumberBox.Value;
                 //fur.yPosition = (short)furnitureYPosNumberBox.Value;
                 //fur.zPosition = (short)furnitureZPosNumberBox.Value;
+
+                statusText.Text = "Saved furniture data - " + DateTime.Now.StatusText();
             }
             else if (overworlObjectTabs.SelectedIndex == 2)
             {
@@ -437,6 +443,8 @@ namespace NewEditor.Forms
                 warp.exitY = (int)warpExitYNumberBox.Value;
                 warp.width = (short)warpWidthNumberBox.Value;
                 warp.height = (short)warpHeightNumberBox.Value;
+
+                statusText.Text = "Saved warp data - " + DateTime.Now.StatusText();
             }
             else if (overworlObjectTabs.SelectedIndex == 3)
             {
@@ -450,8 +458,15 @@ namespace NewEditor.Forms
                 trigger.zPosition = (short)triggerZNumberBox.Value;
                 trigger.width = (short)triggerWidthNumberBox.Value;
                 trigger.height = (short)triggerHeightNumberBox.Value;
+
+                statusText.Text = "Saved trigger data - " + DateTime.Now.StatusText();
             }
-            else if (overworlObjectTabs.SelectedIndex == 4) ApplyEndData(overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData);
+            else if (overworlObjectTabs.SelectedIndex == 4)
+            {
+                ApplyEndData(overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData);
+
+                statusText.Text = "Saved level script data - " + DateTime.Now.StatusText();
+            }
 
             overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
         }
@@ -509,6 +524,20 @@ namespace NewEditor.Forms
                         setItemDropdown.Enabled = false;
                         setItemButton.Enabled = false;
                     }
+                }
+            }
+            else if (i > 3000 && i < MainEditor.trainerNarc.trainers.Count + 3000)
+            {
+                if (MainEditor.trainerNarc != null)
+                {
+                    giveItemLabel.Text = "Trainer: " + MainEditor.trainerNarc.trainers[i - 3000].ToString();
+                }
+            }
+            else if (i > 5000 && i < MainEditor.trainerNarc.trainers.Count + 5000)
+            {
+                if (MainEditor.trainerNarc != null)
+                {
+                    giveItemLabel.Text = "Trainer: " + MainEditor.trainerNarc.trainers[i - 5000].ToString();
                 }
             }
             else

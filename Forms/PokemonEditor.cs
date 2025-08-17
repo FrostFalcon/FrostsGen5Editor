@@ -365,6 +365,8 @@ namespace NewEditor.Forms
                     eggMoveNarc.entries[p.nameID].ApplyData();
                 }
 
+                statusText.Text = "Saved Pokemon data - " + DateTime.Now.StatusText();
+
                 SetupPokemonLearnsetList();
             }
         }
@@ -589,6 +591,8 @@ namespace NewEditor.Forms
                         }
                     }
                 }
+
+                statusText.Text = "Imported sprite data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -613,6 +617,8 @@ namespace NewEditor.Forms
                     }
 
                     FileFunctions.WriteAllSections(prompt.FileName, data, true);
+
+                    statusText.Text = "Exported sprite data to " + prompt.FileName + " - " + DateTime.Now.StatusText();
                     MessageBox.Show("Sprite data saved to " + prompt.FileName);
                 }
             }
@@ -646,6 +652,8 @@ namespace NewEditor.Forms
                     p.bytes[i / 3] = byte.Parse(hexDataTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber);
                 }
                 p.ReadDataBW2();
+
+                statusText.Text = "Saved Pokemon Data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -702,6 +710,8 @@ namespace NewEditor.Forms
                     if (p.nameID < textNARC.textFiles[i].text.Count) textNARC.textFiles[i].text[p.nameID] = pokedexWeightKg.Text + "." + pokedexWeightSubKg.Text + " kg";
                     textNARC.textFiles[i].CompressData();
                 }
+
+                statusText.Text = "Saved Pokedex entry text - " + DateTime.Now.StatusText();
             }
         }
 

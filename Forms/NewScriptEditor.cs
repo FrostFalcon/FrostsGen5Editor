@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -107,6 +109,8 @@ namespace NewEditor.Forms
                     sf.bytes[i / 3] = byte.Parse(rawDataTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber);
                 }
                 sf.ReadData();
+
+                statusText.Text = "Saved script file from binary data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -129,7 +133,7 @@ namespace NewEditor.Forms
 
         private void ReadScriptFile(object sender, EventArgs e)
         {
-            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
+            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(commandNameSelection3.Checked && CommandReference.customCommandList.Count > 0 ? CommandReference.customCommandList : MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
                 commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
             if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov))
             {
@@ -171,12 +175,14 @@ namespace NewEditor.Forms
                     MainEditor.scriptNarc.scriptFiles[scriptFileDropdown.SelectedIndex] = newFile;
                     LoadScriptFile(sender, e);
                 }
+
+                statusText.Text = "Imported script from script file - " + DateTime.Now.StatusText();
             }
         }
 
         private void ExportScriptFile(object sender, EventArgs e)
         {
-            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
+            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(commandNameSelection3.Checked && CommandReference.customCommandList.Count > 0 ? CommandReference.customCommandList : MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
                 commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
             if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov))
             {
@@ -239,6 +245,7 @@ namespace NewEditor.Forms
                     }
                 }
 
+                statusText.Text = "Exported script file to " + prompt.FileName + " - " + DateTime.Now.StatusText();
                 var result = MessageBox.Show("Script file saved to " + prompt.FileName + "\n\nWould you like to open the file in a text editor?", "Script Saved", MessageBoxButtons.YesNo);
 
                 if (result == DialogResult.Yes)
@@ -281,7 +288,7 @@ namespace NewEditor.Forms
 
         private void quickBuildButton_Click(object sender, EventArgs e)
         {
-            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
+            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(commandNameSelection3.Checked && CommandReference.customCommandList.Count > 0 ? CommandReference.customCommandList : MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
                 commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
             if (loadedOverlayDropdown.SelectedIndex > 0 && int.TryParse((string)loadedOverlayDropdown.SelectedItem, out int ov))
             {
@@ -334,20 +341,67 @@ namespace NewEditor.Forms
             fileStream.Write(data, 0, data.Length);
             fileStream.Close();
             MessageBox.Show("Rom saved to " + quickBuildRom);
+
+            statusText.Text = "Applied quick build - " + DateTime.Now.StatusText();
         }
 
         bool loading = true;
 
         private void commandNameSelection1_CheckedChanged(object sender, EventArgs e)
         {
+            if (!commandNameSelection1.Checked) return;
+
             if (!loading)
                 FileFunctions.WriteFileSection("Preferences.txt", "CommandNames", ASCIIEncoding.ASCII.GetBytes("Frosts"));
         }
 
         private void commandNameSelection2_CheckedChanged(object sender, EventArgs e)
         {
+            if (!commandNameSelection2.Checked) return;
+
             if (!loading)
                 FileFunctions.WriteFileSection("Preferences.txt", "CommandNames", ASCIIEncoding.ASCII.GetBytes("Beaterscript"));
+        }
+
+        private void commandNameSelection3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!commandNameSelection3.Checked) return;
+
+            OpenFileDialog open = new OpenFileDialog();
+            open.FileName = "ScriptCommands.json";
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                Dictionary<int, Data.NARCTypes.CommandType> comDefs = new Dictionary<int, Data.NARCTypes.CommandType>();
+
+                JsonDocument json = JsonDocument.Parse(File.ReadAllText(open.FileName));
+                foreach (JsonProperty com in json.RootElement.EnumerateObject())
+                {
+                    if (int.TryParse(com.Name.Substring(com.Name.IndexOf("x") + 1), System.Globalization.NumberStyles.HexNumber, null, out int id) &&
+                        com.Value.TryGetProperty("name", out JsonElement name) && com.Value.TryGetProperty("parameters", out JsonElement pars))
+                    {
+                        int[] paramInts = pars.EnumerateArray().Count() == 0 ? new int[0] : JsonSerializer.Deserialize<int[]>(pars);
+                        comDefs.Add(id, new Data.NARCTypes.CommandType(name.GetString(), paramInts.Length, paramInts));
+                    }
+                    else
+                    {
+                        commandNameSelection3.Checked = false;
+                        commandNameSelection1.Checked = true;
+                        MessageBox.Show("Error reading definition for command: \"" + com.Name + "\"");
+                        return;
+                    }
+                }
+
+                CommandReference.customCommandList = comDefs;
+
+                if (!loading)
+                    FileFunctions.WriteFileSection("Preferences.txt", "CommandNames", ASCIIEncoding.ASCII.GetBytes("Frosts"));
+            }
+            else
+            {
+                commandNameSelection3.Checked = false;
+                commandNameSelection1.Checked = true;
+            }
         }
 
         private void importRawDataButton_Click(object sender, EventArgs e)
@@ -363,10 +417,12 @@ namespace NewEditor.Forms
                 byte[] b = File.ReadAllBytes(open.FileName);
                 sf.bytes = new RefByte[b.Length];
                 for (int i = 0; i < b.Length; i++) sf.bytes[i] = b[i];
-            }
 
-            sf.ReadData();
-            LoadScriptFile(null, null);
+                sf.ReadData();
+
+                statusText.Text = "Imported script from binary file - " + DateTime.Now.StatusText();
+                LoadScriptFile(null, null);
+            }
         }
 
         private void exportRawDataButton_Click(object sender, EventArgs e)
@@ -382,6 +438,37 @@ namespace NewEditor.Forms
                 byte[] b = new byte[sf.bytes.Length];
                 for (int i = 0; i < b.Length; i++) b[i] = sf.bytes[i];
                 File.WriteAllBytes(save.FileName, b);
+
+                statusText.Text = "Exported binary file to " + save.FileName + " - " + DateTime.Now.StatusText();
+            }
+        }
+
+        private void genCommandDatabaseButton_Click(object sender, EventArgs e)
+        {
+            CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(commandNameSelection3.Checked && CommandReference.customCommandList.Count > 0 ? CommandReference.customCommandList : MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
+                commandNameSelection2.Checked ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
+
+            JsonObject json = new JsonObject();
+            foreach (var com in CommandReference.commandList)
+            {
+                JsonArray array = new JsonArray();
+                foreach (int p in com.Value.parameterBytes) array.Add(p);
+
+                JsonObject entry = new JsonObject
+                {
+                    { "name", com.Value.name },
+                    { "parameters", array },
+                };
+                json.Add("0x" + com.Key.ToString("X"), entry);
+            }
+
+            SaveFileDialog save = new SaveFileDialog();
+            save.FileName = "ScriptCommands.json";
+
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(save.FileName, json.ToString());
+                statusText.Text = "Exported command database to " + save.FileName + " - " + DateTime.Now.StatusText();
             }
         }
     }

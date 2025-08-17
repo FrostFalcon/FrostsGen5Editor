@@ -149,6 +149,7 @@ namespace NewEditor.Forms
             this.label48 = new System.Windows.Forms.Label();
             this.challengeLevelNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label37 = new System.Windows.Forms.Label();
+            this.statusText = new System.Windows.Forms.Label();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -1907,12 +1908,21 @@ namespace NewEditor.Forms
             this.label37.TabIndex = 95;
             this.label37.Text = "Challenge Level:";
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(20, 496);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 97;
+            // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(904, 501);
+            this.ClientSize = new System.Drawing.Size(904, 521);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.challengeLevelNumberBox);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.flyYNumberBox);
@@ -2137,5 +2147,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.ComboBox setItemDropdown;
         private System.Windows.Forms.NumericUpDown challengeLevelNumberBox;
         private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label statusText;
     }
 }

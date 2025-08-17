@@ -31,6 +31,7 @@ namespace NewEditor.Forms
         {
             this.trainerNameDropdown = new System.Windows.Forms.ComboBox();
             this.trainerDataGroup = new System.Windows.Forms.GroupBox();
+            this.trainerClassDropdown = new System.Windows.Forms.ComboBox();
             this.editTrainerAIButton = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.aiNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -82,7 +83,13 @@ namespace NewEditor.Forms
             this.dialogueTypeDropdown = new System.Windows.Forms.ComboBox();
             this.trainerNameTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.trainerClassDropdown = new System.Windows.Forms.ComboBox();
+            this.statusText = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.importAIScriptButton = new System.Windows.Forms.Button();
+            this.exportAIScriptButton = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.aiScriptFileNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.pokeNatureLabel = new System.Windows.Forms.Label();
             this.trainerDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.aiNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prizeMoneyNumberBox)).BeginInit();
@@ -92,6 +99,8 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonLevelNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonFormNumberBox)).BeginInit();
             this.dialogueGroup.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.aiScriptFileNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // trainerNameDropdown
@@ -136,6 +145,16 @@ namespace NewEditor.Forms
             this.trainerDataGroup.TabIndex = 73;
             this.trainerDataGroup.TabStop = false;
             this.trainerDataGroup.Text = "Trainer Data";
+            // 
+            // trainerClassDropdown
+            // 
+            this.trainerClassDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.trainerClassDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.trainerClassDropdown.FormattingEnabled = true;
+            this.trainerClassDropdown.Location = new System.Drawing.Point(105, 22);
+            this.trainerClassDropdown.Name = "trainerClassDropdown";
+            this.trainerClassDropdown.Size = new System.Drawing.Size(151, 24);
+            this.trainerClassDropdown.TabIndex = 98;
             // 
             // editTrainerAIButton
             // 
@@ -359,6 +378,7 @@ namespace NewEditor.Forms
             // pokemonGroupBox
             // 
             this.pokemonGroupBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pokemonGroupBox.Controls.Add(this.pokeNatureLabel);
             this.pokemonGroupBox.Controls.Add(this.movePokemonDownButton);
             this.pokemonGroupBox.Controls.Add(this.movePokemonUpButton);
             this.pokemonGroupBox.Controls.Add(this.label15);
@@ -471,7 +491,7 @@ namespace NewEditor.Forms
             // 
             // pokemonIVsNumberBox
             // 
-            this.pokemonIVsNumberBox.Location = new System.Drawing.Point(40, 181);
+            this.pokemonIVsNumberBox.Location = new System.Drawing.Point(70, 180);
             this.pokemonIVsNumberBox.Maximum = new decimal(new int[] {
             255,
             0,
@@ -480,15 +500,16 @@ namespace NewEditor.Forms
             this.pokemonIVsNumberBox.Name = "pokemonIVsNumberBox";
             this.pokemonIVsNumberBox.Size = new System.Drawing.Size(60, 22);
             this.pokemonIVsNumberBox.TabIndex = 84;
+            this.pokemonIVsNumberBox.ValueChanged += new System.EventHandler(this.pokemonIVsNumberBox_ValueChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(10, 184);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(30, 16);
+            this.label11.Size = new System.Drawing.Size(60, 16);
             this.label11.TabIndex = 83;
-            this.label11.Text = "IVs:";
+            this.label11.Text = "Difficulty:";
             // 
             // label10
             // 
@@ -515,6 +536,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.pokemonLevelNumberBox.ValueChanged += new System.EventHandler(this.pokemonLevelNumberBox_ValueChanged);
             // 
             // pokemonMove4Dropdown
             // 
@@ -610,6 +632,7 @@ namespace NewEditor.Forms
             this.pokemonIDDropdown.Name = "pokemonIDDropdown";
             this.pokemonIDDropdown.Size = new System.Drawing.Size(120, 24);
             this.pokemonIDDropdown.TabIndex = 83;
+            this.pokemonIDDropdown.SelectedIndexChanged += new System.EventHandler(this.pokemonIDDropdown_SelectedIndexChanged);
             // 
             // comboBox1
             // 
@@ -852,22 +875,81 @@ namespace NewEditor.Forms
             this.label12.TabIndex = 98;
             this.label12.Text = "Name:";
             // 
-            // trainerClassDropdown
+            // statusText
             // 
-            this.trainerClassDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.trainerClassDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.trainerClassDropdown.FormattingEnabled = true;
-            this.trainerClassDropdown.Location = new System.Drawing.Point(105, 22);
-            this.trainerClassDropdown.Name = "trainerClassDropdown";
-            this.trainerClassDropdown.Size = new System.Drawing.Size(151, 24);
-            this.trainerClassDropdown.TabIndex = 98;
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(10, 493);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 99;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox1.Controls.Add(this.importAIScriptButton);
+            this.groupBox1.Controls.Add(this.exportAIScriptButton);
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.aiScriptFileNumberBox);
+            this.groupBox1.Location = new System.Drawing.Point(670, 440);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(300, 69);
+            this.groupBox1.TabIndex = 100;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "AI Scripts";
+            // 
+            // importAIScriptButton
+            // 
+            this.importAIScriptButton.Location = new System.Drawing.Point(210, 26);
+            this.importAIScriptButton.Name = "importAIScriptButton";
+            this.importAIScriptButton.Size = new System.Drawing.Size(80, 30);
+            this.importAIScriptButton.TabIndex = 3;
+            this.importAIScriptButton.Text = "Import";
+            this.importAIScriptButton.UseVisualStyleBackColor = true;
+            this.importAIScriptButton.Click += new System.EventHandler(this.importAIScriptButton_Click);
+            // 
+            // exportAIScriptButton
+            // 
+            this.exportAIScriptButton.Location = new System.Drawing.Point(120, 26);
+            this.exportAIScriptButton.Name = "exportAIScriptButton";
+            this.exportAIScriptButton.Size = new System.Drawing.Size(80, 30);
+            this.exportAIScriptButton.TabIndex = 2;
+            this.exportAIScriptButton.Text = "Export";
+            this.exportAIScriptButton.UseVisualStyleBackColor = true;
+            this.exportAIScriptButton.Click += new System.EventHandler(this.exportAIScriptButton_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(10, 32);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(32, 16);
+            this.label17.TabIndex = 1;
+            this.label17.Text = "File:";
+            // 
+            // aiScriptFileNumberBox
+            // 
+            this.aiScriptFileNumberBox.Location = new System.Drawing.Point(50, 30);
+            this.aiScriptFileNumberBox.Name = "aiScriptFileNumberBox";
+            this.aiScriptFileNumberBox.Size = new System.Drawing.Size(60, 22);
+            this.aiScriptFileNumberBox.TabIndex = 0;
+            // 
+            // pokeNatureLabel
+            // 
+            this.pokeNatureLabel.AutoSize = true;
+            this.pokeNatureLabel.Location = new System.Drawing.Point(140, 184);
+            this.pokeNatureLabel.Name = "pokeNatureLabel";
+            this.pokeNatureLabel.Size = new System.Drawing.Size(15, 16);
+            this.pokeNatureLabel.TabIndex = 97;
+            this.pokeNatureLabel.Text = "()";
             // 
             // TrainerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(984, 441);
+            this.ClientSize = new System.Drawing.Size(984, 521);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.trainerNameTextBox);
             this.Controls.Add(this.dialogueGroup);
@@ -894,6 +976,9 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pokemonFormNumberBox)).EndInit();
             this.dialogueGroup.ResumeLayout(false);
             this.dialogueGroup.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.aiScriptFileNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -955,5 +1040,12 @@ namespace NewEditor.Forms
         private System.Windows.Forms.TextBox trainerNameTextBox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox trainerClassDropdown;
+        private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button exportAIScriptButton;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown aiScriptFileNumberBox;
+        private System.Windows.Forms.Button importAIScriptButton;
+        private System.Windows.Forms.Label pokeNatureLabel;
     }
 }

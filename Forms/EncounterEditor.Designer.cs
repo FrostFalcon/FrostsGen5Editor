@@ -58,6 +58,7 @@ namespace NewEditor.Forms
             this.encounterGroupMinLvNumber = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.toggleSeasonsButton = new System.Windows.Forms.Button();
+            this.statusText = new System.Windows.Forms.Label();
             this.routeEncounterTypesPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.encounterGroupRateNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.encounterGroupMaxLvNumber)).BeginInit();
@@ -394,11 +395,20 @@ namespace NewEditor.Forms
             this.toggleSeasonsButton.UseVisualStyleBackColor = true;
             this.toggleSeasonsButton.Click += new System.EventHandler(this.toggleSeasonsButton_Click);
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(28, 346);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 54;
+            // 
             // EncounterEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(674, 361);
+            this.ClientSize = new System.Drawing.Size(674, 371);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.toggleSeasonsButton);
             this.Controls.Add(this.encounterSlotToPokemonEditorButton);
             this.Controls.Add(this.pasteEncounterGroupButton);
@@ -467,5 +477,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.RadioButton radioButton1;
         public System.Windows.Forms.ComboBox encounterRouteNameDropdown;
         private System.Windows.Forms.Button toggleSeasonsButton;
+        private System.Windows.Forms.Label statusText;
     }
 }

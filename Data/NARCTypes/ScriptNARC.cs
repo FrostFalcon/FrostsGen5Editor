@@ -615,6 +615,7 @@ namespace NewEditor.Data.NARCTypes
             {
                 file.WriteLine("#include \"" + str + "\"");
             }
+            file.WriteLine("//Script File - " + MainEditor.scriptNarc.scriptFiles.IndexOf(this));
 
             int seqID = 0;
 
@@ -662,6 +663,7 @@ namespace NewEditor.Data.NARCTypes
 
             while (routineID < routines.Count)
             {
+                file.WriteLine("\nvoid Routine" + routineID + "()\n{");
                 int pos = routines[routineID];
                 int jumpMax = 0;
                 while (pos < bytes.Length)
@@ -674,24 +676,12 @@ namespace NewEditor.Data.NARCTypes
                     if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
-                routineID++;
-            }
 
-            routineID = 0;
-
-            while (routineID < routines.Count)
-            {
-                file.WriteLine("\nvoid Routine" + routineID + "()\n{");
-                int pos = routines[routineID];
-                int jumpMax = 0;
+                pos = routines[routineID];
                 while (pos < bytes.Length)
                 {
                     ScriptCommand com = new ScriptCommand(bytes, pos);
                     if (jumpLocations.Contains(pos)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(pos) + ": ;");
-                    if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
-                    if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
-                    if (com.commandID == 0x1E && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[0])) jumpLocations.Add(pos + com.ByteLength + com.parameters[0]);
-                    if (com.commandID == 0x1F && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[1])) jumpLocations.Add(pos + com.ByteLength + com.parameters[1]);
                     WriteCommandToFile(file, pos + com.ByteLength, com, routines, sequenceRoutines, jumpLocations);
                     if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
                     pos += com.ByteLength;
@@ -3496,6 +3486,8 @@ namespace NewEditor.Data.NARCTypes
                 {0x3EF, new CommandType("c0x3EF", 0)},
             } },
         };
+
+        internal static Dictionary<int, CommandType> customCommandList = new Dictionary<int, CommandType>();
 
         internal static Dictionary<string, int> CommandsByName()
         {

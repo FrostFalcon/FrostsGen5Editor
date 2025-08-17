@@ -46,6 +46,9 @@ namespace NewEditor.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.exportRawDataButton = new System.Windows.Forms.Button();
             this.importRawDataButton = new System.Windows.Forms.Button();
+            this.statusText = new System.Windows.Forms.Label();
+            this.commandNameSelection3 = new System.Windows.Forms.RadioButton();
+            this.genCommandDatabaseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.byteNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,14 +60,14 @@ namespace NewEditor.Forms
             this.scriptFileDropdown.Location = new System.Drawing.Point(14, 20);
             this.scriptFileDropdown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.scriptFileDropdown.Name = "scriptFileDropdown";
-            this.scriptFileDropdown.Size = new System.Drawing.Size(120, 24);
+            this.scriptFileDropdown.Size = new System.Drawing.Size(150, 24);
             this.scriptFileDropdown.TabIndex = 3;
             this.scriptFileDropdown.SelectedIndexChanged += new System.EventHandler(this.LoadScriptFile);
             // 
             // rawDataTextBox
             // 
             this.rawDataTextBox.Enabled = false;
-            this.rawDataTextBox.Location = new System.Drawing.Point(152, 309);
+            this.rawDataTextBox.Location = new System.Drawing.Point(152, 369);
             this.rawDataTextBox.Name = "rawDataTextBox";
             this.rawDataTextBox.Size = new System.Drawing.Size(380, 140);
             this.rawDataTextBox.TabIndex = 89;
@@ -74,7 +77,7 @@ namespace NewEditor.Forms
             // applyRawDataButton
             // 
             this.applyRawDataButton.Enabled = false;
-            this.applyRawDataButton.Location = new System.Drawing.Point(12, 409);
+            this.applyRawDataButton.Location = new System.Drawing.Point(12, 469);
             this.applyRawDataButton.Name = "applyRawDataButton";
             this.applyRawDataButton.Size = new System.Drawing.Size(120, 40);
             this.applyRawDataButton.TabIndex = 90;
@@ -84,7 +87,7 @@ namespace NewEditor.Forms
             // 
             // byteNumberBox
             // 
-            this.byteNumberBox.Location = new System.Drawing.Point(454, 281);
+            this.byteNumberBox.Location = new System.Drawing.Point(454, 341);
             this.byteNumberBox.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -98,7 +101,7 @@ namespace NewEditor.Forms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(367, 283);
+            this.label3.Location = new System.Drawing.Point(367, 343);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 16);
             this.label3.TabIndex = 94;
@@ -107,7 +110,7 @@ namespace NewEditor.Forms
             // readScriptFileButton
             // 
             this.readScriptFileButton.Enabled = false;
-            this.readScriptFileButton.Location = new System.Drawing.Point(14, 160);
+            this.readScriptFileButton.Location = new System.Drawing.Point(14, 220);
             this.readScriptFileButton.Name = "readScriptFileButton";
             this.readScriptFileButton.Size = new System.Drawing.Size(120, 40);
             this.readScriptFileButton.TabIndex = 95;
@@ -118,7 +121,7 @@ namespace NewEditor.Forms
             // exportScriptFileButton
             // 
             this.exportScriptFileButton.Enabled = false;
-            this.exportScriptFileButton.Location = new System.Drawing.Point(14, 205);
+            this.exportScriptFileButton.Location = new System.Drawing.Point(14, 265);
             this.exportScriptFileButton.Name = "exportScriptFileButton";
             this.exportScriptFileButton.Size = new System.Drawing.Size(120, 40);
             this.exportScriptFileButton.TabIndex = 96;
@@ -158,7 +161,7 @@ namespace NewEditor.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 65);
+            this.label1.Location = new System.Drawing.Point(12, 105);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(115, 16);
             this.label1.TabIndex = 100;
@@ -168,7 +171,7 @@ namespace NewEditor.Forms
             // 
             this.commandNameSelection1.AutoSize = true;
             this.commandNameSelection1.Checked = true;
-            this.commandNameSelection1.Location = new System.Drawing.Point(20, 95);
+            this.commandNameSelection1.Location = new System.Drawing.Point(20, 135);
             this.commandNameSelection1.Name = "commandNameSelection1";
             this.commandNameSelection1.Size = new System.Drawing.Size(102, 20);
             this.commandNameSelection1.TabIndex = 101;
@@ -180,7 +183,7 @@ namespace NewEditor.Forms
             // commandNameSelection2
             // 
             this.commandNameSelection2.AutoSize = true;
-            this.commandNameSelection2.Location = new System.Drawing.Point(20, 120);
+            this.commandNameSelection2.Location = new System.Drawing.Point(20, 160);
             this.commandNameSelection2.Name = "commandNameSelection2";
             this.commandNameSelection2.Size = new System.Drawing.Size(95, 20);
             this.commandNameSelection2.TabIndex = 102;
@@ -210,7 +213,7 @@ namespace NewEditor.Forms
             "66",
             "67",
             "68"});
-            this.loadedOverlayDropdown.Location = new System.Drawing.Point(14, 255);
+            this.loadedOverlayDropdown.Location = new System.Drawing.Point(14, 315);
             this.loadedOverlayDropdown.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.loadedOverlayDropdown.Name = "loadedOverlayDropdown";
             this.loadedOverlayDropdown.Size = new System.Drawing.Size(120, 24);
@@ -219,7 +222,7 @@ namespace NewEditor.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(140, 259);
+            this.label2.Location = new System.Drawing.Point(140, 319);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 16);
             this.label2.TabIndex = 104;
@@ -228,7 +231,7 @@ namespace NewEditor.Forms
             // exportRawDataButton
             // 
             this.exportRawDataButton.Enabled = false;
-            this.exportRawDataButton.Location = new System.Drawing.Point(12, 360);
+            this.exportRawDataButton.Location = new System.Drawing.Point(12, 420);
             this.exportRawDataButton.Name = "exportRawDataButton";
             this.exportRawDataButton.Size = new System.Drawing.Size(120, 40);
             this.exportRawDataButton.TabIndex = 105;
@@ -239,7 +242,7 @@ namespace NewEditor.Forms
             // importRawDataButton
             // 
             this.importRawDataButton.Enabled = false;
-            this.importRawDataButton.Location = new System.Drawing.Point(12, 309);
+            this.importRawDataButton.Location = new System.Drawing.Point(12, 369);
             this.importRawDataButton.Name = "importRawDataButton";
             this.importRawDataButton.Size = new System.Drawing.Size(120, 40);
             this.importRawDataButton.TabIndex = 106;
@@ -247,11 +250,43 @@ namespace NewEditor.Forms
             this.importRawDataButton.UseVisualStyleBackColor = true;
             this.importRawDataButton.Click += new System.EventHandler(this.importRawDataButton_Click);
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(11, 516);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 107;
+            // 
+            // commandNameSelection3
+            // 
+            this.commandNameSelection3.AutoSize = true;
+            this.commandNameSelection3.Location = new System.Drawing.Point(20, 186);
+            this.commandNameSelection3.Name = "commandNameSelection3";
+            this.commandNameSelection3.Size = new System.Drawing.Size(70, 20);
+            this.commandNameSelection3.TabIndex = 108;
+            this.commandNameSelection3.Text = "Custom";
+            this.commandNameSelection3.UseVisualStyleBackColor = true;
+            this.commandNameSelection3.CheckedChanged += new System.EventHandler(this.commandNameSelection3_CheckedChanged);
+            // 
+            // genCommandDatabaseButton
+            // 
+            this.genCommandDatabaseButton.Location = new System.Drawing.Point(14, 52);
+            this.genCommandDatabaseButton.Name = "genCommandDatabaseButton";
+            this.genCommandDatabaseButton.Size = new System.Drawing.Size(150, 40);
+            this.genCommandDatabaseButton.TabIndex = 109;
+            this.genCommandDatabaseButton.Text = "Generate Command Database";
+            this.genCommandDatabaseButton.UseVisualStyleBackColor = true;
+            this.genCommandDatabaseButton.Click += new System.EventHandler(this.genCommandDatabaseButton_Click);
+            // 
             // NewScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 461);
+            this.ClientSize = new System.Drawing.Size(544, 541);
+            this.Controls.Add(this.genCommandDatabaseButton);
+            this.Controls.Add(this.commandNameSelection3);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.importRawDataButton);
             this.Controls.Add(this.exportRawDataButton);
             this.Controls.Add(this.label2);
@@ -297,5 +332,8 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button exportRawDataButton;
         private System.Windows.Forms.Button importRawDataButton;
+        private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.RadioButton commandNameSelection3;
+        private System.Windows.Forms.Button genCommandDatabaseButton;
     }
 }

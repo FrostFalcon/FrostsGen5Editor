@@ -350,7 +350,6 @@ namespace NewEditor.Forms
                 {
                     string location = prompt.SelectedPath + "\\004_" + start.ToString("D8") + ".bin";
                     File.WriteAllBytes(location, sprite.files[i]);
-                    Debug.WriteLine(location);
                     start++;
                 }
             }

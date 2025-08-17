@@ -118,6 +118,8 @@ namespace NewEditor.Forms
                 {
                     MainEditor.pokemartItemCountNarc.itemCounts[id] = (byte)shop.items.Count;
                 }
+
+                statusText.Text = "Saved shop data - " + DateTime.Now.StatusText();
             }
         }
 
@@ -130,6 +132,8 @@ namespace NewEditor.Forms
             }
 
             MainEditor.itemDataNarc.items[itemIDDropdown.SelectedIndex].BuyPrice = (int)priceNumberBox.Value;
+
+            statusText.Text = "Set item price - " + DateTime.Now.StatusText();
         }
 
         private void itemIDDropdown_SelectedIndexChanged(object sender, EventArgs e)

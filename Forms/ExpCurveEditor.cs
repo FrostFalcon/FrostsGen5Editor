@@ -90,6 +90,8 @@ namespace NewEditor.Forms
                 xpRateDataGrid[i - 1, 0].Value = i == 100 ? 0 : MainEditor.xpCurveNarc.curves[((TextValue)curveIDDropdown.SelectedItem).hexID].GetXPAtLevel(i + 1) - xp;
                 xpRateDataGrid[i - 1, 1].Value = xp;
             }
+
+            statusText.Text = "Saved level curve data - " + DateTime.Now.StatusText();
         }
     }
 }

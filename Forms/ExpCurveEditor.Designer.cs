@@ -34,6 +34,7 @@
             this.xpRateChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.xpRateDataGrid = new System.Windows.Forms.DataGridView();
             this.applyButton = new System.Windows.Forms.Button();
+            this.statusText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.xpRateChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xpRateDataGrid)).BeginInit();
             this.SuspendLayout();
@@ -87,11 +88,20 @@
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.applyButton_Click);
             // 
+            // statusText
+            // 
+            this.statusText.AutoSize = true;
+            this.statusText.Location = new System.Drawing.Point(11, 396);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(0, 16);
+            this.statusText.TabIndex = 75;
+            // 
             // ExpCurveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 401);
+            this.ClientSize = new System.Drawing.Size(624, 421);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.applyButton);
             this.Controls.Add(this.xpRateDataGrid);
             this.Controls.Add(this.xpRateChart);
@@ -103,6 +113,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.xpRateChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xpRateDataGrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -112,5 +123,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart xpRateChart;
         private System.Windows.Forms.DataGridView xpRateDataGrid;
         private System.Windows.Forms.Button applyButton;
+        private System.Windows.Forms.Label statusText;
     }
 }

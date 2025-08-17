@@ -20,7 +20,7 @@ namespace NewEditor.Data
 
             for (int i = 0; i < bytes.Length; i += 32)
             {
-                Y9Entry entry = new Y9Entry()
+                Y9Entry entry = new Y9Entry(this)
                 {
                     id = HelperFunctions.ReadInt(bytes, i),
                     mountAddress = HelperFunctions.ReadInt(bytes, i + 4),
@@ -38,6 +38,8 @@ namespace NewEditor.Data
 
     public class Y9Entry
     {
+        private Y9Table table;
+
         public int id;
         public int mountAddress;
         public int mountSize;
@@ -46,6 +48,19 @@ namespace NewEditor.Data
         public int staticInitEndAddress;
         public int compressedSize;
         public bool compressed;
+
+        public Y9Entry(Y9Table table)
+        {
+            this.table = table;
+        }
+
+        public void Apply()
+        {
+            HelperFunctions.WriteInt(table.bytes, id * 32 + 4, mountAddress);
+            HelperFunctions.WriteInt(table.bytes, id * 32 + 8, mountSize);
+            HelperFunctions.WriteInt(table.bytes, id * 32 + 28, compressedSize);
+            table.bytes[id * 32 + 31] = (byte)(compressed ? 3 : 2);
+        }
 
         public override string ToString()
         {
