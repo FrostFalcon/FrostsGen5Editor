@@ -7,7 +7,7 @@
     <ProjectGuid>{EBB09CFC-0185-442F-AF37-7D1E14F153EA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>NewEditor</RootNamespace>
-    <AssemblyName>NewEditor</AssemblyName>
+    <AssemblyName>FrostsGen5Editor</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
