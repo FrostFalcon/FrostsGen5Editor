@@ -325,9 +325,14 @@ namespace NewEditor.Data.NARCTypes
             Dictionary<int, string> labels = new Dictionary<int, string>();
             List<(List<string>, ParamAlias)> jumpTables = new List<(List<string>, ParamAlias)>();
             List<(List<int>, ParamAlias)> itemLists = new List<(List<int>, ParamAlias)>();
+            Dictionary<int, string> unusedLabels = new Dictionary<int, string>();
             while (pos < bytes.Length)
             {
-                if (labels.ContainsKey(pos)) mainScript += "\n\n" + labels[pos] + ":";
+                if (labels.ContainsKey(pos))
+                {
+                    if (unusedLabels.ContainsKey(pos)) unusedLabels.Remove(pos);
+                    mainScript += "\n\n" + labels[pos] + ":";
+                }
 
                 AIScriptCommandDefinition def = commandDictionary[HelperFunctions.ReadShort(bytes, pos)];
                 pos += 2;
@@ -338,7 +343,10 @@ namespace NewEditor.Data.NARCTypes
                 for (int i = 0; i < def.paramAliases.Length; i++)
                 {
                     if (i == def.jumpParam && !labels.ContainsKey(endPos + HelperFunctions.ReadInt(bytes, pos)))
+                    {
+                        unusedLabels.Add(endPos + HelperFunctions.ReadInt(bytes, pos), "Label_" + labels.Count);
                         labels.Add(endPos + HelperFunctions.ReadInt(bytes, pos), "Label_" + labels.Count);
+                    }
 
                     //Special case for list checks
                     if ((def.name == "If_Stored_In_List" || def.name == "If_Stored_Not_In_List") && i == 0)
@@ -388,18 +396,23 @@ namespace NewEditor.Data.NARCTypes
                     for (int i = 0; i < count; i++)
                     {
                         int addr = start + HelperFunctions.ReadInt(bytes, start + i * 4);
-                        if (!labels.ContainsKey(addr)) labels.Add(addr, "Label_" + labels.Count);
+                        if (!labels.ContainsKey(addr))
+                        {
+                            unusedLabels.Add(addr, "Label_" + labels.Count);
+                            labels.Add(addr, "Label_" + labels.Count);
+                        }
+
                         table.Add(labels[addr]);
                     }
                     pos += 8;
                 }
 
-                if (def.name == "End_Script")
+                if (def.name == "End_Script" || def.name == "Jump")
                 {
                     int jumpTo = -1;
-                    foreach (int i in labels.Keys)
+                    foreach (int i in unusedLabels.Keys)
                     {
-                        if (i >= pos && (i < jumpTo || jumpTo == -1)) jumpTo = i;
+                        if (i < jumpTo || jumpTo == -1) jumpTo = i;
                     }
                     if (jumpTo != -1) pos = jumpTo;
                     else break;

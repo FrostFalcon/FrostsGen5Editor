@@ -106,6 +106,7 @@ namespace NewEditor.Forms
                     else
                     {
                         fileText.Text = "Type: File\nPath: " + reverseNodes[fileTree.SelectedNode];
+                        if (obj is byte[] b) fileText.Text += "\nSize: 0x" + b.Length.ToString("X");
                         unpackNarcButton.Visible = false;
                         packNarcButton.Visible = false;
                     }
@@ -216,10 +217,17 @@ namespace NewEditor.Forms
                     if (open.ShowDialog() == DialogResult.OK)
                     {
                         byte[] b = File.ReadAllBytes(open.FileName);
-                        if (y9.compressed)
+                        if (HelperFunctions.ReadInt(b, b.Length - 4) > 0)
+                        {
                             y9.compressedSize = b.Length;
+                            y9.compressed = true;
+                        }
                         else
+                        {
                             y9.mountSize = b.Length;
+                            y9.compressed = false;
+                            y9.compressedSize = 0;
+                        }
                         y9.Apply();
 
                         MainEditor.fileSystem.overlays[id] = b.ToList();
@@ -255,6 +263,8 @@ namespace NewEditor.Forms
                     }
                 }
             }
+
+            fileTree_AfterSelect(null, null);
         }
 
         private void unpackNarcButton_Click(object sender, EventArgs e)
