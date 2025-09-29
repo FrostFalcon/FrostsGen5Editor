@@ -21,7 +21,7 @@ Currently, the editor contains the following features:
 
 ## Common Issues ##
 
-Currently there is a bug where when exporting ai scripts 0 and 2, the jump table entry for Hurricane will be missing. This will be fixed in the next patch, but for now you can fix it by reinserting the missing entry in the extracted file. For AI 0, you need to add "Label_0", and for AI 2, you need to add "Label_68".
+Currently (as of version 4.0.1) there is a bug where when exporting ai scripts 0 and 2, the jump table entry for Hurricane will be missing. This will be fixed in the next patch, but for now you can fix it by reinserting the missing entry in the extracted file. For AI 0, you need to add "Label_0", and for AI 2, you need to add "Label_68".
 
 Roms that include the fairy type implementation (This includes Blaze Black 2 and Volt White 2 Redux) will require you to open the text editor, file 199 for BW or 398 for BW2, and add "Fairy" to the list of types before edits can be made.
 
