@@ -269,6 +269,9 @@ namespace NewEditor.Forms
 
         private void unpackNarcButton_Click(object sender, EventArgs e)
         {
+            List<byte> names = FileFunctions.ReadFileSection("Preferences.txt", "CommandNames");
+            var commandNamesPreference = names != null ? Encoding.ASCII.GetString(names.ToArray()) : "Frosts";
+
             if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0 &&
                 MainEditor.fileSystem.files[fnt.reverseFileNames[reverseNodes[fileTree.SelectedNode]] - fnt.firstFile] is NARC narc && narc.byteData[0] == (byte)'N')
             {
@@ -287,11 +290,13 @@ namespace NewEditor.Forms
                                 if (!sn.scriptFiles[i].valid) continue;
                                 List<string> headers = new List<string>()
                                 {
-                                    MainEditor.RomType == RomType.BW1 ? "ScriptHeaders/ScriptCommandsBW1.h" : "ScriptHeaders/FrostScriptCommandsBW2.h",
+                                    MainEditor.RomType == RomType.BW1 ? "ScriptHeaders/ScriptCommandsBW1.h" :
+                                    commandNamesPreference == "Beaterscript" ? "ScriptHeaders/BeaterScriptCommandsBW2.h" : "ScriptHeaders/FrostScriptCommandsBW2.h",
                                     "ScriptHeaders/MovementCommands.h"
                                 };
                                 int ow = MainEditor.zoneDataNarc.zones.FindIndex(z => z.scriptFile == i);
-                                CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList : CommandReference.bw2CommandList);
+                                CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList :
+                                    commandNamesPreference == "Beaterscript" ? CommandReference.bw2BeaterScriptCommandList : CommandReference.bw2CommandList);
                                 if (OverworldEditor.overlayZones.ContainsKey(ow))
                                 {
                                     headers.Add("ScriptHeaders/CommandOverlay" + OverworldEditor.overlayZones[ow] + ".h");
