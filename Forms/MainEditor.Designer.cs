@@ -75,6 +75,7 @@ namespace NewEditor.Forms
             this.typeChartEditorButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.pokedexToolsButton = new System.Windows.Forms.Button();
             this.OpenFileExplorerButton = new System.Windows.Forms.Button();
             this.openGrottoEditorButton = new System.Windows.Forms.Button();
             this.openXPCurveEditorButton = new System.Windows.Forms.Button();
@@ -84,7 +85,6 @@ namespace NewEditor.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.themeDropdown = new System.Windows.Forms.ComboBox();
             this.statusText = new System.Windows.Forms.Label();
-            this.pokedexToolsButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -578,6 +578,16 @@ namespace NewEditor.Forms
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Editors";
             // 
+            // pokedexToolsButton
+            // 
+            this.pokedexToolsButton.Location = new System.Drawing.Point(262, 17);
+            this.pokedexToolsButton.Name = "pokedexToolsButton";
+            this.pokedexToolsButton.Size = new System.Drawing.Size(120, 32);
+            this.pokedexToolsButton.TabIndex = 30;
+            this.pokedexToolsButton.Text = "Pokedex Tools";
+            this.pokedexToolsButton.UseVisualStyleBackColor = true;
+            this.pokedexToolsButton.Click += new System.EventHandler(this.pokedexToolsButton_Click);
+            // 
             // OpenFileExplorerButton
             // 
             this.OpenFileExplorerButton.Location = new System.Drawing.Point(136, 17);
@@ -690,16 +700,6 @@ namespace NewEditor.Forms
             this.statusText.TabIndex = 44;
             this.statusText.Text = "Ready to load rom";
             // 
-            // pokedexToolsButton
-            // 
-            this.pokedexToolsButton.Location = new System.Drawing.Point(262, 17);
-            this.pokedexToolsButton.Name = "pokedexToolsButton";
-            this.pokedexToolsButton.Size = new System.Drawing.Size(120, 32);
-            this.pokedexToolsButton.TabIndex = 30;
-            this.pokedexToolsButton.Text = "Pokedex Tools";
-            this.pokedexToolsButton.UseVisualStyleBackColor = true;
-            this.pokedexToolsButton.Click += new System.EventHandler(this.pokedexToolsButton_Click);
-            // 
             // MainEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -723,7 +723,7 @@ namespace NewEditor.Forms
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainEditor";
-            this.Text = "Frost\'s Ultimate Gen 5 Editor 4.0.1";
+            this.Text = "Frost\'s Ultimate Gen 5 Editor 5.0.0";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).EndInit();
