@@ -154,7 +154,7 @@ namespace NewEditor.Forms
                 }
                 route.ApplyData();
 
-                statusText.Text = "Saved encoutner data - " + DateTime.Now.StatusText();
+                statusText.Text = "Saved encounter data - " + DateTime.Now.StatusText();
             }
         }
 

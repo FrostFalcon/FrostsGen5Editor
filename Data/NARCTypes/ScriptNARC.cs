@@ -381,7 +381,7 @@ namespace NewEditor.Data.NARCTypes
                                 }
                                 else if (pars.Count == 3)
                                 {
-                                    ScriptCommand sc = new ScriptCommand(0x19, new int[] { pars[0], pars[2] });
+                                    ScriptCommand sc = new ScriptCommand((short)(pars[2] >= 0x4000 ? 0x1A : 0x19), new int[] { pars[0], pars[2] });
                                     stack[stack.Count - 1].commands.Add(sc);
                                     while (labelQueue.Count > 0)
                                     {
@@ -412,7 +412,7 @@ namespace NewEditor.Data.NARCTypes
                                 }
                                 else if (pars.Count == 3)
                                 {
-                                    ScriptCommand sc = new ScriptCommand(0x19, new int[] { pars[0], pars[2] });
+                                    ScriptCommand sc = new ScriptCommand((short)(pars[2] >= 0x4000 ? 0x1A : 0x19), new int[] { pars[0], pars[2] });
                                     stack[stack.Count - 1].commands.Add(sc);
                                     while (labelQueue.Count > 0)
                                     {
@@ -651,7 +651,7 @@ namespace NewEditor.Data.NARCTypes
                     if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
                     if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
                     WriteCommandToFile(file, pos + com.ByteLength, com, routines, sequenceRoutines, jumpLocations);
-                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    if ((com.commandID == 0x2 || com.commandID == 0x5 || com.commandID == 0x1D) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
 
@@ -673,7 +673,7 @@ namespace NewEditor.Data.NARCTypes
                     if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
                     if (com.commandID == 0x1E && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[0])) jumpLocations.Add(pos + com.ByteLength + com.parameters[0]);
                     if (com.commandID == 0x1F && !jumpLocations.Contains(pos + com.ByteLength + com.parameters[1])) jumpLocations.Add(pos + com.ByteLength + com.parameters[1]);
-                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    if ((com.commandID == 0x2 || com.commandID == 0x5 || com.commandID == 0x1D) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
 
@@ -683,7 +683,7 @@ namespace NewEditor.Data.NARCTypes
                     ScriptCommand com = new ScriptCommand(bytes, pos);
                     if (jumpLocations.Contains(pos)) file.WriteLine("\nlabel" + jumpLocations.IndexOf(pos) + ": ;");
                     WriteCommandToFile(file, pos + com.ByteLength, com, routines, sequenceRoutines, jumpLocations);
-                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    if ((com.commandID == 0x2 || com.commandID == 0x5 || com.commandID == 0x1D) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
                 file.WriteLine("}");
@@ -729,7 +729,7 @@ namespace NewEditor.Data.NARCTypes
                     if (com.commandID == 0x1F) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[1]);
                     if (com.commandID == 0x1E) jumpMax = Math.Max(jumpMax, pos + com.ByteLength + com.parameters[0]);
                     //WriteCommandToFile(file, pos + com.ByteLength, com, routines);
-                    if ((com.commandID == 0x2 || com.commandID == 0x5) && pos >= jumpMax) break;
+                    if ((com.commandID == 0x2 || com.commandID == 0x5 || com.commandID == 0x1D) && pos >= jumpMax) break;
                     pos += com.ByteLength;
                 }
                 file.WriteLine("}");
@@ -1541,13 +1541,13 @@ namespace NewEditor.Data.NARCTypes
             {0x102, new CommandType("GetPartyIsEgg", 2, 2, 2)},
             {0x103, new CommandType("GetPartyCount", 2, 2, 2)},
             {0x104, new CommandType("HealPokemon", 0)},
-            {0x105, new CommandType("c0x105", 3, 2, 2, 2)},
+            {0x105, new CommandType("CallRenamePokemon", 3, 2, 2, 2)},
             {0x106, new CommandType("c0x106", 1, 2)},
             {0x107, new CommandType("OpenChoosePokemonMenu", 4, 2, 2, 2, 2)},
             {0x108, new CommandType("c0x108", 2, 2, 2)},
-            {0x109, new CommandType("c0x109", 4, 2, 2, 2, 2)},
-            {0x10A, new CommandType("c0x10A", 3, 2, 2, 2)},
-            {0x10B, new CommandType("c0x10B", 3, 2, 2, 2)},
+            {0x109, new CommandType("CallPokemonReplaceMove", 4, 2, 2, 2, 2)},
+            {0x10A, new CommandType("GetPokemonMove", 3, 2, 2, 2)},
+            {0x10B, new CommandType("PokemonLearnMove", 3, 2, 2, 2)},
             {0x10C, new CommandType("GivePokemon", 4, 2, 2, 2, 2)},
             {0x10D, new CommandType("StorePokemonPartyAt", 2, 2, 2)},
             {0x10E, new CommandType("GivePokemon2", 9, 2, 2, 2, 2, 2, 2, 2, 2, 2)},
@@ -3289,7 +3289,7 @@ namespace NewEditor.Data.NARCTypes
                 {0x3FF, new CommandType("c0x3FF", 3, 2, 2, 2)},
                 {0x400, new CommandType("c0x400", 1, 2)},
                 {0x401, new CommandType("c0x401", 1, 2)},
-                {0x402, new CommandType("c0x402", 2, 2, 2)},
+                {0x402, new CommandType("c0x402", 1, 2)},
                 {0x403, new CommandType("c0x403", 1, 2)},
                 {0x404, new CommandType("c0x404", 1, 2)},
                 {0x405, new CommandType("c0x405", 0)},

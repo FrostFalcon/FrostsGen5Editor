@@ -161,7 +161,7 @@ namespace NewEditor.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 105);
+            this.label1.Location = new System.Drawing.Point(12, 110);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(115, 16);
             this.label1.TabIndex = 100;
@@ -273,7 +273,7 @@ namespace NewEditor.Forms
             // 
             this.genCommandDatabaseButton.Location = new System.Drawing.Point(14, 52);
             this.genCommandDatabaseButton.Name = "genCommandDatabaseButton";
-            this.genCommandDatabaseButton.Size = new System.Drawing.Size(150, 40);
+            this.genCommandDatabaseButton.Size = new System.Drawing.Size(150, 50);
             this.genCommandDatabaseButton.TabIndex = 109;
             this.genCommandDatabaseButton.Text = "Generate Command Database";
             this.genCommandDatabaseButton.UseVisualStyleBackColor = true;

@@ -53,7 +53,7 @@ namespace NewEditor.Data.NARCTypes
                 {
                     for (int j = 0; j < p.numberOfForms - 1; j++) formNames.Add(p.formsStart + j, nameID);
                 }
-                if (p.numberOfForms > 1 && p.formSpritesStart == 0 && p.nameID != 201 && p.nameID != 493)
+                if (p.numberOfForms > 1 && p.formsStart == 0 && formNames.ContainsKey(i))
                 {
                     int formNum = i - pokemon[p.nameID].formsStart;
                     p.formID = formNum + 1;

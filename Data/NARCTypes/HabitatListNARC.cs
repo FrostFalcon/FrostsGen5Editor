@@ -41,6 +41,37 @@ namespace NewEditor.Data.NARCTypes
 
         public override void WriteData()
         {
+            List<byte> newByteData = new List<byte>();
+            List<byte> oldByteData = new List<byte>(byteData);
+
+            newByteData.AddRange(oldByteData.GetRange(0, pointerStartAddress));
+            newByteData.AddRange(oldByteData.GetRange(BTNFPosition, FileEntryStart - BTNFPosition));
+
+            //Write Files
+            int totalSize = 0;
+            int pPos = pointerStartAddress;
+            foreach (HabitatListEntry i in lists)
+            {
+                newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
+                pPos += 4;
+                totalSize += i.bytes.Length;
+                newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
+                pPos += 4;
+            }
+            foreach (HabitatListEntry i in lists)
+            {
+                newByteData.AddRange(i.bytes);
+            }
+
+            byteData = newByteData.ToArray();
+
+            FixHeaders(lists.Count);
+
+            base.WriteData();
+        }
+
+        public void SyncWithEncounterData()
+        {
             if (fileSystem.encounterNarc != null)
             {
                 for (int i = 0; i < lists.Count; i++)
@@ -57,6 +88,7 @@ namespace NewEditor.Data.NARCTypes
                             {
                                 foreach (EncounterSlot slot in slots)
                                 {
+                                    if (slot.pokemonID == 0) continue;
                                     if (!map.ContainsKey(slot.pokemonID)) map.Add(slot.pokemonID, new byte[26]);
                                     map[slot.pokemonID][s * 3] = 1;
                                 }
@@ -66,6 +98,7 @@ namespace NewEditor.Data.NARCTypes
                             {
                                 foreach (EncounterSlot slot in slots)
                                 {
+                                    if (slot.pokemonID == 0) continue;
                                     if (!map.ContainsKey(slot.pokemonID)) map.Add(slot.pokemonID, new byte[26]);
                                     map[slot.pokemonID][s * 3 + (fish >= 2 ? 2 : 1)] = 1;
                                 }
@@ -95,34 +128,6 @@ namespace NewEditor.Data.NARCTypes
                     lists[i].ApplyData();
                 }
             }
-
-            List<byte> newByteData = new List<byte>();
-            List<byte> oldByteData = new List<byte>(byteData);
-
-            newByteData.AddRange(oldByteData.GetRange(0, pointerStartAddress));
-            newByteData.AddRange(oldByteData.GetRange(BTNFPosition, FileEntryStart - BTNFPosition));
-
-            //Write Files
-            int totalSize = 0;
-            int pPos = pointerStartAddress;
-            foreach (HabitatListEntry i in lists)
-            {
-                newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
-                pPos += 4;
-                totalSize += i.bytes.Length;
-                newByteData.InsertRange(pPos, BitConverter.GetBytes(totalSize));
-                pPos += 4;
-            }
-            foreach (HabitatListEntry i in lists)
-            {
-                newByteData.AddRange(i.bytes);
-            }
-
-            byteData = newByteData.ToArray();
-
-            FixHeaders(lists.Count);
-
-            base.WriteData();
         }
     }
 

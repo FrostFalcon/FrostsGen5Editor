@@ -113,7 +113,9 @@ namespace NewEditor.Data.NARCTypes
         public List<OverworldWarp> warps;
         public List<OverworldTrigger> triggers;
 
-        public List<byte> endData;
+        public List<StaticLevelScript> staticLevelScripts;
+        public List<DynamicLevelScript> dynamicLevelScripts;
+        //public List<byte> endData;
 
         public OverworldObjectsEntry(byte[] bytes)
         {
@@ -182,8 +184,10 @@ namespace NewEditor.Data.NARCTypes
                     destinationWarp = (short)HelperFunctions.ReadShort(bytes, readPos + 2),
                     unknown1 = bytes[readPos + 4],
                     unknown2 = bytes[readPos + 5],
-                    exitX = HelperFunctions.ReadInt(bytes, readPos + 6),
-                    exitY = HelperFunctions.ReadInt(bytes, readPos + 10),
+                    rail = bytes[readPos + 6] == 1,
+                    exitX = (short)HelperFunctions.ReadShort(bytes, readPos + 8),
+                    exitY = (short)HelperFunctions.ReadShort(bytes, readPos + 10),
+                    exitZ = (short)HelperFunctions.ReadShort(bytes, readPos + 12),
                     width = (short)HelperFunctions.ReadShort(bytes, readPos + 14),
                     height = (short)HelperFunctions.ReadShort(bytes, readPos + 16),
                     unknown3 = (short)HelperFunctions.ReadShort(bytes, readPos + 18),
@@ -212,8 +216,38 @@ namespace NewEditor.Data.NARCTypes
                 readPos += 22;
             }
 
-            endData = new List<byte>();
-            for (int i = readPos; i < bytes.Length; i++) endData.Add(bytes[i]);
+            staticLevelScripts = new List<StaticLevelScript>();
+            dynamicLevelScripts = new List<DynamicLevelScript>();
+            int dynamicPos = 0;
+
+            for (int i = readPos; i < bytes.Length; i += 6)
+            {
+                if (bytes[i] == 1) dynamicPos = i + 6 + HelperFunctions.ReadInt(bytes, i + 2);
+                else if (bytes[i] == 0) break;
+                else
+                {
+                    staticLevelScripts.Add(new StaticLevelScript()
+                    {
+                        type = bytes[i],
+                        scriptID = HelperFunctions.ReadInt(bytes, i + 2)
+                    });
+                }
+            }
+
+            if (dynamicPos != 0)
+            {
+                readPos = dynamicPos;
+                for (int i = readPos; i < bytes.Length; i += 6)
+                {
+                    if (bytes[i] == 0) break;
+                    dynamicLevelScripts.Add(new DynamicLevelScript()
+                    {
+                        checkVar = (short)HelperFunctions.ReadShort(bytes, i),
+                        checkConst = (short)HelperFunctions.ReadShort(bytes, i + 2),
+                        scriptID = (short)HelperFunctions.ReadShort(bytes, i + 4)
+                    });
+                }
+            }
         }
 
         internal void ApplyData()
@@ -269,8 +303,10 @@ namespace NewEditor.Data.NARCTypes
                 newBytes.AddRange(BitConverter.GetBytes(o.destinationWarp));
                 newBytes.Add(o.unknown1);
                 newBytes.Add(o.unknown2);
+                newBytes.AddRange(new byte[] { (byte)(o.rail ? 1 : 0), 0 });
                 newBytes.AddRange(BitConverter.GetBytes(o.exitX));
                 newBytes.AddRange(BitConverter.GetBytes(o.exitY));
+                newBytes.AddRange(BitConverter.GetBytes(o.exitZ));
                 newBytes.AddRange(BitConverter.GetBytes(o.width));
                 newBytes.AddRange(BitConverter.GetBytes(o.height));
                 newBytes.AddRange(BitConverter.GetBytes(o.unknown3));
@@ -293,9 +329,33 @@ namespace NewEditor.Data.NARCTypes
 
             HelperFunctions.WriteInt(newBytes, 0, newBytes.Count - 4);
 
-            while (endData.Count < 4) endData.Add(0);
+            staticLevelScripts.Sort((s1, s2) => s1.scriptID - s2.scriptID);
+            dynamicLevelScripts.Sort((s1, s2) => s1.scriptID - s2.scriptID);
 
-            newBytes.AddRange(endData);
+            foreach (StaticLevelScript s in staticLevelScripts)
+            {
+                newBytes.AddRange(BitConverter.GetBytes(s.type));
+                newBytes.AddRange(BitConverter.GetBytes(s.scriptID));
+            }
+            if (dynamicLevelScripts.Count > 0)
+            {
+                newBytes.AddRange(new byte[] { 1, 0, 2, 0, 0, 0 });
+            }
+            newBytes.AddRange(new byte[] { 0, 0 });
+            if (dynamicLevelScripts.Count > 0)
+            {
+                foreach (DynamicLevelScript d in dynamicLevelScripts)
+                {
+                    newBytes.AddRange(BitConverter.GetBytes(d.checkVar));
+                    newBytes.AddRange(BitConverter.GetBytes(d.checkConst));
+                    newBytes.AddRange(BitConverter.GetBytes(d.scriptID));
+                }
+                newBytes.AddRange(new byte[] { 0, 0 });
+            }
+
+            //while (endData.Count < 4) endData.Add(0);
+
+            //newBytes.AddRange(endData);
 
             //Pad File Size
             while (newBytes.Count % 4 != 0) newBytes.Add(0);
@@ -348,8 +408,10 @@ namespace NewEditor.Data.NARCTypes
         public short destinationWarp;
         public byte unknown1;
         public byte unknown2;
-        public int exitX;
-        public int exitY;
+        public bool rail;
+        public short exitX;
+        public short exitY;
+        public short exitZ;
         public short width;
         public short height;
         public short unknown3;
@@ -368,5 +430,27 @@ namespace NewEditor.Data.NARCTypes
         public short height;
         public short zPosition;
         public short unknown5;
+    }
+
+    public class StaticLevelScript
+    {
+        public short type;
+        public int scriptID;
+
+        public override string ToString()
+        {
+            return "Script " + scriptID;
+        }
+    }
+    public class DynamicLevelScript
+    {
+        public short checkVar;
+        public short checkConst;
+        public short scriptID;
+
+        public override string ToString()
+        {
+            return "Script " + scriptID + " if 0x" + checkVar.ToString("X") + " = " + checkConst;
+        }
     }
 }

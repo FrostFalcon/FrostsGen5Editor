@@ -23,7 +23,7 @@ void c0x3FE();
 void c0x3FF(short p0, short p1, short p2);
 void c0x400(short p0);
 void c0x401(short p0);
-void c0x402(short p0, short p1);
+void c0x402(short p0);
 void c0x403(short p0);
 void c0x404(short p0);
 void c0x405();

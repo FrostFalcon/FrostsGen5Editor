@@ -168,6 +168,7 @@ namespace NewEditor.Forms
                 statChangeChanceNumberBox3.Value = m.statChange3Chance;
 
                 statusEffectDropdown.SelectedItem = statusEffects.First(l => l.hexID == m.statusEffect);
+                statusModeDropdown.SelectedIndex = m.statusMode;
                 moveStatusChanceNumberBox.Value = m.statusChance;
 
                 baseDataGroup.Enabled = true;
@@ -277,6 +278,7 @@ namespace NewEditor.Forms
                 m.statChange3Chance = (byte)statChangeChanceNumberBox3.Value;
 
                 m.statusEffect = (short)((TextValue)statusEffectDropdown.SelectedItem).hexID;
+                m.statusMode = (byte)statusModeDropdown.SelectedIndex;
                 m.statusChance = (byte)moveStatusChanceNumberBox.Value;
 
                 short f = 0;

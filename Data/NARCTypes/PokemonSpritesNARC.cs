@@ -52,7 +52,7 @@ namespace NewEditor.Data.NARCTypes
 
             remainingfiles = new List<byte[]>();
 
-            for (i = i; i < numFileEntries; i++)
+            for (; i < numFileEntries; i++)
             {
                 int start = HelperFunctions.ReadInt(byteData, pos);
                 int end = HelperFunctions.ReadInt(byteData, pos + 4);
@@ -187,6 +187,11 @@ namespace NewEditor.Data.NARCTypes
         public byte[] decompressedBackFemaleSprite;
         public byte[] decompressedBackFemaleRig;
 
+        public RNANFile frontRNAN;
+        public RNANFile backRNAN;
+        public RigCellsFile frontRigCells;
+        public RigCellsFile backRigCells;
+
         public Color[] palette;
         public Color[] shinyPalette;
 
@@ -206,12 +211,34 @@ namespace NewEditor.Data.NARCTypes
             decompressedBackFemaleSprite = DsDecmp.Decompress(BackFemaleSpriteBytes);
             decompressedBackRig = DsDecmp.Decompress(BackRigBytes);
             decompressedBackFemaleRig = DsDecmp.Decompress(BackFemaleRigBytes);
+
+            if (FrontAnimationBytes[0] == 0x11)
+                frontRNAN = new RNANFile(DsDecmp.Decompress(FrontAnimationBytes));
+
+            if (BackAnimationBytes[0] == 0x11)
+                backRNAN = new RNANFile(DsDecmp.Decompress(BackAnimationBytes));
+
+            ReadRigCellsFile();
         }
 
         public void ApplyData()
         {
             for (int i = 0; i < 16; i++) HelperFunctions.WriteShort(PaletteBytes, 40 + i * 2, DsDecmp.Write16BitColor(palette[i]));
             for (int i = 0; i < 16; i++) HelperFunctions.WriteShort(ShinyPaletteBytes, 40 + i * 2, DsDecmp.Write16BitColor(shinyPalette[i]));
+        }
+
+        public void ReadRigCellsFile()
+        {
+            frontRigCells = new RigCellsFile(FrontTileBytes);
+            backRigCells = new RigCellsFile(BackTileBytes);
+        }
+
+        public void WriteRigCellsFile()
+        {
+            frontRigCells.WriteData();
+            files[8] = frontRigCells.byteData;
+            backRigCells.WriteData();
+            files[17] = backRigCells.byteData;
         }
 
         public Bitmap GetSprite(bool shiny = false, bool back = false, bool female = false)
@@ -363,6 +390,177 @@ namespace NewEditor.Data.NARCTypes
         public override string ToString()
         {
             return nameID < MainEditor.textNarc.textFiles[VersionConstants.PokemonNameTextFileID].text.Count ? MainEditor.textNarc.textFiles[VersionConstants.PokemonNameTextFileID].text[nameID] + " - " + nameID : "Name not found";
+        }
+    }
+
+    public class RNANFile
+    {
+        //file size at 0x8
+        //address of name section at 0x14 (subtract 0x10)
+        //sequence count at 0x18 (short)
+        //total frame count at 0x1a (short)
+        //address of frame pointers at 0x20 (add 0x18)
+        //address of frame values at 0x24 (add 0x18)
+        public byte[] byteData;
+        public List<RNANSequence> sequences = new List<RNANSequence>();
+
+        public RNANFile(byte[] byteData)
+        {
+            this.byteData = byteData;
+
+            int seqCount = HelperFunctions.ReadShort(byteData, 0x18);
+            int framesStart = HelperFunctions.ReadShort(byteData, 0x20) + 0x18;
+            int frameValuesStart = HelperFunctions.ReadShort(byteData, 0x24) + 0x18;
+            for (int i = 0; i < seqCount; i++)
+            {
+                int frameCount = HelperFunctions.ReadInt(byteData, 0x30 + 0x10 * i);
+                int seqStart = HelperFunctions.ReadInt(byteData, 0x3A + 0x10 * i) + framesStart;
+                int motionType = HelperFunctions.ReadInt(byteData, 0x34 + 0x10 * i) + framesStart;
+                byte[] seqBytes = new byte[16];
+                for (int j = 0; j < 16; j++) seqBytes[j] = byteData[0x30 + 0x10 * i + j];
+                List<RNANFrame> frames = new List<RNANFrame>();
+                for (int j = 0; j < frameCount; j++)
+                {
+                    int valuesPointer = HelperFunctions.ReadInt(byteData, seqStart + 0x8 * j) + frameValuesStart;
+                    int weirdNum = HelperFunctions.ReadShort(byteData, seqStart + 0x4 + 0x8 * j);
+                    RNANFrame frame = new RNANFrame() { weirdNum = weirdNum };
+                    frame.index = HelperFunctions.ReadShort(byteData, valuesPointer);
+                    if (motionType == 2)
+                    {
+                        frame.xPos = HelperFunctions.ReadShort(byteData, valuesPointer + 4);
+                        frame.yPos = HelperFunctions.ReadShort(byteData, valuesPointer + 6);
+                    }
+                    if (motionType == 1)
+                    {
+                        frame.rot = HelperFunctions.ReadShort(byteData, valuesPointer + 0x4) * 360 / 65536;
+                        frame.xScale = HelperFunctions.ReadInt(byteData, valuesPointer + 0x8) / 4096f;
+                        frame.yScale = HelperFunctions.ReadInt(byteData, valuesPointer + 0xA) / 4096f;
+                        frame.xPos = HelperFunctions.ReadShort(byteData, valuesPointer + 0xC);
+                        frame.yPos = HelperFunctions.ReadShort(byteData, valuesPointer + 0xE);
+                    }
+                    frames.Add(frame);
+                }
+                sequences.Add(new RNANSequence() { sequenceBytes = seqBytes, type = motionType, frames = frames });
+            }
+        }
+    }
+
+    public class RNANSequence
+    {
+        //Frame count at 0x0
+        //Motion type (trans, rot, scale) at 0x4 (short)
+        //Pointer at 0xc
+        public byte[] sequenceBytes;
+        public int type = 0;
+        public List<RNANFrame> frames;
+    }
+
+    public class RNANFrame
+    {
+        public int weirdNum;
+        public int index;
+        public int xPos;
+        public int yPos;
+        public float xScale;
+        public float yScale;
+        public int rot;
+    }
+
+    public class RECNFile
+    {
+        //file size at 0x8
+        //address of name section at 0x14 (subtract 0x10)
+        //cell count at 0x18 (short)
+        public byte[] byteData;
+
+        public RECNFile(byte[] byteData)
+        {
+            this.byteData = byteData;
+        }
+    }
+
+    public class RigCellsFile
+    {
+        public byte[] byteData;
+        public RigCell[] cells;
+        public byte[] flags;
+
+        public RigCellsFile(byte[] byteData)
+        {
+            this.byteData = byteData;
+            cells = new RigCell[byteData[0]];
+
+            for (int i = 0; i < cells.Length; i++)
+            {
+                cells[i] = new RigCell()
+                {
+                    spriteX = HelperFunctions.ReadInt(byteData, 12 + i * 48) / 0x100,
+                    spriteY = HelperFunctions.ReadInt(byteData, 16 + i * 48) / 0x100,
+                    width = HelperFunctions.ReadInt(byteData, 20 + i * 48) / 0x1000,
+                    height = HelperFunctions.ReadInt(byteData, 24 + i * 48) / 0x1000,
+                    cellX = HelperFunctions.ReadInt(byteData, 28 + i * 48) / 0x1000,
+                    cellY = HelperFunctions.ReadInt(byteData, 32 + i * 48) / 0x1000,
+                    subCell = new RigCell()
+                    {
+                        spriteX = HelperFunctions.ReadInt(byteData, 36 + i * 48) / 0x100,
+                        spriteY = HelperFunctions.ReadInt(byteData, 40 + i * 48) / 0x100,
+                        width = HelperFunctions.ReadInt(byteData, 44 + i * 48) / 0x1000,
+                        height = HelperFunctions.ReadInt(byteData, 48 + i * 48) / 0x1000,
+                        cellX = HelperFunctions.ReadInt(byteData, 52 + i * 48) / 0x1000,
+                        cellY = HelperFunctions.ReadInt(byteData, 56 + i * 48) / 0x1000,
+                    }
+                };
+            }
+
+            int flagPos = cells.Length * 48 + 12;
+            if (byteData.Length > flagPos)
+            {
+                flags = new byte[byteData.Length - flagPos];
+                for (int i = 0; i < flags.Length; i++)
+                {
+                    flags[i] = byteData[flagPos + i];
+                }
+            }
+        }
+
+        public void WriteData()
+        {
+            for (int i = 0; i < cells.Length; i++)
+            {
+                HelperFunctions.WriteInt(byteData, 12 + i * 48, cells[i].spriteX * 0x100);
+                HelperFunctions.WriteInt(byteData, 16 + i * 48, cells[i].spriteY * 0x100);
+                HelperFunctions.WriteInt(byteData, 20 + i * 48, cells[i].width * 0x1000);
+                HelperFunctions.WriteInt(byteData, 24 + i * 48, cells[i].height * 0x1000);
+                HelperFunctions.WriteInt(byteData, 28 + i * 48, cells[i].cellX * 0x1000);
+                HelperFunctions.WriteInt(byteData, 32 + i * 48, cells[i].cellY * 0x1000);
+                HelperFunctions.WriteInt(byteData, 36 + i * 48, cells[i].subCell.spriteX * 0x100);
+                HelperFunctions.WriteInt(byteData, 40 + i * 48, cells[i].subCell.spriteY * 0x100);
+                HelperFunctions.WriteInt(byteData, 44 + i * 48, cells[i].subCell.width * 0x1000);
+                HelperFunctions.WriteInt(byteData, 48 + i * 48, cells[i].subCell.height * 0x1000);
+                HelperFunctions.WriteInt(byteData, 52 + i * 48, cells[i].subCell.cellX * 0x1000);
+                HelperFunctions.WriteInt(byteData, 56 + i * 48, cells[i].subCell.cellY * 0x1000);
+            }
+            int flagPos = cells.Length * 48 + 12;
+            for (int i = 0; i < flags.Length; i++)
+            {
+                byteData[flagPos + i] = flags[i];
+            }
+        }
+    }
+
+    public class RigCell
+    {
+        public int cellX;
+        public int cellY;
+        public int width;
+        public int height;
+        public int spriteX;
+        public int spriteY;
+        public RigCell subCell;
+
+        public Rectangle ToRectangle(int scale)
+        {
+            return new Rectangle(cellX * scale, cellY * scale, width * scale, height * scale);
         }
     }
 }

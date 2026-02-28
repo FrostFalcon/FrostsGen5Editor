@@ -315,13 +315,17 @@ void GetPartyIsEgg(short returnVar, short partySlot);
 void GetPartyCount(short returnVar, short mode);
 //Fully heals the pokemon in the player's party
 void HealPokemon();
-void c0x105(short p0, short p1, short p2);
+void CallRenamePokemon(short successVar, short pokemon, short transition);
 void c0x106(short p0);
 void OpenChoosePokemonMenu(short p0, short successVar, short returnVar, short p3);
 void c0x108(short p0, short p1);
-void c0x109(short p0, short p1, short p2, short p3);
-void c0x10A(short p0, short p1, short p2);
-void c0x10B(short p0, short p1, short p2);
+//Opens the menu to replace a pokemon's move with a new one
+//Returns a success variable and the move slot that was selected
+void CallPokemonReplaceMove(short successVar, short returnVar, short partyID, short newMove);
+//Returns the move at the given slot
+void GetPokemonMove(short returnVar, short partyID, short moveID);
+//Sets the move at a given move slot to the given move. A move id of 0 deletes the move
+void PokemonLearnMove(short partyID, short moveSlot, short moveID);
 void GivePokemon(short returnVar, short pokemonID, short form, short level);
 void StorePokemonPartyAt(short p0, short p1);
 void GivePokemon2(short returnVar, short pokemonID, short form, short level, short ability, short gender, short shiny, short heldItem, short pokeball);

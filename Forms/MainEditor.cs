@@ -111,6 +111,7 @@ namespace NewEditor.Forms
         public static TypeChartEditor typeChartEditor;
         public static Pokepatcher pokePatchEditor;
         public static FileExplorer fileExplorer;
+        public static PokedexTools pokedexTools;
         public static List<Form> extraForms = new List<Form>();
 
         public bool loadingNARCS = false;
@@ -161,6 +162,7 @@ namespace NewEditor.Forms
             if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) list.Add(presetMovesEditor);
             if (pokePatchEditor != null && !pokePatchEditor.IsDisposed) list.Add(pokePatchEditor);
             if (fileExplorer != null && !fileExplorer.IsDisposed) list.Add(fileExplorer);
+            if (pokedexTools != null && !pokedexTools.IsDisposed) list.Add(pokedexTools);
             if (typeChartEditor != null && !typeChartEditor.IsDisposed) list.Add(typeChartEditor);
             for (int i = 0; i < extraForms.Count; i++)
             {
@@ -402,6 +404,7 @@ namespace NewEditor.Forms
             if (presetMovesEditor != null && !presetMovesEditor.IsDisposed) presetMovesEditor.Close();
             if (pokePatchEditor != null && !pokePatchEditor.IsDisposed) pokePatchEditor.Close();
             if (fileExplorer != null && !fileExplorer.IsDisposed) fileExplorer.Close();
+            if (pokedexTools != null && !pokedexTools.IsDisposed) pokedexTools.Close();
             if (typeChartEditor != null && !typeChartEditor.IsDisposed) typeChartEditor.Close();
             textNarc = null;
             storyTextNarc = null;
@@ -483,7 +486,7 @@ namespace NewEditor.Forms
             statusText.Text = "Loaded rom - " + DateTime.Now.StatusText();
 
             MessageBox.Show("Rom Loaded");
-            
+
             loadingNARCS = false;
             autoLoaded = false;
         }
@@ -734,6 +737,20 @@ namespace NewEditor.Forms
             ChangeTheme(null, null);
             fileExplorer.Show();
             fileExplorer.BringToFront();
+        }
+
+        private void pokedexToolsButton_Click(object sender, EventArgs e)
+        {
+            if (fileSystem == null || loadingNARCS)
+            {
+                MessageBox.Show("Data files have not been loaded");
+                return;
+            }
+
+            if (pokedexTools == null || pokedexTools.IsDisposed) pokedexTools = new PokedexTools();
+            ChangeTheme(null, null);
+            pokedexTools.Show();
+            pokedexTools.BringToFront();
         }
 
         private void openOverlayEditorButton_Click(object sender, EventArgs e)

@@ -129,7 +129,7 @@ namespace NewEditor.Data.NARCTypes
 
         public override string ToString()
         {
-            return nameID.ToString();
+            return MainEditor.textNarc.textFiles[VersionConstants.ItemNameTextFileID].text[nameID] + " - " + nameID.ToString();
         }
     }
 }

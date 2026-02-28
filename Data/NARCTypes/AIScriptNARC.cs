@@ -111,7 +111,7 @@ namespace NewEditor.Data.NARCTypes
             {0x1F, new AIScriptCommandDefinition("Get_Turn_Count", -1) { storedValue = ParamAlias.Integer } },
             {0x20, new AIScriptCommandDefinition("Get_Type", -1, ParamAlias.TypeParam) { storedValue = ParamAlias.Type } },
             {0x21, new AIScriptCommandDefinition("Get_Move_Base_Power", -1) { storedValue = ParamAlias.Integer } },
-            {0x22, new AIScriptCommandDefinition("Get_Move_Damage", -1, ParamAlias.Integer) },
+            {0x22, new AIScriptCommandDefinition("Get_Move_Damage", -1, ParamAlias.Position) { storedValue = ParamAlias.DamageCalcResult } },
             {0x23, new AIScriptCommandDefinition("Get_Previous_Move", -1, ParamAlias.Position) {storedValue = ParamAlias.Move } },
             {0x24, new AIScriptCommandDefinition("If_Stored_EQ_2", 1, ParamAlias.Stored, ParamAlias.Address) },
             {0x25, new AIScriptCommandDefinition("If_Stored_NE_2", 1, ParamAlias.Stored, ParamAlias.Address) },
@@ -393,7 +393,7 @@ namespace NewEditor.Data.NARCTypes
                     List<string> table = new List<string>();
                     jumpTables.Add((table, ParamAlias.MoveEffect));
 
-                    for (int i = 0; i < count; i++)
+                    for (int i = 0; i <= count; i++)
                     {
                         int addr = start + HelperFunctions.ReadInt(bytes, start + i * 4);
                         if (!labels.ContainsKey(addr))
@@ -595,7 +595,7 @@ namespace NewEditor.Data.NARCTypes
                 if (!jumpTables.ContainsKey(table.Value))
                     throw new Exception("Error: undefined jump table pointer \"" + table.Value + "\"");
                 int offset = newBytes.Count - (table.Key + 14);
-                HelperFunctions.WriteInt(newBytes, (table.Key + 6), jumpTables[table.Value].Count);
+                HelperFunctions.WriteInt(newBytes, (table.Key + 6), jumpTables[table.Value].Count - 1);
                 HelperFunctions.WriteInt(newBytes, (table.Key + 10), offset);
                 int tabStart = newBytes.Count;
                 foreach (var tableEntry in jumpTables[table.Value])

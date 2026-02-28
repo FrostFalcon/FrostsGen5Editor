@@ -27,6 +27,7 @@ namespace NewEditor.Forms
             zoneIdDropdown.Items.AddRange(zoneNARC.zones.ToArray());
             mapNameDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ZoneNameTextFileID].text.ToArray());
             setItemDropdown.Items.AddRange(textNARC.textFiles[VersionConstants.ItemNameTextFileID].text.ToArray());
+            warpDestMapDropdown.Items.AddRange(zoneNARC.zones.ToArray());
         }
 
         private void LoadZoneIntoEditor(object sender, EventArgs e)
@@ -42,8 +43,12 @@ namespace NewEditor.Forms
                 parentMapIDNumberBox.Value = z.parentMapId;
                 weatherNumberBox.Value = z.weather;
                 textureNumberBox.Value = z.texture;
-                unk4NumberBox.Value = z.unknown4;
+                unk1NumberBox.Value = z.unknown1;
                 unk2NumberBox.Value = z.unknown2;
+                unk3NumberBox.Value = z.unknown3;
+                unk4NumberBox.Value = z.unknown4;
+                cameraNumberBox.Value = z.camera;
+                flagsNumberBox.Value = z.flags;
                 mapNameDropdown.SelectedIndex = z.nameId;
                 challengeLevelNumberBox.Value = z.difficultyLevelChange;
                 flyXNumberBox.Value = z.flyX;
@@ -58,8 +63,12 @@ namespace NewEditor.Forms
                 parentMapIDNumberBox.Enabled = true;
                 weatherNumberBox.Enabled = true;
                 textureNumberBox.Enabled = true;
-                unk4NumberBox.Enabled = true;
+                unk1NumberBox.Enabled = true;
                 unk2NumberBox.Enabled = true;
+                unk3NumberBox.Enabled = true;
+                unk4NumberBox.Enabled = true;
+                cameraNumberBox.Enabled = true;
+                flagsNumberBox.Enabled = true;
                 mapNameDropdown.Enabled = true;
                 applyZoneButton.Enabled = true;
                 challengeLevelNumberBox.Enabled = true;
@@ -126,14 +135,26 @@ namespace NewEditor.Forms
                     overworlObjectTabs.TabPages[3].Enabled = false;
                 }
 
-                string text = "";
-                for (int n = 0; n < overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData.Count; n++)
-                {
-                    text += overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData[n].ToString("X2");
-                    if (n % 6 == 5) text += "\n";
-                    else text += " ";
-                }
-                extraDataTextBox.Text = text;
+                levelScriptsListBox.Items.Clear();
+                levelScriptsListBox.Items.AddRange(overworldObjectNarc.objects[(int)mapIDNumberBox.Value].staticLevelScripts.ToArray());
+                levelScriptsListBox.Items.AddRange(overworldObjectNarc.objects[(int)mapIDNumberBox.Value].dynamicLevelScripts.ToArray());
+                label54.Visible = false;
+                label55.Visible = false;
+                label56.Visible = false;
+                label57.Visible = false;
+                levelScriptIdNumberBox.Visible = false;
+                levelScriptTypeNumberBox.Visible = false;
+                levelScriptVarNumberBox.Visible = false;
+                levelScriptConstNumberBox.Visible = false;
+
+                //string text = "";
+                //for (int n = 0; n < overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData.Count; n++)
+                //{
+                //    text += overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData[n].ToString("X2");
+                //    if (n % 6 == 5) text += "\n";
+                //    else text += " ";
+                //}
+                //extraDataTextBox.Text = text;
             }
             else
             {
@@ -146,8 +167,12 @@ namespace NewEditor.Forms
                 parentMapIDNumberBox.Enabled = false;
                 weatherNumberBox.Enabled = false;
                 textureNumberBox.Enabled = false;
-                unk4NumberBox.Enabled = false;
+                unk1NumberBox.Enabled = false;
                 unk2NumberBox.Enabled = false;
+                unk3NumberBox.Enabled = false;
+                unk4NumberBox.Enabled = false;
+                cameraNumberBox.Enabled = false;
+                flagsNumberBox.Enabled = false;
                 mapNameDropdown.Enabled = false;
                 applyZoneButton.Enabled = false;
                 challengeLevelNumberBox.Enabled = false;
@@ -169,8 +194,12 @@ namespace NewEditor.Forms
                 z.encounterFile = (byte)encounterFileNumberBox.Value;
                 z.mapId = (short)mapIDNumberBox.Value;
                 z.parentMapId = (short)parentMapIDNumberBox.Value;
-                z.unknown4 = (short)unk4NumberBox.Value;
+                z.unknown1 = (byte)unk1NumberBox.Value;
                 z.unknown2 = (byte)unk2NumberBox.Value;
+                z.unknown3 = (byte)unk3NumberBox.Value;
+                z.unknown4 = (short)unk4NumberBox.Value;
+                z.camera = (byte)cameraNumberBox.Value;
+                z.flags = (byte)flagsNumberBox.Value;
                 z.weather = (byte)weatherNumberBox.Value;
                 z.texture = (short)textureNumberBox.Value;
                 z.nameId = (byte)mapNameDropdown.SelectedIndex;
@@ -341,12 +370,16 @@ namespace NewEditor.Forms
         {
             OverworldWarp warp = overworldObjectNarc.objects[(int)mapIDNumberBox.Value].warps[(int)warpIDNumberBox.Value];
 
-            warpDestMapNumberBox.Value = warp.destinationMap;
+            warpDestMapDropdown.SelectedIndex = warp.destinationMap;
             warpDestWarpNumberBox.Value = warp.destinationWarp;
-            warpExitXNumberBox.Value = warp.exitX;
-            warpExitYNumberBox.Value = warp.exitY;
+            warpExitXNumberBox.Value = (decimal)(warp.rail ? warp.exitX : ((warp.exitX - 8) / 16f));
+            warpExitYNumberBox.Value = (decimal)(warp.rail ? warp.exitY : (warp.exitY / 16f));
+            warpExitZNumberBox.Value = (decimal)(warp.rail ? warp.exitZ : ((warp.exitZ - 8) / 16f));
+            warpRailCheckBox.Checked = warp.rail;
             warpWidthNumberBox.Value = warp.width;
             warpHeightNumberBox.Value = warp.height;
+            warpDirectionDropdown.SelectedIndex = warp.unknown1;
+            warpTransitionTypeNumberBox.Value = warp.unknown2;
         }
 
         private void triggerIDNumberBox_ValueChanged(object sender, EventArgs e)
@@ -370,6 +403,11 @@ namespace NewEditor.Forms
             else if (overworlObjectTabs.SelectedIndex == 1) overworldObjectNarc.objects[(int)mapIDNumberBox.Value].furniture.Add(new OverworldFurniture());
             else if (overworlObjectTabs.SelectedIndex == 2) overworldObjectNarc.objects[(int)mapIDNumberBox.Value].warps.Add(new OverworldWarp());
             else if (overworlObjectTabs.SelectedIndex == 3) overworldObjectNarc.objects[(int)mapIDNumberBox.Value].triggers.Add(new OverworldTrigger());
+            else if (overworlObjectTabs.SelectedIndex == 4)
+            {
+                MessageBox.Show("Please use \"Add Static\" or \"Add Dynamic\" to specify what type of level script you are adding.");
+                return;
+            }
             overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
             LoadZoneIntoEditor(sender, e);
         }
@@ -397,6 +435,18 @@ namespace NewEditor.Forms
             else if (overworlObjectTabs.SelectedIndex == 3 && overworldObjectNarc.objects[(int)mapIDNumberBox.Value].triggers.Count > 0)
             {
                 overworldObjectNarc.objects[(int)mapIDNumberBox.Value].triggers.RemoveAt((int)triggerIDNumberBox.Value);
+                overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
+                LoadZoneIntoEditor(sender, e);
+            }
+            else if (overworlObjectTabs.SelectedIndex == 4 && levelScriptsListBox.SelectedItem is StaticLevelScript sl)
+            {
+                overworldObjectNarc.objects[(int)mapIDNumberBox.Value].staticLevelScripts.Remove(sl);
+                overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
+                LoadZoneIntoEditor(sender, e);
+            }
+            else if (overworlObjectTabs.SelectedIndex == 4 && levelScriptsListBox.SelectedItem is DynamicLevelScript dl)
+            {
+                overworldObjectNarc.objects[(int)mapIDNumberBox.Value].dynamicLevelScripts.Remove(dl);
                 overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
                 LoadZoneIntoEditor(sender, e);
             }
@@ -437,12 +487,16 @@ namespace NewEditor.Forms
             {
                 OverworldWarp warp = overworldObjectNarc.objects[(int)mapIDNumberBox.Value].warps[(int)warpIDNumberBox.Value];
 
-                warp.destinationMap = (short)warpDestMapNumberBox.Value;
+                warp.destinationMap = (short)warpDestMapDropdown.SelectedIndex;
                 warp.destinationWarp = (short)warpDestWarpNumberBox.Value;
-                warp.exitX = (int)warpExitXNumberBox.Value;
-                warp.exitY = (int)warpExitYNumberBox.Value;
+                warp.rail = warpRailCheckBox.Checked;
+                warp.exitX = (short)(warp.rail ? warpExitXNumberBox.Value :(warpExitXNumberBox.Value * 16 + 8));
+                warp.exitY = (short)(warp.rail ? warpExitYNumberBox.Value : (warpExitYNumberBox.Value * 16));
+                warp.exitZ = (short)(warp.rail ? warpExitZNumberBox.Value : (warpExitZNumberBox.Value * 16 + 8));
                 warp.width = (short)warpWidthNumberBox.Value;
                 warp.height = (short)warpHeightNumberBox.Value;
+                warp.unknown1 = (byte)warpDirectionDropdown.SelectedIndex;
+                warp.unknown2 = (byte)warpTransitionTypeNumberBox.Value;
 
                 statusText.Text = "Saved warp data - " + DateTime.Now.StatusText();
             }
@@ -463,7 +517,26 @@ namespace NewEditor.Forms
             }
             else if (overworlObjectTabs.SelectedIndex == 4)
             {
-                ApplyEndData(overworldObjectNarc.objects[(int)mapIDNumberBox.Value].endData);
+                if (levelScriptsListBox.SelectedItem is StaticLevelScript sl)
+                {
+                    if (levelScriptTypeNumberBox.Value < 2)
+                    {
+                        MessageBox.Show("Static Level Script type flag must be at least 2.");
+                        return;
+                    }
+                    sl.type = (short)levelScriptTypeNumberBox.Value;
+                    sl.scriptID = (int)levelScriptIdNumberBox.Value;
+                }
+                if (levelScriptsListBox.SelectedItem is DynamicLevelScript dl)
+                {
+                    dl.scriptID = (short)levelScriptIdNumberBox.Value;
+                    dl.checkVar = (short)levelScriptVarNumberBox.Value;
+                    dl.checkConst = (short)levelScriptConstNumberBox.Value;
+                }
+                var i = levelScriptsListBox.SelectedItem;
+                overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
+                LoadZoneIntoEditor(sender, e);
+                levelScriptsListBox.SelectedItem = i;
 
                 statusText.Text = "Saved level script data - " + DateTime.Now.StatusText();
             }
@@ -471,34 +544,34 @@ namespace NewEditor.Forms
             overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
         }
 
-        private void ApplyEndData(List<byte> destination)
-        {
-            string str = extraDataTextBox.Text.Replace('\n', ' ');
-
-            //Test for improper text length
-            if (str.Length % 3 == 2 && str[extraDataTextBox.Text.Length - 1] != ' ') str += ' ';
-            if (str.Length < 3 || str.Length % 3 != 0)
-            {
-                MessageBox.Show("Byte Data detected an incorrect format");
-                return;
-            }
-
-            //Test for improper text values
-            for (int i = 2; i < str.Length; i += 3) if (str[i] != ' ' ||
-                    (!char.IsDigit(str[i - 1]) && !(str[i - 1] >= 'A' && str[i - 1] <= 'F')) ||
-                    (!char.IsDigit(str[i - 2]) && !(str[i - 2] >= 'A' && str[i - 2] <= 'F')))
-                {
-                    MessageBox.Show("Byte Data detected an incorrect format");
-                    return;
-                }
-
-            //Convert data to file
-            destination.Clear();
-            for (int i = 0; i < str.Length; i += 3)
-            {
-                destination.Add(byte.Parse(str.Substring(i, 2), System.Globalization.NumberStyles.HexNumber));
-            }
-        }
+        //private void ApplyEndData(List<byte> destination)
+        //{
+        //    string str = extraDataTextBox.Text.Replace('\n', ' ');
+        //
+        //    //Test for improper text length
+        //    if (str.Length % 3 == 2 && str[extraDataTextBox.Text.Length - 1] != ' ') str += ' ';
+        //    if (str.Length < 3 || str.Length % 3 != 0)
+        //    {
+        //        MessageBox.Show("Byte Data detected an incorrect format");
+        //        return;
+        //    }
+        //
+        //    //Test for improper text values
+        //    for (int i = 2; i < str.Length; i += 3) if (str[i] != ' ' ||
+        //            (!char.IsDigit(str[i - 1]) && !(str[i - 1] >= 'A' && str[i - 1] <= 'F')) ||
+        //            (!char.IsDigit(str[i - 2]) && !(str[i - 2] >= 'A' && str[i - 2] <= 'F')))
+        //        {
+        //            MessageBox.Show("Byte Data detected an incorrect format");
+        //            return;
+        //        }
+        //
+        //    //Convert data to file
+        //    destination.Clear();
+        //    for (int i = 0; i < str.Length; i += 3)
+        //    {
+        //        destination.Add(byte.Parse(str.Substring(i, 2), System.Globalization.NumberStyles.HexNumber));
+        //    }
+        //}
 
         private void npcScriptNumberBox_ValueChanged(object sender, EventArgs e)
         {
@@ -563,6 +636,76 @@ namespace NewEditor.Forms
                     MainEditor.scriptNarc.scriptFiles[MainEditor.RomType == RomType.BW2 ? 1240 : 864].ApplyData();
                 }
             }
+        }
+
+        private void warpRailTextBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (warpRailCheckBox.Checked)
+            {
+                exitXText.Text = "Line:";
+                exitYText.Text = "Pos:";
+                exitZText.Text = "Side:";
+            }
+            else
+            {
+                exitXText.Text = "Exit X:";
+                exitYText.Text = "Exit Y:";
+                exitZText.Text = "Exit Z:";
+            }
+        }
+
+        private void SelectLevelScript(object sender, EventArgs e)
+        {
+            if (levelScriptsListBox.SelectedItem is StaticLevelScript sl)
+            {
+                label54.Visible = true;
+                label55.Visible = true;
+                label56.Visible = false;
+                label57.Visible = false;
+                levelScriptIdNumberBox.Visible = true;
+                levelScriptIdNumberBox.Value = sl.scriptID;
+                levelScriptTypeNumberBox.Visible = true;
+                levelScriptTypeNumberBox.Value = sl.type;
+                levelScriptVarNumberBox.Visible = false;
+                levelScriptConstNumberBox.Visible = false;
+            }
+            if (levelScriptsListBox.SelectedItem is DynamicLevelScript dl)
+            {
+                label54.Visible = true;
+                label55.Visible = false;
+                label56.Visible = true;
+                label57.Visible = true;
+                levelScriptIdNumberBox.Visible = true;
+                levelScriptIdNumberBox.Value = dl.scriptID;
+                levelScriptTypeNumberBox.Visible = false;
+                levelScriptVarNumberBox.Visible = true;
+                levelScriptVarNumberBox.Value = dl.checkVar;
+                levelScriptConstNumberBox.Visible = true;
+                levelScriptConstNumberBox.Value = dl.checkConst;
+            }
+        }
+
+        private void addStaticScriptButton_Click(object sender, EventArgs e)
+        {
+            overworldObjectNarc.objects[(int)mapIDNumberBox.Value].staticLevelScripts.Add(new StaticLevelScript()
+            {
+                scriptID = 1,
+                type = 2
+            });
+            overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
+            LoadZoneIntoEditor(sender, e);
+        }
+
+        private void addDynamicScriptButton_Click(object sender, EventArgs e)
+        {
+            overworldObjectNarc.objects[(int)mapIDNumberBox.Value].dynamicLevelScripts.Add(new DynamicLevelScript()
+            {
+                checkVar = 0x4000,
+                checkConst = 1,
+                scriptID = 1,
+            });
+            overworldObjectNarc.objects[(int)mapIDNumberBox.Value].ApplyData();
+            LoadZoneIntoEditor(sender, e);
         }
     }
 }

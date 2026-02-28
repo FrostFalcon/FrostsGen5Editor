@@ -40,6 +40,7 @@ namespace NewEditor.Forms
             this.packNarcButton = new System.Windows.Forms.Button();
             this.unpackNarcButton = new System.Windows.Forms.Button();
             this.statusText = new System.Windows.Forms.Label();
+            this.detectCompressionCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // fileTree
@@ -131,11 +132,25 @@ namespace NewEditor.Forms
             this.statusText.Size = new System.Drawing.Size(0, 16);
             this.statusText.TabIndex = 7;
             // 
+            // detectCompressionCheckBox
+            // 
+            this.detectCompressionCheckBox.AutoSize = true;
+            this.detectCompressionCheckBox.Checked = true;
+            this.detectCompressionCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.detectCompressionCheckBox.Location = new System.Drawing.Point(428, 353);
+            this.detectCompressionCheckBox.Name = "detectCompressionCheckBox";
+            this.detectCompressionCheckBox.Size = new System.Drawing.Size(144, 20);
+            this.detectCompressionCheckBox.TabIndex = 8;
+            this.detectCompressionCheckBox.Text = "Detect Compression";
+            this.detectCompressionCheckBox.UseVisualStyleBackColor = true;
+            this.detectCompressionCheckBox.Visible = false;
+            // 
             // FileExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 481);
+            this.Controls.Add(this.detectCompressionCheckBox);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.unpackNarcButton);
             this.Controls.Add(this.packNarcButton);
@@ -164,5 +179,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button packNarcButton;
         private System.Windows.Forms.Button unpackNarcButton;
         private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.CheckBox detectCompressionCheckBox;
     }
 }

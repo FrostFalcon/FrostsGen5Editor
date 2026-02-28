@@ -84,6 +84,7 @@ namespace NewEditor.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.themeDropdown = new System.Windows.Forms.ComboBox();
             this.statusText = new System.Windows.Forms.Label();
+            this.pokedexToolsButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.narcToReplaceNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.replaceSoundID)).BeginInit();
@@ -558,6 +559,7 @@ namespace NewEditor.Forms
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox3.Controls.Add(this.pokedexToolsButton);
             this.groupBox3.Controls.Add(this.OpenFileExplorerButton);
             this.groupBox3.Controls.Add(this.openGrottoEditorButton);
             this.groupBox3.Controls.Add(this.openXPCurveEditorButton);
@@ -688,6 +690,16 @@ namespace NewEditor.Forms
             this.statusText.TabIndex = 44;
             this.statusText.Text = "Ready to load rom";
             // 
+            // pokedexToolsButton
+            // 
+            this.pokedexToolsButton.Location = new System.Drawing.Point(262, 17);
+            this.pokedexToolsButton.Name = "pokedexToolsButton";
+            this.pokedexToolsButton.Size = new System.Drawing.Size(120, 32);
+            this.pokedexToolsButton.TabIndex = 30;
+            this.pokedexToolsButton.Text = "Pokedex Tools";
+            this.pokedexToolsButton.UseVisualStyleBackColor = true;
+            this.pokedexToolsButton.Click += new System.EventHandler(this.pokedexToolsButton_Click);
+            // 
             // MainEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -784,6 +796,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.ComboBox themeDropdown;
         private System.Windows.Forms.Button OpenFileExplorerButton;
         private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.Button pokedexToolsButton;
     }
 }
 

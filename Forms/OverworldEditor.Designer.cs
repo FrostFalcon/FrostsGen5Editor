@@ -95,9 +95,17 @@ namespace NewEditor.Forms
             this.furnitureIDNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.warpTab = new System.Windows.Forms.TabPage();
+            this.warpDestMapDropdown = new System.Windows.Forms.ComboBox();
+            this.warpDirectionDropdown = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.warpExitXNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.warpTransitionTypeNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label24 = new System.Windows.Forms.Label();
+            this.warpRailCheckBox = new System.Windows.Forms.CheckBox();
+            this.exitZText = new System.Windows.Forms.Label();
+            this.warpExitZNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.exitXText = new System.Windows.Forms.Label();
+            this.warpExitXNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.exitYText = new System.Windows.Forms.Label();
             this.warpExitYNumberBox = new System.Windows.Forms.NumericUpDown();
             this.warpCountLabel = new System.Windows.Forms.Label();
             this.warpIDNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -109,7 +117,6 @@ namespace NewEditor.Forms
             this.warpDestWarpNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
-            this.warpDestMapNumberBox = new System.Windows.Forms.NumericUpDown();
             this.triggerTab = new System.Windows.Forms.TabPage();
             this.label31 = new System.Windows.Forms.Label();
             this.triggerWidthNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -131,7 +138,19 @@ namespace NewEditor.Forms
             this.label35 = new System.Windows.Forms.Label();
             this.triggerConstValNumberBox = new System.Windows.Forms.NumericUpDown();
             this.overworldExtrasTab = new System.Windows.Forms.TabPage();
-            this.extraDataTextBox = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.addStaticScriptButton = new System.Windows.Forms.Button();
+            this.addDynamicScriptButton = new System.Windows.Forms.Button();
+            this.label57 = new System.Windows.Forms.Label();
+            this.levelScriptConstNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label56 = new System.Windows.Forms.Label();
+            this.levelScriptVarNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label55 = new System.Windows.Forms.Label();
+            this.levelScriptTypeNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label54 = new System.Windows.Forms.Label();
+            this.levelScriptIdNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label53 = new System.Windows.Forms.Label();
+            this.levelScriptsListBox = new System.Windows.Forms.ListBox();
             this.removeObjectButton = new System.Windows.Forms.Button();
             this.addObjectButton = new System.Windows.Forms.Button();
             this.applyObjectButton = new System.Windows.Forms.Button();
@@ -150,6 +169,14 @@ namespace NewEditor.Forms
             this.challengeLevelNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label37 = new System.Windows.Forms.Label();
             this.statusText = new System.Windows.Forms.Label();
+            this.unk1NumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label49 = new System.Windows.Forms.Label();
+            this.unk3NumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label50 = new System.Windows.Forms.Label();
+            this.flagsNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label51 = new System.Windows.Forms.Label();
+            this.cameraNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label52 = new System.Windows.Forms.Label();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -179,13 +206,14 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.furnitureScriptNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).BeginInit();
             this.warpTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.warpTransitionTypeNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warpExitZNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitXNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitYNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpIDNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpWidthNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpHeightNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpDestWarpNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.warpDestMapNumberBox)).BeginInit();
             this.triggerTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.triggerWidthNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerHeightNumberBox)).BeginInit();
@@ -197,6 +225,10 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstRefNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstValNumberBox)).BeginInit();
             this.overworldExtrasTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptConstNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptVarNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptTypeNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptIdNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weatherNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textureNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unk4NumberBox)).BeginInit();
@@ -204,12 +236,16 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.flyYNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flyXNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.challengeLevelNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk1NumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk3NumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.flagsNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraNumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mapTypeNumberBox
             // 
             this.mapTypeNumberBox.Enabled = false;
-            this.mapTypeNumberBox.Location = new System.Drawing.Point(100, 86);
+            this.mapTypeNumberBox.Location = new System.Drawing.Point(100, 66);
             this.mapTypeNumberBox.Maximum = new decimal(new int[] {
             255,
             0,
@@ -229,7 +265,7 @@ namespace NewEditor.Forms
             // scriptFileNumberBox
             // 
             this.scriptFileNumberBox.Enabled = false;
-            this.scriptFileNumberBox.Location = new System.Drawing.Point(100, 146);
+            this.scriptFileNumberBox.Location = new System.Drawing.Point(100, 126);
             this.scriptFileNumberBox.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -247,7 +283,7 @@ namespace NewEditor.Forms
             // textFileNumberBox
             // 
             this.textFileNumberBox.Enabled = false;
-            this.textFileNumberBox.Location = new System.Drawing.Point(100, 176);
+            this.textFileNumberBox.Location = new System.Drawing.Point(100, 156);
             this.textFileNumberBox.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -265,7 +301,7 @@ namespace NewEditor.Forms
             // encounterFileNumberBox
             // 
             this.encounterFileNumberBox.Enabled = false;
-            this.encounterFileNumberBox.Location = new System.Drawing.Point(100, 206);
+            this.encounterFileNumberBox.Location = new System.Drawing.Point(100, 186);
             this.encounterFileNumberBox.Maximum = new decimal(new int[] {
             255,
             0,
@@ -330,7 +366,7 @@ namespace NewEditor.Forms
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(20, 90);
+            this.label13.Location = new System.Drawing.Point(20, 70);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(67, 16);
             this.label13.TabIndex = 57;
@@ -339,7 +375,7 @@ namespace NewEditor.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 120);
+            this.label1.Location = new System.Drawing.Point(20, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 16);
             this.label1.TabIndex = 59;
@@ -348,7 +384,7 @@ namespace NewEditor.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 150);
+            this.label2.Location = new System.Drawing.Point(20, 130);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 16);
             this.label2.TabIndex = 61;
@@ -357,7 +393,7 @@ namespace NewEditor.Forms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 180);
+            this.label3.Location = new System.Drawing.Point(20, 160);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 16);
             this.label3.TabIndex = 63;
@@ -366,7 +402,7 @@ namespace NewEditor.Forms
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 210);
+            this.label4.Location = new System.Drawing.Point(20, 190);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(77, 16);
             this.label4.TabIndex = 65;
@@ -413,7 +449,7 @@ namespace NewEditor.Forms
             // applyZoneButton
             // 
             this.applyZoneButton.Enabled = false;
-            this.applyZoneButton.Location = new System.Drawing.Point(23, 450);
+            this.applyZoneButton.Location = new System.Drawing.Point(23, 448);
             this.applyZoneButton.Name = "applyZoneButton";
             this.applyZoneButton.Size = new System.Drawing.Size(120, 40);
             this.applyZoneButton.TabIndex = 73;
@@ -423,7 +459,7 @@ namespace NewEditor.Forms
             // 
             // openTextFileButton
             // 
-            this.openTextFileButton.Location = new System.Drawing.Point(180, 175);
+            this.openTextFileButton.Location = new System.Drawing.Point(180, 155);
             this.openTextFileButton.Name = "openTextFileButton";
             this.openTextFileButton.Size = new System.Drawing.Size(75, 24);
             this.openTextFileButton.TabIndex = 74;
@@ -434,7 +470,7 @@ namespace NewEditor.Forms
             // mapMatrixNumberBox
             // 
             this.mapMatrixNumberBox.Enabled = false;
-            this.mapMatrixNumberBox.Location = new System.Drawing.Point(100, 116);
+            this.mapMatrixNumberBox.Location = new System.Drawing.Point(100, 96);
             this.mapMatrixNumberBox.Maximum = new decimal(new int[] {
             999,
             0,
@@ -451,7 +487,7 @@ namespace NewEditor.Forms
             // 
             // openScriptFileButton
             // 
-            this.openScriptFileButton.Location = new System.Drawing.Point(180, 144);
+            this.openScriptFileButton.Location = new System.Drawing.Point(180, 124);
             this.openScriptFileButton.Name = "openScriptFileButton";
             this.openScriptFileButton.Size = new System.Drawing.Size(75, 24);
             this.openScriptFileButton.TabIndex = 75;
@@ -461,7 +497,7 @@ namespace NewEditor.Forms
             // 
             // openEncounterFileButton
             // 
-            this.openEncounterFileButton.Location = new System.Drawing.Point(180, 205);
+            this.openEncounterFileButton.Location = new System.Drawing.Point(180, 185);
             this.openEncounterFileButton.Name = "openEncounterFileButton";
             this.openEncounterFileButton.Size = new System.Drawing.Size(75, 24);
             this.openEncounterFileButton.TabIndex = 76;
@@ -476,7 +512,7 @@ namespace NewEditor.Forms
             this.overworlObjectTabs.Controls.Add(this.warpTab);
             this.overworlObjectTabs.Controls.Add(this.triggerTab);
             this.overworlObjectTabs.Controls.Add(this.overworldExtrasTab);
-            this.overworlObjectTabs.ItemSize = new System.Drawing.Size(60, 20);
+            this.overworlObjectTabs.ItemSize = new System.Drawing.Size(65, 20);
             this.overworlObjectTabs.Location = new System.Drawing.Point(316, 209);
             this.overworlObjectTabs.Name = "overworlObjectTabs";
             this.overworlObjectTabs.SelectedIndex = 0;
@@ -1108,9 +1144,17 @@ namespace NewEditor.Forms
             // 
             // warpTab
             // 
+            this.warpTab.Controls.Add(this.warpDestMapDropdown);
+            this.warpTab.Controls.Add(this.warpDirectionDropdown);
             this.warpTab.Controls.Add(this.label22);
-            this.warpTab.Controls.Add(this.warpExitXNumberBox);
+            this.warpTab.Controls.Add(this.warpTransitionTypeNumberBox);
             this.warpTab.Controls.Add(this.label24);
+            this.warpTab.Controls.Add(this.warpRailCheckBox);
+            this.warpTab.Controls.Add(this.exitZText);
+            this.warpTab.Controls.Add(this.warpExitZNumberBox);
+            this.warpTab.Controls.Add(this.exitXText);
+            this.warpTab.Controls.Add(this.warpExitXNumberBox);
+            this.warpTab.Controls.Add(this.exitYText);
             this.warpTab.Controls.Add(this.warpExitYNumberBox);
             this.warpTab.Controls.Add(this.warpCountLabel);
             this.warpTab.Controls.Add(this.warpIDNumberBox);
@@ -1122,7 +1166,6 @@ namespace NewEditor.Forms
             this.warpTab.Controls.Add(this.warpDestWarpNumberBox);
             this.warpTab.Controls.Add(this.label32);
             this.warpTab.Controls.Add(this.label33);
-            this.warpTab.Controls.Add(this.warpDestMapNumberBox);
             this.warpTab.Location = new System.Drawing.Point(4, 24);
             this.warpTab.Name = "warpTab";
             this.warpTab.Padding = new System.Windows.Forms.Padding(3);
@@ -1131,18 +1174,139 @@ namespace NewEditor.Forms
             this.warpTab.Text = "Warps";
             this.warpTab.UseVisualStyleBackColor = true;
             // 
+            // warpDestMapDropdown
+            // 
+            this.warpDestMapDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.warpDestMapDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.warpDestMapDropdown.FormattingEnabled = true;
+            this.warpDestMapDropdown.Location = new System.Drawing.Point(95, 58);
+            this.warpDestMapDropdown.Name = "warpDestMapDropdown";
+            this.warpDestMapDropdown.Size = new System.Drawing.Size(230, 24);
+            this.warpDestMapDropdown.TabIndex = 129;
+            // 
+            // warpDirectionDropdown
+            // 
+            this.warpDirectionDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.warpDirectionDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.warpDirectionDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.warpDirectionDropdown.FormattingEnabled = true;
+            this.warpDirectionDropdown.Items.AddRange(new object[] {
+            "Any",
+            "Up",
+            "Down",
+            "Left",
+            "Right"});
+            this.warpDirectionDropdown.Location = new System.Drawing.Point(119, 191);
+            this.warpDirectionDropdown.Name = "warpDirectionDropdown";
+            this.warpDirectionDropdown.Size = new System.Drawing.Size(58, 24);
+            this.warpDirectionDropdown.TabIndex = 98;
+            // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(185, 72);
+            this.label22.Location = new System.Drawing.Point(306, 194);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(45, 16);
-            this.label22.TabIndex = 118;
-            this.label22.Text = "Exit X:";
+            this.label22.Size = new System.Drawing.Size(98, 16);
+            this.label22.TabIndex = 127;
+            this.label22.Text = "Transition Type:";
+            // 
+            // warpTransitionTypeNumberBox
+            // 
+            this.warpTransitionTypeNumberBox.Location = new System.Drawing.Point(410, 192);
+            this.warpTransitionTypeNumberBox.Maximum = new decimal(new int[] {
+            2000000000,
+            0,
+            0,
+            0});
+            this.warpTransitionTypeNumberBox.Minimum = new decimal(new int[] {
+            2000000000,
+            0,
+            0,
+            -2147483648});
+            this.warpTransitionTypeNumberBox.Name = "warpTransitionTypeNumberBox";
+            this.warpTransitionTypeNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.warpTransitionTypeNumberBox.TabIndex = 128;
+            this.warpTransitionTypeNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(15, 194);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(89, 16);
+            this.label24.TabIndex = 125;
+            this.label24.Text = "Exit Direction:";
+            // 
+            // warpRailCheckBox
+            // 
+            this.warpRailCheckBox.AutoSize = true;
+            this.warpRailCheckBox.Location = new System.Drawing.Point(18, 132);
+            this.warpRailCheckBox.Name = "warpRailCheckBox";
+            this.warpRailCheckBox.Size = new System.Drawing.Size(121, 20);
+            this.warpRailCheckBox.TabIndex = 124;
+            this.warpRailCheckBox.Text = "Rail Coordinates";
+            this.warpRailCheckBox.UseVisualStyleBackColor = true;
+            this.warpRailCheckBox.CheckedChanged += new System.EventHandler(this.warpRailTextBox_CheckedChanged);
+            // 
+            // exitZText
+            // 
+            this.exitZText.AutoSize = true;
+            this.exitZText.Location = new System.Drawing.Point(185, 162);
+            this.exitZText.Name = "exitZText";
+            this.exitZText.Size = new System.Drawing.Size(45, 16);
+            this.exitZText.TabIndex = 122;
+            this.exitZText.Text = "Exit Z:";
+            // 
+            // warpExitZNumberBox
+            // 
+            this.warpExitZNumberBox.DecimalPlaces = 1;
+            this.warpExitZNumberBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.warpExitZNumberBox.Location = new System.Drawing.Point(245, 160);
+            this.warpExitZNumberBox.Maximum = new decimal(new int[] {
+            2000000000,
+            0,
+            0,
+            0});
+            this.warpExitZNumberBox.Minimum = new decimal(new int[] {
+            2000000000,
+            0,
+            0,
+            -2147483648});
+            this.warpExitZNumberBox.Name = "warpExitZNumberBox";
+            this.warpExitZNumberBox.Size = new System.Drawing.Size(80, 22);
+            this.warpExitZNumberBox.TabIndex = 123;
+            this.warpExitZNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // exitXText
+            // 
+            this.exitXText.AutoSize = true;
+            this.exitXText.Location = new System.Drawing.Point(185, 102);
+            this.exitXText.Name = "exitXText";
+            this.exitXText.Size = new System.Drawing.Size(45, 16);
+            this.exitXText.TabIndex = 118;
+            this.exitXText.Text = "Exit X:";
             // 
             // warpExitXNumberBox
             // 
-            this.warpExitXNumberBox.Location = new System.Drawing.Point(245, 70);
+            this.warpExitXNumberBox.DecimalPlaces = 1;
+            this.warpExitXNumberBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.warpExitXNumberBox.Location = new System.Drawing.Point(245, 100);
             this.warpExitXNumberBox.Maximum = new decimal(new int[] {
             2000000000,
             0,
@@ -1162,18 +1326,24 @@ namespace NewEditor.Forms
             0,
             0});
             // 
-            // label24
+            // exitYText
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(185, 102);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(46, 16);
-            this.label24.TabIndex = 120;
-            this.label24.Text = "Exit Y:";
+            this.exitYText.AutoSize = true;
+            this.exitYText.Location = new System.Drawing.Point(185, 132);
+            this.exitYText.Name = "exitYText";
+            this.exitYText.Size = new System.Drawing.Size(46, 16);
+            this.exitYText.TabIndex = 120;
+            this.exitYText.Text = "Exit Y:";
             // 
             // warpExitYNumberBox
             // 
-            this.warpExitYNumberBox.Location = new System.Drawing.Point(245, 100);
+            this.warpExitYNumberBox.DecimalPlaces = 1;
+            this.warpExitYNumberBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.warpExitYNumberBox.Location = new System.Drawing.Point(245, 130);
             this.warpExitYNumberBox.Maximum = new decimal(new int[] {
             2000000000,
             0,
@@ -1217,7 +1387,7 @@ namespace NewEditor.Forms
             // 
             // warpWidthNumberBox
             // 
-            this.warpWidthNumberBox.Location = new System.Drawing.Point(410, 70);
+            this.warpWidthNumberBox.Location = new System.Drawing.Point(410, 100);
             this.warpWidthNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -1249,7 +1419,7 @@ namespace NewEditor.Forms
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(345, 72);
+            this.label28.Location = new System.Drawing.Point(345, 102);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(45, 16);
             this.label28.TabIndex = 115;
@@ -1258,7 +1428,7 @@ namespace NewEditor.Forms
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(345, 102);
+            this.label30.Location = new System.Drawing.Point(345, 132);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(48, 16);
             this.label30.TabIndex = 107;
@@ -1266,7 +1436,7 @@ namespace NewEditor.Forms
             // 
             // warpHeightNumberBox
             // 
-            this.warpHeightNumberBox.Location = new System.Drawing.Point(410, 100);
+            this.warpHeightNumberBox.Location = new System.Drawing.Point(410, 130);
             this.warpHeightNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -1311,7 +1481,7 @@ namespace NewEditor.Forms
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(15, 72);
+            this.label32.Location = new System.Drawing.Point(15, 62);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(67, 16);
             this.label32.TabIndex = 109;
@@ -1325,28 +1495,6 @@ namespace NewEditor.Forms
             this.label33.Size = new System.Drawing.Size(69, 16);
             this.label33.TabIndex = 111;
             this.label33.Text = "Dest warp:";
-            // 
-            // warpDestMapNumberBox
-            // 
-            this.warpDestMapNumberBox.Location = new System.Drawing.Point(95, 70);
-            this.warpDestMapNumberBox.Maximum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            0});
-            this.warpDestMapNumberBox.Minimum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            -2147483648});
-            this.warpDestMapNumberBox.Name = "warpDestMapNumberBox";
-            this.warpDestMapNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.warpDestMapNumberBox.TabIndex = 110;
-            this.warpDestMapNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // triggerTab
             // 
@@ -1658,25 +1806,211 @@ namespace NewEditor.Forms
             // 
             // overworldExtrasTab
             // 
-            this.overworldExtrasTab.Controls.Add(this.extraDataTextBox);
+            this.overworldExtrasTab.Controls.Add(this.button1);
+            this.overworldExtrasTab.Controls.Add(this.addStaticScriptButton);
+            this.overworldExtrasTab.Controls.Add(this.addDynamicScriptButton);
+            this.overworldExtrasTab.Controls.Add(this.label57);
+            this.overworldExtrasTab.Controls.Add(this.levelScriptConstNumberBox);
+            this.overworldExtrasTab.Controls.Add(this.label56);
+            this.overworldExtrasTab.Controls.Add(this.levelScriptVarNumberBox);
+            this.overworldExtrasTab.Controls.Add(this.label55);
+            this.overworldExtrasTab.Controls.Add(this.levelScriptTypeNumberBox);
+            this.overworldExtrasTab.Controls.Add(this.label54);
+            this.overworldExtrasTab.Controls.Add(this.levelScriptIdNumberBox);
+            this.overworldExtrasTab.Controls.Add(this.label53);
+            this.overworldExtrasTab.Controls.Add(this.levelScriptsListBox);
             this.overworldExtrasTab.Location = new System.Drawing.Point(4, 24);
             this.overworldExtrasTab.Name = "overworldExtrasTab";
             this.overworldExtrasTab.Size = new System.Drawing.Size(562, 252);
             this.overworldExtrasTab.TabIndex = 3;
-            this.overworldExtrasTab.Text = "Extras";
+            this.overworldExtrasTab.Text = "Lv Scripts";
             this.overworldExtrasTab.UseVisualStyleBackColor = true;
             // 
-            // extraDataTextBox
+            // button1
             // 
-            this.extraDataTextBox.Location = new System.Drawing.Point(3, 3);
-            this.extraDataTextBox.Name = "extraDataTextBox";
-            this.extraDataTextBox.Size = new System.Drawing.Size(538, 226);
-            this.extraDataTextBox.TabIndex = 90;
-            this.extraDataTextBox.Text = "";
+            this.button1.Location = new System.Drawing.Point(328, 207);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(70, 30);
+            this.button1.TabIndex = 106;
+            this.button1.Text = "Remove";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.removeObjectButton_Click);
+            // 
+            // addStaticScriptButton
+            // 
+            this.addStaticScriptButton.Location = new System.Drawing.Point(222, 172);
+            this.addStaticScriptButton.Name = "addStaticScriptButton";
+            this.addStaticScriptButton.Size = new System.Drawing.Size(100, 30);
+            this.addStaticScriptButton.TabIndex = 144;
+            this.addStaticScriptButton.Text = "Add Static";
+            this.addStaticScriptButton.UseVisualStyleBackColor = true;
+            this.addStaticScriptButton.Click += new System.EventHandler(this.addStaticScriptButton_Click);
+            // 
+            // addDynamicScriptButton
+            // 
+            this.addDynamicScriptButton.Location = new System.Drawing.Point(222, 207);
+            this.addDynamicScriptButton.Name = "addDynamicScriptButton";
+            this.addDynamicScriptButton.Size = new System.Drawing.Size(100, 30);
+            this.addDynamicScriptButton.TabIndex = 143;
+            this.addDynamicScriptButton.Text = "Add Dynamic";
+            this.addDynamicScriptButton.UseVisualStyleBackColor = true;
+            this.addDynamicScriptButton.Click += new System.EventHandler(this.addDynamicScriptButton_Click);
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(320, 83);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(15, 16);
+            this.label57.TabIndex = 142;
+            this.label57.Text = "=";
+            this.label57.Visible = false;
+            // 
+            // levelScriptConstNumberBox
+            // 
+            this.levelScriptConstNumberBox.Location = new System.Drawing.Point(342, 80);
+            this.levelScriptConstNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.levelScriptConstNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.levelScriptConstNumberBox.Name = "levelScriptConstNumberBox";
+            this.levelScriptConstNumberBox.Size = new System.Drawing.Size(50, 22);
+            this.levelScriptConstNumberBox.TabIndex = 141;
+            this.levelScriptConstNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.levelScriptConstNumberBox.Visible = false;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(215, 83);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(35, 16);
+            this.label56.TabIndex = 139;
+            this.label56.Text = "If: 0x";
+            this.label56.Visible = false;
+            // 
+            // levelScriptVarNumberBox
+            // 
+            this.levelScriptVarNumberBox.Hexadecimal = true;
+            this.levelScriptVarNumberBox.Location = new System.Drawing.Point(252, 80);
+            this.levelScriptVarNumberBox.Maximum = new decimal(new int[] {
+            20480,
+            0,
+            0,
+            0});
+            this.levelScriptVarNumberBox.Minimum = new decimal(new int[] {
+            16384,
+            0,
+            0,
+            0});
+            this.levelScriptVarNumberBox.Name = "levelScriptVarNumberBox";
+            this.levelScriptVarNumberBox.Size = new System.Drawing.Size(60, 22);
+            this.levelScriptVarNumberBox.TabIndex = 140;
+            this.levelScriptVarNumberBox.Value = new decimal(new int[] {
+            16384,
+            0,
+            0,
+            0});
+            this.levelScriptVarNumberBox.Visible = false;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(215, 83);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(67, 16);
+            this.label55.TabIndex = 137;
+            this.label55.Text = "Type Flag:";
+            this.label55.Visible = false;
+            // 
+            // levelScriptTypeNumberBox
+            // 
+            this.levelScriptTypeNumberBox.Location = new System.Drawing.Point(300, 80);
+            this.levelScriptTypeNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.levelScriptTypeNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.levelScriptTypeNumberBox.Name = "levelScriptTypeNumberBox";
+            this.levelScriptTypeNumberBox.Size = new System.Drawing.Size(40, 22);
+            this.levelScriptTypeNumberBox.TabIndex = 138;
+            this.levelScriptTypeNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.levelScriptTypeNumberBox.Visible = false;
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(215, 50);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(61, 16);
+            this.label54.TabIndex = 135;
+            this.label54.Text = "Script ID:";
+            this.label54.Visible = false;
+            // 
+            // levelScriptIdNumberBox
+            // 
+            this.levelScriptIdNumberBox.Location = new System.Drawing.Point(280, 47);
+            this.levelScriptIdNumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.levelScriptIdNumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.levelScriptIdNumberBox.Name = "levelScriptIdNumberBox";
+            this.levelScriptIdNumberBox.Size = new System.Drawing.Size(60, 22);
+            this.levelScriptIdNumberBox.TabIndex = 136;
+            this.levelScriptIdNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.levelScriptIdNumberBox.Visible = false;
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(6, 16);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(52, 16);
+            this.label53.TabIndex = 106;
+            this.label53.Text = "Scripts:";
+            // 
+            // levelScriptsListBox
+            // 
+            this.levelScriptsListBox.FormattingEnabled = true;
+            this.levelScriptsListBox.ItemHeight = 16;
+            this.levelScriptsListBox.Location = new System.Drawing.Point(9, 41);
+            this.levelScriptsListBox.Name = "levelScriptsListBox";
+            this.levelScriptsListBox.Size = new System.Drawing.Size(200, 196);
+            this.levelScriptsListBox.TabIndex = 107;
+            this.levelScriptsListBox.SelectedIndexChanged += new System.EventHandler(this.SelectLevelScript);
             // 
             // removeObjectButton
             // 
-            this.removeObjectButton.Location = new System.Drawing.Point(706, 199);
+            this.removeObjectButton.Location = new System.Drawing.Point(726, 199);
             this.removeObjectButton.Name = "removeObjectButton";
             this.removeObjectButton.Size = new System.Drawing.Size(70, 30);
             this.removeObjectButton.TabIndex = 78;
@@ -1686,7 +2020,7 @@ namespace NewEditor.Forms
             // 
             // addObjectButton
             // 
-            this.addObjectButton.Location = new System.Drawing.Point(636, 199);
+            this.addObjectButton.Location = new System.Drawing.Point(656, 199);
             this.addObjectButton.Name = "addObjectButton";
             this.addObjectButton.Size = new System.Drawing.Size(60, 30);
             this.addObjectButton.TabIndex = 79;
@@ -1761,7 +2095,7 @@ namespace NewEditor.Forms
             // unk4NumberBox
             // 
             this.unk4NumberBox.Enabled = false;
-            this.unk4NumberBox.Location = new System.Drawing.Point(100, 356);
+            this.unk4NumberBox.Location = new System.Drawing.Point(252, 326);
             this.unk4NumberBox.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1784,7 +2118,7 @@ namespace NewEditor.Forms
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(21, 360);
+            this.label42.Location = new System.Drawing.Point(173, 330);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(45, 16);
             this.label42.TabIndex = 87;
@@ -1793,7 +2127,7 @@ namespace NewEditor.Forms
             // unk2NumberBox
             // 
             this.unk2NumberBox.Enabled = false;
-            this.unk2NumberBox.Location = new System.Drawing.Point(100, 386);
+            this.unk2NumberBox.Location = new System.Drawing.Point(252, 266);
             this.unk2NumberBox.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1811,7 +2145,7 @@ namespace NewEditor.Forms
             // label43
             // 
             this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(21, 390);
+            this.label43.Location = new System.Drawing.Point(173, 270);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(45, 16);
             this.label43.TabIndex = 89;
@@ -1820,7 +2154,7 @@ namespace NewEditor.Forms
             // flyYNumberBox
             // 
             this.flyYNumberBox.Enabled = false;
-            this.flyYNumberBox.Location = new System.Drawing.Point(250, 386);
+            this.flyYNumberBox.Location = new System.Drawing.Point(100, 386);
             this.flyYNumberBox.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -1843,7 +2177,7 @@ namespace NewEditor.Forms
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(171, 390);
+            this.label47.Location = new System.Drawing.Point(21, 390);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(41, 16);
             this.label47.TabIndex = 93;
@@ -1852,7 +2186,7 @@ namespace NewEditor.Forms
             // flyXNumberBox
             // 
             this.flyXNumberBox.Enabled = false;
-            this.flyXNumberBox.Location = new System.Drawing.Point(250, 356);
+            this.flyXNumberBox.Location = new System.Drawing.Point(100, 356);
             this.flyXNumberBox.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -1875,7 +2209,7 @@ namespace NewEditor.Forms
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(171, 360);
+            this.label48.Location = new System.Drawing.Point(21, 360);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(40, 16);
             this.label48.TabIndex = 91;
@@ -1916,12 +2250,138 @@ namespace NewEditor.Forms
             this.statusText.Size = new System.Drawing.Size(0, 16);
             this.statusText.TabIndex = 97;
             // 
+            // unk1NumberBox
+            // 
+            this.unk1NumberBox.Enabled = false;
+            this.unk1NumberBox.Location = new System.Drawing.Point(252, 236);
+            this.unk1NumberBox.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.unk1NumberBox.Name = "unk1NumberBox";
+            this.unk1NumberBox.Size = new System.Drawing.Size(58, 22);
+            this.unk1NumberBox.TabIndex = 99;
+            this.unk1NumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(173, 240);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(45, 16);
+            this.label49.TabIndex = 98;
+            this.label49.Text = "Unk 1:";
+            // 
+            // unk3NumberBox
+            // 
+            this.unk3NumberBox.Enabled = false;
+            this.unk3NumberBox.Location = new System.Drawing.Point(252, 296);
+            this.unk3NumberBox.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.unk3NumberBox.Name = "unk3NumberBox";
+            this.unk3NumberBox.Size = new System.Drawing.Size(58, 22);
+            this.unk3NumberBox.TabIndex = 101;
+            this.unk3NumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(173, 300);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(45, 16);
+            this.label50.TabIndex = 100;
+            this.label50.Text = "Unk 3:";
+            // 
+            // flagsNumberBox
+            // 
+            this.flagsNumberBox.Enabled = false;
+            this.flagsNumberBox.Location = new System.Drawing.Point(252, 386);
+            this.flagsNumberBox.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.flagsNumberBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.flagsNumberBox.Name = "flagsNumberBox";
+            this.flagsNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.flagsNumberBox.TabIndex = 103;
+            this.flagsNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(173, 390);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(43, 16);
+            this.label51.TabIndex = 102;
+            this.label51.Text = "Flags:";
+            // 
+            // cameraNumberBox
+            // 
+            this.cameraNumberBox.Enabled = false;
+            this.cameraNumberBox.Location = new System.Drawing.Point(252, 356);
+            this.cameraNumberBox.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.cameraNumberBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.cameraNumberBox.Name = "cameraNumberBox";
+            this.cameraNumberBox.Size = new System.Drawing.Size(58, 22);
+            this.cameraNumberBox.TabIndex = 105;
+            this.cameraNumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(173, 360);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(56, 16);
+            this.label52.TabIndex = 104;
+            this.label52.Text = "Camera:";
+            // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(904, 521);
+            this.Controls.Add(this.cameraNumberBox);
+            this.Controls.Add(this.label52);
+            this.Controls.Add(this.flagsNumberBox);
+            this.Controls.Add(this.label51);
+            this.Controls.Add(this.unk3NumberBox);
+            this.Controls.Add(this.label50);
+            this.Controls.Add(this.unk1NumberBox);
+            this.Controls.Add(this.label49);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.challengeLevelNumberBox);
             this.Controls.Add(this.label37);
@@ -1996,13 +2456,14 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.furnitureIDNumberBox)).EndInit();
             this.warpTab.ResumeLayout(false);
             this.warpTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.warpTransitionTypeNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warpExitZNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitXNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpExitYNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpIDNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpWidthNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpHeightNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.warpDestWarpNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.warpDestMapNumberBox)).EndInit();
             this.triggerTab.ResumeLayout(false);
             this.triggerTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.triggerWidthNumberBox)).EndInit();
@@ -2015,6 +2476,11 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstRefNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerConstValNumberBox)).EndInit();
             this.overworldExtrasTab.ResumeLayout(false);
+            this.overworldExtrasTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptConstNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptVarNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptTypeNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.levelScriptIdNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weatherNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textureNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unk4NumberBox)).EndInit();
@@ -2022,6 +2488,10 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.flyYNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.flyXNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.challengeLevelNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk1NumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.unk3NumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.flagsNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraNumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2082,9 +2552,9 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button removeObjectButton;
         private System.Windows.Forms.Button addObjectButton;
         private System.Windows.Forms.Button applyObjectButton;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label exitXText;
         private System.Windows.Forms.NumericUpDown warpExitXNumberBox;
-        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label exitYText;
         private System.Windows.Forms.NumericUpDown warpExitYNumberBox;
         private System.Windows.Forms.Label warpCountLabel;
         private System.Windows.Forms.NumericUpDown warpIDNumberBox;
@@ -2096,7 +2566,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.NumericUpDown warpDestWarpNumberBox;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.NumericUpDown warpDestMapNumberBox;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.NumericUpDown triggerXNumberBox;
         private System.Windows.Forms.Label label23;
@@ -2117,7 +2586,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.NumericUpDown triggerHeightNumberBox;
         private System.Windows.Forms.TabPage overworldExtrasTab;
-        private System.Windows.Forms.RichTextBox extraDataTextBox;
         private System.Windows.Forms.Label giveItemLabel;
         private System.Windows.Forms.TabPage furnitureTab;
         private System.Windows.Forms.NumericUpDown furnitureScriptNumberBox;
@@ -2148,5 +2616,34 @@ namespace NewEditor.Forms
         private System.Windows.Forms.NumericUpDown challengeLevelNumberBox;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.Label exitZText;
+        private System.Windows.Forms.NumericUpDown warpExitZNumberBox;
+        private System.Windows.Forms.CheckBox warpRailCheckBox;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.NumericUpDown warpTransitionTypeNumberBox;
+        private System.Windows.Forms.ComboBox warpDirectionDropdown;
+        private System.Windows.Forms.ComboBox warpDestMapDropdown;
+        private System.Windows.Forms.NumericUpDown unk1NumberBox;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.NumericUpDown unk3NumberBox;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.NumericUpDown flagsNumberBox;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.NumericUpDown cameraNumberBox;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.ListBox levelScriptsListBox;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.NumericUpDown levelScriptIdNumberBox;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.NumericUpDown levelScriptTypeNumberBox;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.NumericUpDown levelScriptVarNumberBox;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.NumericUpDown levelScriptConstNumberBox;
+        private System.Windows.Forms.Button addStaticScriptButton;
+        private System.Windows.Forms.Button addDynamicScriptButton;
+        private System.Windows.Forms.Button button1;
     }
 }

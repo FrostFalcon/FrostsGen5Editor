@@ -95,6 +95,8 @@ namespace NewEditor.Forms
             this.moveAnimGroupBox = new System.Windows.Forms.GroupBox();
             this.commandDescriptionText = new System.Windows.Forms.Label();
             this.statusText = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.statusModeDropdown = new System.Windows.Forms.ComboBox();
             this.baseDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.movePPNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moveAccuracyNumberBox)).BeginInit();
@@ -523,6 +525,8 @@ namespace NewEditor.Forms
             // inflictionsGroupBox
             // 
             this.inflictionsGroupBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.inflictionsGroupBox.Controls.Add(this.label20);
+            this.inflictionsGroupBox.Controls.Add(this.statusModeDropdown);
             this.inflictionsGroupBox.Controls.Add(this.label19);
             this.inflictionsGroupBox.Controls.Add(this.statChangeChanceNumberBox3);
             this.inflictionsGroupBox.Controls.Add(this.statChangeChanceNumberBox2);
@@ -678,14 +682,14 @@ namespace NewEditor.Forms
             // 
             // moveStatusChanceNumberBox
             // 
-            this.moveStatusChanceNumberBox.Location = new System.Drawing.Point(335, 73);
+            this.moveStatusChanceNumberBox.Location = new System.Drawing.Point(335, 103);
             this.moveStatusChanceNumberBox.Name = "moveStatusChanceNumberBox";
             this.moveStatusChanceNumberBox.Size = new System.Drawing.Size(50, 22);
             this.moveStatusChanceNumberBox.TabIndex = 82;
             // 
             // label16
             // 
-            this.label16.Location = new System.Drawing.Point(235, 75);
+            this.label16.Location = new System.Drawing.Point(235, 105);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(98, 16);
             this.label16.TabIndex = 81;
@@ -871,6 +875,31 @@ namespace NewEditor.Forms
             this.statusText.Size = new System.Drawing.Size(0, 16);
             this.statusText.TabIndex = 107;
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(235, 70);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(80, 16);
+            this.label20.TabIndex = 94;
+            this.label20.Text = "Status Type:";
+            // 
+            // statusModeDropdown
+            // 
+            this.statusModeDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.statusModeDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.statusModeDropdown.FormattingEnabled = true;
+            this.statusModeDropdown.Items.AddRange(new object[] {
+            "None",
+            "Indefinite",
+            "Turn Count",
+            "Attract",
+            "Bind"});
+            this.statusModeDropdown.Location = new System.Drawing.Point(325, 67);
+            this.statusModeDropdown.Name = "statusModeDropdown";
+            this.statusModeDropdown.Size = new System.Drawing.Size(120, 24);
+            this.statusModeDropdown.TabIndex = 93;
+            // 
             // MoveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -995,5 +1024,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.GroupBox moveAnimGroupBox;
         private System.Windows.Forms.Label commandDescriptionText;
         private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.ComboBox statusModeDropdown;
     }
 }

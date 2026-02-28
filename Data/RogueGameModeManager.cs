@@ -598,7 +598,8 @@ namespace NewEditor.Data
                 o.triggers?.Clear();
                 o.warps?.Clear();
                 o.furniture?.Clear();
-                o.endData?.Clear();
+                o.staticLevelScripts?.Clear();
+                o.dynamicLevelScripts?.Clear();
 
                 o.ApplyData();
             }
@@ -614,7 +615,8 @@ namespace NewEditor.Data
             //}
             MainEditor.scriptNarc.scriptFiles[856].ApplyData();
             ModifyStarterHouseText();
-            MainEditor.overworldsNarc.objects[167].endData.Clear();
+            MainEditor.overworldsNarc.objects[167].dynamicLevelScripts.Clear();
+            MainEditor.overworldsNarc.objects[167].staticLevelScripts.Clear();
             MainEditor.overworldsNarc.objects[167].ApplyData();
 
             //4x trainer
@@ -642,7 +644,8 @@ namespace NewEditor.Data
                 int activeRoomNumber = i;
                 int PCRoomNumber = i + 40;
                 activeScripts.sequences.Clear();
-                MainEditor.overworldsNarc.objects[i].endData.Clear();
+                MainEditor.overworldsNarc.objects[i].staticLevelScripts.Clear();
+                MainEditor.overworldsNarc.objects[i].dynamicLevelScripts.Clear();
 
                 for (int j = 1; j <= bosses[i].floor - (i != 0 ? bosses[i - 1].floor : 0); j++)
                 {

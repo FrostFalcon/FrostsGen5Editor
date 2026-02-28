@@ -8,10 +8,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace NewEditor.Forms
 {
@@ -83,6 +86,7 @@ namespace NewEditor.Forms
 
                     fileText.Text = text;
                     compressOverlayButton.Visible = true;
+                    detectCompressionCheckBox.Visible = true;
                     unpackNarcButton.Visible = false;
                     packNarcButton.Visible = false;
                     compressOverlayButton.Text = y9.compressed ? "Decompress" : "Compress";
@@ -111,6 +115,7 @@ namespace NewEditor.Forms
                         packNarcButton.Visible = false;
                     }
                     compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
                 }
                 importButton.Enabled = true;
                 extractButton.Enabled = true;
@@ -217,7 +222,10 @@ namespace NewEditor.Forms
                     if (open.ShowDialog() == DialogResult.OK)
                     {
                         byte[] b = File.ReadAllBytes(open.FileName);
-                        if (HelperFunctions.ReadInt(b, b.Length - 4) > 0)
+                        bool shouldCompress = false;
+                        if (!detectCompressionCheckBox.Checked) shouldCompress = y9.compressed;
+                        else shouldCompress = HelperFunctions.ReadInt(b, b.Length - 4) > 0;
+                        if (shouldCompress)
                         {
                             y9.compressedSize = b.Length;
                             y9.compressed = true;
@@ -282,6 +290,88 @@ namespace NewEditor.Forms
                     {
                         if (MessageBox.Show("Would you like to extract the decompiled script files instead of binary files?", "Extract Scripts", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
+                            int commandNames = 0;
+                            Form prompt2 = new Form();
+                            prompt2.Font = Font;
+                            prompt2.Width = 320;
+                            prompt2.Height = 200;
+                            prompt2.Text = "Script Export";
+                            FlowLayoutPanel panel = new FlowLayoutPanel();
+                            panel.Width = 320;
+                            panel.Height = 200;
+                            panel.Controls.Add(new Label() { Text = "Select which command dictionary to export with.", Width = 360 });
+                            RadioButton[] options = new RadioButton[]
+                            {
+                                new RadioButton() { Text = "Frost's", Checked = MainEditor.RomType == RomType.BW2, Enabled = MainEditor.RomType == RomType.BW2 },
+                                new RadioButton() { Text = "BeaterScript", Checked = MainEditor.RomType != RomType.BW2 },
+                                new RadioButton() { Text = "Custom", Checked = false },
+                            };
+                            Button ok = new Button() { Text = "Confirm", Size = new Size(80, 28) };
+                            ok.Click += (s, ev) =>
+                            {
+                                commandNames = options[0].Checked ? 0 : options[1].Checked ? 1 : 2;
+                                prompt2.Close();
+                            };
+                            Button no = new Button() { Text = "Cancel", Size = new Size(80, 28) };
+                            no.Click += (s, ev) => { commandNames = -1; prompt2.Close(); };
+                            foreach (RadioButton r in options)
+                            {
+                                r.Width = 180;
+                                panel.Controls.Add(r);
+                                panel.SetFlowBreak(r, true);
+                            }
+                            panel.Controls.Add(ok);
+                            panel.Controls.Add(no);
+                            prompt2.Controls.Add(panel);
+                            prompt2.StartPosition = FormStartPosition.CenterParent;
+                            prompt2.ShowDialog();
+
+                            if (commandNames == -1) return;
+
+                            Dictionary<int, Data.NARCTypes.CommandType> baseCommands = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList : commandNames == 0 ? CommandReference.bw2CommandList : commandNames == 1 ? CommandReference.bw2BeaterScriptCommandList : CommandReference.customCommandList);
+
+                            if (commandNames == 2)
+                            {
+                                OpenFileDialog open = new OpenFileDialog();
+                                open.FileName = "ScriptCommands.json";
+
+                                if (open.ShowDialog() == DialogResult.OK)
+                                {
+                                    Dictionary<int, Data.NARCTypes.CommandType> comDefs = new Dictionary<int, Data.NARCTypes.CommandType>();
+
+                                    try
+                                    {
+                                        JsonDocument json = JsonDocument.Parse(File.ReadAllText(open.FileName));
+                                        foreach (JsonProperty com in json.RootElement.EnumerateObject())
+                                        {
+                                            if (int.TryParse(com.Name.Substring(com.Name.IndexOf("x") + 1), System.Globalization.NumberStyles.HexNumber, null, out int id) &&
+                                                com.Value.TryGetProperty("name", out JsonElement name) && com.Value.TryGetProperty("parameters", out JsonElement pars))
+                                            {
+                                                int[] paramInts = pars.EnumerateArray().Count() == 0 ? new int[0] : JsonSerializer.Deserialize<int[]>(pars);
+                                                comDefs.Add(id, new Data.NARCTypes.CommandType(name.GetString(), paramInts.Length, paramInts));
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Error reading definition for command: \"" + com.Name + "\"");
+                                                return;
+                                            }
+                                        }
+
+                                        baseCommands = comDefs;
+                                    }
+                                    catch
+                                    {
+                                        MessageBox.Show("Unable to retrieve custom command dictionary.");
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Unable to retrieve custom command dictionary.");
+                                    return;
+                                }
+                            }
+
                             for (int i = 0; i < sn.scriptFiles.Count; i++)
                             {
                                 if (!sn.scriptFiles[i].valid) continue;
@@ -291,7 +381,8 @@ namespace NewEditor.Forms
                                     "ScriptHeaders/MovementCommands.h"
                                 };
                                 int ow = MainEditor.zoneDataNarc.zones.FindIndex(z => z.scriptFile == i);
-                                CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(MainEditor.RomType == RomType.BW1 ? CommandReference.bw1CommandList : CommandReference.bw2CommandList);
+
+                                CommandReference.commandList = new Dictionary<int, Data.NARCTypes.CommandType>(baseCommands);
                                 if (OverworldEditor.overlayZones.ContainsKey(ow))
                                 {
                                     headers.Add("ScriptHeaders/CommandOverlay" + OverworldEditor.overlayZones[ow] + ".h");

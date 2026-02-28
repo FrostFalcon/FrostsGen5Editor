@@ -218,7 +218,7 @@ namespace NewEditor.Forms
                     for (int i = 0; i < p.nacreneTutors.Length; i++) nacreneTutorsListBox.SetItemChecked(i, p.nacreneTutors[i]);
 
                     evolutionsListBox.Items.Clear();
-                    for (int i = 0; i < 7; i++) evolutionsListBox.Items.Add(p.evolutions.methods[i]);
+                    for (int i = 0; i < p.evolutions.methods.Length; i++) evolutionsListBox.Items.Add(p.evolutions.methods[i]);
                     evolutionsListBox.SelectedIndex = 0;
                 }
                 if (MainEditor.RomType == RomType.BW1)
@@ -231,7 +231,7 @@ namespace NewEditor.Forms
                     nacreneTutorsListBox.Enabled = false;
 
                     evolutionsListBox.Items.Clear();
-                    for (int i = 0; i < 7; i++) evolutionsListBox.Items.Add(p.evolutions.methods[i]);
+                    for (int i = 0; i < p.evolutions.methods.Length; i++) evolutionsListBox.Items.Add(p.evolutions.methods[i]);
                     evolutionsListBox.SelectedIndex = 0;
                 }
 
@@ -343,14 +343,14 @@ namespace NewEditor.Forms
                     for (int i = 0; i < p.humilauTutors.Length; i++) p.humilauTutors[i] = humilauTutorsListBox.GetItemChecked(i);
                     for (int i = 0; i < p.nacreneTutors.Length; i++) p.nacreneTutors[i] = nacreneTutorsListBox.GetItemChecked(i);
 
-                    for (int i = 0; i < 7; i++) p.evolutions.methods[i] = (EvolutionMethod)evolutionsListBox.Items[i];
+                    for (int i = 0; i < p.evolutions.methods.Length; i++) p.evolutions.methods[i] = (EvolutionMethod)evolutionsListBox.Items[i];
                 }
                 if (MainEditor.RomType == RomType.BW1)
                 {
                     for (int i = 0; i < p.TMs.Length; i++) p.TMs[i] = tmMovesListBox.GetItemChecked(i);
                     for (int i = 0; i < p.miscTutors.Length; i++) p.miscTutors[i] = miscTutorsListBox.GetItemChecked(i);
 
-                    for (int i = 0; i < 7; i++) p.evolutions.methods[i] = (EvolutionMethod)evolutionsListBox.Items[i];
+                    for (int i = 0; i < p.evolutions.methods.Length; i++) p.evolutions.methods[i] = (EvolutionMethod)evolutionsListBox.Items[i];
                 }
                 babyPokemonNARC.ids[p.nameID] = (short)babyPokemonDropdown.SelectedIndex;
                 p.ApplyData();
@@ -651,7 +651,10 @@ namespace NewEditor.Forms
                 {
                     p.bytes[i / 3] = byte.Parse(hexDataTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber);
                 }
-                p.ReadDataBW2();
+                if (MainEditor.RomType == RomType.BW2)
+                    p.ReadDataBW2();
+                else
+                    p.ReadDataBW1();
 
                 statusText.Text = "Saved Pokemon Data - " + DateTime.Now.StatusText();
             }

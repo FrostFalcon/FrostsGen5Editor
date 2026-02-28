@@ -79,6 +79,8 @@ namespace NewEditor.Data
         public const int BW1_HabitatListNARCID = -4;
         public const int BW1_HiddenGrottoNARCID = -5;
 
+		public static int DexOrderNarcID => MainEditor.RomType == RomType.BW2 ? 97 : 98;
+
         //Text Data
         public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : MainEditor.RomType == RomType.BW1 ? 70 : 237;
         public static int PokemonName2TextFileID => MainEditor.RomType == RomType.BW2 ? 483 : MainEditor.RomType == RomType.BW1 ? 281 : -1;

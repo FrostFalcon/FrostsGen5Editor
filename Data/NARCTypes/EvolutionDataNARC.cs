@@ -94,8 +94,8 @@ namespace NewEditor.Data.NARCTypes
 
         internal void ReadData()
         {
-            methods = new EvolutionMethod[7];
-            for (int i = 0; i < 7; i++)
+            methods = new EvolutionMethod[bytes.Length / 6];
+            for (int i = 0; i < methods.Length; i++)
             {
                 int pos = i * 6;
                 methods[i] = new EvolutionMethod((short)HelperFunctions.ReadShort(bytes, pos),
@@ -106,7 +106,7 @@ namespace NewEditor.Data.NARCTypes
 
         internal void ApplyData()
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < methods.Length; i++)
             {
                 int pos = i * 6;
                 HelperFunctions.WriteShort(bytes, pos, methods[i].method);

@@ -11,6 +11,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,6 +30,7 @@ namespace NewEditor.Forms
         public PaletteEditor(int spriteID)
         {
             this.spriteID = spriteID;
+            sprite = MainEditor.pokemonSpritesNarc.sprites[spriteID];
             InitializeComponent();
 
             if (MainEditor.fileSystem.romHeader[8] == 0x57)
@@ -38,16 +40,30 @@ namespace NewEditor.Forms
 
             List<byte> arm = MainEditor.fileSystem.arm9;
 
-            if (arm.Count < paletteArrayOffset || arm[paletteArrayOffset] != 0 || !(arm[paletteArrayOffset + 1] == 0 || arm[paletteArrayOffset + 1] == 17 || arm[paletteArrayOffset + 1] == 34) ||
-                !(arm[paletteArrayOffset + 2] == 0 || arm[paletteArrayOffset + 2] == 17 || arm[paletteArrayOffset + 2] == 34) ||
-                !(arm[paletteArrayOffset + 3] == 0 || arm[paletteArrayOffset + 3] == 17 || arm[paletteArrayOffset + 3] == 34) || spriteID >= 754) paletteArrayOffset = 0;
+            bool valid = true;
+            if (arm.Count < paletteArrayOffset)
+            {
+                valid = false;
+            }
+            else
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    if (arm[paletteArrayOffset + i] != 0 && arm[paletteArrayOffset + i] != 17 && arm[paletteArrayOffset + i] != 34)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!valid || spriteID >= 754) paletteArrayOffset = 0;
             else
             {
                 int value = arm[paletteArrayOffset + spriteID];
                 paletteIDNumberBox.Value = value & 0b_1111;
             }
 
-            sprite = MainEditor.pokemonSpritesNarc.sprites[spriteID];
             if (MainEditor.pokemonSpritesNarc.sprites[spriteID].FrontFemaleSpriteBytes.Length == 0) imageTypeDropdown.Items.AddRange(new string[]
             {
                 "Front Sprite",
@@ -69,6 +85,19 @@ namespace NewEditor.Forms
             imageTypeDropdown.SelectedIndex = 0;
             iconTypeDropdown.SelectedIndex = 0;
             fileIDDropdown.SelectedIndex = 0;
+
+            sprite.ReadRigCellsFile();
+            RenderRigCells();
+
+            selectedCell = sprite.frontRigCells.cells[0];
+            LoadRigCell(sprite.frontRigCells.cells[0], "0");
+
+            string text = "";
+            foreach (byte b in sprite.frontRigCells.flags)
+            {
+                text += b.ToString("X2") + " ";
+            }
+            rigFlagsTextBox.Text = text.Substring(0, text.Length - 1);
         }
 
         public void Setup(int spriteID)
@@ -96,11 +125,11 @@ namespace NewEditor.Forms
                     int iPos = i == 0 ? 0 : i + 2;
                     colorBoxes[i] = new PictureBox()
                     {
-                        Location = new Point(20 + 320 * (iPos % 3), 420 + 50 * (iPos / 3)),
+                        Location = new Point(20 + 312 * (iPos % 3), 380 + 50 * (iPos / 3)),
                         Size = new Size(32, 32),
                         BackColor = pal[i]
                     };
-                    Controls.Add(colorBoxes[i]);
+                    mainTabs.TabPages[0].Controls.Add(colorBoxes[i]);
 
                     for (int j = 0; j < 3; j++)
                     {
@@ -108,7 +137,7 @@ namespace NewEditor.Forms
 
                         colorValueNumberBoxes[i, j] = new NumericUpDown()
                         {
-                            Location = new Point(68 + 320 * (iPos % 3) + 80 * j, 424 + 50 * (iPos / 3)),
+                            Location = new Point(68 + 312 * (iPos % 3) + 80 * j, 384 + 50 * (iPos / 3)),
                             Size = new Size(60, 24),
                             Maximum = 255,
                             Value = j == 0 ? pal[i].R : j == 1 ? pal[i].G : pal[i].B,
@@ -117,7 +146,7 @@ namespace NewEditor.Forms
                         {
                             colorBoxes[num].BackColor = Color.FromArgb((byte)colorValueNumberBoxes[num, 0].Value, (byte)colorValueNumberBoxes[num, 1].Value, (byte)colorValueNumberBoxes[num, 2].Value);
                         };
-                        Controls.Add(colorValueNumberBoxes[i, j]);
+                        mainTabs.TabPages[0].Controls.Add(colorValueNumberBoxes[i, j]);
                     }
                 }
             }
@@ -154,6 +183,18 @@ namespace NewEditor.Forms
             else if (type == "Back Female Sprite") pokemonSpriteBox.Image = sprite.GetSprite(shinyCheckBox.Checked, true, true);
             else if (type == "Back Rig" || type == "Back Male Rig") pokemonSpriteBox.Image = sprite.GetRig(shinyCheckBox.Checked, true);
             else if (type == "Back Female Rig") pokemonSpriteBox.Image = sprite.GetRig(shinyCheckBox.Checked, true, true);
+
+            for (int i = 0; i < 4; i++)
+            {
+                rigImages[i] = (Bitmap)sprite.GetRig(false, i > 1, i % 2 == 1 && sprite.FrontFemaleSpriteBytes.Length > 0).Clone();
+                for (int x = 0; x < 256; x++)
+                {
+                    for (int y = 0; y < 128; y++)
+                    {
+                        if (rigImages[i].GetPixel(x, y).Equals(sprite.palette[0])) rigImages[i].SetPixel(x, y, Color.Transparent);
+                    }
+                }
+            }
         }
 
         private void shinyCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -207,6 +248,18 @@ namespace NewEditor.Forms
                 else if (type == "Back Female Sprite") pokemonSpriteBox.Image = sprite.GetSprite(shinyCheckBox.Checked, true, true);
                 else if (type == "Back Rig" || type == "Back Male Rig") pokemonSpriteBox.Image = sprite.GetRig(shinyCheckBox.Checked, true);
                 else if (type == "Back Female Rig") pokemonSpriteBox.Image = sprite.GetRig(shinyCheckBox.Checked, true, true);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    rigImages[i] = (Bitmap)sprite.GetRig(false, i > 1, i % 2 == 1 && sprite.FrontFemaleSpriteBytes.Length > 0).Clone();
+                    for (int x = 0; x < 256; x++)
+                    {
+                        for (int y = 0; y < 128; y++)
+                        {
+                            if (rigImages[i].GetPixel(x, y).Equals(sprite.palette[0])) rigImages[i].SetPixel(x, y, Color.Transparent);
+                        }
+                    }
+                }
             }
         }
 
@@ -263,6 +316,7 @@ namespace NewEditor.Forms
                 fs.Close();
                 for (int i = 0; i < Math.Min(img.Width, 16); i++) pal[i] = img.GetPixel(i, 0);
                 Setup(spriteID);
+                applyPaletteButton_Click(sender, e);
             }
         }
 
@@ -351,6 +405,374 @@ namespace NewEditor.Forms
                     string location = prompt.SelectedPath + "\\004_" + start.ToString("D8") + ".bin";
                     File.WriteAllBytes(location, sprite.files[i]);
                     start++;
+                }
+            }
+        }
+
+        private void RenderRigCells()
+        {
+            Bitmap image = new Bitmap(768, 384);
+            Bitmap image2 = new Bitmap(512, 256);
+            Graphics g = Graphics.FromImage(image);
+            g.InterpolationMode = InterpolationMode.NearestNeighbor;
+            Graphics g2 = Graphics.FromImage(image2);
+            g2.InterpolationMode = InterpolationMode.NearestNeighbor;
+            rigCellsRender.Image = image;
+            cellPreview.Image = image2;
+
+            for (int i = 0; i < 4; i++)
+            {
+                rigImages[i] = (Bitmap)sprite.GetRig(false, i > 1, i % 2 == 1 && sprite.FrontFemaleSpriteBytes.Length > 0).Clone();
+                for (int x = 0; x < 256; x++)
+                {
+                    for (int y = 0; y < 128; y++)
+                    {
+                        if (rigImages[i].GetPixel(x, y).Equals(sprite.palette[0])) rigImages[i].SetPixel(x, y, Color.Transparent);
+                    }
+                }
+            }
+
+            renderer = Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                while (!IsDisposed)
+                {
+                    //Main
+                    Pen pen = new Pen(Color.Black, 1);
+                    g.Clear(Color.FromArgb(180, 200, 210));
+                    Bitmap img = rigImages[(frontRigCheckBox.Checked ? 0 : 2) + (maleRigCheckBox.Checked ? 0 : 1)];
+                    g.DrawImage(img, new Rectangle(0, 0, 768, 384));
+                    for (int i = 0; i < 64; i++)
+                    {
+                        g.DrawLines(pen, new Point[]
+                        {
+                        new Point(i * 24, 0),
+                        new Point(i * 24, 384),
+                        });
+                    }
+                    for (int i = 0; i < 32; i++)
+                    {
+                        g.DrawLines(pen, new Point[]
+                        {
+                        new Point(0, i * 24),
+                        new Point(768, i * 24),
+                        });
+                    }
+                    pen = new Pen(Color.White, 2);
+                    Pen pen2 = new Pen(Color.Red, 2);
+                    List<RigCell> cells = new List<RigCell>(frontRigCheckBox.Checked ? sprite.frontRigCells.cells : sprite.backRigCells.cells);
+                    foreach (RigCell cell in cells)
+                    {
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(120, cell == selectedCell ? Color.White : Color.LawnGreen)), cell.cellX * 3, cell.cellY * 3, cell.width * 3, cell.height * 3);
+                        g.DrawRectangle(pen, cell.cellX * 3, cell.cellY * 3, cell.width * 3, cell.height * 3);
+                        g.DrawString(cells.IndexOf(cell).ToString(), new Font(Font.FontFamily, 16), new SolidBrush(Color.Black), cell.cellX * 3, cell.cellY * 3);
+                        if (cell.subCell.width > 0)
+                        {
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(120, cell.subCell == selectedCell ? Color.White : Color.Gold)), cell.subCell.cellX * 3, cell.subCell.cellY * 3, cell.subCell.width * 3, cell.subCell.height * 3);
+                            g.DrawRectangle(pen, cell.subCell.cellX * 3, cell.subCell.cellY * 3, cell.subCell.width * 3, cell.subCell.height * 3);
+                            g.DrawString(cells.IndexOf(cell).ToString(), new Font(Font.FontFamily, 16), new SolidBrush(Color.Black), cell.subCell.cellX * 3, cell.subCell.cellY * 3);
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(120, cell.subCell == selectedCell ? Color.White : Color.Gold)), cell.subCell.cellX * 3, cell.subCell.cellY * 3 + cell.subCell.height * 3, cell.subCell.width * 3, cell.subCell.height * 3);
+                            g.DrawRectangle(pen, cell.subCell.cellX * 3, cell.subCell.cellY * 3 + cell.subCell.height * 3, cell.subCell.width * 3, cell.subCell.height * 3);
+                        }
+                    }
+
+                    //Preview
+                    pen = new Pen(Color.FromArgb(80, 80, 80), 1);
+                    g2.Clear(Color.FromArgb(120, 160, 160));
+                    RigCell parentCell = cells.FirstOrDefault(c => c.subCell == selectedCell);
+                    if (parentCell != null)
+                    {
+                        g2.DrawImage(img,
+                            new Rectangle(256 + parentCell.spriteX * 2, 128 - parentCell.spriteY * 2, parentCell.width * 2, parentCell.height * 2),
+                            new Rectangle(parentCell.cellX, parentCell.cellY, parentCell.width, parentCell.height), GraphicsUnit.Pixel);
+                    }
+                    if (selectedCell != null)
+                    {
+                        int y = selectedCell.cellY;
+                        if (parentCell != null && DateTime.Now.Second % 2 == 1) y += selectedCell.height;
+                        g2.DrawImage(img,
+                            new Rectangle(256 + selectedCell.spriteX * 2, 128 - selectedCell.spriteY * 2, selectedCell.width * 2, selectedCell.height * 2),
+                            new Rectangle(selectedCell.cellX, y, selectedCell.width, selectedCell.height), GraphicsUnit.Pixel);
+                    }
+                    for (int i = 0; i < 64; i++)
+                    {
+                        g2.DrawLines(pen, new Point[]
+                        {
+                        new Point(i * 16, 0),
+                        new Point(i * 16, 256),
+                        });
+                    }
+                    for (int i = 0; i < 32; i++)
+                    {
+                        g2.DrawLines(pen, new Point[]
+                        {
+                        new Point(0, i * 16),
+                        new Point(512, i * 16),
+                        });
+                    }
+                    pen = new Pen(Color.LawnGreen, 2);
+                    g2.DrawLine(pen, new Point(256, 0), new Point(256, 256));
+                    pen = new Pen(Color.Red, 2);
+                    g2.DrawLine(pen, new Point(0, 128), new Point(512, 128));
+
+                    if (endRender) break;
+                    try
+                    {
+                        rigCellsRender.Invoke((MethodInvoker)delegate { if (!endRender) rigCellsRender.Refresh(); });
+                        cellPreview.Invoke((MethodInvoker)delegate { if (!endRender) cellPreview.Refresh(); });
+                    }
+                    catch { return; }
+                    Thread.Sleep(5);
+                }
+            });
+        }
+
+
+        RigCell draggingCell = null;
+        RigCell selectedCell = null;
+        Bitmap[] rigImages = new Bitmap[4];
+        int dragType;
+        Point grabAnchor;
+        Point mouse = new Point(0, 0);
+        Task renderer;
+        bool endRender = false;
+
+        private void rigCellsRender_MouseDown(object sender, MouseEventArgs e)
+        {
+            List<RigCell> cells = new List<RigCell>(frontRigCheckBox.Checked ? sprite.frontRigCells.cells : sprite.backRigCells.cells);
+            grabAnchor = rigCellsRender.PointToClient(MousePosition);
+            grabAnchor.X /= 3;
+            grabAnchor.Y /= 3;
+            dragType = 0;
+            foreach (RigCell cell in cells)
+            {
+                if (new Rectangle(cell.cellX, cell.cellY, cell.width, cell.height).Contains(grabAnchor))
+                {
+                    if (cell != draggingCell) LoadRigCell(cell, cells.IndexOf(cell).ToString());
+                    draggingCell = cell;
+                    break;
+                }
+                if (new Rectangle(cell.subCell.cellX, cell.subCell.cellY, cell.subCell.width, cell.subCell.height * 2).Contains(grabAnchor))
+                {
+                    if (cell != draggingCell) LoadRigCell(cell.subCell, cells.IndexOf(cell).ToString() + "b");
+                    draggingCell = cell.subCell;
+                    break;
+                }
+            }
+        }
+
+        private void rigCellsRender_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (draggingCell == null) return;
+            mouse = rigCellsRender.PointToClient(MousePosition);
+            mouse.X /= 3;
+            mouse.Y /= 3;
+
+            while (mouse.X > grabAnchor.X + 4 && draggingCell.cellX + draggingCell.width < 256)
+            {
+                grabAnchor.X += 8;
+                draggingCell.cellX += 8;
+                LoadRigCell(draggingCell);
+            }
+            while (mouse.X < grabAnchor.X - 4 && draggingCell.cellX > 0)
+            {
+                grabAnchor.X -= 8;
+                draggingCell.cellX -= 8;
+                LoadRigCell(draggingCell);
+            }
+
+            while (mouse.Y > grabAnchor.Y + 4 && draggingCell.cellY + draggingCell.height < 128)
+            {
+                grabAnchor.Y += 8;
+                draggingCell.cellY += 8;
+                LoadRigCell(draggingCell);
+            }
+            while (mouse.Y < grabAnchor.Y - 4 && draggingCell.cellY > 0)
+            {
+                grabAnchor.Y -= 8;
+                draggingCell.cellY -= 8;
+                LoadRigCell(draggingCell);
+            }
+        }
+
+        private void rigCellsRender_MouseUp(object sender, MouseEventArgs e)
+        {
+            draggingCell = null;
+        }
+
+        private void PaletteEditor_FormClosing(object sender, FormClosedEventArgs e)
+        {
+            endRender = true;
+        }
+
+        private void LoadRigCell(RigCell cell, string cellID = "")
+        {
+            selectedCell = cell;
+            cellXNumberBox.Value = cell.cellX;
+            cellYNumberBox.Value = cell.cellY;
+            cellWidthNumberBox.Value = cell.width;
+            cellHeightNumberBox.Value = cell.height;
+            cellSpriteXNumberBox.Value = cell.spriteX;
+            cellSpriteYNumberBox.Value = cell.spriteY;
+
+            if (cellID.Length > 0)
+                selectedCellText.Text = "Cell " + cellID + ":";
+
+            if (cell.subCell != null && cell.subCell.width == 0) addSubCellButton.Text = "Add Sub Cell";
+            else addSubCellButton.Text = "Remove Sub Cell";
+        }
+
+        private void cellXNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedCell == null) return;
+            if (cellXNumberBox.Value % 8 != 0)
+            {
+                cellXNumberBox.Value -= cellXNumberBox.Value % 8;
+            }
+            else if (cellXNumberBox.Value + selectedCell.width > 256)
+            {
+                cellXNumberBox.Value = 256 - selectedCell.width;
+            }
+            selectedCell.cellX = (int)cellXNumberBox.Value;
+        }
+
+        private void cellYNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedCell == null) return;
+            if (cellYNumberBox.Value % 8 != 0)
+            {
+                cellYNumberBox.Value -= cellYNumberBox.Value % 8;
+            }
+            else if (cellYNumberBox.Value + selectedCell.height > 128)
+            {
+                cellYNumberBox.Value = 128 - selectedCell.height;
+            }
+            selectedCell.cellY = (int)cellYNumberBox.Value;
+        }
+
+        private void cellWidthNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedCell == null) return;
+            if (cellWidthNumberBox.Value % 8 != 0)
+            {
+                cellWidthNumberBox.Value -= cellWidthNumberBox.Value % 8;
+            }
+            else if (cellWidthNumberBox.Value + selectedCell.cellX > 256)
+            {
+                cellWidthNumberBox.Value = 256 - selectedCell.cellX;
+            }
+            selectedCell.width = (int)cellWidthNumberBox.Value;
+        }
+
+        private void cellHeightNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedCell == null) return;
+            if (cellHeightNumberBox.Value % 8 != 0)
+            {
+                cellHeightNumberBox.Value -= cellHeightNumberBox.Value % 8;
+            }
+            else if (cellHeightNumberBox.Value + selectedCell.cellY > 128)
+            {
+                cellHeightNumberBox.Value = 128 - selectedCell.cellY;
+            }
+            selectedCell.height = (int)cellHeightNumberBox.Value;
+        }
+
+        private void cellSpriteXNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedCell == null) return;
+            selectedCell.spriteX = (int)cellSpriteXNumberBox.Value;
+        }
+
+        private void cellSpriteYNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedCell == null) return;
+            selectedCell.spriteY = (int)cellSpriteYNumberBox.Value;
+        }
+
+        private void frontrigCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadRigCell(frontRigCheckBox.Checked ? sprite.frontRigCells.cells[0] : sprite.backRigCells.cells[0], "0");
+
+            string text = "";
+            foreach (byte b in frontRigCheckBox.Checked ? sprite.frontRigCells.flags : sprite.backRigCells.flags)
+            {
+                text += b.ToString("X2") + " ";
+            }
+            rigFlagsTextBox.Text = text.Substring(0, text.Length - 1);
+        }
+
+        private void applyRigCellButton_Click(object sender, EventArgs e)
+        {
+            RigCellsFile rc = frontRigCheckBox.Checked ? sprite.frontRigCells : sprite.backRigCells;
+            List<byte> b = new List<byte>();
+            for (int i = 0; i < rigFlagsTextBox.Text.Length; i += 3)
+            {
+                if (rigFlagsTextBox.Text.Length % 3 == 1)
+                {
+                    MessageBox.Show("Failed to parse bytes for rig flags.");
+                    return;
+                }
+                else if (i + 3 < rigFlagsTextBox.Text.Length && rigFlagsTextBox.Text[i + 2] != ' ')
+                {
+                    MessageBox.Show("Failed to parse bytes for rig flags.");
+                    return;
+                }
+                else if (byte.TryParse(rigFlagsTextBox.Text.Substring(i, 2), System.Globalization.NumberStyles.HexNumber, null, out byte b2))
+                {
+                    b.Add(b2);
+                }
+                else
+                {
+                    MessageBox.Show("Failed to parse bytes for rig flags.");
+                    return;
+                }
+            }
+            if (b.Count != rc.flags.Length)
+            {
+                MessageBox.Show($"Failed to apply flags. Expected {rc.flags.Length} bytes but found {b.Count}.");
+                return;
+            }
+            rc.flags = b.ToArray();
+
+            sprite.WriteRigCellsFile();
+        }
+
+        private void subCellHelpButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sub cells are animated cells that follow the motion of their parent cell. They are primarily used to make eyes open and close when the pokemon blinks or is asleep. You can only have one sub cell per cell.");
+        }
+
+        private void addSubCellButton_Click(object sender, EventArgs e)
+        {
+            if (selectedCell.subCell != null && selectedCell.subCell.width == 0)
+            {
+                //Add
+                selectedCell.subCell.width = 8;
+                selectedCell.subCell.height = 8;
+                selectedCell.subCell.cellX = 0;
+                selectedCell.subCell.cellY = 0;
+                selectedCell.subCell.spriteX = 0;
+                selectedCell.subCell.spriteY = 0;
+                List<RigCell> cells = new List<RigCell>(frontRigCheckBox.Checked ? sprite.frontRigCells.cells : sprite.backRigCells.cells);
+                RigCell cell = selectedCell.subCell == null ? cells.FirstOrDefault(cl => cl.subCell == selectedCell) : selectedCell;
+                LoadRigCell(selectedCell.subCell, cells.IndexOf(cell).ToString() + "b");
+            }
+            else
+            {
+                //Remove
+                RigCell c = selectedCell.subCell == null ? selectedCell : selectedCell.subCell;
+                c.width = 0;
+                c.height = 0;
+                c.cellX = 0;
+                c.cellY = 0;
+                c.spriteX = 0;
+                c.spriteY = 0;
+                if (selectedCell.subCell == null)
+                {
+                    List<RigCell> cells = new List<RigCell>(frontRigCheckBox.Checked ? sprite.frontRigCells.cells : sprite.backRigCells.cells);
+                    RigCell cell = cells.FirstOrDefault(cl => cl.subCell == selectedCell);
+                    LoadRigCell(cell, cells.IndexOf(cell).ToString());
                 }
             }
         }

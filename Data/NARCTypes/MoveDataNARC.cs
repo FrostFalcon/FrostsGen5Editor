@@ -89,6 +89,7 @@ namespace NewEditor.Data.NARCTypes
 
         public short statusEffect;
         public byte statusChance;
+        public byte statusMode;
 
         public byte minTrapTurns;
         public byte maxTrapTurns;
@@ -136,6 +137,7 @@ namespace NewEditor.Data.NARCTypes
 
             statusEffect = (short)HelperFunctions.ReadShort(bytes, 8);
             statusChance = bytes[10];
+            statusMode = bytes[11];
 
             minTrapTurns = bytes[12];
             maxTrapTurns = bytes[13];
@@ -176,6 +178,7 @@ namespace NewEditor.Data.NARCTypes
 
             HelperFunctions.WriteShort(bytes, 8, statusEffect);
             bytes[10] = statusChance;
+            bytes[11] = statusMode;
 
             bytes[12] = minTrapTurns;
             bytes[13] = maxTrapTurns;

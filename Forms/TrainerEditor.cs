@@ -198,22 +198,22 @@ namespace NewEditor.Forms
 
                 if (pokemonListBox.SelectedItem is TrainerPokemon p)
                 {
-                    p.pokemonID = (short)pokemonIDDropdown.SelectedIndex;
+                    if (pokemonIDDropdown.SelectedIndex > 0) p.pokemonID = (short)pokemonIDDropdown.SelectedIndex;
                     p.form = (short)pokemonFormNumberBox.Value;
                     p.level = (byte)pokemonLevelNumberBox.Value;
-                    p.ability = (byte)pokemonAbilityDropdown.SelectedIndex;
+                    if (pokemonAbilityDropdown.SelectedIndex >= 0) p.ability = (byte)pokemonAbilityDropdown.SelectedIndex;
                     p.IVs = (byte)pokemonIVsNumberBox.Value;
-                    p.gender = (byte)pokemonGenderDropdown.SelectedIndex;
+                    if (pokemonGenderDropdown.SelectedIndex >= 0) p.gender = (byte)pokemonGenderDropdown.SelectedIndex;
 
-                    if (tr.heldItems && oldHeldItem) p.heldItem = (short)pokemonHeldItemDropdown.SelectedIndex;
+                    if (tr.heldItems && oldHeldItem && pokemonHeldItemDropdown.SelectedIndex >= 0) p.heldItem = (short)pokemonHeldItemDropdown.SelectedIndex;
                     else p.heldItem = 0;
 
                     if (tr.uniqueMoves && oldUniqueMoves)
                     {
-                        p.moves[0] = (short)pokemonMove1Dropdown.SelectedIndex;
-                        p.moves[1] = (short)pokemonMove2Dropdown.SelectedIndex;
-                        p.moves[2] = (short)pokemonMove3Dropdown.SelectedIndex;
-                        p.moves[3] = (short)pokemonMove4Dropdown.SelectedIndex;
+                        if (pokemonMove1Dropdown.SelectedIndex >= 0) p.moves[0] = (short)pokemonMove1Dropdown.SelectedIndex;
+                        if (pokemonMove2Dropdown.SelectedIndex >= 0) p.moves[1] = (short)pokemonMove2Dropdown.SelectedIndex;
+                        if (pokemonMove3Dropdown.SelectedIndex >= 0) p.moves[2] = (short)pokemonMove3Dropdown.SelectedIndex;
+                        if (pokemonMove4Dropdown.SelectedIndex >= 0) p.moves[3] = (short)pokemonMove4Dropdown.SelectedIndex;
                     }
                     else for (int i = 0; i < 4; i++) p.moves[i] = 0;
                 }
@@ -396,22 +396,22 @@ namespace NewEditor.Forms
             {
                 AIScript script = MainEditor.AIScriptNarc.scripts[(int)aiScriptFileNumberBox.Value];
                 script.Export(dialog.FileName);
-            }
 
-            string root = Path.GetDirectoryName(dialog.FileName);
-            if (File.Exists(Directory.GetCurrentDirectory() + "/AIScriptCommands.h") && !File.Exists(root + "/AIScriptCommands.h"))
-            {
-                File.Copy(Directory.GetCurrentDirectory() + "/AIScriptCommands.h", root + "/AIScriptCommands.h", false);
-            }
+                string root = Path.GetDirectoryName(dialog.FileName);
+                if (File.Exists(Directory.GetCurrentDirectory() + "/AIScriptCommands.h") && !File.Exists(root + "/AIScriptCommands.h"))
+                {
+                    File.Copy(Directory.GetCurrentDirectory() + "/AIScriptCommands.h", root + "/AIScriptCommands.h", false);
+                }
 
-            statusText.Text = "Exported AI Script file " + aiScriptFileNumberBox.Value + " - " + DateTime.Now.StatusText();
+                statusText.Text = "Exported AI Script file " + aiScriptFileNumberBox.Value + " - " + DateTime.Now.StatusText();
 
-            var result = MessageBox.Show("AI Script saved to " + dialog.FileName + "\n\nWould you like to open the file in a text editor?", "AI Script Saved", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("AI Script saved to " + dialog.FileName + "\n\nWould you like to open the file in a text editor?", "AI Script Saved", MessageBoxButtons.YesNo);
 
-            if (result == DialogResult.Yes)
-            {
-                ProcessStartInfo start = new ProcessStartInfo("explorer", dialog.FileName);
-                Process.Start(start);
+                if (result == DialogResult.Yes)
+                {
+                    ProcessStartInfo start = new ProcessStartInfo("explorer", dialog.FileName);
+                    Process.Start(start);
+                }
             }
         }
 
