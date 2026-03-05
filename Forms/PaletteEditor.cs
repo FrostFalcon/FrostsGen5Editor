@@ -90,7 +90,8 @@ namespace NewEditor.Forms
             RenderRigCells();
 
             selectedCell = sprite.frontRigCells.cells[0];
-            LoadRigCell(sprite.frontRigCells.cells[0], "0");
+            if (selectedCell.width == 0) selectedCell = sprite.frontRigCells.cells[1];
+            LoadRigCell(selectedCell, "0");
 
             string text = "";
             foreach (byte b in sprite.frontRigCells.flags)
